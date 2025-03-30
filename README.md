@@ -8,37 +8,26 @@ ArraySeason is the basis for SortedSeasonSet, which, despite binary search, can 
 
 ---
 
-** Comparison: **
+**Comparison:**
 
-Vector        Batch 80   Duration: 67 ms  100.00%  reference point.
+| Algorithm     | Batch Size | Duration (ms) | Percentage (%) | Notes            |
+|---------------|------------|---------------|----------------|------------------|
+| Vector        | 80         | 67            | 100.00         | Reference point  |
+| ArrayList     | 80         | 60            | 89.55          |                  |
+| ArrayTape     | 80         | 62            | 92.53          |                  |
+| ArraySeason   | 80         | 61            | 91.04          |                  |
+| SortedSeason  | 80         | 76            | 113.43         |                  |
+| Vector        | 4000       | 5811          | 100.00         | Reference point  |
+| ArrayList     | 4000       | 5843          | 100.55         |                  |
+| ArrayTape     | 4000       | 5897          | 101.47         |                  |
+| ArraySeason   | 4000       | 2462          | 42.36          |                  |
+| SortedSeason  | 4000       | 3960          | 68.14          |                  |
+| Vector        | 8000       | 21735         | 100.00         | Reference point  |
+| ArrayList     | 8000       | 21855         | 100.55         |                  |
+| ArrayTape     | 8000       | 21869         | 100.61         |                  |
+| ArraySeason   | 8000       | 4887          | 22.48          |                  |
+| SortedSeason  | 8000       | 8250          | 37.95          |                  |
 
-ArrayList     Batch 80   Duration: 60 ms  89.55%
-
-ArrayTape     Batch 80   Duration: 62 ms  92.53%
-
-ArraySeason   Batch 80   Duration: 61 ms  91.04%
-
-SortedSeason  Batch 80   Duration: 76 ms  113.43%
-
-Vector        Batch 4000   Duration: 5811 ms  100.00%  reference point.
-
-ArrayList     Batch 4000   Duration: 5843 ms  100.55%
-
-ArrayTape     Batch 4000   Duration: 5897 ms  101.47%
-
-ArraySeason   Batch 4000   Duration: 2462 ms  42.36%
-
-SortedSeason  Batch 4000   Duration: 3960 ms  68.14%
-
-Vector        Batch 8000   Duration: 21735 ms  100.00%  reference point.
-
-ArrayList     Batch 8000   Duration: 21855 ms  100.55%
-
-ArrayTape     Batch 8000   Duration: 21869 ms  100.61%
-
-ArraySeason   Batch 8000   Duration: 4887 ms  22.48%
-
-SortedSeason  Batch 8000   Duration: 8250 ms  37.95%
 
 ---
 
