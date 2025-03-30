@@ -11,21 +11,33 @@ ArraySeason is the basis for SortedSeasonSet, which, despite binary search, can 
 ** Comparison: **
 
 Vector        Batch 80   Duration: 67 ms  100.00%  reference point.
+
 ArrayList     Batch 80   Duration: 60 ms  89.55%
+
 ArrayTape     Batch 80   Duration: 62 ms  92.53%
+
 ArraySeason   Batch 80   Duration: 61 ms  91.04%
+
 SortedSeason  Batch 80   Duration: 76 ms  113.43%
 
 Vector        Batch 4000   Duration: 5811 ms  100.00%  reference point.
+
 ArrayList     Batch 4000   Duration: 5843 ms  100.55%
+
 ArrayTape     Batch 4000   Duration: 5897 ms  101.47%
+
 ArraySeason   Batch 4000   Duration: 2462 ms  42.36%
+
 SortedSeason  Batch 4000   Duration: 3960 ms  68.14%
 
 Vector        Batch 8000   Duration: 21735 ms  100.00%  reference point.
+
 ArrayList     Batch 8000   Duration: 21855 ms  100.55%
+
 ArrayTape     Batch 8000   Duration: 21869 ms  100.61%
+
 ArraySeason   Batch 8000   Duration: 4887 ms  22.48%
+
 SortedSeason  Batch 8000   Duration: 8250 ms  37.95%
 
 ---
