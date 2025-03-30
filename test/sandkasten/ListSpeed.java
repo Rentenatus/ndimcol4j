@@ -218,7 +218,7 @@ public class ListSpeed {
         }
         long endTime = System.nanoTime();
         long durationVector = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
-        System.out.println("Vector        Batch " + numberElems + "   Dauer: " + durationVector + " ms   100.00%");
+        System.out.println("Vector        Batch " + numberElems + "   Duration: " + durationVector + " ms  100.00%  reference point.");
 
         // Zeitmessung für runList
         startTime = System.nanoTime();
@@ -227,7 +227,7 @@ public class ListSpeed {
         }
         endTime = System.nanoTime();
         long duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
-        System.out.println("ArrayList     Batch " + numberElems + "   Dauer: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
+        System.out.println("ArrayList     Batch " + numberElems + "   Duration: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
         // Zeitmessung für runTape
         startTime = System.nanoTime();
         for (int batch = 0; batch < NUMBER_BATCHES; batch++) {
@@ -235,7 +235,7 @@ public class ListSpeed {
         }
         endTime = System.nanoTime();
         duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
-        System.out.println("ArrayTape     Batch " + numberElems + "   Dauer: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
+        System.out.println("ArrayTape     Batch " + numberElems + "   Duration: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
 
         // Zeitmessung für runSeason
         startTime = System.nanoTime();
@@ -244,7 +244,7 @@ public class ListSpeed {
         }
         endTime = System.nanoTime();
         duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
-        System.out.println("ArraySeason   Batch " + numberElems + "   Dauer: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
+        System.out.println("ArraySeason   Batch " + numberElems + "   Duration: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
 
         // Zeitmessung für runSeason
 //        startTime = System.nanoTime();
@@ -253,7 +253,7 @@ public class ListSpeed {
 //        }
 //        endTime = System.nanoTime();
 //        duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
-//        System.out.println("ArraySeason3d Batch" + numberElems + " Dauer: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
+//        System.out.println("ArraySeason3d Batch" + numberElems + " Duration: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
 
         // Zeitmessung für runSortedSeasonSet
         startTime = System.nanoTime();
@@ -262,7 +262,7 @@ public class ListSpeed {
         }
         endTime = System.nanoTime();
         duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
-        System.out.println("SortedSeason  Batch " + numberElems + "   Dauer: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
+        System.out.println("SortedSeason  Batch " + numberElems + "   Duration: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
 
     }
 
