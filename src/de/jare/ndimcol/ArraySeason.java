@@ -180,7 +180,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         }
         size--;
         this.updateCounter++;
-        walker.removeNext();
+        walker.removeForward();
         if (walker.size() < 8) {
             splitOrGlue();
         }
@@ -193,7 +193,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
         IteratorWalker<T> walker = getLeafWalkerAtIndex(index);
-        T removedElement = walker.removeNext();
+        T removedElement = walker.removeForward();
         if (walker.isEmpty()) {
             splitOrGlue();
         }

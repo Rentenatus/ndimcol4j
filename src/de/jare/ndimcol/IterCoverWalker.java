@@ -72,8 +72,8 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
      * @throws IndexOutOfBoundsException if there are no more elements in the inner IteratorWalker
      */
     @Override
-    public T removeNext() {
-        T ret = inner.removeNext();
+    public T removeForward() {
+        T ret = inner.removeForward();
         if (ret != null) {
             observer.updateCounter++;
             observer.size--;
@@ -109,8 +109,24 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
      * @throws IndexOutOfBoundsException if there are no previous elements in the inner IteratorWalker
      */
     @Override
-    public T removePrev() {
-        T ret = inner.removePrev();
+    public T removeBackward() {
+        T ret = inner.removeBackward();
+        if (ret != null) {
+            observer.updateCounter++;
+            observer.size--;
+        }
+        return ret;
+    }
+
+    /**
+     * Removes the current element in the inner IteratorWalker.
+     *
+     * @return the current element that was removed from the inner IteratorWalker
+     * @throws IndexOutOfBoundsException if there are no more elements in the inner IteratorWalker
+     */
+    @Override
+    public T remove() {
+        T ret = inner.remove();
         if (ret != null) {
             observer.updateCounter++;
             observer.size--;

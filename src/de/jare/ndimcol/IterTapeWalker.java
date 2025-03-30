@@ -17,6 +17,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
 
     ArrayTape<T> tape;
     private int currentIndex;
+    private boolean forward;
 
     /**
      * Constructs a TapeWalker for the specified ArrayTape. The current index is initialized to the beginning of the
@@ -27,6 +28,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
     public IterTapeWalker(ArrayTape<T> tape) {
         this.tape = tape;
         this.currentIndex = 0;
+        this.forward = true;
     }
 
     /**
@@ -63,6 +65,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
         if (!hasNext()) {
             throw new IndexOutOfBoundsException("No more elements in the tape.");
         }
+        forward = true;
         return tape.get(currentIndex++);
     }
 
@@ -87,10 +90,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * @throws IndexOutOfBoundsException if there are no more elements in the tape
      */
     @Override
-    public T removeNext() {
-        if (!hasNext()) {
-            throw new IndexOutOfBoundsException("No more elements in the tape.");
-        }
+    public T removeForward() {
         return tape.removeAt(currentIndex);
     }
 
@@ -116,6 +116,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
         if (!hasPrevious()) {
             throw new IndexOutOfBoundsException("No previous elements in the tape.");
         }
+        forward = false;
         return tape.get(--currentIndex);
     }
 
@@ -127,40 +128,57 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * @throws IndexOutOfBoundsException if there are no previous elements in the tape
      */
     @Override
-    public T removePrev() {
-        if (!hasPrevious()) {
-            throw new IndexOutOfBoundsException("No previous elements in the tape.");
-        }
+    public T removeBackward() {
         return tape.removeAt(--currentIndex);
     }
 
     /**
+     * Removes the current element.
+     *
+     * @return the current element that was removed
+     * @throws IndexOutOfBoundsException if there are no previous elements in the tape
+     */
+    @Override
+    public T remove() {
+        if (forward) {
+            return removeForward();
+        } else {
+            return removeBackward();
+        }
+    }
+
+    /**
      * Resets the current index to the beginning of the ArrayTape.
-     * @return 
+     *
+     * @return
      */
     @Override
     public IterTapeWalker<T> goFirst() {
         currentIndex = 0;
+        forward = true;
         return this;
     }
 
     /**
      * Sets the current index to the last element in the ArrayTape.
-     * @return 
+     *
+     * @return
      */
     @Override
     public IterTapeWalker<T> goLast() {
         currentIndex = tape.size() - 1;
+        forward = false;
         return this;
     }
 
     /**
      * Sets the current index to the specified position in the ArrayTape.Throws an IndexOutOfBoundsException if the
- index is out of range.
+     * index is out of range.
      *
      * @param index the index to set as the current position
-     * @return 
-     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= tape.size())
+     * @return
+     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index
+     * >= tape.size())
      */
     @Override
     public IterTapeWalker<T> goLeafIndex(int index) {

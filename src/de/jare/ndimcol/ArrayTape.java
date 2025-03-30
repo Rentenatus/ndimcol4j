@@ -382,7 +382,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         while (walker.hasNext()) {
             T element = walker.next();
             if (!col.contains(element)) {
-                walker.removePrev();
+                walker.removeBackward();
                 modified = true;
             }
         }

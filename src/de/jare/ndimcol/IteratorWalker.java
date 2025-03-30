@@ -16,7 +16,7 @@ public interface IteratorWalker<T> {
 
     public boolean hasNext();
 
-    public T removeNext();
+    public T removeForward();
 
     public T next();
 
@@ -24,7 +24,9 @@ public interface IteratorWalker<T> {
 
     public T previous();
 
-    public T removePrev();
+    public T removeBackward();
+
+    public T remove();
 
     public boolean add(T element);
 

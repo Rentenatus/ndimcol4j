@@ -64,9 +64,9 @@ public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements Iterat
      * @throws ConcurrentModificationException if the ArrayTape has been modified during iteration
      */
     @Override
-    public T removeNext() {
+    public T removeForward() {
         checkForConcurrentModification();
-        T ret = super.removeNext();
+        T ret = super.removeForward();
         this.initialUpdateCounter = tape.getUpdateCounter();
         return ret;
     }
@@ -105,9 +105,9 @@ public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements Iterat
      * @throws ConcurrentModificationException if the ArrayTape has been modified during iteration
      */
     @Override
-    public T removePrev() {
+    public T removeBackward() {
         checkForConcurrentModification();
-        T ret = super.removePrev();
+        T ret = super.removeBackward();
         this.initialUpdateCounter = tape.getUpdateCounter();
         return ret;
     }

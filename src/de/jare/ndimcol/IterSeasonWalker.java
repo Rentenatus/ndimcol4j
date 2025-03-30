@@ -13,6 +13,7 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
     private IteratorWalker<T> innerWalker; // Walker for the current inner ArrayTape or ArraySeason
     private final ArraySeason<T> season;
     private int currentIndex; // Tracks the total index across all elements
+    private boolean forward;
 
     /**
      * Constructor: Initializes the IterSeasonWalker with a ArraySeason.
@@ -23,6 +24,7 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
         this.season = season;
         this.outerWalker = season.data.softWalker();
         this.currentIndex = 0;
+        this.forward = true;
 
         if (outerWalker.hasNext()) {
             this.innerWalker = outerWalker.next().softWalker();
@@ -65,10 +67,8 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
      * @throws IndexOutOfBoundsException if there are no more elements in the season
      */
     @Override
-    public T removeNext() {
-        if (!hasNext()) {
-            throw new IndexOutOfBoundsException("No more elements in the season.");
-        }
+    public T removeForward() {
+        forward = true;
         return season.removeAt(currentIndex);
     }
 
@@ -109,11 +109,24 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
      * @throws IndexOutOfBoundsException if there are no previous elements in the season
      */
     @Override
-    public T removePrev() {
-        if (!hasPrevious()) {
-            throw new IndexOutOfBoundsException("No previous elements in the season.");
-        }
+    public T removeBackward() {
+        forward = false;
         return season.removeAt(--currentIndex);
+    }
+
+    /**
+     * Removes the current element.
+     *
+     * @return the current element that was removed
+     * @throws IndexOutOfBoundsException if there are no previous elements in the tape
+     */
+    @Override
+    public T remove() {
+        if (forward) {
+            return removeForward();
+        } else {
+            return removeBackward();
+        }
     }
 
     /**
@@ -139,6 +152,7 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
     public IteratorWalker<T> goFirst() {
         outerWalker.goFirst();
         currentIndex = 0;
+        forward = true;
 
         if (outerWalker.hasNext()) {
             innerWalker = outerWalker.next().softWalker();
@@ -157,6 +171,7 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
     public IteratorWalker<T> goLast() {
         outerWalker.goLast();
         currentIndex = season.size() - 1;
+        forward = false;
 
         if (outerWalker.hasPrevious()) {
             innerWalker = outerWalker.previous().softWalker();
