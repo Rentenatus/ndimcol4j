@@ -150,7 +150,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
     /**
      * Resets the current index to the beginning of the ArrayTape.
      *
-     * @return
+     * @return this walker
      */
     @Override
     public IterTapeWalker<T> goFirst() {
@@ -162,7 +162,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
     /**
      * Sets the current index to the last element in the ArrayTape.
      *
-     * @return
+     * @return this walker
      */
     @Override
     public IterTapeWalker<T> goLast() {
@@ -176,9 +176,8 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * index is out of range.
      *
      * @param index the index to set as the current position
-     * @return
-     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index
-     * >= tape.size())
+     * @return this walker
+     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= tape.size())
      */
     @Override
     public IterTapeWalker<T> goLeafIndex(int index) {
@@ -209,11 +208,21 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
         return tape.size();
     }
 
+    /**
+     * Returns true if the ArrayTape is empty.
+     *
+     * @return true if the ArrayTape is empty
+     */
     @Override
     public boolean isEmpty() {
         return tape.isEmpty();
     }
 
+    /**
+     * Returns true if the ArrayTape has a record.
+     *
+     * @return true if the ArrayTape has a record
+     */
     @Override
     public boolean hasRecord() {
         return tape.hasRecord();

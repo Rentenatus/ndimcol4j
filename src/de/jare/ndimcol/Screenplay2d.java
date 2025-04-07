@@ -25,11 +25,6 @@ public class Screenplay2d implements Screenplay {
     }
 
     @Override
-    public int getFactor(int dataSize) {
-        return dataSize;
-    }
-
-    @Override
     public int getMaxEpisodeSize(int fac) {
         return START_MAX_EPISODE_SIZE_2D + (fac << 2);
     }
@@ -40,7 +35,7 @@ public class Screenplay2d implements Screenplay {
     }
 
     @Override
-    public ArrayMovie buildMovie() {
-        return new ArrayTape<>();
+    public <T> ArrayMovie<T> buildMovie() {
+        return new ArrayTape<T>();
     }
 }

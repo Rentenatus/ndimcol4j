@@ -137,7 +137,7 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
     /**
      * Resets the current index to the beginning .
      *
-     * @return
+     * @return the inner IteratorWalker
      */
     @Override
     public IteratorWalker<T> goFirst() {
@@ -147,7 +147,7 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
     /**
      * Sets the current index to the last element.
      *
-     * @return
+     * @return the inner IteratorWalker
      */
     @Override
     public IteratorWalker<T> goLast() {
@@ -158,7 +158,7 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
      * Sets the current index to the specified position .
      *
      * @param index the index to set as the current position
-     * @return
+     * @return IteratorWalker of the deepest ArrayTape of movie
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     @Override

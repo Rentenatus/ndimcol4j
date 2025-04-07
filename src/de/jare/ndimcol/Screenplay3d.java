@@ -10,12 +10,11 @@ package de.jare.ndimcol;
 /**
  *
  * @author Janusch Rentenatus
- * @param <T>
  */
 public class Screenplay3d implements Screenplay {
 
     public final static Screenplay INSTANCE = new Screenplay3d();
-    public final Screenplay3dInner inner = new Screenplay3dInner();
+    private final Screenplay3dInner inner = new Screenplay3dInner();
 
     static final int DEFAULT_SIZE_3D = 12;
     static final int START_MAX_EPISODE_SIZE_3D = 1024;
@@ -24,16 +23,11 @@ public class Screenplay3d implements Screenplay {
     static final int START_MAX_EPISODE_SIZE_3D_INNER = 128;
     static final int START_MIN_EPISODE_GLUE_3D_INNER = 48;
 
-    class Screenplay3dInner implements Screenplay {
+    static class Screenplay3dInner implements Screenplay {
 
         @Override
         public int getDefaultSize() {
             return DEFAULT_SIZE_3D_INNER;
-        }
-
-        @Override
-        public int getFactor(int dataSize) {
-            return dataSize;
         }
 
         @Override
@@ -47,19 +41,14 @@ public class Screenplay3d implements Screenplay {
         }
 
         @Override
-        public ArrayMovie buildMovie() {
-            return new ArrayTape<>();
+        public <T> ArrayMovie<T> buildMovie() {
+            return new ArrayTape<T>();
         }
     }
 
     @Override
     public int getDefaultSize() {
         return DEFAULT_SIZE_3D;
-    }
-
-    @Override
-    public int getFactor(int dataSize) {
-        return dataSize;
     }
 
     @Override
@@ -73,7 +62,7 @@ public class Screenplay3d implements Screenplay {
     }
 
     @Override
-    public ArrayMovie buildMovie() {
-        return new ArraySeason<>(inner);
+    public <T> ArrayMovie<T> buildMovie() {
+        return new ArraySeason<T>(inner);
     }
 }

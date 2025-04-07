@@ -23,7 +23,7 @@ import java.util.List;
 public class ArrayTape<T> implements ArrayMovie<T> {
 
     public static final int DEFAULT_CAPACITY = 32;
-    public static final int DEFAULT_PAGE = 512;
+    public static final int DEFAULT_PAGE = 256;
     public static final int DEFAULT_COUNTDOWN = DEFAULT_PAGE << 2;
 
     public static <T> boolean equals(T a, T b) {
@@ -205,7 +205,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
             return false;
         }
 
-        if (col instanceof ArrayTape) {
+        if (col instanceof ArrayTape<? extends T>) {
             ArrayTape<T> tape = (ArrayTape<T>) col;
             int newSize = size + tape.size;
 
@@ -247,8 +247,8 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      * @return the element at the specified position in the ArrayTape
      * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size)
      */
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public T get(int index) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
@@ -257,7 +257,8 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     }
 
     @Override
-    public T first() {
+    @SuppressWarnings("unchecked")
+    public T first(){
         if (size == 0) {
             throw new IndexOutOfBoundsException("Tape is empty.");
         }
@@ -265,6 +266,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T last() {
         if (size == 0) {
             throw new IndexOutOfBoundsException("Tape is empty.");
@@ -540,7 +542,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     /**
      * Trim or increases the capacity of the ArrayTape by a fixed amount specified by the attribute 'page'. It also
      * resets the trim countdown to its default value.
-     *
+     * <p>
      * The method creates a new array with a correct capacity, copies the elements from the current array into the new
      * array, and then assigns the new array back to the elementData attribute.
      *
@@ -578,8 +580,8 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      *
      * @return an array containing all the elements in the ArrayTape
      */
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public T[] toArray() {
         return (T[]) Arrays.copyOf(elementData, size, elementData.getClass());
     }
@@ -589,15 +591,15 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      * the specified array. If the ArrayTape fits in the specified array, it is returned therein. Otherwise, a new array
      * is allocated with the runtime type of the specified array and the size of the ArrayTape.
      *
-     * @param <U>
+     * @param <U> the runtime type of the array to contain the elements of the ArrayTape
      * @param a the array into which the elements of the ArrayTape are to be stored, if it is big enough; otherwise, a
      * new array of the same runtime type is allocated for this purpose.
      * @return an array containing all the elements in the ArrayTape
      * @throws ArrayStoreException if the runtime type of the specified array is not a supertype of the runtime type of
      * every element in this ArrayTape
      */
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public <U> U[] toArray(U[] a) {
         if (a.length < size) {
             // Make a new array of a's runtime type, but my contents:
@@ -616,6 +618,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      *
      * @return a List containing all the elements in the ArrayTape
      */
+    @SuppressWarnings("unchecked")
     public List<T> toList() {
         List<T> list = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
@@ -668,6 +671,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      * @return an Iterator.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             private int currentIndex = 0;
@@ -755,6 +759,14 @@ public class ArrayTape<T> implements ArrayMovie<T> {
             out.println(prefix + "t[" + i + "] =[" + index + "]= '" + elementData[i] + "'");
         }
         return offset + size();
+    }
+
+    /**
+     * Returns the number of elements that can be added to the ArrayTape before it needs to be resized.
+     * @return the number of elements that can be added
+     */
+    public int pageSpaceLeft(){
+          return this.elementData == null ? 0 : ((this.elementData.length) - size);
     }
 
 }

@@ -18,7 +18,7 @@ import java.util.function.BiPredicate;
  */
 public class SortedSeasonSet<T> extends ArraySeason<T> implements Collection<T> {
 
-    private BiPredicate<T, T> predicate;
+    private final BiPredicate<T, T> predicate;
     private final SortedSeasonSetWorker<T> workerAdd = new SortedSeasonSetWorkerAdd<>();
     private final SortedSeasonSetWorker<T> workerRemove = new SortedSeasonSetWorkerRemove<>();
 

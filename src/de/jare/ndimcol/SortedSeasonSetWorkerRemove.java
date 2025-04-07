@@ -25,4 +25,4 @@ class SortedSeasonSetWorkerRemove<T> extends SortedSeasonSetWorker<T> {
         }
         return true;
     }
-}
+} 

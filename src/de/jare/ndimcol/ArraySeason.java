@@ -19,6 +19,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     ArrayTape<ArrayMovie<T>> data;
     int size;
     int maxEpisodeSize;
+    int midEpisodeSize;
     int minEpisodeGlue;
     int updateCounter;
     private int lastAccumulatedSize = 0;
@@ -30,8 +31,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         data = new ArrayTape<>(screenplay.getDefaultSize());
         size = 0;
         updateCounter = 0;
-        maxEpisodeSize = screenplay.getMaxEpisodeSize(0);
-        minEpisodeGlue = screenplay.getMinEpisodeGlue(0);
+        recalculateScope();
     }
 
     public ArraySeason(final Screenplay screenplay) {
@@ -39,27 +39,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         data = new ArrayTape<>(screenplay.getDefaultSize());
         size = 0;
         updateCounter = 0;
-        maxEpisodeSize = screenplay.getMaxEpisodeSize(0);
-        minEpisodeGlue = screenplay.getMinEpisodeGlue(0);
-    }
-
-    public ArraySeason(ArraySeason<T> original) {
-        screenplay = original.screenplay;
-        final int originalSize = original.size();
-        data = new ArrayTape<>(originalSize + 4);
-        for (int i = 0; i < originalSize; i++) {
-            ArrayMovie<T> tile = original.data.get(i);
-            ArrayMovie copy = screenplay.buildMovie();
-            if (tile != null) {
-                copy.addAll(tile);
-            }
-            data.add(copy);
-        }
-        size = original.size();
-        final int fac = screenplay.getFactor(originalSize);
-        maxEpisodeSize = screenplay.getMaxEpisodeSize(fac);
-        minEpisodeGlue = screenplay.getMinEpisodeGlue(fac);
-        updateCounter = 0;
+        recalculateScope();
     }
 
     public ArraySeason(ArrayTape<T> original) {
@@ -85,15 +65,28 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             return true;
         }
         final ArrayMovie<T> episode = data.get(data.size() - 1);
+        if (episode.size()>= midEpisodeSize && episode.pageSpaceLeft()<=8) {
+            final ArrayMovie<T> nextFree = screenplay.buildMovie();
+            data.add(nextFree);
+            nextFree.add(element);
+            size++;
+            this.updateCounter++;
+            recalculateScope();
+            return true;
+        }
         episode.add(element);
         size++;
         this.updateCounter++;
-        if (episode.size() > maxEpisodeSize) {
-            splitOrGlue();
-        }
         return true;
     }
 
+    /**
+     * Adds the element to the first free episode in the ArraySeason.
+     * If no free episode is found, a new episode is created.
+     * Can only be used if compliance with the sequence is not expected.
+     * @param element the element to be added
+     * @return true if the element was added successfully
+     */
     public boolean addFirstFree(T element) {
         int episodeIndex = firstFreeEpisode();
         if (episodeIndex == -1) {
@@ -128,6 +121,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return false;
     }
 
+    /**
+     * Adds all elements in the specified collection to this collection.
+     * @param col collection containing elements to be added to this collection
+     * @return true if this collection changed as a result of the call
+     */
     @Override
     public boolean addAll(Collection<? extends T> col) {
         if (data.isEmpty()) {
@@ -151,11 +149,20 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return modified;
     }
 
+    /**
+     * Returns the element at the specified index in this collection.
+     * @param index the index of the element to return
+     * @return the element at the specified index in this collection
+     */
     @Override
     public T get(int index) {
         return getLeafWalkerAtIndex(index).next();
     }
 
+    /**
+     * Returns the first element in this collection.
+     * @return the first element in this collection
+     */
     @Override
     public T first() {
         if (size == 0) {
@@ -164,6 +171,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return (T) data.first().first();
     }
 
+    /**
+     * Returns the last element in this collection.
+     * @return the last element in this collection
+     */
     @Override
     public T last() {
         if (size == 0) {
@@ -172,6 +183,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return (T) data.last().last();
     }
 
+    /**
+     * Removes the element in this collection.
+     * @param element to remove
+     * @return true, if the element has removed from this collection
+     */
     @Override
     public boolean remove(Object element) {
         IteratorWalker<T> walker = getLeafWalkerAtElement(element);
@@ -187,6 +203,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return true;
     }
 
+    /**
+     * Removes the element at the specified index in this collection.
+     * @param index the index of the element to remove
+     * @return the element that was removed from this collection
+     */
     @Override
     public T removeAt(int index) {
         if (index < 0 || index >= size) {
@@ -200,6 +221,15 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return removedElement;
     }
 
+    /**
+     * Splits or glues the episodes in this collection based on their sizes.
+     * This method iterates through the episodes and checks their sizes.
+     * If an episode is larger than the maximum size, it is split in half.
+     * If two episodes are smaller than the minimum size, they are glued together.
+     * If an episode itself is to small, this episode are glued to the next episode together.
+     * If an episode is empty, it is removed from the collection.
+     * At last, the maximum episode size and minimum glue size are updated based on the current number of episodes.
+     */
     @Override
     public void splitOrGlue() {
         int lastSize = maxEpisodeSize;
@@ -232,9 +262,14 @@ public class ArraySeason<T> implements ArrayMovie<T> {
                 episode.splitOrGlue();
             }
         }
-        final int fac = screenplay.getFactor(data.size());
+        recalculateScope();
+    }
+
+    private void recalculateScope() {
+        final int fac =  data.size();
         maxEpisodeSize = screenplay.getMaxEpisodeSize(fac);
         minEpisodeGlue = screenplay.getMinEpisodeGlue(fac);
+        midEpisodeSize = maxEpisodeSize-ArrayTape.DEFAULT_PAGE;
     }
 
     private int firstFreeEpisode() {
@@ -494,4 +529,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return offset;
     }
 
+    /**
+     * Nothing to do.
+     * @return 0
+     */
+    public int pageSpaceLeft(){
+        return 0;
+    }
 }
