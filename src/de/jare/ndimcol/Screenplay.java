@@ -7,22 +7,17 @@
  */
 package de.jare.ndimcol;
 
-import java.util.Collection;
-
 /**
  *
  * @author Janusch Rentenatus
- * @param <T>
  */
 public interface Screenplay {
 
     int getDefaultSize();
 
-    public int getFactor(int dataSize);
-
     int getMaxEpisodeSize(int fac);
 
     int getMinEpisodeGlue(int fac);
 
-    ArrayMovie buildMovie();
+    <T> ArrayMovie<T> buildMovie();
 }

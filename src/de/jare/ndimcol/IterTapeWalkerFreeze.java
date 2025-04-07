@@ -11,11 +11,11 @@ import java.util.ConcurrentModificationException;
 
 /**
  * A IterTapeWalkerFreeze allows for traversal over the elements in an ArrayTape in a linear fashion, while ensuring no
- concurrent modifications occur during the iteration.
+ * concurrent modifications occur during the iteration.
  *
  * @param <T> the type of elements in the ArrayTape
  */
-public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements IteratorWalker<T>{
+public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements IteratorWalker<T> {
 
     private int initialUpdateCounter;
 

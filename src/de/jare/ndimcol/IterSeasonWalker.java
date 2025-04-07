@@ -183,10 +183,14 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
     }
 
     /**
-     * Moves to the index.
+     * Sets the current index to the specified position .
+     * <p>
+     * A ArraySaesson in 2d is a ArrayTape of ArrayTape. A ArraySaesson in 3d is a ArrayTape of 2d ArraySaesson means
+     * ArrayTape of ArrayTape of ArrayTape.
      *
-     * @param index
-     * @return Leaf walker
+     * @param index the index to set as the current position
+     * @return IteratorWalker of the deepest ArrayTape of movie
+     * @throws IndexOutOfBoundsException if the index is out of range
      */
     @Override
     public IteratorWalker<T> goLeafIndex(int index) {
@@ -229,7 +233,7 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
     }
 
     /**
-     * Returns the number of elements in the entire ArrayTape.
+     * Returns the number of elements in the entire SeasonTape.
      *
      * @return the total size
      */
@@ -238,11 +242,21 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
         return season.size();
     }
 
+    /**
+     * Returns true if the SeasonTape is empty.
+     *
+     * @return true if the SeasonTape is empty
+     */
     @Override
     public boolean isEmpty() {
         return season.isEmpty();
     }
 
+    /**
+     * Returns true if the SeasonTape has a record.
+     *
+     * @return true if the SeasonTape has a record
+     */
     @Override
     public boolean hasRecord() {
         return season.hasRecord();
