@@ -766,6 +766,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      *
      * @return the number of elements that can be added
      */
+    @Override
     public int pageSpaceLeft() {
         return this.elementData == null ? 0 : (this.elementData.length - size);
     }

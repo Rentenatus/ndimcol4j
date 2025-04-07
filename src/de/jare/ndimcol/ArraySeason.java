@@ -538,6 +538,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      *
      * @return 0
      */
+    @Override
     public int pageSpaceLeft() {
         return 0;
     }
