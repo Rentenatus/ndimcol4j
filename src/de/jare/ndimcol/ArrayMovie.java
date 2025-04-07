@@ -51,8 +51,11 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index > size)
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
-    public boolean add(int index, T element);
+    public boolean addAt(int index, T element);
 
+    public default void add(int index, T element) {
+        addAt(index,element);
+    }
     /**
      * Appends the specified element to the end of this list .
      *
@@ -116,6 +119,16 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @return the index of the first equal element in the movie or -1 if not found
      */
     public int indexOf(Object element);
+
+    /**
+     * Returns the index of the last occurrence of the specified element in the ArrayTape, or -1 if the element is not
+     * found. If the specified element is null, it checks for null elements in the ArrayTape.
+     *
+     * @param o the element to search for in the ArrayTape
+     * @return the index of the last occurrence of the specified element, or -1 if the element is not found
+     */
+    public int lastIndexOf(Object element);
+
 
     /**
      * Copy the elements of this movie to the specified array.

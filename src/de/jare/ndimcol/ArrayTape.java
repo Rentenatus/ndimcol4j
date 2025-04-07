@@ -174,7 +174,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
     @Override
-    public boolean add(int index, T element) {
+    public boolean addAt(int index, T element) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
@@ -221,6 +221,41 @@ public class ArrayTape<T> implements ArrayMovie<T> {
             }
         }
 
+        updateCounter++;
+        return true;
+    }
+
+    /**
+     * Inserts all of the elements in the specified collection into this list, starting at the specified position.
+     * @param index index at which to insert the first element from the
+     *              specified collection
+     * @param col collection containing elements to be added to this list
+     * @return <tt>true</tt> if this list changed as a result of the call
+     */ 
+    public boolean addAll(int index, Collection<? extends T> col) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        int colSize = col.size();
+        int ns= size+ colSize -1;
+        if (ns >= elementData.length) {
+            int newCapacity = elementData.length + page + (ns >> 2);
+            Object[] newArray = new Object[newCapacity];
+            // Kopiere Elemente bis zum Index
+            System.arraycopy(elementData, 0, newArray, 0, index);
+            // Kopiere verbleibende Elemente nach dem Index
+            System.arraycopy(elementData, index, newArray, index + colSize, size - index);
+            elementData = newArray;
+        } else {
+            // Nur Elemente nach dem Index verschieben
+            System.arraycopy(elementData, index, elementData, index + colSize, size - index);
+        }
+        // Kopiere Collection
+        int i = index;
+        for (T element : col) {
+            elementData[i++] = element;
+        }
+        size++;
         updateCounter++;
         return true;
     }
@@ -467,6 +502,31 @@ public class ArrayTape<T> implements ArrayMovie<T> {
             }
         } else {
             for (int i = 0; i < size; i++) {
+                if (element.equals(elementData[i])) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Returns the index of the last occurrence of the specified element in the ArrayTape, or -1 if the element is not
+     * found. If the specified element is null, it checks for null elements in the ArrayTape.
+     *
+     * @param o the element to search for in the ArrayTape
+     * @return the index of the last occurrence of the specified element, or -1 if the element is not found
+     */
+    @Override
+    public int lastIndexOf(Object element) {
+        if (element == null) {
+            for (int i = size-1; i >=0; i--) {
+                if (elementData[i] == null) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = size-1; i >=0; i--) {
                 if (element.equals(elementData[i])) {
                     return i;
                 }

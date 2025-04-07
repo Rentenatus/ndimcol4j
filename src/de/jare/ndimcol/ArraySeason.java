@@ -107,7 +107,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     @Override
-    public boolean add(int index, T element) {
+    public boolean addAt(int index, T element) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
@@ -249,7 +249,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
                 if (newEpisode == null) {
                     continue;
                 }
-                data.add(i + 1, newEpisode);
+                data.addAt(i + 1, newEpisode);
                 i++; // Skip the newly added episode to avoid immediate reprocessing
                 lastSize = maxEpisodeSize;
             } else if (lastSize + episodeSize < minEpisodeGlue
@@ -316,6 +316,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return null;
     }
 
+    /**
+     * Returns the index of the first occurrence of the specified element in the ArrayTape, or -1 if the element is not
+     * found. If the specified element is null, it checks for null elements in the ArrayTape.
+     *
+     * @param element the element to search for
+     * @return the index of the first occurrence of the specified element, or -1 if the element is not found
+     */
     @Override
     public int indexOf(Object element) {
         int accumulatedSize = 0;
@@ -330,6 +337,31 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return -1;
     }
 
+    /**
+     * Returns the index of the last occurrence of the specified element in the ArrayTape, or -1 if the element is not
+     * found. If the specified element is null, it checks for null elements in the ArrayTape.
+     *
+     * @param element the element to search for in the ArrayTape
+     * @return the index of the last occurrence of the specified element, or -1 if the element is not found
+     */
+    public int lastIndexOf(Object element){
+        int accumulatedSize = size;
+        for (int i = data.size() - 1; i >= 0; i--) {
+            final ArrayMovie<T> episode = data.get(i);
+            accumulatedSize -= episode.size();
+            int episodeIndex = episode.lastIndexOf(element);
+            if (episodeIndex >= 0) {
+                return accumulatedSize + episodeIndex;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Returns the number of elements in this collection.
+     *
+     * @return the number of elements in this collection
+     */
     @Override
     public int size() {
         return size;

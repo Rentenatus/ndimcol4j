@@ -48,7 +48,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Collection<T> 
     }
 
     protected boolean superAdd(int index, T element) {
-        return super.add(index, element);
+        return super.addAt(index, element);
     }
 
     protected boolean work(SortedSeasonSetWorker<T> worker, T element) {
@@ -156,7 +156,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Collection<T> 
     }
 
     @Override
-    public boolean add(int index, T element) {
+    public boolean addAt(int index, T element) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
@@ -167,7 +167,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Collection<T> 
         if (nextIndex < size() && !predicate.test(element, get(nextIndex))) {
             return false;
         }
-        return super.add(index, element);
+        return super.addAt(index, element);
     }
 
     @Override

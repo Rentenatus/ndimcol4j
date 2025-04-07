@@ -79,7 +79,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      */
     @Override
     public boolean add(T element) {
-        return tape.add(currentIndex, element);
+        return tape.addAt(currentIndex, element);
     }
 
     /**
