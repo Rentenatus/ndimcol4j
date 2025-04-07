@@ -122,6 +122,27 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
+     * Inserts all of the elements in the specified collection into this season, starting at the specified position.
+     *
+     * @param index index at which to insert the first element from the specified collection
+     * @param col collection containing elements to be added to this season
+     * @return true if this season changed as a result of the call
+     */
+    public boolean addAll(int index, Collection<? extends T> col) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        IteratorWalker<T> walker = getLeafWalkerAtIndex(index);
+        if (walker.add(col)) {
+            if (walker.size() > maxEpisodeSize) {
+                splitOrGlue();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Adds all elements in the specified collection to this collection.
      *
      * @param col collection containing elements to be added to this collection
@@ -344,7 +365,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @param element the element to search for in the ArrayTape
      * @return the index of the last occurrence of the specified element, or -1 if the element is not found
      */
-    public int lastIndexOf(Object element){
+    public int lastIndexOf(Object element) {
         int accumulatedSize = size;
         for (int i = data.size() - 1; i >= 0; i--) {
             final ArrayMovie<T> episode = data.get(i);

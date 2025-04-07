@@ -226,18 +226,18 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Inserts all of the elements in the specified collection into this list, starting at the specified position.
-     * @param index index at which to insert the first element from the
-     *              specified collection
-     * @param col collection containing elements to be added to this list
-     * @return <tt>true</tt> if this list changed as a result of the call
-     */ 
+     * Inserts all of the elements in the specified collection into this tape, starting at the specified position.
+     *
+     * @param index index at which to insert the first element from the specified collection
+     * @param col collection containing elements to be added to this tape
+     * @return true if this tape changed as a result of the call
+     */
     public boolean addAll(int index, Collection<? extends T> col) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
         int colSize = col.size();
-        int ns= size+ colSize -1;
+        int ns = size + colSize - 1;
         if (ns >= elementData.length) {
             int newCapacity = elementData.length + page + (ns >> 2);
             Object[] newArray = new Object[newCapacity];
@@ -520,13 +520,13 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     @Override
     public int lastIndexOf(Object element) {
         if (element == null) {
-            for (int i = size-1; i >=0; i--) {
+            for (int i = size - 1; i >= 0; i--) {
                 if (elementData[i] == null) {
                     return i;
                 }
             }
         } else {
-            for (int i = size-1; i >=0; i--) {
+            for (int i = size - 1; i >= 0; i--) {
                 if (element.equals(elementData[i])) {
                     return i;
                 }

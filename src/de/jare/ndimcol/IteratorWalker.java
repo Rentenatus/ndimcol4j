@@ -7,6 +7,8 @@
  */
 package de.jare.ndimcol;
 
+import java.util.Collection;
+
 /**
  *
  * @author Jansuch Rentenatus
@@ -29,6 +31,8 @@ public interface IteratorWalker<T> {
     public T remove();
 
     public boolean add(T element);
+
+    public boolean add(Collection<? extends T> col);
 
     /**
      * Resets the current index to the beginning .

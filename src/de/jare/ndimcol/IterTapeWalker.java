@@ -7,6 +7,8 @@
  */
 package de.jare.ndimcol;
 
+import java.util.Collection;
+
 /**
  * A IterTapeWalker allows for traversal over the elements in an ArrayTape in a linear fashion, providing methods to
  * move forward, backward, and to specific positions.
@@ -80,6 +82,17 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
     @Override
     public boolean add(T element) {
         return tape.addAt(currentIndex, element);
+    }
+
+    /**
+     * Adds a collection to the current tape.
+     *
+     * @param col collection containing elements to be added
+     * @return true if the addition is successful
+     */
+    @Override
+    public boolean add(Collection<? extends T> col) {
+        return tape.addAll(currentIndex, col);
     }
 
     /**

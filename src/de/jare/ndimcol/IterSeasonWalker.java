@@ -7,6 +7,8 @@
  */
 package de.jare.ndimcol;
 
+import java.util.Collection;
+
 public class IterSeasonWalker<T> implements IteratorWalker<T> {
 
     private final IterTapeWalker<ArrayMovie<T>> outerWalker; // Walker for the outer ArrayTape
@@ -141,6 +143,20 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
             throw new IllegalStateException("No active inner walker to add elements to.");
         }
         return innerWalker.add(element);
+    }
+
+    /**
+     * Adds a collection to the current inner ArrayTape.
+     *
+     * @param col collection containing elements to be added
+     * @return true if the addition is successful
+     */
+    @Override
+    public boolean add(Collection<? extends T> col) {
+        if (innerWalker == null) {
+            throw new IllegalStateException("No active inner walker to add elements to.");
+        }
+        return innerWalker.add(col);
     }
 
     /**
