@@ -32,12 +32,14 @@ public interface IteratorWalker<T> {
 
     /**
      * Resets the current index to the beginning .
+     *
      * @return this
      */
     public IteratorWalker<T> goFirst();
 
     /**
      * Sets the current index to the last element.
+     *
      * @return this
      */
     public IteratorWalker<T> goLast();
@@ -45,8 +47,8 @@ public interface IteratorWalker<T> {
     /**
      * Sets the current index to the specified position .
      * <p>
-     * A ArraySaesson in 2d is a ArrayTape of ArrayTape.
-     * A ArraySaesson in 3d is a ArrayTape of 2d ArraySaesson means ArrayTape of ArrayTape of ArrayTape.
+     * A ArraySaesson in 2d is a ArrayTape of ArrayTape. A ArraySaesson in 3d is a ArrayTape of 2d ArraySaesson means
+     * ArrayTape of ArrayTape of ArrayTape.
      *
      * @param index the index to set as the current position
      * @return IteratorWalker of the deepest ArrayTape of movie

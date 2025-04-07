@@ -7,7 +7,6 @@
  */
 package de.jare.ndimcol;
 
-
 /**
  *
  * @author Janusch Rentenatus

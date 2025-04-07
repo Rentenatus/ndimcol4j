@@ -258,7 +258,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public T first(){
+    public T first() {
         if (size == 0) {
             throw new IndexOutOfBoundsException("Tape is empty.");
         }
@@ -763,10 +763,11 @@ public class ArrayTape<T> implements ArrayMovie<T> {
 
     /**
      * Returns the number of elements that can be added to the ArrayTape before it needs to be resized.
+     *
      * @return the number of elements that can be added
      */
-    public int pageSpaceLeft(){
-          return this.elementData == null ? 0 : ((this.elementData.length) - size);
+    public int pageSpaceLeft() {
+        return this.elementData == null ? 0 : (this.elementData.length - size);
     }
 
 }

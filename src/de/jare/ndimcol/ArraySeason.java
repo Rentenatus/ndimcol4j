@@ -65,7 +65,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             return true;
         }
         final ArrayMovie<T> episode = data.get(data.size() - 1);
-        if (episode.size()>= midEpisodeSize && episode.pageSpaceLeft()<=8) {
+        if (episode.size() >= midEpisodeSize && episode.pageSpaceLeft() <= 8) {
             final ArrayMovie<T> nextFree = screenplay.buildMovie();
             data.add(nextFree);
             nextFree.add(element);
@@ -81,9 +81,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Adds the element to the first free episode in the ArraySeason.
-     * If no free episode is found, a new episode is created.
-     * Can only be used if compliance with the sequence is not expected.
+     * Adds the element to the first free episode in the ArraySeason. If no free episode is found, a new episode is
+     * created. Can only be used if compliance with the sequence is not expected.
+     *
      * @param element the element to be added
      * @return true if the element was added successfully
      */
@@ -123,6 +123,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     /**
      * Adds all elements in the specified collection to this collection.
+     *
      * @param col collection containing elements to be added to this collection
      * @return true if this collection changed as a result of the call
      */
@@ -151,6 +152,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     /**
      * Returns the element at the specified index in this collection.
+     *
      * @param index the index of the element to return
      * @return the element at the specified index in this collection
      */
@@ -161,6 +163,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     /**
      * Returns the first element in this collection.
+     *
      * @return the first element in this collection
      */
     @Override
@@ -173,6 +176,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     /**
      * Returns the last element in this collection.
+     *
      * @return the last element in this collection
      */
     @Override
@@ -185,6 +189,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     /**
      * Removes the element in this collection.
+     *
      * @param element to remove
      * @return true, if the element has removed from this collection
      */
@@ -205,6 +210,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     /**
      * Removes the element at the specified index in this collection.
+     *
      * @param index the index of the element to remove
      * @return the element that was removed from this collection
      */
@@ -222,13 +228,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Splits or glues the episodes in this collection based on their sizes.
-     * This method iterates through the episodes and checks their sizes.
-     * If an episode is larger than the maximum size, it is split in half.
-     * If two episodes are smaller than the minimum size, they are glued together.
-     * If an episode itself is to small, this episode are glued to the next episode together.
-     * If an episode is empty, it is removed from the collection.
-     * At last, the maximum episode size and minimum glue size are updated based on the current number of episodes.
+     * Splits or glues the episodes in this collection based on their sizes. This method iterates through the episodes
+     * and checks their sizes. If an episode is larger than the maximum size, it is split in half. If two episodes are
+     * smaller than the minimum size, they are glued together. If an episode itself is to small, this episode are glued
+     * to the next episode together. If an episode is empty, it is removed from the collection. At last, the maximum
+     * episode size and minimum glue size are updated based on the current number of episodes.
      */
     @Override
     public void splitOrGlue() {
@@ -266,10 +270,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     private void recalculateScope() {
-        final int fac =  data.size();
+        final int fac = data.size();
         maxEpisodeSize = screenplay.getMaxEpisodeSize(fac);
         minEpisodeGlue = screenplay.getMinEpisodeGlue(fac);
-        midEpisodeSize = maxEpisodeSize-ArrayTape.DEFAULT_PAGE;
+        midEpisodeSize = maxEpisodeSize - ArrayTape.DEFAULT_PAGE;
     }
 
     private int firstFreeEpisode() {
@@ -531,9 +535,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     /**
      * Nothing to do.
+     *
      * @return 0
      */
-    public int pageSpaceLeft(){
+    public int pageSpaceLeft() {
         return 0;
     }
 }
