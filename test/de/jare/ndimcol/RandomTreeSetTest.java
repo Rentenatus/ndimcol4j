@@ -16,6 +16,10 @@ import java.util.TreeSet;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
+/**
+ * 
+ * @author Janusch Rentenatus
+ */
 public class RandomTreeSetTest {
 
     public RandomTreeSetTest() {

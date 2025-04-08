@@ -9,29 +9,48 @@ package de.jare.ndimcol;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Set;
 import java.util.function.BiPredicate;
 
 /**
  *
  * @author Janusch Rentenatus
- * @param <T>
+ * @param <T> the type of elements in this set
  */
-public class SortedSeasonSet<T> extends ArraySeason<T> implements Collection<T> {
+public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
 
     private final BiPredicate<T, T> predicate;
     private final SortedSeasonSetWorker<T> workerAdd = new SortedSeasonSetWorkerAdd<>();
     private final SortedSeasonSetWorker<T> workerRemove = new SortedSeasonSetWorkerRemove<>();
 
+    /**
+     * Constructor for SortedSeasonSet. The given comparator is morphed into a BiPredicate. The logic of this set is
+     * only on element1 &lt element2 xor element1 &gt element2 implemented.
+     *
+     * @param compT a Comparator<T> to compare elements
+     * @param forward true for ascending order, false for descending order
+     */
     public SortedSeasonSet(final Comparator<T> compT, boolean forward) {
         this.predicate = forward
                 ? (T element1, T element2) -> compT.compare(element1, element2) < 0
                 : (T element1, T element2) -> compT.compare(element1, element2) > 0;
     }
 
+    /**
+     * Constructor for SortedSeasonSet.
+     *
+     * @param predicate a BiPredicate<T, T> to compare elements
+     */
     public SortedSeasonSet(final BiPredicate<T, T> predicate) {
         this.predicate = predicate;
     }
 
+    /**
+     * Adds the specified element to this collection if it is not already present.
+     *
+     * @param element element whose presence in this collection is to be ensured
+     * @return true if this collection changed as a result of the call
+     */
     @Override
     public boolean add(T element) {
         if (element == null) {
@@ -43,14 +62,36 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Collection<T> 
         return work(workerAdd, element);
     }
 
+    /**
+     * Adds the specified element to this collection without check, if it is not already present.
+     *
+     * @param element element whose be added to this collection
+     * @return true if this collection changed as a result of the call
+     */
     protected boolean superAdd(T element) {
         return super.add(element);
     }
 
-    protected boolean superAdd(int index, T element) {
-        return super.add(index, element);
+    /**
+     * Adds the specified element to this collection at the specified index without check, if it is not already present.
+     *
+     * @param index the index at which the specified element is to be inserted
+     * @param element the element to be inserted
+     * @return true if this collection changed as a result of the call
+     */
+    protected boolean superAddAt(int index, T element) {
+        return super.addAt(index, element);
     }
 
+    /**
+     * Run the worker on the element. A Worker is a class that implements the SortedSeasonSetWorker interface. The
+     * worker can be used to perform different operations on the element, such as adding or removing it from the
+     * SortedSeasonSet.
+     *
+     * @param worker the worker to be used
+     * @param element the element to be processed
+     * @return true if the worker was able to process the element, false otherwise
+     */
     protected boolean work(SortedSeasonSetWorker<T> worker, T element) {
 
         int indexRData = data.size() - 1;
@@ -105,6 +146,15 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Collection<T> 
         return false;
     }
 
+    /**
+     * Work on the episode. The episode is a part of the data structure that contains the elements. The worker is used
+     * to perform different operations on the episode, such as adding or removing an element from the SortedSeasonSet.
+     *
+     * @param worker the worker to be used
+     * @param episode the episode to be processed
+     * @param element the element to be processed
+     * @return true if the worker was able to process the episode, false otherwise
+     */
     protected boolean workEpisode(SortedSeasonSetWorker<T> worker, final ArrayMovie<T> episode, T element) {
         T left = episode.get(0);
         if (predicate.test(element, left)) {
@@ -144,6 +194,12 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Collection<T> 
         return false;
     }
 
+    /**
+     * Adds all of this elements in the specified collection to this set.
+     *
+     * @param col collection containing elements to be added to this collection
+     * @return true if this collection changed as a result of the call
+     */
     @Override
     public boolean addAll(Collection<? extends T> col) {
         boolean changed = false;
@@ -155,8 +211,15 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Collection<T> 
         return changed;
     }
 
+    /**
+     * Adds the specified element to this set at the specified index.
+     *
+     * @param index the index at which the specified element is to be inserted
+     * @param element the element to be inserted
+     * @return true if this collection changed as a result of the call
+     */
     @Override
-    public boolean add(int index, T element) {
+    public boolean addAt(int index, T element) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
@@ -167,29 +230,48 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Collection<T> 
         if (nextIndex < size() && !predicate.test(element, get(nextIndex))) {
             return false;
         }
-        return super.add(index, element);
+        return super.addAt(index, element);
     }
 
+    /**
+     * Adding the specified element to this set at the first free index is not supported.
+     *
+     * @param element the element to be added
+     * @return nothing
+     * @throws UnsupportedOperationException always
+     */
     @Override
     public boolean addFirstFree(T element) {
         throw new UnsupportedOperationException("Not supported in " + getClass().getSimpleName() + ".");
     }
 
+    /**
+     * Remove the specified element from this set.
+     *
+     * @param element the element to be removed
+     * @return true if this collection changed as a result of the call
+     * @throws ClassCastException if the element is not of the same type as the elements in this set
+     */
+    @SuppressWarnings("unchecked")
     @Override
     public boolean remove(Object element) {
         if (element == null) {
             return false;
         }
         return removeT((T) element);
-
     }
 
+    /**
+     * Remove the specified element of the type T from this set.
+     *
+     * @param element the element to be removed
+     * @return true if this collection changed as a result of the call
+     */
     public boolean removeT(T element) {
         if (isEmpty()) {
             return false;
         }
-        boolean ret = work(workerRemove, element);
-        return ret;
+        return work(workerRemove, element);
     }
 
 }

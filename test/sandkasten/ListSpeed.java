@@ -28,7 +28,7 @@ import java.util.Vector;
  */
 public class ListSpeed {
 
-    protected static final int NUMBER_BATCHES = 2_000;
+    protected static final int NUMBER_BATCHES = 1_000;
 
     public void runTape(final Object[] arr, final int numberElems) {
         // Erstellen des ursprünglichen Tapes und Hinzufügen von 100 Elementen
@@ -247,13 +247,13 @@ public class ListSpeed {
         System.out.println("ArraySeason   Batch " + numberElems + "   Duration: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
 
         // Zeitmessung für runSeason
-//        startTime = System.nanoTime();
-//        for (int batch = 0; batch < NUMBER_BATCHES; batch++) {
-//            test.runSeason(Screenplay3d.INSTANCE, arr, numberElems);
-//        }
-//        endTime = System.nanoTime();
-//        duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
-//        System.out.println("ArraySeason3d Batch" + numberElems + " Duration: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
+        startTime = System.nanoTime();
+        for (int batch = 0; batch < NUMBER_BATCHES; batch++) {
+            test.runSeason(Screenplay3d.INSTANCE, arr, numberElems);
+        }
+        endTime = System.nanoTime();
+        duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
+        System.out.println("ArraySeason3d Batch " + numberElems + "   Duration: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
 
         // Zeitmessung für runSortedSeasonSet
         startTime = System.nanoTime();

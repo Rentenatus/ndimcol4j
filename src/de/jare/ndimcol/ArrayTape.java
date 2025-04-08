@@ -16,9 +16,16 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * An ArrayTape is a dynamic array implementation that allows for efficient insertion, deletion, and iteration of
+ * elements. It is designed to be used in a variety of applications where a flexible and resizable array is needed.
+ * <p>
+ * This class implements the ArrayMovie interface and provides methods for adding, removing, and accessing elements, as
+ * well as for iterating over the elements in the array.
+ * <p>
+ * ArrayMovie<T> extends Collection<T>.
  *
- * @author jRent
- * @param <T>
+ * @author Janusch Rentenatus
+ * @param <T> the type of elements in this tape
  */
 public class ArrayTape<T> implements ArrayMovie<T> {
 
@@ -26,6 +33,14 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     public static final int DEFAULT_PAGE = 256;
     public static final int DEFAULT_COUNTDOWN = DEFAULT_PAGE << 2;
 
+    /**
+     * Compares two objects for equality. If both objects are null, they are considered equal. If one is null and the
+     * other is not, they are not equal. Otherwise, it uses the equals method of the first object to compare them.
+     *
+     * @param a the first object to compare
+     * @param b the second object to compare
+     * @return true if the objects are equal, false otherwise
+     */
     public static <T> boolean equals(T a, T b) {
         if (a == b) {
             return true;
@@ -59,10 +74,10 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      * Constructs an empty ArrayTape with the specified initial capacity and a default page size of thirty. The update
      * counter and trim countdown are also initialized.
      *
-     * @param initialCapacity the initial capacity of the ArrayTape
+     * @param initialCapacityOrZero the initial capacity of the ArrayTape
      */
-    public ArrayTape(int initialCapacity) {
-        this.elementData = new Object[initialCapacity];
+    public ArrayTape(int initialCapacityOrZero) {
+        this.elementData = new Object[initialCapacityOrZero > 0 ? initialCapacityOrZero : DEFAULT_CAPACITY];
         this.size = 0;
         this.page = DEFAULT_PAGE; // Standardwert für das Attribut 'page'
         this.updateCounter = 0;
@@ -81,6 +96,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         this.page = original.page;
         this.updateCounter = original.updateCounter;
         this.trimCounDown = original.trimCounDown;
+        this.softWalker = null;
     }
 
     /**
@@ -152,7 +168,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      */
     @Override
     public boolean add(T element) {
-        // ensureCapacity():fast:
+        // ensureCapacity():fast:Sorry for redundant code.
         if (size >= elementData.length) {
             int newCapacity = elementData.length + page + (size >> 2);
             elementData = Arrays.copyOf(elementData, newCapacity);
@@ -174,7 +190,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
     @Override
-    public boolean add(int index, T element) {
+    public boolean addAt(int index, T element) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
@@ -196,15 +212,23 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         return true;
     }
 
+    /**
+     * Adds all of the elements in the specified collection to the end of this ArrayTape. Increments the update counter
+     * after adding the elements.
+     *
+     * @param col collection containing elements to be added to this ArrayTape
+     * @return true if this ArrayTape changed as a result of the call
+     * @throws NullPointerException if the specified collection is null
+     */
+    @SuppressWarnings("unchecked")
     @Override
     public boolean addAll(Collection<? extends T> col) {
         if (col == null) {
-            throw new NullPointerException("Collection cannot be null");
+            throw new NullPointerException("Collection cannot be null.");
         }
         if (col.isEmpty()) {
             return false;
         }
-
         if (col instanceof ArrayTape<? extends T>) {
             ArrayTape<T> tape = (ArrayTape<T>) col;
             int newSize = size + tape.size;
@@ -220,7 +244,58 @@ public class ArrayTape<T> implements ArrayMovie<T> {
                 add(element);
             }
         }
+        updateCounter++;
+        return true;
+    }
 
+    /**
+     * Inserts all of the elements in the specified collection into this tape, starting at the specified position.
+     *
+     * @param index index at which to insert the first element from the specified collection
+     * @param col collection containing elements to be added to this tape
+     * @return true if this tape changed as a result of the call
+     */
+    public boolean addAll(int index, Collection<? extends T> col) {
+        if (col == null) {
+            throw new NullPointerException("Collection cannot be null.");
+        }
+        if (col.isEmpty()) {
+            return false;
+        }
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
+        }
+        int colSize = col.size();
+        int ns = size + colSize - 1;
+        if (ns >= elementData.length || size <= col.size()) {
+            int newCapacity = elementData.length + page + (ns >> 2);
+            Object[] newArray = new Object[newCapacity];
+            // Copy elements up to the index
+            if (index > 0) {
+                System.arraycopy(elementData, 0, newArray, 0, index);
+            }
+            // Copy remaining elements after the index
+            if (size > index) {
+                System.arraycopy(elementData, index, newArray, index + colSize, size - index);
+            }
+            // Copy collection
+            // size = col.size() detect x.addAll(n,x) if x == col
+            // size = col.size() detect x.addAll(n,Collections.unmodifiableList(x)) too!
+            int i = index;
+            for (T element : col) {
+                newArray[i++] = element;
+            }
+            elementData = newArray;
+        } else {
+            // Only move elements by index
+            System.arraycopy(elementData, index, elementData, index + colSize, size - index);
+            // Copy cllection
+            int i = index;
+            for (T element : col) {
+                elementData[i++] = element;
+            }
+        }
+        size += col.size();
         updateCounter++;
         return true;
     }
@@ -234,7 +309,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      */
     public void ensureCapacity(int minCapacity) {
         if (elementData.length < minCapacity) {
-            int newCapacity = minCapacity + page; // Nutzung des Attributs 'page'
+            int newCapacity = minCapacity + page + (size >> 2); // Nutzung des Attributs 'page'
             elementData = Arrays.copyOf(elementData, newCapacity);
         }
     }
@@ -251,11 +326,17 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     @SuppressWarnings("unchecked")
     public T get(int index) {
         if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         return (T) elementData[index];
     }
 
+    /**
+     * Returns the first element in the ArrayTape. Throws an IndexOutOfBoundsException if the ArrayTape is empty.
+     *
+     * @return the first element in the ArrayTape
+     * @throws IndexOutOfBoundsException if the ArrayTape is empty
+     */
     @Override
     @SuppressWarnings("unchecked")
     public T first() {
@@ -265,6 +346,12 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         return (T) elementData[0];
     }
 
+    /**
+     * Returns the last element in the ArrayTape. Throws an IndexOutOfBoundsException if the ArrayTape is empty.
+     *
+     * @return the last element in the ArrayTape
+     * @throws IndexOutOfBoundsException if the ArrayTape is empty
+     */
     @Override
     @SuppressWarnings("unchecked")
     public T last() {
@@ -286,7 +373,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      */
     public T set(int index, T element) {
         if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         @SuppressWarnings("unchecked")
         T oldElement = (T) elementData[index];
@@ -374,10 +461,22 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         return modified;
     }
 
+    /**
+     * Retains only the elements in this ArrayTape that are contained in the specified collection. In other words,
+     * removes from this ArrayTape all of its elements that are not contained in the specified collection.
+     *
+     * @param col collection containing elements to be retained in this collection
+     * @return true if this ArrayTape changed as a result of the call
+     * @throws NullPointerException if the specified collection is null
+     */
     @Override
     public boolean retainAll(Collection<?> col) {
         if (col == null) {
-            throw new NullPointerException("Collection cannot be null");
+            throw new NullPointerException("Collection cannot be null.");
+        }
+        if (col.isEmpty()) {
+            clear();
+            return false;
         }
         boolean modified = false;
         IterTapeWalker<T> walker = softWalker();
@@ -388,7 +487,6 @@ public class ArrayTape<T> implements ArrayMovie<T> {
                 modified = true;
             }
         }
-
         return modified;
     }
 
@@ -402,7 +500,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      */
     protected T removeFast(int index) {
         if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         @SuppressWarnings("unchecked")
         T ret = (T) elementData[index];
@@ -426,7 +524,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      */
     public T removeTrim(int index) {
         if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         @SuppressWarnings("unchecked")
         T ret = (T) elementData[index];
@@ -467,6 +565,31 @@ public class ArrayTape<T> implements ArrayMovie<T> {
             }
         } else {
             for (int i = 0; i < size; i++) {
+                if (element.equals(elementData[i])) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Returns the index of the last occurrence of the specified element in the ArrayTape, or -1 if the element is not
+     * found. If the specified element is null, it checks for null elements in the ArrayTape.
+     *
+     * @param element the element to search for in the ArrayTape
+     * @return the index of the last occurrence of the specified element, or -1 if the element is not found
+     */
+    @Override
+    public int lastIndexOf(Object element) {
+        if (element == null) {
+            for (int i = size - 1; i >= 0; i--) {
+                if (elementData[i] == null) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = size - 1; i >= 0; i--) {
                 if (element.equals(elementData[i])) {
                     return i;
                 }
@@ -673,7 +796,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     @Override
     @SuppressWarnings("unchecked")
     public Iterator<T> iterator() {
-        return new Iterator<T>() {
+        return new Iterator<>() {
             private int currentIndex = 0;
             private int initialUpdateCounter = Integer.MIN_VALUE;
 
@@ -702,11 +825,20 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         };
     }
 
+    /**
+     * ArrayTape does not support splitting or gluing. This method is a no-op.
+     */
     @Override
     public void splitOrGlue() {
         // NoOp
     }
 
+    /**
+     * Splits the ArrayTape in half and returns a new ArrayTape containing the second half. The original ArrayTape is
+     * modified to contain the first half. If the size is less than or equal to 8, it returns null.
+     *
+     * @return a new ArrayTape containing the second half, or null if the size is less than or equal to 8
+     */
     @Override
     public ArrayTape<T> splitInHalf() {
         if (size <= 8) {
@@ -734,13 +866,52 @@ public class ArrayTape<T> implements ArrayMovie<T> {
 
     public void copyToArray(Object[] array, int offset) {
         if (array == null) {
-            throw new NullPointerException("Target array cannot be null");
+            throw new NullPointerException("Target array cannot be null.");
         }
         if (offset < 0 || offset + size > array.length) {
-            throw new IndexOutOfBoundsException("Offset out of bounds: " + offset);
+            throw new IndexOutOfBoundsException("Offset out of bounds: " + offset + ".");
         }
 
         System.arraycopy(elementData, 0, array, offset, size);
+    }
+
+    /**
+     * Returns a new ArrayMovie that is a sub-movie of the current ArrayTape, starting from the specified index to the
+     * end index. The new ArrayMovie will have the same page size as the original.
+     *
+     * @param fromIndex low endpoint (inclusive) of the subList
+     * @param toIndex high endpoint (exclusive) of the subList
+     * @return a new ArrayMovie that is a sub-movie of the current ArrayTape
+     */
+    public ArrayMovie<T> subMovie(int fromIndex, int toIndex) {
+        if (fromIndex >= size || fromIndex < 0) {
+            throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", Size: " + size + ".");
+        }
+        if (toIndex >= size || toIndex < 0) {
+            throw new IndexOutOfBoundsException("toIndex: " + toIndex + ", Size: " + size + ".");
+        }
+        if (fromIndex > toIndex) {
+            throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", toIndex: " + toIndex + ".");
+        }
+        int newSize = toIndex - fromIndex + 1;
+        ArrayTape<T> subMovie = new ArrayTape<>(newSize);
+        System.arraycopy(elementData, fromIndex, subMovie.elementData, 0, newSize);
+        subMovie.size = newSize;
+        return subMovie;
+    }
+
+    /**
+     * Creates a new empty ArrayTape with the specified initial capacity. The new ArrayTape will have the same page size
+     * as the original.
+     *
+     * @param initialCapacityOrZero the initial capacity of the new movie or zero if no initial capacity is needed
+     * @return a new empty ArrayTape with the specified initial capacity
+     */
+    @Override
+    public ArrayTape<T> emptyMovie(int initialCapacityOrZero) {
+        ArrayTape<T> ret = new ArrayTape<>(initialCapacityOrZero);
+        ret.page = this.page;
+        return ret;
     }
 
     /**
@@ -766,6 +937,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      *
      * @return the number of elements that can be added
      */
+    @Override
     public int pageSpaceLeft() {
         return this.elementData == null ? 0 : (this.elementData.length - size);
     }

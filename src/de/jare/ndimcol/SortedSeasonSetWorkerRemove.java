@@ -10,8 +10,9 @@ package de.jare.ndimcol;
 /**
  *
  * @author Jansuch Rentenatus
+ * @param <T> the type of elements in this worker
  */
-class SortedSeasonSetWorkerRemove<T> extends SortedSeasonSetWorker<T> {
+public class SortedSeasonSetWorkerRemove<T> extends SortedSeasonSetWorker<T> {
 
     @Override
     boolean elementEqualsDo(final SortedSeasonSet<T> caller, final ArrayMovie<T> episode, final int index, final T element) {

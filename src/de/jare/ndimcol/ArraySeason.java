@@ -8,14 +8,26 @@
 package de.jare.ndimcol;
 
 import java.io.PrintStream;
-import java.util.Collection;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
+/**
+ * The ArraySeason class represents a collection of episodes, each containing a list of elements. The splitting and
+ * gluing of episodes is managed by the screenplay, which defines the maximum size of an episode and the minimum size
+ * for gluing episodes together.
+ * <p>
+ * Thus splitting in episodes makes the ArraySeason faster as a linear array list by shifting the elements and by
+ * resizing the space. Resizing and shifting are needed by adding and by removing elements.
+ * <p>
+ * This class implements the ArrayMovie interface and provides methods for adding, removing, and accessing elements, as
+ * well as for iterating over the elements in the array.
+ * <p>
+ * ArrayMovie<T> extends Collection<T>.
+ *
+ * @param <T> the type of elements in this season
+ */
 public class ArraySeason<T> implements ArrayMovie<T> {
 
-    private Screenplay screenplay;
+    Screenplay screenplay;
     ArrayTape<ArrayMovie<T>> data;
     int size;
     int maxEpisodeSize;
@@ -26,6 +38,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     private ArrayMovie<T> lastEpisode = null;
     private IterSeasonWalker<T> softWalker;
 
+    /**
+     * Creates a new ArraySeason with the default screenplay (Screenplay2d).
+     */
     public ArraySeason() {
         screenplay = Screenplay2d.INSTANCE;
         data = new ArrayTape<>(screenplay.getDefaultSize());
@@ -34,6 +49,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         recalculateScope();
     }
 
+    /**
+     * Creates a new ArraySeason with the specified screenplay.
+     *
+     * @param screenplay the screenplay to be used for this season
+     */
     public ArraySeason(final Screenplay screenplay) {
         this.screenplay = screenplay;
         data = new ArrayTape<>(screenplay.getDefaultSize());
@@ -54,6 +74,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         updateCounter = 0;
     }
 
+    /**
+     * Adds the specified element to the end of this collection. If the collection is empty, a new episode is created.
+     * If the last episode is full, a new episode is created.
+     *
+     * @param element the element to be added
+     * @return true if the element was added successfully
+     */
     @Override
     public boolean add(T element) {
         if (data.isEmpty()) {
@@ -106,13 +133,42 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return true;
     }
 
+    /**
+     * Inserts the specified element at the specified position in this collection. Shifts the element currently at that
+     * position (if any) and any subsequent elements to the right (adds one to their indices).
+     *
+     * @param index index at which the specified element is to be inserted
+     * @param element element to be inserted
+     * @return true if this collection changed as a result of the call
+     */
     @Override
-    public boolean add(int index, T element) {
+    public boolean addAt(int index, T element) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         IteratorWalker<T> walker = getLeafWalkerAtIndex(index);
         if (walker.add(element)) {
+            if (walker.size() > maxEpisodeSize) {
+                splitOrGlue();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Inserts all of the elements in the specified collection into this season, starting at the specified position.
+     *
+     * @param index index at which to insert the first element from the specified collection
+     * @param col collection containing elements to be added to this season
+     * @return true if this season changed as a result of the call
+     */
+    public boolean addAll(int index, Collection<? extends T> col) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
+        }
+        IteratorWalker<T> walker = getLeafWalkerAtIndex(index);
+        if (walker.add(col)) {
             if (walker.size() > maxEpisodeSize) {
                 splitOrGlue();
             }
@@ -171,7 +227,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         if (size == 0) {
             throw new IndexOutOfBoundsException("Season is empty.");
         }
-        return (T) data.first().first();
+        return data.first().first();
     }
 
     /**
@@ -184,7 +240,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         if (size == 0) {
             throw new IndexOutOfBoundsException("Season is empty.");
         }
-        return (T) data.last().last();
+        return data.last().last();
     }
 
     /**
@@ -217,7 +273,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public T removeAt(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         IteratorWalker<T> walker = getLeafWalkerAtIndex(index);
         T removedElement = walker.removeForward();
@@ -249,7 +305,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
                 if (newEpisode == null) {
                     continue;
                 }
-                data.add(i + 1, newEpisode);
+                data.addAt(i + 1, newEpisode);
                 i++; // Skip the newly added episode to avoid immediate reprocessing
                 lastSize = maxEpisodeSize;
             } else if (lastSize + episodeSize < minEpisodeGlue
@@ -269,14 +325,24 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         recalculateScope();
     }
 
-    private void recalculateScope() {
+    /**
+     * Recalculates the maximum episode size and minimum episode glue size based on the current number of episodes in
+     * this collection.
+     */
+    protected void recalculateScope() {
         final int fac = data.size();
         maxEpisodeSize = screenplay.getMaxEpisodeSize(fac);
         minEpisodeGlue = screenplay.getMinEpisodeGlue(fac);
         midEpisodeSize = maxEpisodeSize - ArrayTape.DEFAULT_PAGE;
     }
 
-    private int firstFreeEpisode() {
+    /**
+     * Returns the index of the first free episode in this collection. If no free episode is found, it returns -1. Free
+     * movies are those that have a size less than the maximum episode size.
+     *
+     * @return the index of the first free episode, or -1 if no free episode is found
+     */
+    protected int firstFreeEpisode() {
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i).size() < maxEpisodeSize) {
                 return i;
@@ -285,11 +351,18 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return -1;
     }
 
-    private IteratorWalker<T> getLeafWalkerAtIndex(int index) {
+    /**
+     * Returns the leaf walker at the specified index in this collection.
+     *
+     * @param index the index to search for
+     * @return the leaf walker at the specified index
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
+    protected IteratorWalker<T> getLeafWalkerAtIndex(int index) {
         if (lastEpisode != null
                 && lastAccumulatedSize <= index
                 && index < lastAccumulatedSize + lastEpisode.size()) {
-            return new IterCoverWalker(this, lastEpisode.leafWalker(index - lastAccumulatedSize));
+            return new IterCoverWalker<>(this, lastEpisode.leafWalker(index - lastAccumulatedSize));
         }
         int accumulatedSize = 0;
         for (int i = 0; i < data.size(); i++) {
@@ -298,14 +371,20 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             if (index < accumulatedSize + episodeSize) {
                 lastAccumulatedSize = accumulatedSize;
                 lastEpisode = episode;
-                return new IterCoverWalker(this, episode.leafWalker(index - accumulatedSize));
+                return new IterCoverWalker<>(this, episode.leafWalker(index - accumulatedSize));
             }
             accumulatedSize += episodeSize;
         }
-        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
     }
 
-    private IteratorWalker<T> getLeafWalkerAtElement(Object element) {
+    /**
+     * Returns the leaf walker at the specified element in this collection.
+     *
+     * @param element the element to search for
+     * @return the leaf walker at the specified element, or null if not found
+     */
+    protected IteratorWalker<T> getLeafWalkerAtElement(Object element) {
         for (int i = 0; i < data.size(); i++) {
             final ArrayMovie<T> episode = data.get(i);
             int episodeIndex = episode.indexOf(element);
@@ -316,6 +395,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return null;
     }
 
+    /**
+     * Returns the index of the first occurrence of the specified element in the ArrayTape, or -1 if the element is not
+     * found. If the specified element is null, it checks for null elements in the ArrayTape.
+     *
+     * @param element the element to search for
+     * @return the index of the first occurrence of the specified element, or -1 if the element is not found
+     */
     @Override
     public int indexOf(Object element) {
         int accumulatedSize = 0;
@@ -330,11 +416,41 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return -1;
     }
 
+    /**
+     * Returns the index of the last occurrence of the specified element in the ArrayTape, or -1 if the element is not
+     * found. If the specified element is null, it checks for null elements in the ArrayTape.
+     *
+     * @param element the element to search for in the ArrayTape
+     * @return the index of the last occurrence of the specified element, or -1 if the element is not found
+     */
+    public int lastIndexOf(Object element) {
+        int accumulatedSize = size;
+        for (int i = data.size() - 1; i >= 0; i--) {
+            final ArrayMovie<T> episode = data.get(i);
+            accumulatedSize -= episode.size();
+            int episodeIndex = episode.lastIndexOf(element);
+            if (episodeIndex >= 0) {
+                return accumulatedSize + episodeIndex;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Returns the number of elements in this collection.
+     *
+     * @return the number of elements in this collection
+     */
     @Override
     public int size() {
         return size;
     }
 
+    /**
+     * Returns true if this collection contains no elements.
+     *
+     * @return true if this collection contains no elements
+     */
     @Override
     public boolean isEmpty() {
         return size == 0;
@@ -349,20 +465,31 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return this.size > 0;
     }
 
+    /**
+     * Returns true if the specified element is present in this collection.
+     *
+     * @param element the element to check for
+     * @return true if the specified element is present in this collection, false otherwise
+     */
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(Object element) {
         for (ArrayMovie<T> episode : data) {
-            if (episode.contains(o)) {
+            if (episode.contains(element)) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Returns an iterator over the elements in this collection in proper sequence.
+     *
+     * @return an iterator over the elements in this collection in proper sequence
+     */
     @Override
     public Iterator<T> iterator() {
         final IterSeasonWalker<T> walker = new IterSeasonWalker<>(this);
-        return new Iterator<T>() {
+        return new Iterator<>() {
             private int initialUpdateCounter = Integer.MIN_VALUE;
 
             @Override
@@ -386,6 +513,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         };
     }
 
+    /**
+     * Returns an array containing all elements in this collection.
+     *
+     * @return an array containing all elements in this collection
+     */
     @Override
     public Object[] toArray() {
         Object[] array = new Object[size];
@@ -393,6 +525,15 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return array;
     }
 
+    /**
+     * Returns an array containing all elements in this collection. The runtime type of the returned array is that of
+     * the specified array. If the collection fits in the specified array, it is returned therein. Otherwise, a new
+     * array is allocated with the runtime type of the specified array and the size of this collection.
+     *
+     * @param arr the array into which the elements of this collection are to be stored
+     * @return an array containing all elements in this collection
+     */
+    @SuppressWarnings("unchecked")
     @Override
     public <U> U[] toArray(U[] arr) {
         if (arr.length < size) {
@@ -402,11 +543,17 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return arr;
     }
 
+    /**
+     * Copies the elements of this movie to the specified array, starting at the specified offset.
+     *
+     * @param arr the array to copy the elements into
+     * @param offset the offset in the array where to start copying
+     */
     @Override
     public void copyToArray(Object[] arr, int offset) {
         if (arr.length < size + offset) {
             throw new IndexOutOfBoundsException("My size + offset: " + (size + offset)
-                    + ", Target array size: " + arr.length);
+                    + ", Target array size: " + arr.length + ".");
         }
         int index = offset;
         for (int i = 0; i < data.size(); i++) {
@@ -419,10 +566,58 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         }
     }
 
+    /**
+     * Copy the elements of this movie to the new ArraySeason.
+     *
+     * @param fromIndex low endpoint (inclusive) of the subList
+     * @param toIndex high endpoint (exclusive) of the subList
+     * @return a new ArrayMovie that is a sub-movie of the current ArraySeason
+     */
+    public ArrayMovie<T> subMovie(int fromIndex, int toIndex) {
+        if (fromIndex >= size || fromIndex < 0) {
+            throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", Size: " + size + ".");
+        }
+        if (toIndex >= size || toIndex < 0) {
+            throw new IndexOutOfBoundsException("toIndex: " + toIndex + ", Size: " + size + ".");
+        }
+        if (fromIndex > toIndex) {
+            throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", toIndex: " + toIndex + ".");
+        }
+
+        ArraySeason<T> subMovie = emptyMovie(0);
+        int accumulatedSize = 0;
+        for (int i = 0; i < data.size(); i++) {
+            ArrayMovie<T> episode = data.get(i);
+            int episodeSize = episode.size();
+            int nextSize = accumulatedSize + episodeSize;
+            if (nextSize > fromIndex) {
+                int startIndex = Math.max(0, fromIndex - accumulatedSize);
+                int endIndex = Math.min(episodeSize, toIndex - accumulatedSize + 1);
+                subMovie.data.add(episode.subMovie(startIndex, endIndex));
+            }
+            accumulatedSize = nextSize;
+            if (accumulatedSize >= toIndex) {
+                break;
+            }
+        }
+        subMovie.updateSize();
+        return subMovie;
+    }
+
+    /**
+     * Creates a new empty season with the same screenplay. The new movie is not a copy of this movie.
+     *
+     * @param initialCapacityOrZero not used
+     * @return a new empty movie with the same screenplay
+     */
+    public ArraySeason<T> emptyMovie(int initialCapacityOrZero) {
+        return new ArraySeason<>(screenplay);
+    }
+
     @Override
     public boolean containsAll(Collection<?> col) {
         if (col == null) {
-            throw new NullPointerException("Collection cannot be null");
+            throw new NullPointerException("Collection cannot be null.");
         }
         for (Object ob : col) {
             if (!contains(ob)) {
@@ -435,7 +630,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public boolean removeAll(Collection<?> col) {
         if (col == null) {
-            throw new NullPointerException("Collection cannot be null");
+            throw new NullPointerException("Collection cannot be null.");
         }
         boolean modified = false;
         for (Object o : col) {
@@ -449,7 +644,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public boolean retainAll(Collection<?> col) {
         if (col == null) {
-            throw new NullPointerException("Collection cannot be null");
+            throw new NullPointerException("Collection cannot be null.");
+        }
+        if (col.isEmpty()) {
+            clear();
+            return true;
         }
         int accumulatedSize = 0;
         boolean modified = false;
@@ -487,7 +686,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         if (other == null) {
             return null;
         }
-        ArraySeason ret = new ArraySeason<T>();
+        ArraySeason<T> ret = new ArraySeason<>();
         ret.screenplay = screenplay;
         ret.data.addAll(other);
         ret.updateSize();
@@ -495,10 +694,14 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     protected void updateSize() {
+        int oldSize = size;
         size = 0;
         for (int i = 0; i < data.size(); i++) {
             ArrayMovie<T> episode = data.get(i);
             size += episode.size();
+        }
+        if (oldSize != size) {
+            recalculateScope();
         }
     }
 
@@ -538,6 +741,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      *
      * @return 0
      */
+    @Override
     public int pageSpaceLeft() {
         return 0;
     }

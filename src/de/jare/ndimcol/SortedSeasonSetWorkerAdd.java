@@ -10,12 +10,13 @@ package de.jare.ndimcol;
 /**
  *
  * @author Jansuch Rentenatus
+ * @param <T> the type of elements in this worker
  */
-class SortedSeasonSetWorkerAdd<T> extends SortedSeasonSetWorker<T> {
+public class SortedSeasonSetWorkerAdd<T> extends SortedSeasonSetWorker<T> {
 
     @Override
     boolean episdoeToSmallDo(final SortedSeasonSet<T> caller, final T element) {
-        return caller.superAdd(0, element);
+        return caller.superAddAt(0, element);
     }
 
     @Override
@@ -25,7 +26,7 @@ class SortedSeasonSetWorkerAdd<T> extends SortedSeasonSetWorker<T> {
 
     @Override
     boolean elementToSmallDo(final SortedSeasonSet<T> caller, final ArrayMovie<T> episode, final T element) {
-        episode.add(0, element);
+        episode.addAt(0, element);
         caller.size++;
         if (episode.size() > caller.maxEpisodeSize) {
             caller.splitOrGlue();
@@ -45,7 +46,7 @@ class SortedSeasonSetWorkerAdd<T> extends SortedSeasonSetWorker<T> {
 
     @Override
     boolean elementPassedDo(final SortedSeasonSet<T> caller, final ArrayMovie<T> episode, final int index, final T element) {
-        episode.add(index, element);
+        episode.addAt(index, element);
         caller.size++;
         if (episode.size() > caller.maxEpisodeSize) {
             caller.splitOrGlue();

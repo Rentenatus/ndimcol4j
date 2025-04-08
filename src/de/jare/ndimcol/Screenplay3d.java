@@ -19,7 +19,7 @@ public class Screenplay3d implements Screenplay {
     static final int DEFAULT_SIZE_3D = 12;
     static final int START_MAX_EPISODE_SIZE_3D = 1024;
     static final int START_MIN_EPISODE_GLUE_3D = 192;
-    static final int DEFAULT_SIZE_3D_INNER = 8;
+    static final int DEFAULT_SIZE_3D_INNER = 24;
     static final int START_MAX_EPISODE_SIZE_3D_INNER = 128;
     static final int START_MIN_EPISODE_GLUE_3D_INNER = 48;
 
@@ -37,12 +37,12 @@ public class Screenplay3d implements Screenplay {
 
         @Override
         public int getMinEpisodeGlue(int fac) {
-            return START_MIN_EPISODE_GLUE_3D_INNER + fac;
+            return START_MIN_EPISODE_GLUE_3D_INNER + (fac >> 1);
         }
 
         @Override
         public <T> ArrayMovie<T> buildMovie() {
-            return new ArrayTape<T>();
+            return new ArrayTape<>();
         }
     }
 
@@ -53,16 +53,16 @@ public class Screenplay3d implements Screenplay {
 
     @Override
     public int getMaxEpisodeSize(int fac) {
-        return START_MAX_EPISODE_SIZE_3D + (fac << 2);
+        return START_MAX_EPISODE_SIZE_3D + (fac << 3);
     }
 
     @Override
     public int getMinEpisodeGlue(int fac) {
-        return START_MIN_EPISODE_GLUE_3D + fac;
+        return START_MIN_EPISODE_GLUE_3D + (fac << 1);
     }
 
     @Override
     public <T> ArrayMovie<T> buildMovie() {
-        return new ArraySeason<T>(inner);
+        return new ArraySeason<>(inner);
     }
 }

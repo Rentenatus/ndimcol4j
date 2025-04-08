@@ -7,9 +7,11 @@
  */
 package de.jare.ndimcol;
 
+import java.util.Collection;
+
 /**
  *
- * @param <T> the type of elements in the ArrayTape
+ * @param <T> the type of elements in this walker
  */
 public class IterCoverWalker<T> implements IteratorWalker<T> {
 
@@ -63,6 +65,31 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Adds a collection to the current inner walker.
+     *
+     * @param col collection containing elements to be added
+     * @return true if the addition is successful
+     */
+    @Override
+    public boolean add(Collection<? extends T> col) {
+        if (inner.add(col)) {
+            observer.updateCounter++;
+            observer.size += col.size();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public T set(T element) {
+        T ret = inner.set(element);
+        if (ret != null) {
+            observer.updateCounter++;
+        }
+        return ret;
     }
 
     /**
