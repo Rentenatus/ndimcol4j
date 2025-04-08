@@ -15,17 +15,17 @@ import java.util.function.BiPredicate;
 /**
  *
  * @author Janusch Rentenatus
- * @param <T>
+ * @param <T> the type of elements in this set
  */
-public class SortedSeasonSet<T> extends ArraySeason<T> implements   Set<T> {
+public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
 
     private final BiPredicate<T, T> predicate;
     private final SortedSeasonSetWorker<T> workerAdd = new SortedSeasonSetWorkerAdd<>();
     private final SortedSeasonSetWorker<T> workerRemove = new SortedSeasonSetWorkerRemove<>();
 
     /**
-     * Constructor for SortedSeasonSet. The given comparator is morphed into a
-     * BiPredicate. The logic of this set is only on element1 &lt  element2 xor element1 &gt element2 implemented.
+     * Constructor for SortedSeasonSet. The given comparator is morphed into a BiPredicate. The logic of this set is
+     * only on element1 &lt element2 xor element1 &gt element2 implemented.
      *
      * @param compT a Comparator<T> to compare elements
      * @param forward true for ascending order, false for descending order
@@ -47,6 +47,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements   Set<T> {
 
     /**
      * Adds the specified element to this collection if it is not already present.
+     *
      * @param element element whose presence in this collection is to be ensured
      * @return true if this collection changed as a result of the call
      */
@@ -63,6 +64,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements   Set<T> {
 
     /**
      * Adds the specified element to this collection without check, if it is not already present.
+     *
      * @param element element whose be added to this collection
      * @return true if this collection changed as a result of the call
      */
@@ -72,6 +74,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements   Set<T> {
 
     /**
      * Adds the specified element to this collection at the specified index without check, if it is not already present.
+     *
      * @param index the index at which the specified element is to be inserted
      * @param element the element to be inserted
      * @return true if this collection changed as a result of the call
@@ -81,9 +84,8 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements   Set<T> {
     }
 
     /**
-     * Run the worker on the element. A Worker is a class that implements the
-     * SortedSeasonSetWorker interface. The worker can be used to perform
-     * different operations on the element, such as adding or removing it from the
+     * Run the worker on the element. A Worker is a class that implements the SortedSeasonSetWorker interface. The
+     * worker can be used to perform different operations on the element, such as adding or removing it from the
      * SortedSeasonSet.
      *
      * @param worker the worker to be used
@@ -145,11 +147,9 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements   Set<T> {
     }
 
     /**
-     * Work on the episode. The episode is a part of the data structure that
-     * contains the elements. The worker is used to perform
-     * different operations on the
-     * episode, such as adding or removing an element from the
-     * SortedSeasonSet.
+     * Work on the episode. The episode is a part of the data structure that contains the elements. The worker is used
+     * to perform different operations on the episode, such as adding or removing an element from the SortedSeasonSet.
+     *
      * @param worker the worker to be used
      * @param episode the episode to be processed
      * @param element the element to be processed
@@ -196,6 +196,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements   Set<T> {
 
     /**
      * Adds all of this elements in the specified collection to this set.
+     *
      * @param col collection containing elements to be added to this collection
      * @return true if this collection changed as a result of the call
      */
@@ -210,9 +211,9 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements   Set<T> {
         return changed;
     }
 
-
-/**
-    * Adds the specified element to this set at the specified index.
+    /**
+     * Adds the specified element to this set at the specified index.
+     *
      * @param index the index at which the specified element is to be inserted
      * @param element the element to be inserted
      * @return true if this collection changed as a result of the call
@@ -232,9 +233,9 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements   Set<T> {
         return super.addAt(index, element);
     }
 
-
     /**
      * Adding the specified element to this set at the first free index is not supported.
+     *
      * @param element the element to be added
      * @return nothing
      * @throws UnsupportedOperationException always
@@ -246,6 +247,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements   Set<T> {
 
     /**
      * Remove the specified element from this set.
+     *
      * @param element the element to be removed
      * @return true if this collection changed as a result of the call
      * @throws ClassCastException if the element is not of the same type as the elements in this set
@@ -257,10 +259,11 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements   Set<T> {
             return false;
         }
         return removeT((T) element);
-    } 
+    }
 
     /**
      * Remove the specified element of the type T from this set.
+     *
      * @param element the element to be removed
      * @return true if this collection changed as a result of the call
      */

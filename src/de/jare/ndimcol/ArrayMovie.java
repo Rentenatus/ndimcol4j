@@ -13,7 +13,7 @@ import java.util.Collection;
 /**
  *
  * @author Janusch Rentenatus
- * @param <T>
+ * @param <T> the type of elements in this movie
  */
 public interface ArrayMovie<T> extends Collection<T> {
 
@@ -27,7 +27,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @see #removeAt(int)
      * @see #size()
      */
-     T first();
+    T first();
 
     /**
      * Get the last element of the movie.
@@ -39,7 +39,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @see #removeAt(int)
      * @see #size()
      */
-     T last();
+    T last();
 
     /**
      * Inserts the specified element at the specified position in this list . Shifts the element currently at that
@@ -51,11 +51,12 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index > size)
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
-     boolean addAt(int index, T element);
+    boolean addAt(int index, T element);
 
-      default void add(int index, T element) {
-        addAt(index,element);
+    default void add(int index, T element) {
+        addAt(index, element);
     }
+
     /**
      * Appends the specified element to the end of this list .
      *
@@ -63,7 +64,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @return <tt>true</tt> (as specified by {@link Collection#add})
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
-     boolean add(T element);
+    boolean add(T element);
 
     /**
      * Get the element at the specified index.
@@ -72,7 +73,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @return the element at the specified index
      * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size)
      */
-     T get(int index);
+    T get(int index);
 
     /**
      * Removes the element at the specified position in this list.
@@ -82,7 +83,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size)
      * @see #remove(Object)
      */
-     T removeAt(int index);
+    T removeAt(int index);
 
     /**
      * Splits this movie into two movies. This movie contains the first half of the elements, and the second movie
@@ -91,14 +92,14 @@ public interface ArrayMovie<T> extends Collection<T> {
      *
      * @return a new movie containing the second half of the elements or null, if this movie is to small for splitting
      */
-     ArrayMovie<T> splitInHalf();
+    ArrayMovie<T> splitInHalf();
 
     /**
      * Returns a simple shared IteratorWalker for this movie. This simple iterator can not be used parallel.
      *
      * @return this one simple IteratorWalker for this movie
      */
-     IteratorWalker<T> softWalker();
+    IteratorWalker<T> softWalker();
 
     /**
      * Returns a shared IteratorWalker for deepest ArrayTape of movie. A ArraySaesson in 2d is a ArrayTape of ArrayTape.
@@ -109,7 +110,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param atIndex the index of the element to start, counted across all elements of the external movie.
      * @return this one IteratorWalker for the deepest ArrayTape of movie with the given index as position
      */
-     IteratorWalker<T> leafWalker(int atIndex);
+    IteratorWalker<T> leafWalker(int atIndex);
 
     /**
      * Index of the first equal element in the movie. If the specified element is null, it checks for null elements in
@@ -118,7 +119,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param element the element to search for
      * @return the index of the first equal element in the movie or -1 if not found
      */
-     int indexOf(Object element);
+    int indexOf(Object element);
 
     /**
      * Returns the index of the last occurrence of the specified element in the ArrayTape, or -1 if the element is not
@@ -127,8 +128,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param element the element to search for in the ArrayTape
      * @return the index of the last occurrence of the specified element, or -1 if the element is not found
      */
-     int lastIndexOf(Object element);
-
+    int lastIndexOf(Object element);
 
     /**
      * Copy the elements of this movie to the specified array.
@@ -136,19 +136,21 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param array the array to copy the elements to
      * @param offset the offset in the array to start copying to
      */
-     void copyToArray(Object[] array, int offset);
-
+    void copyToArray(Object[] array, int offset);
 
     /**
      * Copy the elements of this movie to the new ArrayMovie.
+     *
      * @param fromIndex low endpoint (inclusive) of the subList
      * @param toIndex high endpoint (exclusive) of the subList
      * @return a new ArrayMovie that is a sub-movie of the current ArrayMovie
      */
-      ArrayMovie<T> subMovie(int fromIndex, int toIndex);
+    ArrayMovie<T> subMovie(int fromIndex, int toIndex);
 
     /**
-     * Creates a new empty movie with the specified initial capacity if possible. The new movie is not a copy of this movie.
+     * Creates a new empty movie with the specified initial capacity if possible. The new movie is not a copy of this
+     * movie.
+     *
      * @param initialCapacityOrZero the initial capacity of the new movie or zero if no initial capacity is needed
      * @return a new empty movie with the specified initial capacity
      */
@@ -158,7 +160,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      * Check if the movies in a season are to big and need to be split or if they are to small and need be glued
      * together. Nothing to do for a movie itself.
      */
-     void splitOrGlue();
+    void splitOrGlue();
 
     /**
      * Debugging method to print the elements of the movie to the specified output stream.
@@ -168,7 +170,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param offset the offset to add to the index of each element (if this is a movie of movies)
      * @return the number of elements printed plus offset (the index of the next element from the next movie)
      */
-     int debbug(PrintStream out, String prefix, int offset);
+    int debbug(PrintStream out, String prefix, int offset);
 
     /**
      * Debugging method to print the elements of the movie to the specified output stream.
@@ -177,7 +179,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param prefix the prefix to print before each element
      * @return the number of elements printed
      */
-     default int debbug(PrintStream out, String prefix) {
+    default int debbug(PrintStream out, String prefix) {
         return debbug(out, prefix, 0);
     }
 

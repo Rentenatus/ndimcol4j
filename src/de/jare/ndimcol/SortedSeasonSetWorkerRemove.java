@@ -10,6 +10,7 @@ package de.jare.ndimcol;
 /**
  *
  * @author Jansuch Rentenatus
+ * @param <T> the type of elements in this worker
  */
 public class SortedSeasonSetWorkerRemove<T> extends SortedSeasonSetWorker<T> {
 

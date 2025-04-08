@@ -9,6 +9,11 @@ package de.jare.ndimcol;
 
 import java.util.Collection;
 
+/**
+ *
+ * @author Janusch Rentenatus
+ * @param <T> the type of elements in this walker
+ */
 public class IterSeasonWalker<T> implements IteratorWalker<T> {
 
     private final IterTapeWalker<ArrayMovie<T>> outerWalker; // Walker for the outer ArrayTape
@@ -152,11 +157,11 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
      * @return the previous element that was replaced
      */
     @Override
-    public    T set(T element) {
+    public T set(T element) {
         if (innerWalker == null) {
             throw new IllegalStateException("No active inner walker to add elements to.");
         }
-        return innerWalker.set( element);
+        return innerWalker.set(element);
     }
 
     /**

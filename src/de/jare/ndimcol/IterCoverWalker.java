@@ -11,7 +11,7 @@ import java.util.Collection;
 
 /**
  *
- * @param <T> the type of elements in the ArrayTape
+ * @param <T> the type of elements in this walker
  */
 public class IterCoverWalker<T> implements IteratorWalker<T> {
 
@@ -67,7 +67,7 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
         return false;
     }
 
-     /**
+    /**
      * Adds a collection to the current inner walker.
      *
      * @param col collection containing elements to be added
@@ -84,8 +84,8 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
     }
 
     @Override
-    public    T set(T element) {
-        T ret = inner.set( element);
+    public T set(T element) {
+        T ret = inner.set(element);
         if (ret != null) {
             observer.updateCounter++;
         }

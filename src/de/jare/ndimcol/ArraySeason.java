@@ -11,24 +11,23 @@ import java.io.PrintStream;
 import java.util.*;
 
 /**
- * The ArraySeason class represents a collection of episodes, each containing a list of elements.
- * The splitting and gluing of episodes is managed by the screenplay, which defines the maximum size of an episode
- * and the minimum size for gluing episodes together.
+ * The ArraySeason class represents a collection of episodes, each containing a list of elements. The splitting and
+ * gluing of episodes is managed by the screenplay, which defines the maximum size of an episode and the minimum size
+ * for gluing episodes together.
  * <p>
- *     Thus splitting in episodes makes the ArraySeason faster as a linear array list by shifting the elements and by resizing the space.
- *     Resizing and  shifting are needed by adding and by removing elements.
+ * Thus splitting in episodes makes the ArraySeason faster as a linear array list by shifting the elements and by
+ * resizing the space. Resizing and shifting are needed by adding and by removing elements.
  * <p>
- * This class implements the ArrayMovie interface and provides
- * methods for adding, removing, and accessing elements,
- * as well as for iterating over the elements
- * in the array.
+ * This class implements the ArrayMovie interface and provides methods for adding, removing, and accessing elements, as
+ * well as for iterating over the elements in the array.
  * <p>
  * ArrayMovie<T> extends Collection<T>.
+ *
  * @param <T> the type of elements in this season
  */
-public class ArraySeason<T> implements ArrayMovie<T>  {
+public class ArraySeason<T> implements ArrayMovie<T> {
 
-     Screenplay screenplay;
+    Screenplay screenplay;
     ArrayTape<ArrayMovie<T>> data;
     int size;
     int maxEpisodeSize;
@@ -145,7 +144,7 @@ public class ArraySeason<T> implements ArrayMovie<T>  {
     @Override
     public boolean addAt(int index, T element) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size+".");
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         IteratorWalker<T> walker = getLeafWalkerAtIndex(index);
         if (walker.add(element)) {
@@ -166,7 +165,7 @@ public class ArraySeason<T> implements ArrayMovie<T>  {
      */
     public boolean addAll(int index, Collection<? extends T> col) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size+".");
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         IteratorWalker<T> walker = getLeafWalkerAtIndex(index);
         if (walker.add(col)) {
@@ -241,7 +240,7 @@ public class ArraySeason<T> implements ArrayMovie<T>  {
         if (size == 0) {
             throw new IndexOutOfBoundsException("Season is empty.");
         }
-        return   data.last().last();
+        return data.last().last();
     }
 
     /**
@@ -274,7 +273,7 @@ public class ArraySeason<T> implements ArrayMovie<T>  {
     @Override
     public T removeAt(int index) {
         if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size+".");
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         IteratorWalker<T> walker = getLeafWalkerAtIndex(index);
         T removedElement = walker.removeForward();
@@ -338,8 +337,8 @@ public class ArraySeason<T> implements ArrayMovie<T>  {
     }
 
     /**
-     * Returns the index of the first free episode in this collection. If no free episode is found, it returns -1.
-     * Free movies are those that have a size less than the maximum episode size.
+     * Returns the index of the first free episode in this collection. If no free episode is found, it returns -1. Free
+     * movies are those that have a size less than the maximum episode size.
      *
      * @return the index of the first free episode, or -1 if no free episode is found
      */
@@ -376,7 +375,7 @@ public class ArraySeason<T> implements ArrayMovie<T>  {
             }
             accumulatedSize += episodeSize;
         }
-        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size+".");
+        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
     }
 
     /**
@@ -534,7 +533,7 @@ public class ArraySeason<T> implements ArrayMovie<T>  {
      * @param arr the array into which the elements of this collection are to be stored
      * @return an array containing all elements in this collection
      */
-    @SuppressWarnings( "unchecked")
+    @SuppressWarnings("unchecked")
     @Override
     public <U> U[] toArray(U[] arr) {
         if (arr.length < size) {
@@ -554,7 +553,7 @@ public class ArraySeason<T> implements ArrayMovie<T>  {
     public void copyToArray(Object[] arr, int offset) {
         if (arr.length < size + offset) {
             throw new IndexOutOfBoundsException("My size + offset: " + (size + offset)
-                    + ", Target array size: " + arr.length+".");
+                    + ", Target array size: " + arr.length + ".");
         }
         int index = offset;
         for (int i = 0; i < data.size(); i++) {
@@ -569,19 +568,20 @@ public class ArraySeason<T> implements ArrayMovie<T>  {
 
     /**
      * Copy the elements of this movie to the new ArraySeason.
+     *
      * @param fromIndex low endpoint (inclusive) of the subList
      * @param toIndex high endpoint (exclusive) of the subList
      * @return a new ArrayMovie that is a sub-movie of the current ArraySeason
      */
     public ArrayMovie<T> subMovie(int fromIndex, int toIndex) {
         if (fromIndex >= size || fromIndex < 0) {
-            throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", Size: " + size+".");
+            throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", Size: " + size + ".");
         }
         if (toIndex >= size || toIndex < 0) {
-            throw new IndexOutOfBoundsException("toIndex: " + toIndex + ", Size: " + size+".");
+            throw new IndexOutOfBoundsException("toIndex: " + toIndex + ", Size: " + size + ".");
         }
         if (fromIndex > toIndex) {
-            throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", toIndex: " + toIndex+".");
+            throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", toIndex: " + toIndex + ".");
         }
 
         ArraySeason<T> subMovie = emptyMovie(0);
@@ -605,8 +605,8 @@ public class ArraySeason<T> implements ArrayMovie<T>  {
     }
 
     /**
-     * Creates a new empty season with the same screenplay. The new movie is not a copy of this
-     * movie.
+     * Creates a new empty season with the same screenplay. The new movie is not a copy of this movie.
+     *
      * @param initialCapacityOrZero not used
      * @return a new empty movie with the same screenplay
      */
@@ -701,7 +701,7 @@ public class ArraySeason<T> implements ArrayMovie<T>  {
             size += episode.size();
         }
         if (oldSize != size) {
-          recalculateScope();
+            recalculateScope();
         }
     }
 
