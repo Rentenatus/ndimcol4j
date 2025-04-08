@@ -83,7 +83,7 @@ public class ArrayTypeNGTest {
     @Test
     public void testAddAtIndex() {
         ArrayTape<Integer> data = dataMiniArray();
-        data.add(2, 99);
+        data.addAt(2, 99);
         assertEquals(data.get(2), Integer.valueOf(99));
         assertEquals(data.size(), 6);
     }
