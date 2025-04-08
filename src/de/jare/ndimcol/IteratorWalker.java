@@ -10,43 +10,90 @@ package de.jare.ndimcol;
 import java.util.Collection;
 
 /**
+ * A walker is a interface for a iterator that can move forward and backward.
  *
  * @author Jansuch Rentenatus
  * @param <T>
  */
 public interface IteratorWalker<T> {
 
-    public boolean hasNext();
+    /**
+     * Returns the current element.
+     * Takes forward movement by positioning.
+     * @return the current element
+     */
+     boolean hasNext();
 
-    public T removeForward();
+    /**
+     * Returns the current element and returns it.
+     * Takes forward movement by positioning.
+     * @return the current element
+     */
+     T removeForward();
 
-    public T next();
+    /**
+     * Returns the next element.
+     * Takes forward movement by positioning.
+     * @return the next element
+     */
+     T next();
 
-    public boolean hasPrevious();
+    /**
+     * Returns true if there are more elements when moving in the backward direction.
+     * @return true if the current index is greater than 0
+     */
+     boolean hasPrevious();
 
-    public T previous();
+    /**
+     * Returns the current element and returns it.
+     * Takes backward movement by positioning.
+     * @return the current element
+     */
+     T previous();
 
-    public T removeBackward();
+    /**
+     * Removes the current element and returns it.
+     * Takes backward movement by positioning.
+     * @return the removed element
+     */
+     T removeBackward();
 
-    public T remove();
+    /**
+     * Removes the current element and returns it.
+     * Takes into account the last forward or backward movement when positioning
+     *
+     * @return the removed element
+     */
+     T remove();
 
-    public boolean add(T element);
+    /**
+     * Adds the specified element to the ArrayMovie at current index of the Walker.
+     * @param element the element to be added
+     * @return true if the element was added successfully, false otherwise
+     */
+     boolean add(T element);
 
-    public boolean add(Collection<? extends T> col);
+    /**
+     * Adds all elements in the specified collection to the ArrayMovie at current index of the Walker.
+     * @param col the collection of elements to be added
+     * @return true if the elements were added successfully, false otherwise
+     */
+     boolean add(Collection<? extends T> col);
 
+    T set(T element);
     /**
      * Resets the current index to the beginning .
      *
      * @return this
      */
-    public IteratorWalker<T> goFirst();
+     IteratorWalker<T> goFirst();
 
     /**
      * Sets the current index to the last element.
      *
      * @return this
      */
-    public IteratorWalker<T> goLast();
+     IteratorWalker<T> goLast();
 
     /**
      * Sets the current index to the specified position .
@@ -58,13 +105,34 @@ public interface IteratorWalker<T> {
      * @return IteratorWalker of the deepest ArrayTape of movie
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-    public IteratorWalker<T> goLeafIndex(int index);
+     IteratorWalker<T> goLeafIndex(int index);
 
-    public int getCurrentIndex();
+    /**
+     * Returns the current index of the Walker.
+     *
+     * @return the current index position
+     */
+     int getCurrentIndex();
 
-    public int size();
+    /**
+     * Returns the number of elements in the ArrayMovie.
+     *
+     * @return the current size of own ArrayMovie
+     */
+     int size();
 
-    public boolean isEmpty();
+    /**
+     * Returns true if the ArrayMovie is empty.
+     *
+     * @return true if the ArrayMovie is empty, false otherwise
+     */
+     boolean isEmpty();
 
-    public boolean hasRecord();
+    /**
+     * Returns true if the ArrayMovie contains one or more elements.
+     *
+     * @return true if the ArrayMovie has elements, false otherwise
+     */
+     boolean hasRecord();
+
 }

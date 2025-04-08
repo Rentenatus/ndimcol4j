@@ -83,6 +83,15 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
         return false;
     }
 
+    @Override
+    public    T set(T element) {
+        T ret = inner.set( element);
+        if (ret != null) {
+            observer.updateCounter++;
+        }
+        return ret;
+    }
+
     /**
      * Removes the next element in the inner IteratorWalker.
      *

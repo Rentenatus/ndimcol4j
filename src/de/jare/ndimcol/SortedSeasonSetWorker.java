@@ -11,7 +11,7 @@ package de.jare.ndimcol;
  *
  * @author Jansuch Rentenatus
  */
-abstract class SortedSeasonSetWorker<T> {
+public abstract class SortedSeasonSetWorker<T> {
 
     boolean episodeDo(final SortedSeasonSet<T> caller, final ArrayMovie<T> episode, final T element) {
         return caller.workEpisode(this, episode, element);

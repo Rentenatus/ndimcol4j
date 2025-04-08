@@ -36,6 +36,6 @@ public class Screenplay2d implements Screenplay {
 
     @Override
     public <T> ArrayMovie<T> buildMovie() {
-        return new ArrayTape<T>();
+        return new ArrayTape<>();
     }
 }

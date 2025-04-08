@@ -146,6 +146,20 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
     }
 
     /**
+     * Sets the current element to the specified element.
+     *
+     * @param element the element to be set
+     * @return the previous element that was replaced
+     */
+    @Override
+    public    T set(T element) {
+        if (innerWalker == null) {
+            throw new IllegalStateException("No active inner walker to add elements to.");
+        }
+        return innerWalker.set( element);
+    }
+
+    /**
      * Adds a collection to the current inner ArrayTape.
      *
      * @param col collection containing elements to be added

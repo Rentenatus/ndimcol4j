@@ -38,7 +38,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * ArrayTape.
      *
      * @param tape the ArrayTape to be traversed
-     * @param atIndex
+     * @param atIndex the index to start at
      */
     public IterTapeWalker(ArrayTape<T> tape, int atIndex) {
         this.tape = tape;
@@ -93,6 +93,12 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
     @Override
     public boolean add(Collection<? extends T> col) {
         return tape.addAll(currentIndex, col);
+    }
+
+
+    @Override
+    public    T set(T element) {
+        return tape.set(currentIndex, element);
     }
 
     /**
