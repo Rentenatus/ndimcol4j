@@ -48,8 +48,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      *
      * @param index index at which the specified element is to be inserted
      * @param element element to be inserted
-     * @return <tt>true</tt> (as specified by {@link Collection#add})
-     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index > size)
+     * @return true (as specified by {@link Collection#add})
+     * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
     boolean addAt(int index, T element);
@@ -62,9 +62,10 @@ public interface ArrayMovie<T> extends Collection<T> {
      * Appends the specified element to the end of this list .
      *
      * @param element element to be appended to this list
-     * @return <tt>true</tt> (as specified by {@link Collection#add})
+     * @return true (as specified by {@link Collection#add})
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
+    @Override
     boolean add(T element);
 
     /**
@@ -72,7 +73,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      *
      * @param index the index of the element to return
      * @return the element at the specified index
-     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size)
+     * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
     T get(int index);
 
@@ -81,7 +82,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      *
      * @param index the index of the element to remove
      * @return the element or null
-     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size)
+     * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      * @see #remove(Object)
      */
     T removeAt(int index);
@@ -136,7 +137,6 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @return the index of the first equal element in the movie or -1 if not found
      */
     int indexOf(Object element);
-
 
     /**
      * Returns the index of the last occurrence of the specified element in the ArrayTape, or -1 if the element is not
@@ -225,9 +225,10 @@ public interface ArrayMovie<T> extends Collection<T> {
 
     /**
      * Return a new movie containing all elements that match the given predicate.
+     *
      * @param predicate the predicate to be used for the filter
      * @return a new movie containing all elements that match the given predicate
      */
-     ArrayMovie<T> filterAll(Predicate<? super T> predicate);
+    ArrayMovie<T> filterAll(Predicate<? super T> predicate);
 
 }

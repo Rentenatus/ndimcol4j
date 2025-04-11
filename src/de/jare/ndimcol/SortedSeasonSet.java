@@ -27,7 +27,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * Constructor for SortedSeasonSet. The given comparator is morphed into a BiPredicate. The logic of this set is
      * only on element1 &lt element2 xor element1 &gt element2 implemented.
      *
-     * @param compT a Comparator<T> to compare elements
+     * @param compT a Comparator&lt;T&gt; to compare elements
      * @param forward true for ascending order, false for descending order
      */
     public SortedSeasonSet(final Comparator<T> compT, boolean forward) {
@@ -39,7 +39,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
     /**
      * Constructor for SortedSeasonSet.
      *
-     * @param predicate a BiPredicate<T, T> to compare elements
+     * @param predicate a BiPredicate&lt;T, T&gt; to compare elements
      */
     public SortedSeasonSet(final BiPredicate<T, T> predicate) {
         this.predicate = predicate;

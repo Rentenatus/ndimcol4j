@@ -23,7 +23,7 @@ import java.util.function.Predicate;
  * This class implements the ArrayMovie interface and provides methods for adding, removing, and accessing elements, as
  * well as for iterating over the elements in the array.
  * <p>
- * ArrayMovie<T> extends Collection<T>.
+ * ArrayMovie&lt;T&gt; extends Collection&lt;T&gt;.
  *
  * @author Janusch Rentenatus
  * @param <T> the type of elements in this tape
@@ -188,7 +188,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      * @param index the position at which the specified element is to be inserted
      * @param element the element to be added to the ArrayTape
      * @return true
-     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index > size)
+     * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
     @Override
@@ -371,7 +371,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      * @param index the index of the element to replace
      * @param element the element to be stored at the specified position
      * @return the element previously at the specified position
-     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size)
+     * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
     public T set(int index, T element) {
         if (index >= size || index < 0) {
@@ -392,7 +392,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      *
      * @param index the index of the element to be removed
      * @return the element that was removed from the ArrayTape
-     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size)
+     * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
     @Override
     public T removeAt(int index) {
@@ -498,7 +498,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      *
      * @param index the index of the element to be removed
      * @return the element that was removed from the ArrayTape
-     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size)
+     * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
     protected T removeFast(int index) {
         if (index >= size || index < 0) {
@@ -522,7 +522,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      *
      * @param index the index of the element to be removed
      * @return the element that was removed from the ArrayTape
-     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size)
+     * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
     public T removeTrim(int index) {
         if (index >= size || index < 0) {
@@ -599,7 +599,6 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         }
         return -1;
     }
-
 
     /**
      * Returns true if this ArrayTape contains the specified element.
@@ -838,13 +837,13 @@ public class ArrayTape<T> implements ArrayMovie<T> {
 
     /**
      * Splits the ArrayTape in half and returns a new ArrayTape containing the second half. The original ArrayTape is
-     * modified to contain the first half. If the size is less than or equal to 8, it returns null.
+     * modified to contain the first half. If the size is less than or equal to 1, it returns null.
      *
-     * @return a new ArrayTape containing the second half, or null if the size is less than or equal to 8
+     * @return a new ArrayTape containing the second half, or null if the size is less than or equal to 1
      */
     @Override
     public ArrayTape<T> splitInHalf() {
-        if (size <= 8) {
+        if (size <= 1) {
             return null;
         }
         int halfSize = size / 2;
@@ -886,19 +885,22 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      * @param toIndex high endpoint (exclusive) of the subList
      * @return a new ArrayMovie that is a sub-movie of the current ArrayTape
      */
+    @Override
     public ArrayMovie<T> subMovie(int fromIndex, int toIndex) {
         if (fromIndex >= size || fromIndex < 0) {
             throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", Size: " + size + ".");
         }
-        if (toIndex >= size || toIndex < 0) {
+        if (toIndex > size || toIndex <= 0) {
             throw new IndexOutOfBoundsException("toIndex: " + toIndex + ", Size: " + size + ".");
         }
         if (fromIndex > toIndex) {
             throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", toIndex: " + toIndex + ".");
         }
-        int newSize = toIndex - fromIndex + 1;
+        int newSize = toIndex - fromIndex;
         ArrayTape<T> subMovie = new ArrayTape<>(newSize);
-        System.arraycopy(elementData, fromIndex, subMovie.elementData, 0, newSize);
+        if (fromIndex < toIndex) {
+            System.arraycopy(elementData, fromIndex, subMovie.elementData, 0, newSize);
+        }
         subMovie.size = newSize;
         return subMovie;
     }
@@ -945,7 +947,6 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         return this.elementData == null ? 0 : (this.elementData.length - size);
     }
 
-
     /**
      * Returns a walker for the first occurrence of a hit considering the given predicate.
      *
@@ -954,7 +955,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public IteratorWalker<T> filterFirst(Predicate<? super T> predicate){
+    public IteratorWalker<T> filterFirst(Predicate<? super T> predicate) {
         if (predicate == null) {
             throw new NullPointerException("Predicate cannot be null.");
         }
@@ -974,7 +975,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public IteratorWalker<T> filterLast(Predicate<? super T> predicate){
+    public IteratorWalker<T> filterLast(Predicate<? super T> predicate) {
         if (predicate == null) {
             throw new NullPointerException("Predicate cannot be null.");
         }
@@ -988,16 +989,17 @@ public class ArrayTape<T> implements ArrayMovie<T> {
 
     /**
      * Return a new movie containing all elements that match the given predicate.
+     *
      * @param predicate the predicate to be used for the filter
      * @return a new movie containing all elements that match the given predicate
      */
     @SuppressWarnings("unchecked")
     @Override
-    public ArrayMovie<T> filterAll(Predicate<? super T> predicate)  {
+    public ArrayMovie<T> filterAll(Predicate<? super T> predicate) {
         if (predicate == null) {
             throw new NullPointerException("Predicate cannot be null.");
         }
-        ArrayMovie<T>  ret =    emptyMovie(size >>4);
+        ArrayMovie<T> ret = emptyMovie(size >> 4);
         T element;
         for (int i = size - 1; i >= 0; i--) {
             element = (T) elementData[i];

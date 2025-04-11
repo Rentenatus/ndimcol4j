@@ -24,7 +24,7 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
      * @return the ArraySeason being observed
      */
     @Override
-    public ArrayMovie <T> getRelatedMovie() {
+    public ArrayMovie<T> getRelatedMovie() {
         return this.observer;
     }
 

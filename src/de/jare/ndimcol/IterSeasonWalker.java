@@ -46,7 +46,7 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
      * @return the ArraySeason being traversed
      */
     @Override
-    public ArrayMovie <T> getRelatedMovie() {
+    public ArrayMovie<T> getRelatedMovie() {
         return this.season;
     }
 

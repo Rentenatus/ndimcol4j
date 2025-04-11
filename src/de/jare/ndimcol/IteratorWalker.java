@@ -22,7 +22,7 @@ public interface IteratorWalker<T> {
      *
      * @return the ArrayMovie being traversed
      */
-     ArrayMovie <T> getRelatedMovie() ;
+    ArrayMovie<T> getRelatedMovie();
 
     /**
      * Returns the current element. Takes forward movement by positioning.

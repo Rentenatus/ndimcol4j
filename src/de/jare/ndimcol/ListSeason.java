@@ -1,8 +1,16 @@
+/**
+ * <copyright>
+ * Copyright (c) 2025, Janusch Rentenatus. This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v2.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * </copyright>
+ */
 package de.jare.ndimcol;
 
 import java.util.*;
 
 /**
+ * ArraySeason as List.
  *
  * @author Janusch Rentenatus
  * @param <T> the type of elements in this list
@@ -55,7 +63,7 @@ public class ListSeason<T> extends ArraySeason<T> implements List<T> {
      *
      * @param index the index of the element to be removed
      * @return the element that was removed from the list
-     * @throws IndexOutOfBoundsException if the index is out of range (index &lt 0 || index &gt= size)
+     * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
     @Override
     public T remove(int index) {
@@ -84,6 +92,11 @@ public class ListSeason<T> extends ArraySeason<T> implements List<T> {
     @Override
     public ListIterator<T> listIterator(int index) {
         return Collections.unmodifiableList(subList(0, size)).listIterator(index);
+    }
+
+    @Override
+    public ListSeason<T> splitInHalf() {
+        return (ListSeason<T>) super.splitInHalf();
     }
 
     /**

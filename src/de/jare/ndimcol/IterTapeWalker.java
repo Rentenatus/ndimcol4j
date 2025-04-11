@@ -51,7 +51,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * @return the ArrayTape being traversed
      */
     @Override
-    public ArrayMovie <T> getRelatedMovie() {
+    public ArrayMovie<T> getRelatedMovie() {
         return this.tape;
     }
 
@@ -205,7 +205,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      *
      * @param index the index to set as the current position
      * @return this walker
-     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= tape.size())
+     * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
     @Override
     public IterTapeWalker<T> goLeafIndex(int index) {
