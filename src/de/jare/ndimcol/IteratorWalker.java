@@ -18,6 +18,13 @@ import java.util.Collection;
 public interface IteratorWalker<T> {
 
     /**
+     * Returns the ArrayMovie that this walker is traversing.
+     *
+     * @return the ArrayMovie being traversed
+     */
+    ArrayMovie<T> getRelatedMovie();
+
+    /**
      * Returns the current element. Takes forward movement by positioning.
      *
      * @return the current element

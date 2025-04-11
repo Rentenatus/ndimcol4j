@@ -9,6 +9,7 @@ package de.jare.ndimcol;
 
 import java.io.PrintStream;
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * The ArraySeason class represents a collection of episodes, each containing a list of elements. The splitting and
@@ -21,7 +22,7 @@ import java.util.*;
  * This class implements the ArrayMovie interface and provides methods for adding, removing, and accessing elements, as
  * well as for iterating over the elements in the array.
  * <p>
- * ArrayMovie<T> extends Collection<T>.
+ * ArrayMovie&lt;T&gt; extends Collection&lt;T&gt;.
  *
  * @param <T> the type of elements in this season
  */
@@ -423,6 +424,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @param element the element to search for in the ArrayTape
      * @return the index of the last occurrence of the specified element, or -1 if the element is not found
      */
+    @Override
     public int lastIndexOf(Object element) {
         int accumulatedSize = size;
         for (int i = data.size() - 1; i >= 0; i--) {
@@ -434,6 +436,25 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             }
         }
         return -1;
+    }
+
+    /**
+     * Returns the offset of the specified related movie (chunk) in this collection. The offset is the number of
+     * elements before the specified movie starts.
+     *
+     * @param relatedMovie the related movie to find the offset for
+     * @return the offset of the specified related movie in this collection
+     */
+    public int getOffset(ArrayMovie<T> relatedMovie) {
+        int offset = 0;
+        for (int i = 0; i < data.size(); i++) {
+            ArrayMovie<T> episode = data.get(i);
+            if (episode == relatedMovie) {
+                return offset;
+            }
+            offset += episode.size();
+        }
+        return 0;
     }
 
     /**
@@ -461,6 +482,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      *
      * @return true if the ArrayMovie has elements, false otherwise
      */
+    @Override
     public boolean hasRecord() {
         return this.size > 0;
     }
@@ -526,10 +548,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Returns an array containing all elements in this collection. The runtime type of the returned array is that of
-     * the specified array. If the collection fits in the specified array, it is returned therein. Otherwise, a new
-     * array is allocated with the runtime type of the specified array and the size of this collection.
+     * Returns an array containing all elements in this collection.The runtime type of the returned array is that of the
+     * specified array. If the collection fits in the specified array, it is returned therein. Otherwise, a new array is
+     * allocated with the runtime type of the specified array and the size of this collection.
      *
+     * @param <U> the type
      * @param arr the array into which the elements of this collection are to be stored
      * @return an array containing all elements in this collection
      */
@@ -573,11 +596,12 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @param toIndex high endpoint (exclusive) of the subList
      * @return a new ArrayMovie that is a sub-movie of the current ArraySeason
      */
+    @Override
     public ArrayMovie<T> subMovie(int fromIndex, int toIndex) {
         if (fromIndex >= size || fromIndex < 0) {
             throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", Size: " + size + ".");
         }
-        if (toIndex >= size || toIndex < 0) {
+        if (toIndex > size || toIndex <= 0) {
             throw new IndexOutOfBoundsException("toIndex: " + toIndex + ", Size: " + size + ".");
         }
         if (fromIndex > toIndex) {
@@ -585,6 +609,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         }
 
         ArraySeason<T> subMovie = emptyMovie(0);
+        if (fromIndex == toIndex) {
+            return subMovie;
+        }
         int accumulatedSize = 0;
         for (int i = 0; i < data.size(); i++) {
             ArrayMovie<T> episode = data.get(i);
@@ -610,6 +637,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @param initialCapacityOrZero not used
      * @return a new empty movie with the same screenplay
      */
+    @Override
     public ArraySeason<T> emptyMovie(int initialCapacityOrZero) {
         return new ArraySeason<>(screenplay);
     }
@@ -633,8 +661,8 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             throw new NullPointerException("Collection cannot be null.");
         }
         boolean modified = false;
-        for (Object o : col) {
-            while (remove(o)) {
+        for (Object ob : col) {
+            while (remove(ob)) {
                 modified = true;
             }
         }
@@ -673,22 +701,38 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         lastEpisode = null;
     }
 
+    /**
+     * Splits this season into two. This season contains the first half of the elements, and the second season contains
+     * the second half of the elements. Half is to be understood colloquially; it is not guaranteed that the size of
+     * both parts is the same.
+     *
+     * @return a new season containing the second half of the elements or null, if this movie is to small for splitting
+     */
     @Override
     public ArrayMovie<T> splitInHalf() {
-        if (data.size() <= 8) {
+        if (data.isEmpty()) {
             return null;
         }
         lastEpisode = null;
         lastAccumulatedSize = 0;
         this.updateCounter++;
-        ArrayTape<ArrayMovie<T>> other = data.splitInHalf();
-        updateSize();
-        if (other == null) {
-            return null;
-        }
-        ArraySeason<T> ret = new ArraySeason<>();
+        ArraySeason<T> ret = emptyMovie((size >> 1) + screenplay.getDefaultSize());
         ret.screenplay = screenplay;
-        ret.data.addAll(other);
+        if (data.size() == 1) {
+            ArrayMovie<T> other = data.get(0).splitInHalf();
+            updateSize();
+            if (other == null) {
+                return null;
+            }
+            ret.data.add(other);
+        } else {
+            ArrayTape<ArrayMovie<T>> other = data.splitInHalf();
+            updateSize();
+            if (other == null) {
+                return null;
+            }
+            ret.data.addAll(other);
+        }
         ret.updateSize();
         return ret;
     }
@@ -745,4 +789,88 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     public int pageSpaceLeft() {
         return 0;
     }
+
+    @Override
+    public IteratorWalker<T> filterFirst(Predicate<? super T> predicate) {
+        Thread[] threads = new Thread[data.size()];
+        Runnable[] runnables = new Runnable[data.size()];
+        for (int i = 0; i < data.size(); i++) {
+            runnables[i] = new PredicateFirstRunnable<T>(predicate, data.get(i));
+            threads[i] = new Thread(runnables[i]);
+            threads[i].start();
+        }
+        for (int i = 0; i < data.size(); i++) {
+            try {
+                threads[i].join();
+                IteratorWalker<T> walker = ((PredicateFirstRunnable<T>) runnables[i]).getWalker();
+                if (walker != null) {
+                    for (int j = i + 1; j < data.size(); j++) {
+                        threads[j].interrupt();
+                    }
+                    return new IterCoverWalker<>(this, walker);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Thread interrupted.", e);
+            }
+
+        }
+        return null;
+    }
+
+    @Override
+    public IteratorWalker<T> filterLast(Predicate<? super T> predicate) {
+        Thread[] threads = new Thread[data.size()];
+        Runnable[] runnables = new Runnable[data.size()];
+        for (int i = data.size() - 1; i >= 0; i--) {
+            runnables[i] = new PredicateLastRunnable<T>(predicate, data.get(i));
+            threads[i] = new Thread(runnables[i]);
+            threads[i].start();
+        }
+        for (int i = data.size() - 1; i >= 0; i--) {
+            try {
+                threads[i].join();
+                IteratorWalker<T> walker = ((PredicateLastRunnable<T>) runnables[i]).getWalker();
+                if (walker != null) {
+                    for (int j = i - 1; j >= 0; j--) {
+                        threads[j].interrupt();
+                    }
+                    return new IterCoverWalker<>(this, walker);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Thread interrupted.", e);
+            }
+
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayMovie<T> filterAll(Predicate<? super T> predicate) {
+        Thread[] threads = new Thread[data.size()];
+        Runnable[] runnables = new Runnable[data.size()];
+        for (int i = 0; i < data.size(); i++) {
+            runnables[i] = new PredicateAllRunnable<T>(predicate, data.get(i));
+            threads[i] = new Thread(runnables[i]);
+            threads[i].start();
+        }
+        ArraySeason<T> ret = emptyMovie(data.size() << 3);
+        for (int i = 0; i < data.size(); i++) {
+            try {
+                threads[i].join();
+                ArrayMovie<T> elements = ((PredicateAllRunnable<T>) runnables[i]).getElements();
+                if (elements.hasRecord()) {
+                    ret.data.add(elements);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Thread interrupted.", e);
+            }
+
+        }
+        ret.updateSize();
+        return ret;
+    }
+
 }
