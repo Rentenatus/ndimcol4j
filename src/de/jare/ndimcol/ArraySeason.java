@@ -686,7 +686,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         if (other == null) {
             return null;
         }
-        ArraySeason<T> ret = new ArraySeason<>();
+        ArraySeason<T> ret = emptyMovie((size >> 1) + screenplay.getDefaultSize());
         ret.screenplay = screenplay;
         ret.data.addAll(other);
         ret.updateSize();
