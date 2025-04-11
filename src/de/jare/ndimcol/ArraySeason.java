@@ -147,7 +147,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
-        IteratorWalker<T> walker = getLeafWalkerAtIndex(index);
+        IteratorWalker<T> walker = getWalkerAtIndex(index);
         if (walker.add(element)) {
             if (walker.size() > maxEpisodeSize) {
                 splitOrGlue();
@@ -160,7 +160,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     /**
      * Inserts all of the elements in the specified collection into this season, starting at the specified position.
      *
-     * @param index index at which to insert the first element from the specified collection
+     * @param index index at which to insert the last element from the specified collection
      * @param col collection containing elements to be added to this season
      * @return true if this season changed as a result of the call
      */
@@ -168,7 +168,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
-        IteratorWalker<T> walker = getLeafWalkerAtIndex(index);
+        IteratorWalker<T> walker = getWalkerAtIndex(index);
         if (walker.add(col)) {
             if (walker.size() > maxEpisodeSize) {
                 splitOrGlue();
@@ -215,13 +215,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public T get(int index) {
-        return getLeafWalkerAtIndex(index).next();
+        return getWalkerAtIndex(index).next();
     }
 
     /**
-     * Returns the first element in this collection.
+     * Returns the last element in this collection.
      *
-     * @return the first element in this collection
+     * @return the last element in this collection
      */
     @Override
     public T first() {
@@ -245,23 +245,20 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Removes the element in this collection.
+     * Removes a single instance of the specified element from this collection, if it is one or more times present.
      *
-     * @param element to remove
+     * @param element one times to remove
      * @return true, if the element has removed from this collection
      */
     @Override
     public boolean remove(Object element) {
-        IteratorWalker<T> walker = getLeafWalkerAtElement(element);
+        IteratorWalker<T> walker = getWalkerAtElement(element);
         if (walker == null) {
             return false;
         }
-        size--;
-        this.updateCounter++;
+        // walker ist a CoverWalker, not a leaf walker
+        // walker push observer.size--; and observer.updateCounter++;
         walker.removeForward();
-        if (walker.size() < 8) {
-            splitOrGlue();
-        }
         return true;
     }
 
@@ -276,7 +273,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
-        IteratorWalker<T> walker = getLeafWalkerAtIndex(index);
+        IteratorWalker<T> walker = getWalkerAtIndex(index);
+        // walker ist a CoverWalker, not a leaf walker
+        // walker push observer.size--; and observer.updateCounter++;
         T removedElement = walker.removeForward();
         if (walker.isEmpty()) {
             splitOrGlue();
@@ -338,10 +337,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Returns the index of the first free episode in this collection. If no free episode is found, it returns -1. Free
+     * Returns the index of the first free episode in this collection.If no free episode is found, it returns -1. Free
      * movies are those that have a size less than the maximum episode size.
      *
-     * @return the index of the first free episode, or -1 if no free episode is found
+     * @return the index of the last free episode, or -1 if no free episode is found
      */
     protected int firstFreeEpisode() {
         for (int i = 0; i < data.size(); i++) {
@@ -353,13 +352,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Returns the leaf walker at the specified index in this collection.
+     * Returns the walker at the specified index in this collection.
      *
      * @param index the index to search for
-     * @return the leaf walker at the specified index
+     * @return the cover walker at the specified index
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-    protected IteratorWalker<T> getLeafWalkerAtIndex(int index) {
+    protected IteratorWalker<T> getWalkerAtIndex(int index) {
         if (lastEpisode != null
                 && lastAccumulatedSize <= index
                 && index < lastAccumulatedSize + lastEpisode.size()) {
@@ -380,20 +379,19 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Returns the leaf walker at the specified element in this collection.
+     * Returns the walker at the specified element in this collection.
      *
      * @param element the element to search for
-     * @return the leaf walker at the specified element, or null if not found
+     * @return the walker at the specified element, or null if element not found
      */
-    protected IteratorWalker<T> getLeafWalkerAtElement(Object element) {
-        for (int i = 0; i < data.size(); i++) {
-            final ArrayMovie<T> episode = data.get(i);
-            int episodeIndex = episode.indexOf(element);
-            if (episodeIndex >= 0) {
-                return episode.leafWalker(episodeIndex);
-            }
+    public IteratorWalker<T> getWalkerAtElement(final Object element) {
+        if (data.isEmpty()) {
+            return null;
         }
-        return null;
+        if (element == null) {
+            return filterFirst(x -> (x == null));
+        }
+        return filterFirst(x -> element.equals(x));
     }
 
     /**
@@ -405,8 +403,16 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public int indexOf(Object element) {
+        final int dataSize = data.size();
+        if (dataSize == 0) {
+            return -1;
+        }
+        if (dataSize == 1) {
+            final ArrayMovie<T> episode = data.first();
+            return episode.indexOf(element);
+        }
         int accumulatedSize = 0;
-        for (int i = 0; i < data.size(); i++) {
+        for (int i = 0; i < dataSize; i++) {
             final ArrayMovie<T> episode = data.get(i);
             int episodeIndex = episode.indexOf(element);
             if (episodeIndex >= 0) {
@@ -426,8 +432,16 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public int lastIndexOf(Object element) {
+        final int dataSize = data.size();
+        if (dataSize == 0) {
+            return -1;
+        }
+        if (dataSize == 1) {
+            final ArrayMovie<T> episode = data.first();
+            return episode.lastIndexOf(element);
+        }
         int accumulatedSize = size;
-        for (int i = data.size() - 1; i >= 0; i--) {
+        for (int i = dataSize - 1; i >= 0; i--) {
             final ArrayMovie<T> episode = data.get(i);
             accumulatedSize -= episode.size();
             int episodeIndex = episode.lastIndexOf(element);
@@ -759,8 +773,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     @Override
-    public IteratorWalker<T> leafWalker(int atIndex
-    ) {
+    public IteratorWalker<T> leafWalker(int atIndex) {
         if (softWalker != null) {
             return softWalker.goLeafIndex(atIndex);
         }
@@ -769,9 +782,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     @Override
-    public int debbug(PrintStream out, String prefix,
-            int offset
-    ) {
+    public int debbug(PrintStream out, String prefix, int offset) {
         for (int i = 0; i < data.size(); i++) {
             ArrayMovie<T> episode = data.get(i);
             out.println(prefix + "s[" + i + "] .size() =  " + episode.size());
@@ -792,62 +803,40 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     @Override
     public IteratorWalker<T> filterFirst(Predicate<? super T> predicate) {
-        Thread[] threads = new Thread[data.size()];
-        Runnable[] runnables = new Runnable[data.size()];
         for (int i = 0; i < data.size(); i++) {
-            runnables[i] = new PredicateFirstRunnable<T>(predicate, data.get(i));
-            threads[i] = new Thread(runnables[i]);
-            threads[i].start();
-        }
-        for (int i = 0; i < data.size(); i++) {
-            try {
-                threads[i].join();
-                IteratorWalker<T> walker = ((PredicateFirstRunnable<T>) runnables[i]).getWalker();
-                if (walker != null) {
-                    for (int j = i + 1; j < data.size(); j++) {
-                        threads[j].interrupt();
-                    }
-                    return new IterCoverWalker<>(this, walker);
-                }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new RuntimeException("Thread interrupted.", e);
+            IteratorWalker<T> walker = data.get(i).filterFirst(predicate);
+            if (walker != null) {
+                return new IterCoverWalker<>(this, walker);
             }
-
         }
         return null;
     }
 
     @Override
     public IteratorWalker<T> filterLast(Predicate<? super T> predicate) {
-        Thread[] threads = new Thread[data.size()];
-        Runnable[] runnables = new Runnable[data.size()];
         for (int i = data.size() - 1; i >= 0; i--) {
-            runnables[i] = new PredicateLastRunnable<T>(predicate, data.get(i));
-            threads[i] = new Thread(runnables[i]);
-            threads[i].start();
-        }
-        for (int i = data.size() - 1; i >= 0; i--) {
-            try {
-                threads[i].join();
-                IteratorWalker<T> walker = ((PredicateLastRunnable<T>) runnables[i]).getWalker();
-                if (walker != null) {
-                    for (int j = i - 1; j >= 0; j--) {
-                        threads[j].interrupt();
-                    }
-                    return new IterCoverWalker<>(this, walker);
-                }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new RuntimeException("Thread interrupted.", e);
+            IteratorWalker<T> walker = data.get(i).filterLast(predicate);
+            if (walker != null) {
+                return new IterCoverWalker<>(this, walker);
             }
-
         }
         return null;
     }
 
     @Override
     public ArrayMovie<T> filterAll(Predicate<? super T> predicate) {
+        ArraySeason<T> ret = emptyMovie(data.size() << 3);
+        for (int i = 0; i < data.size(); i++) {
+            ArrayMovie<T> elements = data.get(i).filterAll(predicate);
+            if (elements.hasRecord()) {
+                ret.data.add(elements);
+            }
+        }
+        ret.updateSize();
+        return ret;
+    }
+
+    public ArrayMovie<T> filterParallel(Predicate<? super T> predicate) {
         Thread[] threads = new Thread[data.size()];
         Runnable[] runnables = new Runnable[data.size()];
         for (int i = 0; i < data.size(); i++) {

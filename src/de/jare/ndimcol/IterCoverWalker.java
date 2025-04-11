@@ -115,6 +115,9 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
             observer.updateCounter++;
             observer.size--;
         }
+        if (inner.size() < 8) {
+            observer.splitOrGlue();
+        }
         return ret;
     }
 

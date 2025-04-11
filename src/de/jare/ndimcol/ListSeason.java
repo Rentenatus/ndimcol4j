@@ -53,7 +53,7 @@ public class ListSeason<T> extends ArraySeason<T> implements List<T> {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
-        IteratorWalker<T> walker = getLeafWalkerAtIndex(index);
+        IteratorWalker<T> walker = getWalkerAtIndex(index);
         return walker.set(element);
     }
 

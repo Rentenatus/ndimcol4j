@@ -39,7 +39,7 @@ public class ListSeasonNGTest {
         ArrayTape<Integer> randomList = new ArrayTape<>();
         Random random = new Random();
 
-        for (int i = 0; i < 9000; i++) {
+        for (int i = 0; i < 90000; i++) {
             int randomNumber = random.nextInt(3333);
             randomList.add(randomNumber);
         }
@@ -93,7 +93,7 @@ public class ListSeasonNGTest {
         assertEquals(firstIndex, firstFind.getCurrentIndex());
         assertEquals(lastIndex, lastFind.getCurrentIndex());
 
-        ArrayMovie<Integer> allFind = list.filterAll(x -> probe.equals(x));
+        ArrayMovie<Integer> allFind = list.filterParallel(x -> probe.equals(x));
         System.out.println("-- all");
         System.out.println("found     " + allFind.size());
 
@@ -102,6 +102,8 @@ public class ListSeasonNGTest {
             assertEquals(walker.next(), probe);
         }
 
+        IteratorWalker<Integer> nix = list.filterFirst(x -> (x == -888));
+        assertNull(nix);
     }
 
 }
