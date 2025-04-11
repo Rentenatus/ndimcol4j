@@ -41,6 +41,16 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
     }
 
     /**
+     * Returns the ArraySeason that this walker is traversing.
+     *
+     * @return the ArraySeason being traversed
+     */
+    @Override
+    public ArrayMovie <T> getRelatedMovie() {
+        return this.season;
+    }
+
+    /**
      * Checks if there are more elements across all ArrayTape (inner and outer).
      *
      * @return true if there are more elements

@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * An ArrayTape is a dynamic array implementation that allows for efficient insertion, deletion, and iteration of
@@ -154,6 +155,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      *
      * @return true if the ArrayTape has elements, false otherwise
      */
+    @Override
     public boolean hasRecord() {
         return this.size > 0;
     }
@@ -598,6 +600,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         return -1;
     }
 
+
     /**
      * Returns true if this ArrayTape contains the specified element.
      *
@@ -942,4 +945,66 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         return this.elementData == null ? 0 : (this.elementData.length - size);
     }
 
+
+    /**
+     * Returns a walker for the first occurrence of a hit considering the given predicate.
+     *
+     * @param predicate the predicate to be used for the search
+     * @return a leaf walker for the first occurrence of a hit
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public IteratorWalker<T> filterFirst(Predicate<? super T> predicate){
+        if (predicate == null) {
+            throw new NullPointerException("Predicate cannot be null.");
+        }
+        for (int i = 0; i < size; i++) {
+            if (predicate.test((T) elementData[i])) {
+                return new IterTapeWalker<>(this, i);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns a walker for the last occurrence of a hit considering the given predicate.
+     *
+     * @param predicate the predicate to be used for the search
+     * @return a leaf walker for the last occurrence of a hit
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public IteratorWalker<T> filterLast(Predicate<? super T> predicate){
+        if (predicate == null) {
+            throw new NullPointerException("Predicate cannot be null.");
+        }
+        for (int i = size - 1; i >= 0; i--) {
+            if (predicate.test((T) elementData[i])) {
+                return new IterTapeWalker<>(this, i);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Return a new movie containing all elements that match the given predicate.
+     * @param predicate the predicate to be used for the filter
+     * @return a new movie containing all elements that match the given predicate
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public ArrayMovie<T> filterAll(Predicate<? super T> predicate)  {
+        if (predicate == null) {
+            throw new NullPointerException("Predicate cannot be null.");
+        }
+        ArrayMovie<T>  ret =    emptyMovie(size >>4);
+        T element;
+        for (int i = size - 1; i >= 0; i--) {
+            element = (T) elementData[i];
+            if (predicate.test(element)) {
+                ret.add(element);
+            }
+        }
+        return null;
+    }
 }

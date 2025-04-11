@@ -9,6 +9,7 @@ package de.jare.ndimcol;
 
 import java.io.PrintStream;
 import java.util.Collection;
+import java.util.function.Predicate;
 
 /**
  *
@@ -86,6 +87,21 @@ public interface ArrayMovie<T> extends Collection<T> {
     T removeAt(int index);
 
     /**
+     * Returns true if the movie is empty.
+     *
+     * @return true if the movie is empty, false otherwise
+     */
+    @Override
+    public boolean isEmpty();
+
+    /**
+     * Returns true if the movie contains one or more elements.
+     *
+     * @return true if the movie has elements, false otherwise
+     */
+    public boolean hasRecord();
+
+    /**
      * Splits this movie into two movies. This movie contains the first half of the elements, and the second movie
      * contains the second half of the elements. Half is to be understood colloquially; it is not guaranteed that the
      * size of both parts is the same.
@@ -120,6 +136,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @return the index of the first equal element in the movie or -1 if not found
      */
     int indexOf(Object element);
+
 
     /**
      * Returns the index of the last occurrence of the specified element in the ArrayTape, or -1 if the element is not
@@ -189,4 +206,28 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @return space still available or zero if the Movie is not an ArrayTape
      */
     int pageSpaceLeft();
+
+    /**
+     * Returns a leaf walker for the first occurrence of a hit considering the given predicate.
+     *
+     * @param predicate the predicate to be used for the search
+     * @return a leaf walker for the first occurrence of a hit
+     */
+    IteratorWalker<T> filterFirst(Predicate<? super T> predicate);
+
+    /**
+     * Returns a leaf walker for the last occurrence of a hit considering the given predicate.
+     *
+     * @param predicate the predicate to be used for the search
+     * @return a leaf walker for the last occurrence of a hit
+     */
+    IteratorWalker<T> filterLast(Predicate<? super T> predicate);
+
+    /**
+     * Return a new movie containing all elements that match the given predicate.
+     * @param predicate the predicate to be used for the filter
+     * @return a new movie containing all elements that match the given predicate
+     */
+     ArrayMovie<T> filterAll(Predicate<? super T> predicate);
+
 }

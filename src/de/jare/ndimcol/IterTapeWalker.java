@@ -46,6 +46,16 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
     }
 
     /**
+     * Returns the ArrayTape that this walker is traversing.
+     *
+     * @return the ArrayTape being traversed
+     */
+    @Override
+    public ArrayMovie <T> getRelatedMovie() {
+        return this.tape;
+    }
+
+    /**
      * Returns true if there are more elements when moving in the forward direction.
      *
      * @return true if the current index is less than the size of the ArrayTape

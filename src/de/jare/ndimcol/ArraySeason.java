@@ -9,6 +9,7 @@ package de.jare.ndimcol;
 
 import java.io.PrintStream;
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * The ArraySeason class represents a collection of episodes, each containing a list of elements. The splitting and
@@ -416,6 +417,8 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return -1;
     }
 
+
+
     /**
      * Returns the index of the last occurrence of the specified element in the ArrayTape, or -1 if the element is not
      * found. If the specified element is null, it checks for null elements in the ArrayTape.
@@ -434,6 +437,25 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             }
         }
         return -1;
+    }
+
+    /**
+     * Returns the offset of the specified related movie (chunk) in this collection. The offset is the number of elements
+     * before the specified movie starts.
+     *
+     * @param relatedMovie the related movie to find the offset for
+     * @return the offset of the specified related movie in this collection
+     */
+    public int getOffset(ArrayMovie<T> relatedMovie) {
+        int offset = 0;
+        for (int i = 0; i < data.size(); i++) {
+            ArrayMovie<T> episode = data.get(i);
+            if (episode == relatedMovie) {
+                return offset;
+            }
+            offset += episode.size();
+        }
+        return 0;
     }
 
     /**
@@ -461,6 +483,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      *
      * @return true if the ArrayMovie has elements, false otherwise
      */
+    @Override
     public boolean hasRecord() {
         return this.size > 0;
     }
@@ -745,4 +768,86 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     public int pageSpaceLeft() {
         return 0;
     }
+
+    public IteratorWalker<T> filterFirst(Predicate <? super T> predicate) {
+        Thread[] threads = new Thread[data.size()];
+        Runnable[] runnables = new Runnable[data.size()];
+        for (int i = 0; i < data.size(); i++) {
+            runnables[i]= new PredicateFirstRunnable<T>(predicate, data.get(i));
+            threads[i] = new Thread(runnables[i]);
+            threads[i].start();
+        }
+        for (int i = 0; i < data.size(); i++) {
+            try {
+                threads[i].join();
+                IteratorWalker<T> walker = ((PredicateFirstRunnable<T>) runnables[i]).getWalker();
+                if (walker != null) {
+                    for (int j = i+1; i < data.size(); i++) {
+                        threads[j].interrupt();
+                    }
+                    return new IterCoverWalker<>(this,walker);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Thread interrupted.", e);
+            }
+
+        }
+        return null;
+    }
+
+    public IteratorWalker<T> filterLast(Predicate <? super T> predicate) {
+        Thread[] threads = new Thread[data.size()];
+        Runnable[] runnables = new Runnable[data.size()];
+        for (int i=  data.size() -1; i >= 0; i--) {
+            runnables[i]= new PredicateLastRunnable<T>(predicate, data.get(i));
+            threads[i] = new Thread(runnables[i]);
+            threads[i].start();
+        }
+        for (int i=  data.size() -1; i >= 0; i--) {
+            try {
+                threads[i].join();
+                IteratorWalker<T> walker = ((PredicateLastRunnable<T>) runnables[i]).getWalker();
+                if (walker != null) {
+                    for (int j=  i -1; j >= 0; j--) {
+                        threads[j].interrupt();
+                    }
+                    return new IterCoverWalker<>(this,walker);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Thread interrupted.", e);
+            }
+
+        }
+        return null;
+    }
+
+    public ArrayMovie<T> filterAll(Predicate<? super T> predicate) {
+        Thread[] threads = new Thread[data.size()];
+        Runnable[] runnables = new Runnable[data.size()];
+        for (int i = 0; i < data.size(); i++) {
+            runnables[i] = new PredicateAllRunnable<T>(predicate, data.get(i));
+            threads[i] = new Thread(runnables[i]);
+            threads[i].start();
+        }
+        ArraySeason<T> ret = emptyMovie(data.size() << 3);
+        for (int i = 0; i < data.size(); i++) {
+            try {
+                threads[i].join();
+                ArrayMovie<T> elements = ((PredicateAllRunnable<T>) runnables[i]).getElements();
+                if (elements.hasRecord()) {
+                    ret.data.add(elements);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Thread interrupted.", e);
+            }
+
+        }
+        ret.updateSize();
+        return ret;
+    }
+
+
 }

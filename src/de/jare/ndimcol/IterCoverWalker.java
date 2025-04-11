@@ -19,6 +19,16 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
     ArraySeason<T> observer;
 
     /**
+     * Returns the ArraySeason observing the traversal.
+     *
+     * @return the ArraySeason being observed
+     */
+    @Override
+    public ArrayMovie <T> getRelatedMovie() {
+        return this.observer;
+    }
+
+    /**
      * Constructs a CoverWalker.
      *
      * @param inner the IteratorWalker to be cover.
@@ -200,7 +210,7 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
      */
     @Override
     public int getCurrentIndex() {
-        return inner.getCurrentIndex();
+        return observer.getOffset(inner.getRelatedMovie()) + inner.getCurrentIndex();
     }
 
     /**
