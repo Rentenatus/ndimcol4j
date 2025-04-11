@@ -424,6 +424,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @param element the element to search for in the ArrayTape
      * @return the index of the last occurrence of the specified element, or -1 if the element is not found
      */
+    @Override
     public int lastIndexOf(Object element) {
         int accumulatedSize = size;
         for (int i = data.size() - 1; i >= 0; i--) {
@@ -547,10 +548,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Returns an array containing all elements in this collection. The runtime type of the returned array is that of
-     * the specified array. If the collection fits in the specified array, it is returned therein. Otherwise, a new
-     * array is allocated with the runtime type of the specified array and the size of this collection.
+     * Returns an array containing all elements in this collection.The runtime type of the returned array is that of the
+     * specified array. If the collection fits in the specified array, it is returned therein. Otherwise, a new array is
+     * allocated with the runtime type of the specified array and the size of this collection.
      *
+     * @param <U> the type
      * @param arr the array into which the elements of this collection are to be stored
      * @return an array containing all elements in this collection
      */
@@ -594,6 +596,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @param toIndex high endpoint (exclusive) of the subList
      * @return a new ArrayMovie that is a sub-movie of the current ArraySeason
      */
+    @Override
     public ArrayMovie<T> subMovie(int fromIndex, int toIndex) {
         if (fromIndex >= size || fromIndex < 0) {
             throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", Size: " + size + ".");
@@ -634,6 +637,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @param initialCapacityOrZero not used
      * @return a new empty movie with the same screenplay
      */
+    @Override
     public ArraySeason<T> emptyMovie(int initialCapacityOrZero) {
         return new ArraySeason<>(screenplay);
     }
@@ -786,6 +790,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return 0;
     }
 
+    @Override
     public IteratorWalker<T> filterFirst(Predicate<? super T> predicate) {
         Thread[] threads = new Thread[data.size()];
         Runnable[] runnables = new Runnable[data.size()];
@@ -799,7 +804,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
                 threads[i].join();
                 IteratorWalker<T> walker = ((PredicateFirstRunnable<T>) runnables[i]).getWalker();
                 if (walker != null) {
-                    for (int j = i + 1; i < data.size(); i++) {
+                    for (int j = i + 1; j < data.size(); j++) {
                         threads[j].interrupt();
                     }
                     return new IterCoverWalker<>(this, walker);
@@ -813,6 +818,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return null;
     }
 
+    @Override
     public IteratorWalker<T> filterLast(Predicate<? super T> predicate) {
         Thread[] threads = new Thread[data.size()];
         Runnable[] runnables = new Runnable[data.size()];
@@ -840,6 +846,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return null;
     }
 
+    @Override
     public ArrayMovie<T> filterAll(Predicate<? super T> predicate) {
         Thread[] threads = new Thread[data.size()];
         Runnable[] runnables = new Runnable[data.size()];

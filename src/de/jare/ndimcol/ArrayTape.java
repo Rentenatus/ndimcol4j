@@ -35,14 +35,15 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     public static final int DEFAULT_COUNTDOWN = DEFAULT_PAGE << 2;
 
     /**
-     * Compares two objects for equality. If both objects are null, they are considered equal. If one is null and the
+     * Compares two objects for equality.If both objects are null, they are considered equal. If one is null and the
      * other is not, they are not equal. Otherwise, it uses the equals method of the first object to compare them.
      *
+     * @param <U> the type
      * @param a the first object to compare
      * @param b the second object to compare
      * @return true if the objects are equal, false otherwise
      */
-    public static <T> boolean equals(T a, T b) {
+    public static <U> boolean equals(U a, U b) {
         if (a == b) {
             return true;
         }
@@ -558,6 +559,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      * @param element the element to search for in the ArrayTape
      * @return the index of the first occurrence of the specified element, or -1 if the element is not found
      */
+    @Override
     public int indexOf(Object element) {
         if (element == null) {
             for (int i = 0; i < size; i++) {
@@ -866,6 +868,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         return newTape;
     }
 
+    @Override
     public void copyToArray(Object[] array, int offset) {
         if (array == null) {
             throw new NullPointerException("Target array cannot be null.");
@@ -1007,6 +1010,6 @@ public class ArrayTape<T> implements ArrayMovie<T> {
                 ret.add(element);
             }
         }
-        return null;
+        return ret;
     }
 }
