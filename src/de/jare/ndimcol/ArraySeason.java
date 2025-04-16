@@ -151,17 +151,52 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public boolean addAt(int index, T element) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
-        }
-        IteratorWalker<T> walker = getWalkerAtIndex(index);
-        if (walker.add(element)) {
-            if (walker.size() > maxEpisodeSize) {
+        if (lastEpisode != null
+                && lastAccumulatedSize <= index
+                && index < lastAccumulatedSize + lastEpisode.size()) {
+            if (!lastEpisode.addAt(index - lastAccumulatedSize, element)) {
+                return false;
+            }
+            updateCounter++;
+            size++;
+            if (lastEpisode.size() >= maxEpisodeSize) {
                 splitOrGlue();
             }
             return true;
         }
-        return false;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
+        }
+        int accumulatedSize = 0;
+        final int dataSize = data.size();
+        for (int i = 0; i < dataSize; i++) {
+            final ArrayMovie<T> episode = data.get(i);
+            int episodeSize = episode.size();
+            if (index < accumulatedSize + episodeSize) {
+                lastAccumulatedSize = accumulatedSize;
+                lastEpisode = episode;
+                if (!lastEpisode.addAt(index - lastAccumulatedSize, element)) {
+                    return false;
+                }
+                updateCounter++;
+                size++;
+                if (lastEpisode.size() >= midEpisodeSize && lastEpisode.pageSpaceLeft() <= 8) {
+                    splitOrGlue();
+                }
+                return true;
+            }
+            accumulatedSize += episodeSize;
+        }
+        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
+
+//        IteratorWalker<T> walker = getWalkerAtIndex(index);
+//        if (walker.add(element)) {
+//            if (walker.size() > maxEpisodeSize) {
+//                splitOrGlue();
+//            }
+//            return true;
+//        }
+//        return false;
     }
 
     /**
@@ -802,13 +837,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Nothing to do.
+     * Returns the number of episodes that can be added.
      *
-     * @return 0
+     * @return space still available
      */
     @Override
     public int pageSpaceLeft() {
-        return 0;
+        return data.pageSpaceLeft();
     }
 
     @Override
