@@ -15,9 +15,9 @@ public interface Screenplay {
 
     int getDefaultSize();
 
-    int getMaxEpisodeSize(int fac);
+    int getMaxEpisodeSize(final int fac);
 
-    int getMinEpisodeGlue(int fac);
+    int getMinEpisodeGlue(final int fac);
 
-    <T> ArrayMovie<T> buildMovie();
+    <T> ArrayMovie<T> buildMovie(final int parentSize);
 }

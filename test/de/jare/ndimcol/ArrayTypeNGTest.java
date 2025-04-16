@@ -56,11 +56,11 @@ public class ArrayTypeNGTest {
         ArrayTape<Integer> data = dataMiniArray();
         data.removeAt(2);
         System.out.println("-------------- testRmoveAt");
-        data.debbug(System.out, " . ");
+        data.debug(System.out, " . ");
         System.out.println("--------------");
         data.removeTrim(2);
         System.out.println("--------------");
-        data.debbug(System.out, " . ");
+        data.debug(System.out, " . ");
         System.out.println("--------------");
         assertEquals(Integer.valueOf(data.size()), Integer.valueOf(3));
         assertEquals(data.get(0), Integer.valueOf(4));
@@ -130,7 +130,7 @@ public class ArrayTypeNGTest {
     @Test
     public void testDebbug() {
         ArrayTape<Integer> data = dataMiniArray();
-        int offset = data.debbug(System.out, "TestPrefix", 0);
+        int offset = data.debug(System.out, "TestPrefix", 0);
         assertTrue(offset > 0); // Abhängig von der Rückgabelogik
     }
 

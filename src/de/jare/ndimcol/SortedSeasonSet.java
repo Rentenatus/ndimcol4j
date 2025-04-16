@@ -113,7 +113,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
         final ArrayMovie<T> leftData = data.get(0);
         T left = leftData.get(0);
         if (predicate.test(element, left)) {
-            return worker.episdoeToSmallDo(this, element);
+            return worker.episodeToSmallDo(this, element);
         }
         if (predicate.test(element, leftData.get(leftData.size() - 1))) {
             return worker.episodeDo(this, leftData, element);
@@ -195,7 +195,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
     }
 
     /**
-     * Adds all of this elements in the specified collection to this set.
+     * Adds all elements in the specified collection to this set.
      *
      * @param col collection containing elements to be added to this collection
      * @return true if this collection changed as a result of the call

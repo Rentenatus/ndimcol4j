@@ -17,7 +17,7 @@ import java.util.Collection;
  */
 public class IterTapeWalker<T> implements IteratorWalker<T> {
 
-    ArrayTape<T> tape;
+    final ArrayTape<T> tape;
     private int currentIndex;
     private boolean forward;
 
@@ -82,7 +82,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
     }
 
     /**
-     * Adds the specified element to the the ArrayTape at current index of Walker.
+     * Adds the specified element to the ArrayTape at current index of Walker.
      *
      *
      * @param element the element to be added to the ArrayTape

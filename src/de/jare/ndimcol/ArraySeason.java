@@ -8,6 +8,7 @@
 package de.jare.ndimcol;
 
 import java.io.PrintStream;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -85,18 +86,20 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public boolean add(T element) {
         if (data.isEmpty()) {
-            final ArrayMovie<T> first = screenplay.buildMovie();
-            data.add(first);
-            first.add(element);
+            final ArrayMovie<T> first = screenplay.buildMovie(0);
+            data.add(first); // add to empty data need not be checked
+            first.add(element); // add to empty episode need not be checked
             size = 1;
             this.updateCounter++;
             return true;
         }
         final ArrayMovie<T> episode = data.get(data.size() - 1);
         if (episode.size() >= midEpisodeSize && episode.pageSpaceLeft() <= 8) {
-            final ArrayMovie<T> nextFree = screenplay.buildMovie();
-            data.add(nextFree);
-            nextFree.add(element);
+            final ArrayMovie<T> nextFree = screenplay.buildMovie(this.size);
+            if (!data.add(nextFree)) {
+                return false;
+            }
+            nextFree.add(element); // add to empty episode need not be checked
             size++;
             this.updateCounter++;
             recalculateScope();
@@ -118,13 +121,17 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     public boolean addFirstFree(T element) {
         int episodeIndex = firstFreeEpisode();
         if (episodeIndex == -1) {
-            final ArrayMovie<T> nextFree = screenplay.buildMovie();
-            data.add(nextFree);
+            final ArrayMovie<T> nextFree = screenplay.buildMovie(this.size);
+            if (!data.add(nextFree)) {
+                return false;
+            }
             size++;
-            nextFree.add(element);
+            nextFree.add(element); // add to empty episode need not be checked
         } else {
             ArrayMovie<T> episode = data.get(episodeIndex);
-            episode.add(element);
+            if (!episode.add(element)) {
+                return false;
+            }
             size++;
             if (episode.size() > maxEpisodeSize) {
                 splitOrGlue();
@@ -158,7 +165,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Inserts all of the elements in the specified collection into this season, starting at the specified position.
+     * Inserts all elements in the specified collection into this season, starting at the specified position.
      *
      * @param index index at which to insert the last element from the specified collection
      * @param col collection containing elements to be added to this season
@@ -187,7 +194,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public boolean addAll(Collection<? extends T> col) {
         if (data.isEmpty()) {
-            final ArrayMovie<T> first = screenplay.buildMovie();
+            final ArrayMovie<T> first = screenplay.buildMovie(0);
             data.add(first);
             first.addAll(col);
             size = col.size();
@@ -385,13 +392,22 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @return the walker at the specified element, or null if element not found
      */
     public IteratorWalker<T> getWalkerAtElement(final Object element) {
-        if (data.isEmpty()) {
-            return null;
+        for (int i = 0; i < data.size(); i++) {
+            final ArrayMovie<T> episode = data.get(i);
+            final int episodeIndex = episode.indexOf(element);
+            if (episodeIndex >= 0) {
+                return new IterCoverWalker<>(this, episode.leafWalker(episodeIndex));
+
+            }
         }
-        if (element == null) {
-            return filterFirst(x -> (x == null));
-        }
-        return filterFirst(x -> element.equals(x));
+        return null;
+//        if (data.isEmpty()) {
+//            return null;
+//        }
+//        if (element == null) {
+//            return filterFirst(Objects::isNull);
+//        }
+//        return filterFirst(element::equals);
     }
 
     /**
@@ -404,9 +420,6 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public int indexOf(Object element) {
         final int dataSize = data.size();
-        if (dataSize == 0) {
-            return -1;
-        }
         if (dataSize == 1) {
             final ArrayMovie<T> episode = data.first();
             return episode.indexOf(element);
@@ -433,9 +446,6 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public int lastIndexOf(Object element) {
         final int dataSize = data.size();
-        if (dataSize == 0) {
-            return -1;
-        }
         if (dataSize == 1) {
             final ArrayMovie<T> episode = data.first();
             return episode.lastIndexOf(element);
@@ -574,7 +584,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public <U> U[] toArray(U[] arr) {
         if (arr.length < size) {
-            arr = (U[]) java.lang.reflect.Array.newInstance(arr.getClass().getComponentType(), size);
+            arr = (U[]) Array.newInstance(arr.getClass().getComponentType(), size);
         }
         copyToArray(arr, 0);
         return arr;
@@ -782,11 +792,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     @Override
-    public int debbug(PrintStream out, String prefix, int offset) {
+    public int debug(PrintStream out, String prefix, int offset) {
         for (int i = 0; i < data.size(); i++) {
             ArrayMovie<T> episode = data.get(i);
             out.println(prefix + "s[" + i + "] .size() =  " + episode.size());
-            offset = episode.debbug(out, prefix + "s[" + i + "]  ", offset);
+            offset = episode.debug(out, prefix + "s[" + i + "]  ", offset);
         }
         return offset;
     }
@@ -836,19 +846,28 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return ret;
     }
 
+    /**
+     * Return a new movie containing all elements that match the given predicate.
+     * <p>
+     * This method uses multiple threads to filter the elements in parallel.
+     *
+     * @param predicate the predicate to be used for the filter
+     * @return a new movie containing all elements that match the given predicate
+     */
+    @SuppressWarnings("unchecked")
     public ArrayMovie<T> filterParallel(Predicate<? super T> predicate) {
         Thread[] threads = new Thread[data.size()];
-        Runnable[] runnables = new Runnable[data.size()];
+        Runnable[] tasks = new Runnable[data.size()];
         for (int i = 0; i < data.size(); i++) {
-            runnables[i] = new PredicateAllRunnable<T>(predicate, data.get(i));
-            threads[i] = new Thread(runnables[i]);
+            tasks[i] = new PredicateAllRunnable<T>(predicate, data.get(i));
+            threads[i] = new Thread(tasks[i]);
             threads[i].start();
         }
         ArraySeason<T> ret = emptyMovie(data.size() << 3);
         for (int i = 0; i < data.size(); i++) {
             try {
                 threads[i].join();
-                ArrayMovie<T> elements = ((PredicateAllRunnable<T>) runnables[i]).getElements();
+                ArrayMovie<T> elements = ((PredicateAllRunnable<T>) tasks[i]).getElements();
                 if (elements.hasRecord()) {
                     ret.data.add(elements);
                 }
@@ -856,7 +875,6 @@ public class ArraySeason<T> implements ArrayMovie<T> {
                 Thread.currentThread().interrupt();
                 throw new RuntimeException("Thread interrupted.", e);
             }
-
         }
         ret.updateSize();
         return ret;

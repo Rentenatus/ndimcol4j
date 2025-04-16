@@ -15,8 +15,8 @@ import java.util.Collection;
  */
 public class IterCoverWalker<T> implements IteratorWalker<T> {
 
-    IteratorWalker<T> inner;
-    ArraySeason<T> observer;
+    final IteratorWalker<T> inner;
+    final ArraySeason<T> observer;
 
     /**
      * Returns the ArraySeason observing the traversal.

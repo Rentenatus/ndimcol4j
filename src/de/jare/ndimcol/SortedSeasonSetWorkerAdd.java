@@ -15,7 +15,7 @@ package de.jare.ndimcol;
 public class SortedSeasonSetWorkerAdd<T> extends SortedSeasonSetWorker<T> {
 
     @Override
-    boolean episdoeToSmallDo(final SortedSeasonSet<T> caller, final T element) {
+    boolean episodeToSmallDo(final SortedSeasonSet<T> caller, final T element) {
         return caller.superAddAt(0, element);
     }
 

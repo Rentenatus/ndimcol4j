@@ -18,7 +18,7 @@ public abstract class SortedSeasonSetWorker<T> {
         return caller.workEpisode(this, episode, element);
     }
 
-    boolean episdoeToSmallDo(final SortedSeasonSet<T> caller, final T element) {
+    boolean episodeToSmallDo(final SortedSeasonSet<T> caller, final T element) {
         return false;
     }
 

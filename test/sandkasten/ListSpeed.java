@@ -28,7 +28,7 @@ import java.util.Vector;
  */
 public class ListSpeed {
 
-    protected static final int NUMBER_BATCHES = 256;
+    protected static final int NUMBER_BATCHES = 800;
 
     public void runTape(final Object[] arr, final int numberElems) {
         // Erstellen des ursprünglichen Tapes und Hinzufügen von 100 Elementen
@@ -266,7 +266,7 @@ public class ListSpeed {
 
     }
 
-    final static int[] JOBS = new int[]{80, 4_000, 8_000, 24_000};
+    final static int[] JOBS = new int[]{80, 240, 4_000, 8_000, 24_000};
 
     public static void main(String[] args) {
         ListSpeed test = new ListSpeed();

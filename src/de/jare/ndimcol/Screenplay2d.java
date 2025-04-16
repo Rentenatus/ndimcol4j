@@ -15,9 +15,9 @@ public class Screenplay2d implements Screenplay {
 
     public final static Screenplay INSTANCE = new Screenplay2d();
 
-    static final int DEFAULT_SIZE_2D = 10;
-    static final int START_MAX_EPISODE_SIZE_2D = 512;
-    static final int START_MIN_EPISODE_GLUE_2D = 128;
+    static final int DEFAULT_SIZE_2D = 30;
+    static final int START_MAX_EPISODE_SIZE_2D = 800;
+    static final int START_MIN_EPISODE_GLUE_2D = 200;
 
     @Override
     public int getDefaultSize() {
@@ -25,17 +25,17 @@ public class Screenplay2d implements Screenplay {
     }
 
     @Override
-    public int getMaxEpisodeSize(int fac) {
+    public int getMaxEpisodeSize(final int fac) {
         return START_MAX_EPISODE_SIZE_2D + (fac << 2);
     }
 
     @Override
-    public int getMinEpisodeGlue(int fac) {
+    public int getMinEpisodeGlue(final int fac) {
         return START_MIN_EPISODE_GLUE_2D + fac;
     }
 
     @Override
-    public <T> ArrayMovie<T> buildMovie() {
+    public <T> ArrayMovie<T> buildMovie(final int parentSize) {
         return new ArrayTape<>();
     }
 }

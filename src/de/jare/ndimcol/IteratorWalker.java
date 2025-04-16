@@ -10,7 +10,7 @@ package de.jare.ndimcol;
 import java.util.Collection;
 
 /**
- * A walker is a interface for a iterator that can move forward and backward.
+ * A walker is an interface for an iterator that can move forward and backward.
  *
  * @author Jansuch Rentenatus
  * @param <T> the type of elements in this walker

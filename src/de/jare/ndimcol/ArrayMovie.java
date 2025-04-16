@@ -93,14 +93,14 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @return true if the movie is empty, false otherwise
      */
     @Override
-    public boolean isEmpty();
+    boolean isEmpty();
 
     /**
      * Returns true if the movie contains one or more elements.
      *
      * @return true if the movie has elements, false otherwise
      */
-    public boolean hasRecord();
+    boolean hasRecord();
 
     /**
      * Splits this movie into two movies. This movie contains the first half of the elements, and the second movie
@@ -187,7 +187,7 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param offset the offset to add to the index of each element (if this is a movie of movies)
      * @return the number of elements printed plus offset (the index of the next element from the next movie)
      */
-    int debbug(PrintStream out, String prefix, int offset);
+    int debug(PrintStream out, String prefix, int offset);
 
     /**
      * Debugging method to print the elements of the movie to the specified output stream.
@@ -196,8 +196,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param prefix the prefix to print before each element
      * @return the number of elements printed
      */
-    default int debbug(PrintStream out, String prefix) {
-        return debbug(out, prefix, 0);
+    default int debug(PrintStream out, String prefix) {
+        return debug(out, prefix, 0);
     }
 
     /**

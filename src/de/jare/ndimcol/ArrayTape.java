@@ -31,7 +31,7 @@ import java.util.function.Predicate;
 public class ArrayTape<T> implements ArrayMovie<T> {
 
     public static final int DEFAULT_CAPACITY = 32;
-    public static final int DEFAULT_PAGE = 256;
+    public static final int DEFAULT_PAGE = 64;
     public static final int DEFAULT_COUNTDOWN = DEFAULT_PAGE << 2;
 
     /**
@@ -57,7 +57,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     private int size;
     private int page;
     private int updateCounter;
-    private int trimCounDown;
+    private int trimCountDown;
     private IterTapeWalker<T> softWalker;
 
     /**
@@ -67,9 +67,9 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     public ArrayTape() {
         this.elementData = new Object[DEFAULT_CAPACITY];
         this.size = 0;
-        this.page = DEFAULT_PAGE; // Standardwert für das Attribut 'page'
+        this.page = DEFAULT_PAGE;
         this.updateCounter = 0;
-        this.trimCounDown = DEFAULT_COUNTDOWN;
+        this.trimCountDown = DEFAULT_COUNTDOWN;
     }
 
     /**
@@ -81,9 +81,9 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     public ArrayTape(int initialCapacityOrZero) {
         this.elementData = new Object[initialCapacityOrZero > 0 ? initialCapacityOrZero : DEFAULT_CAPACITY];
         this.size = 0;
-        this.page = DEFAULT_PAGE; // Standardwert für das Attribut 'page'
+        this.page = DEFAULT_PAGE;
         this.updateCounter = 0;
-        this.trimCounDown = DEFAULT_COUNTDOWN;
+        this.trimCountDown = DEFAULT_COUNTDOWN;
     }
 
     /**
@@ -97,7 +97,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         this.size = original.size;
         this.page = original.page;
         this.updateCounter = original.updateCounter;
-        this.trimCounDown = original.trimCounDown;
+        this.trimCountDown = original.trimCountDown;
         this.softWalker = null;
     }
 
@@ -108,14 +108,14 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      * @param list the List from which the ArrayTape is created
      */
     public ArrayTape(List<T> list) {
-        this.elementData = new Object[list.size() + DEFAULT_PAGE]; // Initialisieren mit list size + default page
+        this.elementData = new Object[list.size() + (DEFAULT_PAGE >> 4)];
         for (int i = 0; i < list.size(); i++) {
             this.elementData[i] = list.get(i);
         }
         this.size = list.size();
         this.page = DEFAULT_PAGE; // Default value for the 'page' attribute
         this.updateCounter = 0;
-        this.trimCounDown = DEFAULT_COUNTDOWN; // Initialize trim countdown
+        this.trimCountDown = DEFAULT_COUNTDOWN; // Initialize trim countdown
     }
 
     /**
@@ -128,7 +128,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         this.elementData = new Object[DEFAULT_CAPACITY];
         this.size = 0;
         this.updateCounter++;
-        this.trimCounDown = DEFAULT_COUNTDOWN; // Initialize trim countdown
+        this.trimCountDown = DEFAULT_COUNTDOWN; // Initialize trim countdown
     }
 
     /**
@@ -200,13 +200,13 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         if (size >= elementData.length) {
             int newCapacity = elementData.length + page + (size >> 2);
             Object[] newArray = new Object[newCapacity];
-            // Kopiere Elemente bis zum Index
+            // Copy elements up to the index
             System.arraycopy(elementData, 0, newArray, 0, index);
-            // Kopiere verbleibende Elemente nach dem Index
+            // Copy remaining elements after the index
             System.arraycopy(elementData, index, newArray, index + 1, size - index);
             elementData = newArray;
         } else {
-            // Nur Elemente nach dem Index verschieben
+            // Only move elements by index
             System.arraycopy(elementData, index, elementData, index + 1, size - index);
         }
         elementData[index] = element;
@@ -216,8 +216,8 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Adds all of the elements in the specified collection to the end of this ArrayTape. Increments the update counter
-     * after adding the elements.
+     * Adds all elements in the specified collection to the end of this ArrayTape. Increments the update counter after
+     * adding the elements.
      *
      * @param col collection containing elements to be added to this ArrayTape
      * @return true if this ArrayTape changed as a result of the call
@@ -252,7 +252,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Inserts all of the elements in the specified collection into this tape, starting at the specified position.
+     * Inserts all elements in the specified collection into this tape, starting at the specified position.
      *
      * @param index index at which to insert the first element from the specified collection
      * @param col collection containing elements to be added to this tape
@@ -292,7 +292,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         } else {
             // Only move elements by index
             System.arraycopy(elementData, index, elementData, index + colSize, size - index);
-            // Copy cllection
+            // Copy collection
             int i = index;
             for (T element : col) {
                 elementData[i++] = element;
@@ -312,7 +312,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      */
     public void ensureCapacity(int minCapacity) {
         if (elementData.length < minCapacity) {
-            int newCapacity = minCapacity + page + (size >> 2); // Nutzung des Attributs 'page'
+            int newCapacity = minCapacity + page + (size >> 2);
             elementData = Arrays.copyOf(elementData, newCapacity);
         }
     }
@@ -397,10 +397,10 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      */
     @Override
     public T removeAt(int index) {
-        if (trimCounDown > 0) {
+        if (trimCountDown > 0) {
             return removeFast(index);
         }
-        this.trimCounDown = page << 2;
+        this.trimCountDown = page << 2;
         return removeTrim(index);
     }
 
@@ -439,7 +439,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
             }
         }
         updateCounter++;
-        trimCounDown -= removed;
+        trimCountDown -= removed;
         return removed > 0;
     }
 
@@ -458,7 +458,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
                 modified = true;
             }
         }
-        if (trimCounDown < 0) {
+        if (trimCountDown < 0) {
             trimCapacity();
         }
         return modified;
@@ -513,7 +513,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         }
         elementData[--size] = null; // clear to let GC do its work
         updateCounter++;
-        trimCounDown--;
+        trimCountDown--;
         return ret;
     }
 
@@ -531,21 +531,19 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         }
         @SuppressWarnings("unchecked")
         T ret = (T) elementData[index];
-
-        // Neues Array mit der Größe size + page
         Object[] newElementData = new Object[size + page - 1];
 
-        // Elemente von der linken Seite (falls vorhanden) kopieren
+        // Copy elements from the left side (if any)
         if (index > 0) {
             System.arraycopy(elementData, 0, newElementData, 0, index);
         }
 
-        // Elemente von der rechten Seite (falls vorhanden) kopieren
+        // Copy elements from the right side (if any)
         if (index < size - 1) {
             System.arraycopy(elementData, index + 1, newElementData, index, size - index - 1);
         }
 
-        // Das alte Array aktualisieren
+        // Update the old array
         elementData = newElementData;
         size--;
         updateCounter++;
@@ -614,10 +612,10 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Returns true if this ArrayTape contains all of the elements in the specified collection.
+     * Returns true if this ArrayTape contains all elements in the specified collection.
      *
      * @param col the collection to be checked for containment in this ArrayTape
-     * @return true if this ArrayTape contains all of the elements in the specified collection
+     * @return true if this ArrayTape contains all elements in the specified collection
      * @throws NullPointerException if the specified collection is null
      */
     @Override
@@ -676,9 +674,9 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
     protected void trimCapacity() {
-        int newCapacity = elementData.length + page; // Nutzung des Attributs 'page'
+        int newCapacity = elementData.length + page;
         elementData = Arrays.copyOf(elementData, newCapacity);
-        this.trimCounDown = DEFAULT_COUNTDOWN;
+        this.trimCountDown = DEFAULT_COUNTDOWN;
     }
 
     /**
@@ -734,7 +732,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         }
         System.arraycopy(elementData, 0, a, 0, size);
         if (a.length > size) {
-            a[size] = null; // Null-terminate if a is larger than size
+            a[size] = null; // Null-terminate if Param 'a' is larger than size
         }
         return a;
     }
@@ -932,7 +930,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     }
 
     @Override
-    public int debbug(PrintStream out, String prefix, int offset) {
+    public int debug(PrintStream out, String prefix, int offset) {
         for (int i = 0; i < size(); i++) {
             final int index = offset + i;
             out.println(prefix + "t[" + i + "] =[" + index + "]= '" + elementData[i] + "'");
