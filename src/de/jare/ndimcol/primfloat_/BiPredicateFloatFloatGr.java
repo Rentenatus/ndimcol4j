@@ -5,16 +5,18 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol.primFloat;
+package de.jare.ndimcol.primfloat_;
+
+import de.jare.ndimcol.primint.*;
 
 /**
  *
  * @author Janusch Rentenatus
  */
-public interface BiPredicateFloatFloat {
+public class BiPredicateFloatFloatGr implements BiPredicateFloatFloat {
 
     /**
-     * Evaluates this predicate on the given arguments.
+     * Evaluates this predicate e2 greater as e1.
      *
      *
      * @param e1 the first input argument
@@ -22,6 +24,9 @@ public interface BiPredicateFloatFloat {
      * @return {@code true} if the input arguments match the predicate, otherwise {@code false}
      *
      */
-    boolean test(float e1, float e2);
+    @Override
+    public boolean test(float e1, float e2) {
+        return e2 > e1;
+    }
 
 }

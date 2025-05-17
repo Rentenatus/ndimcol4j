@@ -5,7 +5,7 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol.primFloat;
+package de.jare.ndimcol.primfloat_;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -75,12 +75,12 @@ public interface IteratorFloat {
      *
      * @param action The action to be performed for each element
      * @throws NullPointerException if the specified action is null
-     * @since 1.8
      */
     default void forEachRemaining(Consumer<Float> action) {
         Objects.requireNonNull(action);
         while (hasNext()) {
-            action.accept(next());
+            final float nextFloat = next();
+            action.accept(nextFloat);
         }
     }
 }
