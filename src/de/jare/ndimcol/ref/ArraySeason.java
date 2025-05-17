@@ -639,7 +639,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public <U> U[] toArray(U[] arr) {
         if (arr.length < size) {
-            //prim:arr=new int[size];
+            //prim:arr=new _PRIM_[size];
             arr = (U[]) Array.newInstance(arr.getClass().getComponentType(), size);
         }
         copyToArray(arr, 0);

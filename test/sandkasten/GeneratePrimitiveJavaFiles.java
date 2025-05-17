@@ -36,7 +36,7 @@ public class GeneratePrimitiveJavaFiles {
 
         for (File file : javaFiles) {
             String p = file.getAbsolutePath();
-            final String newPath = "\\de\\jare\\ndimcol\\prim" + append + "\\";
+            final String newPath = "\\de\\jare\\ndimcol\\prim" + prim + "\\";
 
             if (p.endsWith("ListSeason.java")) {
                 System.out.println("x  " + p);
