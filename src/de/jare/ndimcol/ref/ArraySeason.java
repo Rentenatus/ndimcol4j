@@ -5,8 +5,9 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol;
+package de.jare.ndimcol.ref;
 
+import de.jare.ndimcol.ref.ArrayMovie;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.*;
@@ -250,6 +251,25 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
+     * Adds all of the elements in the specified movie to this seasson.
+     *
+     * @param movie movie containing elements to be added to this collection
+     * @return {@code true} if this seasson changed as a result of the call
+     */
+    @Override
+    public boolean addMovie(ArrayMovie<T> movie) {
+        final ArrayTape<T> episode = new ArrayTape<>(movie.size());
+        episode.addMovie(movie);
+        boolean modified = data.add(episode);
+        size += movie.size();
+        this.updateCounter++;
+        if (episode.size() > maxEpisodeSize) {
+            splitOrGlue();
+        }
+        return modified;
+    }
+
+    /**
      * Returns the element at the specified index in this collection.
      *
      * @param index the index of the element to return
@@ -357,7 +377,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
                 data.removeAt(i);
                 i--; // Move back to recheck the merged episode
                 final ArrayMovie<T> prevEpisode = data.get(i);
-                prevEpisode.addAll(episode);
+                prevEpisode.addMovie(episode);
                 lastSize = prevEpisode.size();
             } else {
                 lastSize = episode.size();
@@ -619,6 +639,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public <U> U[] toArray(U[] arr) {
         if (arr.length < size) {
+            //prim:arr=new int[size];
             arr = (U[]) Array.newInstance(arr.getClass().getComponentType(), size);
         }
         copyToArray(arr, 0);
@@ -643,9 +664,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             episode.copyToArray(arr, index);
             index += episode.size();
         }
+        //noprim.start
         if (arr.length > size) {
             arr[size] = null;
         }
+        //noprim.end
     }
 
     /**
@@ -706,8 +729,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         if (col == null) {
             throw new NullPointerException("Collection cannot be null.");
         }
-        for (Object ob : col) {
-            if (!contains(ob)) {
+        //prim: for (Object element : col) {
+        for (Object element : col) {
+            //prim: if ( !(element instanceof _PRIMBOX_) || !contains((_PRIM_)element) ) {
+            if (!contains(element)) {
                 return false;
             }
         }
@@ -720,11 +745,21 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             throw new NullPointerException("Collection cannot be null.");
         }
         boolean modified = false;
+        //noprim.start  
         for (Object ob : col) {
             while (remove(ob)) {
                 modified = true;
             }
         }
+        //noprim.end  
+        //prim:for (Object ob : col) {
+        //prim:    if (ob instanceof _PRIMBOX_) {
+        //prim:        while (remove((_PRIM_) ob)) {
+        //prim:            modified = true;
+        //prim:        }
+        //prim:    }
+        //prim:}
+        //prim.end
         return modified;
     }
 

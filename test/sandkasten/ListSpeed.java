@@ -6,14 +6,14 @@
  * </copyright>
  */
 package sandkasten;
-
-import de.jare.ndimcol.ArraySeason;
-import de.jare.ndimcol.ArrayTape;
-import de.jare.ndimcol.SortedSeasonSet;
-import de.jare.ndimcol.IterTapeWalker;
-import de.jare.ndimcol.Screenplay;
-import de.jare.ndimcol.Screenplay2d;
-import de.jare.ndimcol.Screenplay3d;
+ 
+import de.jare.ndimcol.ref.ArraySeason;
+import de.jare.ndimcol.ref.ArrayTape;
+import de.jare.ndimcol.ref.SortedSeasonSet;
+import de.jare.ndimcol.ref.IterTapeWalker;
+import de.jare.ndimcol.ref.Screenplay;
+import de.jare.ndimcol.ref.Screenplay2d;
+import de.jare.ndimcol.ref.Screenplay3d;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Enumeration;

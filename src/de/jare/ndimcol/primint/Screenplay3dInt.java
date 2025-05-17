@@ -5,16 +5,20 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol;
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+package de.jare.ndimcol.primint;
+
+import de.jare.ndimcol.ref.ArrayMovie;
 
 /**
  *
  * @author Janusch Rentenatus
  */
-public class Screenplay3d implements Screenplay {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+public class Screenplay3dInt implements ScreenplayInt {
 
-    public final static Screenplay INSTANCE = new Screenplay3d();
-    private final Screenplay3dInner inner = new Screenplay3dInner();
+    public final static ScreenplayInt INSTANCE = new Screenplay3dInt();
+    private final Screenplay3dIntInner inner = new Screenplay3dIntInner();
 
     static final int DEFAULT_SIZE_3D = 24;
     static final int START_MAX_EPISODE_SIZE_3D = 2048;
@@ -24,7 +28,7 @@ public class Screenplay3d implements Screenplay {
     static final int START_MIN_EPISODE_GLUE_3D_INNER = 128;
     static final int START_3D_SIZE = 4096;
 
-    static class Screenplay3dInner implements Screenplay {
+    static class Screenplay3dIntInner implements ScreenplayInt {
 
         @Override
         public int getDefaultSize() {
@@ -42,8 +46,8 @@ public class Screenplay3d implements Screenplay {
         }
 
         @Override
-        public <T> ArrayMovie<T> buildMovie(final int parentSize) {
-            return new ArrayTape<>();
+        public ArrayMovieInt buildMovie(final int parentSize) {
+            return new ArrayTapeInt();
         }
     }
 
@@ -63,7 +67,7 @@ public class Screenplay3d implements Screenplay {
     }
 
     @Override
-    public <T> ArrayMovie<T> buildMovie(final int parentSize) {
-        return parentSize > START_3D_SIZE ? new ArraySeason<>(inner) : new ArrayTape<>();
+    public ArrayMovieInt buildMovie(final int parentSize) {
+        return parentSize > START_3D_SIZE ? new ArraySeasonInt(inner) : new ArrayTapeInt();
     }
 }

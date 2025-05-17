@@ -5,30 +5,34 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol;
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+package de.jare.ndimcol.primint;
 
+import de.jare.ndimcol.ref.ArrayMovie;
 import java.util.Collection;
 
 /**
  * A walker is an interface for an iterator that can move forward and backward.
  *
  * @author Jansuch Rentenatus
- * @param <T> the type of elements in this walker
  */
-public interface IteratorWalker<T> {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+public interface IteratorWalkerInt {
 
     /**
      * Returns the ArrayMovie that this walker is traversing.
      *
      * @return the ArrayMovie being traversed
      */
-    ArrayMovie<T> getRelatedMovie();
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    ArrayMovieInt getRelatedMovie();
 
     /**
      * Returns the current element. Takes forward movement by positioning.
      *
      * @return the current element
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     boolean hasNext();
 
     /**
@@ -36,20 +40,23 @@ public interface IteratorWalker<T> {
      *
      * @return the current element
      */
-    T removeForward();
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    int removeForward();
 
     /**
      * Returns the next element. Takes forward movement by positioning.
      *
      * @return the next element
      */
-    T next();
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    int next();
 
     /**
      * Returns true if there are more elements when moving in the backward direction.
      *
      * @return true if the current index is greater than 0
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     boolean hasPrevious();
 
     /**
@@ -57,14 +64,16 @@ public interface IteratorWalker<T> {
      *
      * @return the current element
      */
-    T previous();
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    int previous();
 
     /**
      * Removes the current element and returns it. Takes backward movement by positioning.
      *
      * @return the removed element
      */
-    T removeBackward();
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    int removeBackward();
 
     /**
      * Removes the current element and returns it. Takes into account the last forward or backward movement when
@@ -72,7 +81,8 @@ public interface IteratorWalker<T> {
      *
      * @return the removed element
      */
-    T remove();
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    int remove();
 
     /**
      * Adds the specified element to the ArrayMovie at current index of the Walker.
@@ -80,7 +90,8 @@ public interface IteratorWalker<T> {
      * @param element the element to be added
      * @return true if the element was added successfully, false otherwise
      */
-    boolean add(T element);
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    boolean add(int element);
 
     /**
      * Adds all elements in the specified collection to the ArrayMovie at current index of the Walker.
@@ -88,23 +99,26 @@ public interface IteratorWalker<T> {
      * @param col the collection of elements to be added
      * @return true if the elements were added successfully, false otherwise
      */
-    boolean add(Collection<? extends T> col);
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    boolean add(Collection<? extends Integer> col);
 
-    T set(T element);
+    int set(int element);
 
     /**
      * Resets the current index to the beginning .
      *
      * @return this
      */
-    IteratorWalker<T> goFirst();
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    IteratorWalkerInt goFirst();
 
     /**
      * Sets the current index to the last element.
      *
      * @return this
      */
-    IteratorWalker<T> goLast();
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    IteratorWalkerInt goLast();
 
     /**
      * Sets the current index to the specified position .
@@ -116,13 +130,15 @@ public interface IteratorWalker<T> {
      * @return IteratorWalker of the deepest ArrayTape of movie
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-    IteratorWalker<T> goLeafIndex(int index);
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    IteratorWalkerInt goLeafIndex(int index);
 
     /**
      * Returns the current index of the Walker.
      *
      * @return the current index position
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     int getCurrentIndex();
 
     /**
@@ -130,6 +146,7 @@ public interface IteratorWalker<T> {
      *
      * @return the current size of own ArrayMovie
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     int size();
 
     /**
@@ -137,6 +154,7 @@ public interface IteratorWalker<T> {
      *
      * @return true if the ArrayMovie is empty, false otherwise
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     boolean isEmpty();
 
     /**
@@ -144,6 +162,7 @@ public interface IteratorWalker<T> {
      *
      * @return true if the ArrayMovie has elements, false otherwise
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     boolean hasRecord();
 
 }

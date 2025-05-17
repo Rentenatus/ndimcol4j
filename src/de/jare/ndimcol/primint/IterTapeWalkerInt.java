@@ -5,19 +5,21 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol;
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+package de.jare.ndimcol.primint;
 
+import de.jare.ndimcol.ref.ArrayMovie;
 import java.util.Collection;
 
 /**
  * A IterTapeWalker allows for traversal over the elements in an ArrayTape in a linear fashion, providing methods to
  * move forward, backward, and to specific positions.
  *
- * @param <T> the type of elements in this walker
  */
-public class IterTapeWalker<T> implements IteratorWalker<T> {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+public class IterTapeWalkerInt implements IteratorWalkerInt {
 
-    final ArrayTape<T> tape;
+    final ArrayTapeInt tape;
     private int currentIndex;
     private boolean forward;
 
@@ -27,7 +29,8 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      *
      * @param tape the ArrayTape to be traversed
      */
-    public IterTapeWalker(ArrayTape<T> tape) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public IterTapeWalkerInt(ArrayTapeInt tape) {
         this.tape = tape;
         this.currentIndex = 0;
         this.forward = true;
@@ -40,7 +43,8 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * @param tape the ArrayTape to be traversed
      * @param atIndex the index to start at
      */
-    public IterTapeWalker(ArrayTape<T> tape, int atIndex) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public IterTapeWalkerInt(ArrayTapeInt tape, int atIndex) {
         this.tape = tape;
         this.currentIndex = atIndex;
     }
@@ -50,8 +54,9 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      *
      * @return the ArrayTape being traversed
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public ArrayMovie<T> getRelatedMovie() {
+    public ArrayMovieInt getRelatedMovie() {
         return this.tape;
     }
 
@@ -60,6 +65,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      *
      * @return true if the current index is less than the size of the ArrayTape
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean hasNext() {
         return currentIndex < tape.size();
@@ -72,8 +78,9 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * @return the next element in the ArrayTape
      * @throws IndexOutOfBoundsException if there are no more elements in the tape
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public T next() {
+    public int next() {
         if (!hasNext()) {
             throw new IndexOutOfBoundsException("No more elements in the tape.");
         }
@@ -89,8 +96,9 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * @return true
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public boolean add(T element) {
+    public boolean add(int element) {
         return tape.addAt(currentIndex, element);
     }
 
@@ -100,13 +108,14 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * @param col collection containing elements to be added
      * @return true if the addition is successful
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public boolean add(Collection<? extends T> col) {
+    public boolean add(Collection<? extends Integer> col) {
         return tape.addAll(currentIndex, col);
     }
 
     @Override
-    public T set(T element) {
+    public int set(int element) {
         return tape.set(currentIndex, element);
     }
 
@@ -117,8 +126,9 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * @return the next element that was removed from the ArrayTape
      * @throws IndexOutOfBoundsException if there are no more elements in the tape
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public T removeForward() {
+    public int removeForward() {
         return tape.removeAt(currentIndex);
     }
 
@@ -127,6 +137,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      *
      * @return true if the current index is greater than 0
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean hasPrevious() {
         return currentIndex > 0;
@@ -139,8 +150,9 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * @return the previous element in the ArrayTape
      * @throws IndexOutOfBoundsException if there are no previous elements in the tape
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public T previous() {
+    public int previous() {
         if (!hasPrevious()) {
             throw new IndexOutOfBoundsException("No previous elements in the tape.");
         }
@@ -155,8 +167,9 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * @return the previous element that was removed from the ArrayTape
      * @throws IndexOutOfBoundsException if there are no previous elements in the tape
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public T removeBackward() {
+    public int removeBackward() {
         return tape.removeAt(--currentIndex);
     }
 
@@ -166,8 +179,9 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * @return the current element that was removed
      * @throws IndexOutOfBoundsException if there are no previous elements in the tape
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public T remove() {
+    public int remove() {
         if (forward) {
             return removeForward();
         } else {
@@ -180,8 +194,9 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      *
      * @return this walker
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public IterTapeWalker<T> goFirst() {
+    public IterTapeWalkerInt goFirst() {
         currentIndex = 0;
         forward = true;
         return this;
@@ -192,8 +207,9 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      *
      * @return this walker
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public IterTapeWalker<T> goLast() {
+    public IterTapeWalkerInt goLast() {
         currentIndex = tape.size() - 1;
         forward = false;
         return this;
@@ -207,8 +223,9 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      * @return this walker
      * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public IterTapeWalker<T> goLeafIndex(int index) {
+    public IterTapeWalkerInt goLeafIndex(int index) {
         if (index < 0 || index >= tape.size()) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + tape.size());
         }
@@ -221,6 +238,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      *
      * @return the current index position
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int getCurrentIndex() {
         return currentIndex;
@@ -231,6 +249,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      *
      * @return the current size of own ArrayTape
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int size() {
         return tape.size();
@@ -241,6 +260,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      *
      * @return true if the ArrayTape is empty
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean isEmpty() {
         return tape.isEmpty();
@@ -251,6 +271,7 @@ public class IterTapeWalker<T> implements IteratorWalker<T> {
      *
      * @return true if the ArrayTape has a record
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean hasRecord() {
         return tape.hasRecord();

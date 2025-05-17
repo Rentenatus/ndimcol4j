@@ -5,8 +5,9 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol;
+package de.jare.ndimcol.ref;
 
+import de.jare.ndimcol.ref.ArrayMovie;
 import java.util.Collection;
 
 /**
@@ -96,6 +97,7 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
     @Override
     public T set(T element) {
         T ret = inner.set(element);
+        //prim:{
         if (ret != null) {
             observer.updateCounter++;
         }
@@ -111,6 +113,7 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
     @Override
     public T removeForward() {
         T ret = inner.removeForward();
+        //prim:{
         if (ret != null) {
             observer.updateCounter++;
             observer.size--;
@@ -151,6 +154,7 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
     @Override
     public T removeBackward() {
         T ret = inner.removeBackward();
+        //prim:{
         if (ret != null) {
             observer.updateCounter++;
             observer.size--;
@@ -167,6 +171,7 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
     @Override
     public T remove() {
         T ret = inner.remove();
+        //prim:{
         if (ret != null) {
             observer.updateCounter++;
             observer.size--;

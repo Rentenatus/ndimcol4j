@@ -7,6 +7,10 @@
  */
 package de.jare.ndimcol;
 
+import de.jare.ndimcol.ref.ArrayTape;
+import de.jare.ndimcol.ref.ListSeason;
+import de.jare.ndimcol.ref.IteratorWalker;
+import de.jare.ndimcol.ref.ArrayMovie;
 import java.util.List;
 import java.util.Random;
 import static org.testng.Assert.*;

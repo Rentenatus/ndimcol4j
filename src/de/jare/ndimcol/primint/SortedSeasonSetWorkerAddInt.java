@@ -5,27 +5,30 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol;
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+package de.jare.ndimcol.primint;
+
+import de.jare.ndimcol.ref.ArrayMovie;
 
 /**
  *
  * @author Jansuch Rentenatus
- * @param <T> the type of elements in this worker
  */
-public class SortedSeasonSetWorkerAdd<T> extends SortedSeasonSetWorker<T> {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+public class SortedSeasonSetWorkerAddInt extends SortedSeasonSetWorkerInt {
 
     @Override
-    boolean episodeToSmallDo(final SortedSeasonSet<T> caller, final T element) {
+    boolean episodeToSmallDo(final SortedSeasonSetInt caller, final int element) {
         return caller.superAddAt(0, element);
     }
 
     @Override
-    boolean episodeToBigDo(final SortedSeasonSet<T> caller, final T element) {
+    boolean episodeToBigDo(final SortedSeasonSetInt caller, final int element) {
         return caller.superAdd(element);
     }
 
     @Override
-    boolean elementToSmallDo(final SortedSeasonSet<T> caller, final ArrayMovie<T> episode, final T element) {
+    boolean elementToSmallDo(final SortedSeasonSetInt caller, final ArrayMovieInt episode, final int element) {
         episode.addAt(0, element);
         caller.size++;
         if (episode.size() > caller.maxEpisodeSize) {
@@ -35,7 +38,7 @@ public class SortedSeasonSetWorkerAdd<T> extends SortedSeasonSetWorker<T> {
     }
 
     @Override
-    boolean elementToBigDo(final SortedSeasonSet<T> caller, final ArrayMovie<T> episode, final T element) {
+    boolean elementToBigDo(final SortedSeasonSetInt caller, final ArrayMovieInt episode, final int element) {
         episode.add(element);
         caller.size++;
         if (episode.size() > caller.maxEpisodeSize) {
@@ -45,7 +48,7 @@ public class SortedSeasonSetWorkerAdd<T> extends SortedSeasonSetWorker<T> {
     }
 
     @Override
-    boolean elementPassedDo(final SortedSeasonSet<T> caller, final ArrayMovie<T> episode, final int index, final T element) {
+    boolean elementPassedDo(final SortedSeasonSetInt caller, final ArrayMovieInt episode, final int index, final int element) {
         episode.addAt(index, element);
         caller.size++;
         if (episode.size() > caller.maxEpisodeSize) {

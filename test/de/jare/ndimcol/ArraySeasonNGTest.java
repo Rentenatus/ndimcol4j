@@ -7,6 +7,8 @@
  */
 package de.jare.ndimcol;
 
+import de.jare.ndimcol.ref.ArraySeason;
+import de.jare.ndimcol.ref.ArrayMovie;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

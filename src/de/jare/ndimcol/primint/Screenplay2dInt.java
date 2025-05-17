@@ -5,15 +5,19 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol;
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+package de.jare.ndimcol.primint;
+
+import de.jare.ndimcol.ref.ArrayMovie;
 
 /**
  *
  * @author Janusch Rentenatus
  */
-public class Screenplay2d implements Screenplay {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+public class Screenplay2dInt implements ScreenplayInt {
 
-    public final static Screenplay INSTANCE = new Screenplay2d();
+    public final static ScreenplayInt INSTANCE = new Screenplay2dInt();
 
     static final int DEFAULT_SIZE_2D = 30;
     static final int START_MAX_EPISODE_SIZE_2D = 800;
@@ -35,7 +39,7 @@ public class Screenplay2d implements Screenplay {
     }
 
     @Override
-    public <T> ArrayMovie<T> buildMovie(final int parentSize) {
-        return new ArrayTape<>();
+    public ArrayMovieInt buildMovie(final int parentSize) {
+        return new ArrayTapeInt();
     }
 }

@@ -5,7 +5,8 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol;
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+package de.jare.ndimcol.primint;
 
 import java.util.ConcurrentModificationException;
 
@@ -13,9 +14,9 @@ import java.util.ConcurrentModificationException;
  * A IterTapeWalkerFreeze allows for traversal over the elements in an ArrayTape in a linear fashion, while ensuring no
  * concurrent modifications occur during the iteration.
  *
- * @param <T> the type of elements in this walker
  */
-public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements IteratorWalker<T> {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+public class IterTapeWalkerFreezeInt extends IterTapeWalkerInt implements IteratorWalkerInt {
 
     private int initialUpdateCounter;
 
@@ -25,7 +26,8 @@ public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements Iterat
      *
      * @param tape the ArrayTape to be traversed
      */
-    public IterTapeWalkerFreeze(ArrayTape<T> tape) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public IterTapeWalkerFreezeInt(ArrayTapeInt tape) {
         super(tape);
         this.initialUpdateCounter = tape.getUpdateCounter();
     }
@@ -37,6 +39,7 @@ public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements Iterat
      * @return true if the current index is less than the size of the ArrayTape
      * @throws ConcurrentModificationException if the ArrayTape has been modified during iteration
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean hasNext() {
         checkForConcurrentModification();
@@ -50,8 +53,9 @@ public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements Iterat
      * @return the next element in the ArrayTape
      * @throws ConcurrentModificationException if the ArrayTape has been modified during iteration
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public T next() {
+    public int next() {
         checkForConcurrentModification();
         return super.next();
     }
@@ -63,10 +67,11 @@ public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements Iterat
      * @return the next element that was removed from the ArrayTape
      * @throws ConcurrentModificationException if the ArrayTape has been modified during iteration
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public T removeForward() {
+    public int removeForward() {
         checkForConcurrentModification();
-        T ret = super.removeForward();
+        int ret = super.removeForward();
         this.initialUpdateCounter = tape.getUpdateCounter();
         return ret;
     }
@@ -78,6 +83,7 @@ public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements Iterat
      * @return true if the current index is greater than 0
      * @throws ConcurrentModificationException if the ArrayTape has been modified during iteration
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean hasPrevious() {
         checkForConcurrentModification();
@@ -91,8 +97,9 @@ public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements Iterat
      * @return the previous element in the ArrayTape
      * @throws ConcurrentModificationException if the ArrayTape has been modified during iteration
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public T previous() {
+    public int previous() {
         checkForConcurrentModification();
         return super.previous();
     }
@@ -104,10 +111,11 @@ public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements Iterat
      * @return the previous element that was removed from the ArrayTape
      * @throws ConcurrentModificationException if the ArrayTape has been modified during iteration
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public T removeBackward() {
+    public int removeBackward() {
         checkForConcurrentModification();
-        T ret = super.removeBackward();
+        int ret = super.removeBackward();
         this.initialUpdateCounter = tape.getUpdateCounter();
         return ret;
     }
@@ -118,6 +126,7 @@ public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements Iterat
      *
      * @throws ConcurrentModificationException if the ArrayTape has been modified during iteration
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     private void checkForConcurrentModification() {
         if (initialUpdateCounter != tape.getUpdateCounter()) {
             throw new ConcurrentModificationException("ArrayTape was modified during iteration.");

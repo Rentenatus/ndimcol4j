@@ -5,7 +5,9 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol;
+package de.jare.ndimcol.ref;
+
+import de.jare.ndimcol.ref.ArrayMovie;
 
 /**
  *
@@ -17,6 +19,7 @@ public class SortedSeasonSetWorkerRemove<T> extends SortedSeasonSetWorker<T> {
     @Override
     boolean elementEqualsDo(final SortedSeasonSet<T> caller, final ArrayMovie<T> episode, final int index, final T element) {
         T rem = episode.removeAt(index);
+        //prim: if (rem!=element) {
         if (!rem.equals(element)) {
             System.out.println(rem + ":::" + element);
         }

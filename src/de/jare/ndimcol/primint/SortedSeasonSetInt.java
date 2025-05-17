@@ -5,8 +5,10 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol;
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+package de.jare.ndimcol.primint;
 
+import de.jare.ndimcol.ref.ArrayMovie;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Set;
@@ -15,25 +17,21 @@ import java.util.function.BiPredicate;
 /**
  *
  * @author Janusch Rentenatus
- * @param <T> the type of elements in this set
  */
-public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+public class SortedSeasonSetInt extends ArraySeasonInt  {
 
-    private final BiPredicate<T, T> predicate;
-    private final SortedSeasonSetWorker<T> workerAdd = new SortedSeasonSetWorkerAdd<>();
-    private final SortedSeasonSetWorker<T> workerRemove = new SortedSeasonSetWorkerRemove<>();
+    private final BiPredicateIntInt predicate;
+    private final SortedSeasonSetWorkerInt workerAdd = new SortedSeasonSetWorkerAddInt();
+    private final SortedSeasonSetWorkerInt workerRemove = new SortedSeasonSetWorkerRemoveInt();
 
-    /**
-     * Constructor for SortedSeasonSet. The given comparator is morphed into a BiPredicate. The logic of this set is
-     * only on element1 &lt element2 xor element1 &gt element2 implemented.
+    
+     /**
+     * Constructor for SortedSeasonSet.
      *
-     * @param compT a Comparator&lt;T&gt; to compare elements
-     * @param forward true for ascending order, false for descending order
      */
-    public SortedSeasonSet(final Comparator<T> compT, boolean forward) {
-        this.predicate = forward
-                ? (T element1, T element2) -> compT.compare(element1, element2) < 0
-                : (T element1, T element2) -> compT.compare(element1, element2) > 0;
+    public SortedSeasonSetInt() {
+        this.predicate = new BiPredicateIntIntGr();
     }
 
     /**
@@ -41,7 +39,8 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      *
      * @param predicate a BiPredicate&lt;T, T&gt; to compare elements
      */
-    public SortedSeasonSet(final BiPredicate<T, T> predicate) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public SortedSeasonSetInt(final BiPredicateIntInt predicate) {
         this.predicate = predicate;
     }
 
@@ -51,11 +50,9 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @param element element whose presence in this collection is to be ensured
      * @return true if this collection changed as a result of the call
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public boolean add(T element) {
-        if (element == null) {
-            return false;
-        }
+    public boolean add(int element) {
         if (isEmpty()) {
             return super.add(element);
         }
@@ -68,7 +65,8 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @param element element whose be added to this collection
      * @return true if this collection changed as a result of the call
      */
-    protected boolean superAdd(T element) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    protected boolean superAdd(int element) {
         return super.add(element);
     }
 
@@ -79,7 +77,8 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @param element the element to be inserted
      * @return true if this collection changed as a result of the call
      */
-    protected boolean superAddAt(int index, T element) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    protected boolean superAddAt(int index, int element) {
         return super.addAt(index, element);
     }
 
@@ -92,15 +91,16 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @param element the element to be processed
      * @return true if the worker was able to process the element, false otherwise
      */
-    protected boolean work(SortedSeasonSetWorker<T> worker, T element) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    protected boolean work(SortedSeasonSetWorkerInt worker, int element) {
 
         int indexRData = data.size() - 1;
-        final ArrayMovie<T> rightData = data.get(indexRData);
+        final ArrayMovieInt rightData = data.get(indexRData);
         if (indexRData == 0) {
             return worker.episodeDo(this, rightData, element);
         }
 
-        T right = rightData.get(rightData.size() - 1);
+        int right = rightData.get(rightData.size() - 1);
         if (predicate.test(right, element)) {
             return worker.episodeToBigDo(this, element);
         }
@@ -110,8 +110,8 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
             return worker.elementEqualsDo(this, rightData, 0, element);
         }
 
-        final ArrayMovie<T> leftData = data.get(0);
-        T left = leftData.get(0);
+        final ArrayMovieInt leftData = data.get(0);
+        int left = leftData.get(0);
         if (predicate.test(element, left)) {
             return worker.episodeToSmallDo(this, element);
         }
@@ -122,8 +122,8 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
         int indexLData = 0;
         while (indexLData < indexRData) {
             int indexMData = (indexLData + indexRData) >> 1;
-            final ArrayMovie<T> episode = data.get(indexMData);
-            final T first = episode.get(0);
+            final ArrayMovieInt episode = data.get(indexMData);
+            final int first = episode.get(0);
             if (predicate.test(element, first)) {
                 indexRData = indexMData;
                 if (indexLData + 1 == indexRData) {
@@ -132,7 +132,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
             } else if (predicate.test(first, element)) {
                 indexLData = indexMData;
                 if (indexLData + 1 == indexRData) {
-                    final ArrayMovie<T> post = data.get(indexRData);
+                    final ArrayMovieInt post = data.get(indexRData);
                     if (predicate.test(post.get(0), element)) {
                         return worker.episodeDo(this, post, element);
                     }
@@ -155,15 +155,16 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @param element the element to be processed
      * @return true if the worker was able to process the episode, false otherwise
      */
-    protected boolean workEpisode(SortedSeasonSetWorker<T> worker, final ArrayMovie<T> episode, T element) {
-        T left = episode.get(0);
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    protected boolean workEpisode(SortedSeasonSetWorkerInt worker, final ArrayMovieInt episode, int element) {
+        int left = episode.get(0);
         if (predicate.test(element, left)) {
             return worker.elementToSmallDo(this, episode, element);
         } else if (!predicate.test(left, element)) {
             return worker.elementEqualsDo(this, episode, 0, element);
         }
         int indexR = episode.size() - 1;
-        T right = episode.get(indexR);
+        int right = episode.get(indexR);
         if (predicate.test(right, element)) {
             return worker.elementToBigDo(this, episode, element);
         } else if (!predicate.test(element, right)) {
@@ -182,7 +183,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
                 return worker.elementPassedDo(this, episode, indexR, element);
             }
             int indexM = (indexL + indexR) >> 1;
-            final T candidate = episode.get(indexM);
+            final int candidate = episode.get(indexM);
             if (predicate.test(element, candidate)) {
                 indexR = indexM;
             } else if (predicate.test(candidate, element)) {
@@ -200,10 +201,11 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @param col collection containing elements to be added to this collection
      * @return true if this collection changed as a result of the call
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public boolean addAll(Collection<? extends T> col) {
+    public boolean addAll(Collection<? extends Integer> col) {
         boolean changed = false;
-        for (T element : col) {
+        for (int element : col) {
             if (add(element)) {
                 changed = true;
             }
@@ -218,8 +220,9 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @param element the element to be inserted
      * @return true if this collection changed as a result of the call
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public boolean addAt(int index, T element) {
+    public boolean addAt(int index, int element) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
@@ -240,8 +243,9 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @return nothing
      * @throws UnsupportedOperationException always
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public boolean addFirstFree(T element) {
+    public boolean addFirstFree(int element) {
         throw new UnsupportedOperationException("Not supported in " + getClass().getSimpleName() + ".");
     }
 
@@ -252,13 +256,11 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @return true if this collection changed as a result of the call
      * @throws ClassCastException if the element is not of the same type as the elements in this set
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @SuppressWarnings("unchecked")
     @Override
-    public boolean remove(Object element) {
-        if (element == null) {
-            return false;
-        }
-        return removeT((T) element);
+    public boolean remove(int element) {
+        return removeT(element);
     }
 
     /**
@@ -267,7 +269,8 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @param element the element to be removed
      * @return true if this collection changed as a result of the call
      */
-    public boolean removeT(T element) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public boolean removeT(int element) {
         if (isEmpty()) {
             return false;
         }

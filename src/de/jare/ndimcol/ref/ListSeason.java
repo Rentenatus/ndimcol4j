@@ -5,7 +5,7 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol;
+package de.jare.ndimcol.ref;
 
 import java.util.*;
 

@@ -7,6 +7,8 @@
  */
 package de.jare.ndimcol;
 
+import de.jare.ndimcol.ref.SortedSeasonSet;
+import de.jare.ndimcol.ref.ArraySeason;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
