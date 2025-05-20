@@ -7,6 +7,8 @@
  */
 package de.jare.ndimcol;
 
+import de.jare.ndimcol.ref.ArraySeason;
+import de.jare.ndimcol.ref.ArrayMovie;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -56,11 +58,11 @@ public class ArraySeasonNGTest {
         ArraySeason<Integer> data = dataMiniArray();
         data.removeAt(2);
         System.out.println("-------------- testRmoveAt");
-        data.debbug(System.out, " . ");
+        data.debug(System.out, " . ");
         System.out.println("--------------");
         data.removeAt(2);
         System.out.println("--------------");
-        data.debbug(System.out, " . ");
+        data.debug(System.out, " . ");
         System.out.println("--------------");
         assertEquals("" + data.size(), "3");
         assertEquals("" + data.get(0), "4");
@@ -122,7 +124,7 @@ public class ArraySeasonNGTest {
     @Test
     public void testDebbug() {
         ArraySeason<Integer> data = dataMiniArray();
-        int offset = data.debbug(System.out, "TestPrefix", 0);
+        int offset = data.debug(System.out, "TestPrefix", 0);
         assertTrue(offset > 0); // Abhängig von der Rückgabelogik
     }
 
