@@ -14,45 +14,46 @@ ArraySeason is the basis for SortedSeasonSet, which, despite binary search, can 
 |--------------|------------|---------------|----------------|------------------|
 Vector         |  80    |  31 |  100.00%  |reference point.|
 ArrayList      |  80    |  27 |  87.09%||
-ArrayTape      |  80    |  26 |  83.87%||
+ArrayTape      |  80    |  28 |  90.32%||
 ArraySeason    |  80    |  42 |  135.48%||
-ArraySeasonInt |  80    |  44 |  141.93%|int without unboxing|
-ArraySeason3d  |  80    |  40 |  129.03%||
-SortedSeason   |  80    |  53 |  170.96%||
-SortedSeasonInt|  80    |  32 |  103.22%|int without unboxing|
-Vector         |  240    |  86 |  100.00%  |reference point.|
-ArrayList      |  240    |  71 |  82.55%||
-ArrayTape      |  240    |  75 |  87.2%||
-ArraySeason    |  240    |  122 |  141.86%||
-ArraySeasonInt |  240    |  96 |  111.62%|int without unboxing|
-ArraySeason3d  |  240    |  129 |  150.0%||
-SortedSeason   |  240    |  113 |  131.39%||
-SortedSeasonInt|  240    |  52 |  60.46%|int without unboxing|
-Vector         |  4000    |  2365 |  100.00%  |reference point.|
-ArrayList      |  4000    |  2381 |  100.67%||
-ArrayTape      |  4000    |  2630 |  111.2%||
-ArraySeason    |  4000    |  1137 |  48.07%||
-ArraySeasonInt |  4000    |  490 |  20.71%|int without unboxing|
-ArraySeason3d  |  4000    |  1347 |  56.95%||
-SortedSeason   |  4000    |  1859 |  78.6%||
-SortedSeasonInt|  4000    |  817 |  34.54%|int without unboxing|
-Vector         |  8000    |  9382 |  100.00%  |reference point.|
-ArrayList      |  8000    |  8989 |  95.81%||
-ArrayTape      |  8000    |  9150 |  97.52%||
-ArraySeason    |  8000    |  2105 |  22.43%||
-ArraySeasonInt |  8000    |  691 |  7.36%|int without unboxing|
-ArraySeason3d  |  8000    |  2485 |  26.48%||
-SortedSeason   |  8000    |  3128 |  33.34%||
-SortedSeasonInt|  8000    |  1541 |  16.42%|int without unboxing|
-Vector         |  24000    |  76180 |  100.00%  |reference point.|
-ArrayList      |  24000    |  72406 |  95.04%||
-ArrayTape      |  24000    |  80583 |  105.77%||
-ArraySeason    |  24000    |  7535 |  9.89%||
-ArraySeasonInt |  24000    |  2339 |  3.07%|int without unboxing|
-ArraySeason3d  |  24000    |  8431 |  11.06%||
-SortedSeason   |  24000    |  10721 |  14.07%||
-SortedSeasonInt|  24000    |  5625 |  7.38%|int without unboxing|
+ArraySeasonInt |  80    |  32 |  103.22%|int without unboxing|
+ArraySeason3d  |  80    |  41 |  132.25%||
+SortedSeason   |  80    |  51 |  164.51%||
+SortedSeasonInt|  80    |  29 |  93.54%|int without unboxing|
+Vector         |  240    |  90 |  100.00%  |reference point.|
+ArrayList      |  240    |  84 |  93.33%||
+ArrayTape      |  240    |  78 |  86.66%||
+ArraySeason    |  240    |  114 |  126.66%||
+ArraySeasonInt |  240    |  93 |  103.33%|int without unboxing|
+ArraySeason3d  |  240    |  106 |  117.77%||
+SortedSeason   |  240    |  97 |  107.77%||
+SortedSeasonInt|  240    |  63 |  70.0%|int without unboxing|
+Vector         |  4000    |  2360 |  100.00%  |reference point.|
+ArrayList      |  4000    |  2388 |  101.18%||
+ArrayTape      |  4000    |  2437 |  103.26%||
+ArraySeason    |  4000    |  1064 |  45.08%||
+ArraySeasonInt |  4000    |  445 |  18.85%|int without unboxing|
+ArraySeason3d  |  4000    |  1284 |  54.4%||
+SortedSeason   |  4000    |  1713 |  72.58%||
+SortedSeasonInt|  4000    |  769 |  32.58%|int without unboxing|
+Vector         |  8000    |  8886 |  100.00%  |reference point.|
+ArrayList      |  8000    |  8955 |  100.77%||
+ArrayTape      |  8000    |  9167 |  103.16%||
+ArraySeason    |  8000    |  2096 |  23.58%||
+ArraySeasonInt |  8000    |  687 |  7.73%|int without unboxing|
+ArraySeason3d  |  8000    |  2525 |  28.41%||
+SortedSeason   |  8000    |  3097 |  34.85%||
+SortedSeasonInt|  8000    |  1541 |  17.34%|int without unboxing|
+Vector         |  24000    |  75941 |  100.00%  |reference point.|
+ArrayList      |  24000    |  75286 |  99.13%||
+ArrayTape      |  24000    |  78870 |  103.85%||
+ArraySeason    |  24000    |  6619 |  8.71%||
+ArraySeasonInt |  24000    |  2133 |  2.8%|int without unboxing|
+ArraySeason3d  |  24000    |  7860 |  10.35%||
+SortedSeason   |  24000    |  9977 |  13.13%||
+SortedSeasonInt|  24000    |  5164 |  6.8%|int without unboxing|
 
+<sub>(This is an arbitrary measurement and not representative)</sub>
 
 ---
 
