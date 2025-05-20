@@ -6,7 +6,12 @@
  * </copyright>
  */
 package sandkasten;
- 
+
+import de.jare.ndimcol.primint.ArraySeasonInt;
+import de.jare.ndimcol.primint.IteratorInt;
+import de.jare.ndimcol.primint.Screenplay2dInt;
+import de.jare.ndimcol.primint.ScreenplayInt;
+import de.jare.ndimcol.primint.SortedSeasonSetInt;
 import de.jare.ndimcol.ref.ArraySeason;
 import de.jare.ndimcol.ref.ArrayTape;
 import de.jare.ndimcol.ref.SortedSeasonSet;
@@ -98,6 +103,40 @@ public class ListSpeed {
         }
     }
 
+    public void runSeasonInt(ScreenplayInt sc, final Object[] arr, final int numberElems) {
+        // Erstellen des ursprünglichen Tapes und Hinzufügen von numberElems Elementen
+        ArraySeasonInt originalSeason = new ArraySeasonInt(sc);
+        for (int i = 0; i < arr.length; i++) {
+            originalSeason.add((Integer) arr[i]);
+        }
+        for (int i = 0; i < numberElems; i++) {
+            originalSeason.add(i, i);
+        }
+
+        // Erstellen des neuen Tapes
+        ArraySeasonInt newSeason = new ArraySeasonInt(sc);
+
+        // Verwenden des TapeWalkers, um Elemente zu durchlaufen, hinzuzufügen  
+        IteratorInt iter = originalSeason.iterator();
+        while (iter.hasNext()) {
+            Integer element = iter.next();
+            newSeason.add(element);
+        }
+
+        // Verwenden des TapeWalkers, um Elemente  zu entfernen
+        iter = newSeason.iterator();
+        while (iter.hasNext()) {
+            Integer element = iter.next();
+            originalSeason.remove(element);
+        }
+
+        for (int i = 0; i < numberElems; i++) {
+            if (newSeason.get(i) != i) {
+                throw new RuntimeException("List failed");
+            }
+        }
+    }
+
     public void runSortedSeasonSet(final Object[] arr, final int numberElems) {
         Comparator<Integer> compT = Integer::compare;
         // Erstellen des ursprünglichen Tapes und Hinzufügen von numberElems Elementen
@@ -128,6 +167,41 @@ public class ListSpeed {
 
         for (int i = 0; i < numberElems; i++) {
             if (!newTape.get(i).equals(i)) {
+                throw new RuntimeException("List failed");
+            }
+        }
+    }
+
+    public void runSortedSeasonSetInt(final Object[] arr, final int numberElems) {
+
+        // Erstellen des ursprünglichen Tapes und Hinzufügen von numberElems Elementen
+        ArraySeasonInt originalSeason = new SortedSeasonSetInt();
+        for (int i = 0; i < arr.length; i++) {
+            originalSeason.add((Integer) arr[i]);
+        }
+        for (int i = 0; i < numberElems; i++) {
+            originalSeason.add(i);
+        }
+
+        // Erstellen des neuen Tapes
+        ArraySeasonInt newTape = new SortedSeasonSetInt();
+
+        // Verwenden des TapeWalkers, um Elemente zu durchlaufen, hinzuzufügen  
+        IteratorInt iter = originalSeason.iterator();
+        while (iter.hasNext()) {
+            Integer element = iter.next();
+            newTape.add(element);
+        }
+
+        // Verwenden des TapeWalkers, um Elemente  zu entfernen
+        iter = newTape.iterator();
+        while (iter.hasNext()) {
+            Integer element = iter.next();
+            originalSeason.remove(element);
+        }
+
+        for (int i = 0; i < numberElems; i++) {
+            if (newTape.get(i) != i) {
                 throw new RuntimeException("List failed");
             }
         }
@@ -218,7 +292,7 @@ public class ListSpeed {
         }
         long endTime = System.nanoTime();
         long durationVector = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
-        System.out.println("Vector        Batch " + numberElems + "   Duration: " + durationVector + " ms  100.00%  reference point.");
+        System.out.println("Vector         |  " + numberElems + "    |  " + durationVector + " |  100.00%  |reference point.|");
 
         // Zeitmessung für runList
         startTime = System.nanoTime();
@@ -227,7 +301,7 @@ public class ListSpeed {
         }
         endTime = System.nanoTime();
         long duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
-        System.out.println("ArrayList     Batch " + numberElems + "   Duration: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
+        System.out.println("ArrayList      |  " + numberElems + "    |  " + duration + " |  " + (duration * 10000 / durationVector) / 100d + "%||");
         // Zeitmessung für runTape
         startTime = System.nanoTime();
         for (int batch = 0; batch < NUMBER_BATCHES; batch++) {
@@ -235,7 +309,7 @@ public class ListSpeed {
         }
         endTime = System.nanoTime();
         duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
-        System.out.println("ArrayTape     Batch " + numberElems + "   Duration: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
+        System.out.println("ArrayTape      |  " + numberElems + "    |  " + duration + " |  " + (duration * 10000 / durationVector) / 100d + "%||");
 
         // Zeitmessung für runSeason
         startTime = System.nanoTime();
@@ -244,7 +318,16 @@ public class ListSpeed {
         }
         endTime = System.nanoTime();
         duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
-        System.out.println("ArraySeason   Batch " + numberElems + "   Duration: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
+        System.out.println("ArraySeason    |  " + numberElems + "    |  " + duration + " |  " + (duration * 10000 / durationVector) / 100d + "%||");
+
+        // Zeitmessung für runSeasonInt
+        startTime = System.nanoTime();
+        for (int batch = 0; batch < NUMBER_BATCHES; batch++) {
+            test.runSeasonInt(Screenplay2dInt.INSTANCE, arr, numberElems);
+        }
+        endTime = System.nanoTime();
+        duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
+        System.out.println("ArraySeasonInt |  " + numberElems + "    |  " + duration + " |  " + (duration * 10000 / durationVector) / 100d + "%|int without unboxing|");
 
         // Zeitmessung für runSeason
         startTime = System.nanoTime();
@@ -253,7 +336,7 @@ public class ListSpeed {
         }
         endTime = System.nanoTime();
         duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
-        System.out.println("ArraySeason3d Batch " + numberElems + "   Duration: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
+        System.out.println("ArraySeason3d  |  " + numberElems + "    |  " + duration + " |  " + (duration * 10000 / durationVector) / 100d + "%||");
 
         // Zeitmessung für runSortedSeasonSet
         startTime = System.nanoTime();
@@ -262,7 +345,16 @@ public class ListSpeed {
         }
         endTime = System.nanoTime();
         duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
-        System.out.println("SortedSeason  Batch " + numberElems + "   Duration: " + duration + " ms  " + (duration * 10000 / durationVector) / 100d + "%");
+        System.out.println("SortedSeason   |  " + numberElems + "    |  " + duration + " |  " + (duration * 10000 / durationVector) / 100d + "%||");
+
+        // Zeitmessung für runSortedSeasonSet
+        startTime = System.nanoTime();
+        for (int batch = 0; batch < NUMBER_BATCHES; batch++) {
+            test.runSortedSeasonSetInt(arr, numberElems);
+        }
+        endTime = System.nanoTime();
+        duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
+        System.out.println("SortedSeasonInt|  " + numberElems + "    |  " + duration + " |  " + (duration * 10000 / durationVector) / 100d + "%|int without unboxing|");
 
     }
 
@@ -270,6 +362,8 @@ public class ListSpeed {
 
     public static void main(String[] args) {
         ListSpeed test = new ListSpeed();
+        System.out.println("| Algorithm    | Batch Size | Duration (ms) | Percentage (%) | Notes            |");
+        System.out.println("|--------------|------------|---------------|----------------|------------------|");
         for (int i = 0; i < JOBS.length; i++) {
             batch(test, JOBS[i]);
         }
