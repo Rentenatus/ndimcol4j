@@ -176,18 +176,35 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
         }
         int accumulatedSize = 0;
         final int dataSize = data.size();
-        for (int i = 0; i < dataSize; i++) {
+        {
+            final ArrayMovieFloat episode = data.get(0);
+            int episodeSize = episode.size();
+            if (index < episodeSize) {
+                lastEpisode = null;
+                if (!episode.addAt(index, element)) {
+                    return false;
+                }
+                updateCounter++;
+                size++;
+                if (episode.size() >= midEpisodeSize && episode.pageSpaceLeft() <= 8) {
+                    splitOrGlue();
+                }
+                return true;
+            }
+            accumulatedSize = episodeSize;
+        }
+        for (int i = 1; i < dataSize; i++) {
             final ArrayMovieFloat episode = data.get(i);
             int episodeSize = episode.size();
             if (index < accumulatedSize + episodeSize) {
                 lastAccumulatedSize = accumulatedSize;
                 lastEpisode = episode;
-                if (!lastEpisode.addAt(index - lastAccumulatedSize, element)) {
+                if (!episode.addAt(index - lastAccumulatedSize, element)) {
                     return false;
                 }
                 updateCounter++;
                 size++;
-                if (lastEpisode.size() >= midEpisodeSize && lastEpisode.pageSpaceLeft() <= 8) {
+                if (episode.size() >= midEpisodeSize && episode.pageSpaceLeft() <= 8) {
                     splitOrGlue();
                 }
                 return true;
