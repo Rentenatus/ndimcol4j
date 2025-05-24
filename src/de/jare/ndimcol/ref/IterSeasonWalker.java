@@ -7,7 +7,6 @@
  */
 package de.jare.ndimcol.ref;
 
-import de.jare.ndimcol.ref.ArrayMovie;
 import java.util.Collection;
 
 /**
@@ -158,6 +157,7 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
         if (innerWalker == null) {
             throw new IllegalStateException("No active inner walker to add elements to.");
         }
+        season.deepChanged();
         return innerWalker.add(element);
     }
 
@@ -172,7 +172,9 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
         if (innerWalker == null) {
             throw new IllegalStateException("No active inner walker to add elements to.");
         }
-        return innerWalker.set(element);
+        final T ret = innerWalker.set(element);
+        season.replaced(currentIndex, ret, element);
+        return ret;
     }
 
     /**
@@ -186,6 +188,7 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
         if (innerWalker == null) {
             throw new IllegalStateException("No active inner walker to add elements to.");
         }
+        season.deepChanged();
         return innerWalker.add(col);
     }
 

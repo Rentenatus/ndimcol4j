@@ -25,10 +25,6 @@ public class ListSeason<T> extends ArraySeason<T> implements List<T> {
         super(screenplay);
     }
 
-    public ListSeason(ArrayTape<T> original) {
-        super(original);
-    }
-
     /**
      * Inserts the specified element at the specified position in this list. Shifts the element currently at that
      * position (if any) and any subsequent elements to the right (adds one to their indices).

@@ -7,7 +7,6 @@
  */
 package de.jare.ndimcol.ref;
 
-import de.jare.ndimcol.ref.ArrayMovie;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.*;
@@ -63,18 +62,6 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         size = 0;
         updateCounter = 0;
         recalculateScope();
-    }
-
-    public ArraySeason(ArrayTape<T> original) {
-        screenplay = Screenplay2d.INSTANCE;
-        data = new ArrayTape<>(5);
-        data.add(new ArrayTape<>(original));
-        size = original.size();
-        splitOrGlue();
-        splitOrGlue();
-        splitOrGlue();
-        splitOrGlue();
-        updateCounter = 0;
     }
 
     /**
@@ -811,6 +798,17 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         this.updateCounter++;
         lastAccumulatedSize = 0;
         lastEpisode = null;
+    }
+
+    /**
+     * Here the tape are informed that private data or inner tape has been changed from outside.
+     */
+    void deepChanged() {
+        //NoOp
+    }
+
+    void replaced(int index, T ret, T element) {
+        //NoOp
     }
 
     /**
