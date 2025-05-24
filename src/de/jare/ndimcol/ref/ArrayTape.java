@@ -7,7 +7,6 @@
  */
 package de.jare.ndimcol.ref;
 
-import de.jare.ndimcol.ref.ArrayMovie;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
