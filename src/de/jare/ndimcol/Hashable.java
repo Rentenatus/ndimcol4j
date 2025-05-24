@@ -13,8 +13,9 @@ package de.jare.ndimcol;
  */
 public interface Hashable {
 
-    public final static int MASK = (1 << 30) - 1; // 2^30 - 1
-    public final static long LONG_MASK = (1 << 30) - 1; // 2^30 - 1
+    public final static int LIMIT = (1 << 30);
+    public final static int MASK = LIMIT - 1; // 2^30 - 1
+    public final static long LONG_MASK = LIMIT - 1; // 2^30 - 1
 
     final static long[] SEVENTH = {
         1,
@@ -545,16 +546,39 @@ public interface Hashable {
         int power128 = power >> 7; // power / 128
         int power16383 = power128 & 127;
         int power16384 = power128 >> 7;
-        int power2097151 = power16384 & 127;
-        int power2097152 = power16384 >> 7;
-        int power268435455 = power2097152 & 127;
-        // x * SEVENTH268435456 == x !!!
-        left = (left * SEVENTH2097152[power268435455]) & LONG_MASK;
-        left = (left * SEVENTH16384[power2097151]) & LONG_MASK;
+        if (power16384 > 0) {
+            int power2097151 = power16384 & 127;
+            int power2097152 = power16384 >> 7;
+            int power268435455 = power2097152 & 127;
+            // x * SEVENTH268435456 == x !!!
+            left = (left * SEVENTH2097152[power268435455]) & LONG_MASK;
+            left = (left * SEVENTH16384[power2097151]) & LONG_MASK;
+        }
         left = (left * SEVENTH128[power16383]) & LONG_MASK;
         left = (left * SEVENTH[power127]) & LONG_MASK;
-        return (((int) left + nextHash) & MASK);
+        return ((int) left + nextHash) & MASK;
+    }
 
+    public default int replace(int oldHash, int power, int hashCodeOld, int hashCodeNew) {
+        long change = hashCodeNew > hashCodeOld
+                ? hashCodeNew - hashCodeOld
+                : LIMIT + hashCodeNew - hashCodeOld;
+
+        int power127 = power & 127;
+        int power128 = power >> 7; // power / 128
+        int power16383 = power128 & 127;
+        int power16384 = power128 >> 7;
+        if (power16384 > 0) {
+            int power2097151 = power16384 & 127;
+            int power2097152 = power16384 >> 7;
+            int power268435455 = power2097152 & 127;
+            // x * SEVENTH268435456 == x !!!
+            change = (change * SEVENTH2097152[power268435455]) & LONG_MASK;
+            change = (change * SEVENTH16384[power2097151]) & LONG_MASK;
+        }
+        change = (change * SEVENTH128[power16383]) & LONG_MASK;
+        change = (change * SEVENTH[power127]) & LONG_MASK;
+        return ((int) change + oldHash) & MASK;
     }
 
 }

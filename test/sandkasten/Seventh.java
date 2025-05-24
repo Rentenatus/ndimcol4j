@@ -54,6 +54,9 @@ public class Seventh implements Hashable {
         }
 
         System.out.println("}; \n\npublic final static long SEVENTH268435456 = " + seven2097152 + ";\n");
+
+        //System.out.println("test = " + ((LONG_MASK * 7) & LONG_MASK));
+        //System.out.println("test = " + ((MASK * 7) & MASK));
     }
 
 }
