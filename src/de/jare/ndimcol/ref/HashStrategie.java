@@ -33,7 +33,7 @@ public class HashStrategie<T> {
      * @param b the second object to compare
      * @return {@code true} if the objects are equal, {@code false} otherwise
      */
-    public boolean equals(T a, T b) {
+    public boolean equals(T a, Object b) {
         return _equals(a, b);
     }
 
@@ -49,7 +49,7 @@ public class HashStrategie<T> {
      * @param b the second object to compare
      * @return {@code true} if the objects are equal, {@code false} otherwise
      */
-    public static <U> boolean _equals(U a, U b) {
+    public static <U> boolean _equals(U a, Object b) {
         if (a == b) {
             return true;
         }

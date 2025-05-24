@@ -7,8 +7,10 @@
  */
 package de.jare.ndimcol;
 
-import de.jare.ndimcol.ref.ArrayTape;
 import de.jare.ndimcol.ref.ArrayMovie;
+import de.jare.ndimcol.ref.ArraySeasonHashable;
+import de.jare.ndimcol.ref.ArrayTape;
+import de.jare.ndimcol.ref.ArrayTapeHashable;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,25 +20,25 @@ import org.testng.annotations.Test;
  *
  * @author Janusch Rentenatus
  */
-public class ArrayTypeNGTest {
+public class ArrayTapeHashableNGTest {
 
-    public ArrayTypeNGTest() {
+    public ArrayTapeHashableNGTest() {
     }
 
     @BeforeClass
     public static void setUpClass() throws Exception {
         System.out.println("===============================================");
-        System.out.println("## Start ArrayTypeNGTest.");
+        System.out.println("## Start ArrayTapeHashableNGTest.");
     }
 
     @AfterClass
     public static void tearDownClass() throws Exception {
-        System.out.println("## End ArrayTypeNGTest.");
+        System.out.println("## End ArrayTapeHashableNGTest.");
         System.out.println("===============================================");
     }
 
-    protected ArrayTape<Integer> dataMiniArray() {
-        ArrayTape<Integer> at = new ArrayTape<>();
+    protected ArrayTapeHashable<Integer> dataMiniArray() {
+        ArrayTapeHashable<Integer> at = new ArrayTapeHashable<>();
         at.add(4);
         at.add(5);
         at.add(6);
@@ -45,8 +47,8 @@ public class ArrayTypeNGTest {
         return at;
     }
 
-    protected ArrayTape<Integer> dataBigArray(int numberElems) {
-        ArrayTape<Integer> at = new ArrayTape<>();
+    protected ArrayTapeHashable<Integer> dataBigArray(int numberElems) {
+        ArrayTapeHashable<Integer> at = new ArrayTapeHashable<>();
         for (int i = 0; i < numberElems; i++) {
             at.add((Integer) i);
         }
@@ -55,7 +57,7 @@ public class ArrayTypeNGTest {
 
     @Test
     public void testRmoveAt() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArrayTapeHashable<Integer> data = dataMiniArray();
         data.removeAt(2);
         System.out.println("-------------- testRmoveAt");
         data.debug(System.out, " . ");
@@ -72,19 +74,19 @@ public class ArrayTypeNGTest {
 
     @Test
     public void testFirst() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArrayTapeHashable<Integer> data = dataMiniArray();
         assertEquals(data.first(), Integer.valueOf(4));
     }
 
     @Test
     public void testLast() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArrayTapeHashable<Integer> data = dataMiniArray();
         assertEquals(data.last(), Integer.valueOf(8));
     }
 
     @Test
     public void testAddAtIndex() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArrayTapeHashable<Integer> data = dataMiniArray();
         data.addAt(2, 99);
         assertEquals(data.get(2), Integer.valueOf(99));
         assertEquals(data.size(), 6);
@@ -92,13 +94,13 @@ public class ArrayTypeNGTest {
 
     @Test
     public void testGet() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArrayTapeHashable<Integer> data = dataMiniArray();
         assertEquals(data.get(1), Integer.valueOf(5));
     }
 
     @Test
     public void testRemoveAt() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArrayTapeHashable<Integer> data = dataMiniArray();
         data.removeAt(2);
         assertEquals(data.size(), 4);
         assertEquals(data.get(2), Integer.valueOf(7));
@@ -106,7 +108,7 @@ public class ArrayTypeNGTest {
 
     @Test
     public void testSplitInHalf() {
-        ArrayTape<Integer> data = dataBigArray(10);
+        ArrayTapeHashable<Integer> data = dataBigArray(10);
         ArrayMovie<Integer> split = data.splitInHalf();
         assertEquals(split.size(), 5);
         assertEquals(data.size(), 5);
@@ -114,14 +116,14 @@ public class ArrayTypeNGTest {
 
     @Test
     public void testIndexOf() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArrayTapeHashable<Integer> data = dataMiniArray();
         assertEquals(data.indexOf(6), 2);
         assertEquals(data.indexOf(99), -1);
     }
 
     @Test
     public void testCopyToArray() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArrayTapeHashable<Integer> data = dataMiniArray();
         Object[] array = new Object[10];
         data.copyToArray(array, 2);
         assertEquals(array[2], Integer.valueOf(4));
@@ -131,33 +133,33 @@ public class ArrayTypeNGTest {
 
     @Test
     public void testDebbug() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArrayTapeHashable<Integer> data = dataMiniArray();
         int offset = data.debug(System.out, "TestPrefix", 0);
         assertTrue(offset > 0); // Abhängig von der Rückgabelogik
     }
 
     @Test
     public void testBigArraySize() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArrayTapeHashable<Integer> data = dataBigArray(2800);
         assertEquals(data.size(), 2800);
     }
 
     @Test
     public void testBigArrayFirstAndLast() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArrayTapeHashable<Integer> data = dataBigArray(2800);
         assertEquals(data.first(), Integer.valueOf(0));
         assertEquals(data.last(), Integer.valueOf(2799));
     }
 
     @Test
     public void testBigArrayGetMiddle() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArrayTapeHashable<Integer> data = dataBigArray(2800);
         assertEquals(data.get(1400), Integer.valueOf(1400));
     }
 
     @Test
     public void testBigArrayRemoveAt() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArrayTapeHashable<Integer> data = dataBigArray(2800);
         data.removeAt(1400);
         assertEquals(data.size(), 2799);
         assertEquals(data.get(1400), Integer.valueOf(1401));
@@ -165,14 +167,14 @@ public class ArrayTypeNGTest {
 
     @Test
     public void testBigArrayIndexOf() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArrayTapeHashable<Integer> data = dataBigArray(2800);
         assertEquals(data.indexOf(1400), 1400);
         assertEquals(data.indexOf(9999), -1);
     }
 
     @Test
     public void testBigArraySplitInHalf() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArrayTapeHashable<Integer> data = dataBigArray(2800);
         ArrayMovie<Integer> split = data.splitInHalf();
         assertEquals(split.size(), 1400);
         assertEquals(data.size(), 1400);
@@ -182,7 +184,7 @@ public class ArrayTypeNGTest {
 
     @Test
     public void testBigArrayCopyToArray() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArrayTapeHashable<Integer> data = dataBigArray(2800);
         Object[] array = new Object[3000];
         data.copyToArray(array, 100);
         assertEquals(array[100], Integer.valueOf(0));
@@ -192,4 +194,24 @@ public class ArrayTypeNGTest {
         assertNull(array[2999]);
     }
 
+    @Test
+    public void testBigArrayHash() {
+        ArrayTapeHashable<Integer> data1 = dataBigArray(2800);
+        ArrayTape<Integer> data2 = data1.emptyMovie(2803);
+        data2.addAll(data1);
+        System.out.println("Hash: " + data1.hashCode());
+        assertEquals(data1.hashCode(), data2.hashCode());
+        data1.add(31);
+        data2.add(31);
+        System.out.println("Hash: " + data1.hashCode());
+        assertEquals(data1.hashCode(), data2.hashCode());
+        data1.removeAt(101);
+        data2.removeAt(101);
+        System.out.println("Hash: " + data1.hashCode());
+        assertEquals(data1.hashCode(), data2.hashCode());
+        data1.add(31);
+        data2.add(31);
+        System.out.println("Hash: " + data1.hashCode());
+        assertEquals(data1.hashCode(), data2.hashCode());
+    }
 }
