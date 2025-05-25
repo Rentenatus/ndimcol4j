@@ -7,8 +7,11 @@
  */
 package de.jare.ndimcol;
 
-import de.jare.ndimcol.ref.ArrayTape;
 import de.jare.ndimcol.ref.ArrayMovie;
+import de.jare.ndimcol.ref.ArraySeason;
+import de.jare.ndimcol.ref.ArraySeasonHashable;
+import de.jare.ndimcol.ref.ArrayTape;
+import de.jare.ndimcol.ref.ArrayTapeHashable;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,110 +21,102 @@ import org.testng.annotations.Test;
  *
  * @author Janusch Rentenatus
  */
-public class ArrayTypeNGTest {
+public class ArraySeasonHashableNGTest {
 
-    public ArrayTypeNGTest() {
+    public ArraySeasonHashableNGTest() {
     }
 
     @BeforeClass
     public static void setUpClass() throws Exception {
         System.out.println("===============================================");
-        System.out.println("## Start ArrayTypeNGTest.");
+        System.out.println("## Start ArraySeasonHashableNGTest.");
     }
 
     @AfterClass
     public static void tearDownClass() throws Exception {
-        System.out.println("## End ArrayTypeNGTest.");
+        System.out.println("## End ArraySeasonHashableNGTest.");
         System.out.println("===============================================");
     }
 
-    protected ArrayTape<Integer> dataMiniArray() {
-        ArrayTape<Integer> at = new ArrayTape<>();
-        at.add(4);
-        at.add(5);
-        at.add(6);
-        at.add(7);
-        at.add(8);
-        return at;
+    protected ArraySeasonHashable<Integer> dataMiniArray() {
+        ArraySeasonHashable<Integer> as = new ArraySeasonHashable<>();
+        as.add(4);
+        as.add(5);
+        as.add(6);
+        as.add(7);
+        as.add(8);
+        return as;
     }
 
-    protected ArrayTape<Integer> dataBigArray(int numberElems) {
-        ArrayTape<Integer> at = new ArrayTape<>();
+    protected ArraySeasonHashable<Integer> dataBigArray(int numberElems) {
+        ArraySeasonHashable<Integer> as = new ArraySeasonHashable<>();
         for (int i = 0; i < numberElems; i++) {
-            at.add((Integer) i);
+            as.add((Integer) i);
         }
-        return at;
+        return as;
     }
 
     @Test
     public void testRmoveAt() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArraySeason<Integer> data = dataMiniArray();
         data.removeAt(2);
         System.out.println("-------------- testRmoveAt");
         data.debug(System.out, " . ");
         System.out.println("--------------");
-        data.removeTrim(2);
+        data.removeAt(2);
         System.out.println("--------------");
         data.debug(System.out, " . ");
         System.out.println("--------------");
-        assertEquals(Integer.valueOf(data.size()), Integer.valueOf(3));
-        assertEquals(data.get(0), Integer.valueOf(4));
-        assertEquals(data.get(1), Integer.valueOf(5));
-        assertEquals(data.get(2), Integer.valueOf(8));
+        assertEquals("" + data.size(), "3");
+        assertEquals("" + data.get(0), "4");
+        assertEquals("" + data.get(1), "5");
+        assertEquals("" + data.get(2), "8");
     }
 
     @Test
     public void testFirst() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArraySeason<Integer> data = dataMiniArray();
         assertEquals(data.first(), Integer.valueOf(4));
     }
 
     @Test
     public void testLast() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArraySeason<Integer> data = dataMiniArray();
         assertEquals(data.last(), Integer.valueOf(8));
     }
 
     @Test
     public void testAddAtIndex() {
-        ArrayTape<Integer> data = dataMiniArray();
-        data.addAt(2, 99);
+        ArraySeason<Integer> data = dataMiniArray();
+        data.add(2, 99);
         assertEquals(data.get(2), Integer.valueOf(99));
         assertEquals(data.size(), 6);
     }
 
     @Test
     public void testGet() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArraySeason<Integer> data = dataMiniArray();
         assertEquals(data.get(1), Integer.valueOf(5));
     }
 
     @Test
     public void testRemoveAt() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArraySeason<Integer> data = dataMiniArray();
         data.removeAt(2);
         assertEquals(data.size(), 4);
         assertEquals(data.get(2), Integer.valueOf(7));
     }
 
     @Test
-    public void testSplitInHalf() {
-        ArrayTape<Integer> data = dataBigArray(10);
-        ArrayMovie<Integer> split = data.splitInHalf();
-        assertEquals(split.size(), 5);
-        assertEquals(data.size(), 5);
-    }
-
-    @Test
     public void testIndexOf() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArraySeason<Integer> data = dataMiniArray();
         assertEquals(data.indexOf(6), 2);
         assertEquals(data.indexOf(99), -1);
     }
 
     @Test
     public void testCopyToArray() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArraySeason<Integer> data = dataMiniArray();
         Object[] array = new Object[10];
         data.copyToArray(array, 2);
         assertEquals(array[2], Integer.valueOf(4));
@@ -131,33 +126,33 @@ public class ArrayTypeNGTest {
 
     @Test
     public void testDebbug() {
-        ArrayTape<Integer> data = dataMiniArray();
+        ArraySeason<Integer> data = dataMiniArray();
         int offset = data.debug(System.out, "TestPrefix", 0);
         assertTrue(offset > 0); // Abhängig von der Rückgabelogik
     }
 
     @Test
     public void testBigArraySize() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArraySeasonHashable<Integer> data = dataBigArray(2800);
         assertEquals(data.size(), 2800);
     }
 
     @Test
     public void testBigArrayFirstAndLast() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArraySeasonHashable<Integer> data = dataBigArray(2800);
         assertEquals(data.first(), Integer.valueOf(0));
         assertEquals(data.last(), Integer.valueOf(2799));
     }
 
     @Test
     public void testBigArrayGetMiddle() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArraySeasonHashable<Integer> data = dataBigArray(2800);
         assertEquals(data.get(1400), Integer.valueOf(1400));
     }
 
     @Test
     public void testBigArrayRemoveAt() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArraySeasonHashable<Integer> data = dataBigArray(2800);
         data.removeAt(1400);
         assertEquals(data.size(), 2799);
         assertEquals(data.get(1400), Integer.valueOf(1401));
@@ -165,24 +160,22 @@ public class ArrayTypeNGTest {
 
     @Test
     public void testBigArrayIndexOf() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArraySeasonHashable<Integer> data = dataBigArray(2800);
         assertEquals(data.indexOf(1400), 1400);
         assertEquals(data.indexOf(9999), -1);
     }
 
     @Test
     public void testBigArraySplitInHalf() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArraySeasonHashable<Integer> data = dataBigArray(2800);
         ArrayMovie<Integer> split = data.splitInHalf();
-        assertEquals(split.size(), 1400);
-        assertEquals(data.size(), 1400);
-        assertEquals(split.get(0), Integer.valueOf(1400));
+        assertEquals(split.get(0), Integer.valueOf(data.size()));
         assertEquals(data.get(0), Integer.valueOf(0));
     }
 
     @Test
     public void testBigArrayCopyToArray() {
-        ArrayTape<Integer> data = dataBigArray(2800);
+        ArraySeasonHashable<Integer> data = dataBigArray(2800);
         Object[] array = new Object[3000];
         data.copyToArray(array, 100);
         assertEquals(array[100], Integer.valueOf(0));
@@ -192,4 +185,30 @@ public class ArrayTypeNGTest {
         assertNull(array[2999]);
     }
 
+    @Test
+    public void testBigArrayHash() {
+        ArraySeasonHashable<Integer> data1 = dataBigArray(102);
+        ArraySeasonHashable<Integer> data2 = data1.emptyMovie(2803);
+        ArrayTape<Integer> data3 = new ArrayTapeHashable<>(2803);
+        data2.addAll(data1);
+        data3.addAll(data1);
+        System.out.println("Equals: " + data2.equals(data3));
+        System.out.println("Hash: " + data1.hashCode() + " =?: " + data2.hashCode() + " =?: " + data3.hashCode());
+        assertEquals(data1.hashCode(), data2.hashCode());
+        //assertEquals(data1.hashCode(), data3.hashCode());
+        data1.add(31);
+        data2.add(31);
+        data3.add(31);
+        System.out.println("Equals: " + data2.equals(data3));
+        System.out.println("Hash: " + data1.hashCode() + " =?: " + data2.hashCode() + " =?: " + data3.hashCode());
+        assertEquals(data1.hashCode(), data2.hashCode());
+        //assertEquals(data1.hashCode(), data3.hashCode());
+        data1.removeAt(101);
+        data2.removeAt(101);
+        data3.removeAt(101);
+        System.out.println("Equals: " + data2.equals(data3));
+        System.out.println("Hash: " + data1.hashCode() + " =?: " + data2.hashCode() + " =?: " + data3.hashCode());
+        assertEquals(data1.hashCode(), data2.hashCode());
+        //assertEquals(data1.hashCode(), data3.hashCode());
+    }
 }

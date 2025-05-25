@@ -7,8 +7,6 @@
  */
 package de.jare.ndimcol.ref;
 
-import de.jare.ndimcol.ref.ArrayMovie;
-
 /**
  *
  * @author Janusch Rentenatus
@@ -40,4 +38,10 @@ public class Screenplay2d implements Screenplay {
     public <T> ArrayMovie<T> buildMovie(final int parentSize) {
         return new ArrayTape<>();
     }
+
+    @Override
+    public <T> ArrayMovie<T> buildMovieHashable(final int parentSize) {
+        return new ArrayTapeHashable<>();
+    }
+
 }

@@ -7,7 +7,9 @@
  */
 package de.jare.ndimcol.ref;
 
-import de.jare.ndimcol.ref.ArrayMovie;
+import static de.jare.ndimcol.Hashable._combine;
+import static de.jare.ndimcol.ref.HashStrategie._equals;
+import static de.jare.ndimcol.ref.HashStrategie._hashCode;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,25 +36,6 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     public static final int DEFAULT_CAPACITY = 32;
     public static final int DEFAULT_PAGE = 64;
     public static final int DEFAULT_COUNTDOWN = DEFAULT_PAGE << 2;
-
-    /**
-     * Compares two objects for equality.If both objects are null, they are considered equal. If one is null and the
-     * other is not, they are not equal. Otherwise, it uses the equals method of the first object to compare them.
-     *
-     * @param <U> the type
-     * @param a the first object to compare
-     * @param b the second object to compare
-     * @return true if the objects are equal, false otherwise
-     */
-    public static <U> boolean equals(U a, U b) {
-        if (a == b) {
-            return true;
-        }
-        if (a == null || b == null) {
-            return false;
-        }
-        return a.equals(b);
-    }
 
     private Object[] elementData;
     private int size;
@@ -130,6 +113,69 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         this.size = 0;
         this.updateCounter++;
         this.trimCountDown = DEFAULT_COUNTDOWN; // Initialize trim countdown
+    }
+
+    /**
+     * Here the tape are informed that private data has been changed from outside.
+     */
+    void deepChanged() {
+        //NoOp
+    }
+
+    @Override
+    public boolean equals(Object ob) {
+        if (this == ob) {
+            return true;
+        }
+        if (!(ob instanceof ArrayMovie<?>)) {
+            if (!(ob instanceof Collection<?>)) {
+                return false;
+            }
+            return equalsCollection((Collection<?>) ob);
+        }
+        ArrayMovie<?> movie = (ArrayMovie<?>) ob;
+        if (size() != movie.size()) {
+            return false;
+        }
+        IteratorWalker<?> mWalker = movie.softWalker();
+        IterTapeWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            if (!equals(walker.next(), mWalker.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean equalsCollection(Collection<?> col) {
+        if (this == col) {
+            return true;
+        }
+        if (size() != col.size()) {
+            return false;
+        }
+        Iterator<?> iter = col.iterator();
+        IterTapeWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            if (!equals(walker.next(), iter.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean equals(T a, Object b) {
+        return _equals(a, b);
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 0;
+        IterTapeWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            hashCode = _combine(hashCode, _hashCode(walker.next()));
+        }
+        return hashCode;
     }
 
     /**
@@ -908,10 +954,11 @@ public class ArrayTape<T> implements ArrayMovie<T> {
             return null;
         }
         int halfSize = size / 2;
-        ArrayTape<T> newTape = new ArrayTape<>();
+        ArrayTape<T> newTape = emptyMovie(size - halfSize + page);
         newTape.size = size - halfSize;
         newTape.elementData = new Object[newTape.size];
         System.arraycopy(elementData, halfSize, newTape.elementData, 0, newTape.size);
+        newTape.deepChanged();
 
         // Create new elementData array for the current instance with only the first half
         Object[] newElementData = new Object[halfSize];
@@ -959,11 +1006,12 @@ public class ArrayTape<T> implements ArrayMovie<T> {
             throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", toIndex: " + toIndex + ".");
         }
         int newSize = toIndex - fromIndex;
-        ArrayTape<T> subMovie = new ArrayTape<>(newSize);
+        ArrayTape<T> subMovie = emptyMovie(newSize);
         if (fromIndex < toIndex) {
             System.arraycopy(elementData, fromIndex, subMovie.elementData, 0, newSize);
         }
         subMovie.size = newSize;
+        subMovie.deepChanged();
         return subMovie;
     }
 
@@ -1073,4 +1121,5 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         }
         return ret;
     }
+
 }

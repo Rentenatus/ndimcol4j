@@ -47,6 +47,12 @@ public class Screenplay3d implements Screenplay {
         public <T> ArrayMovie<T> buildMovie(final int parentSize) {
             return new ArrayTape<>();
         }
+
+        @Override
+        public <T> ArrayMovie<T> buildMovieHashable(final int parentSize) {
+            return new ArrayTapeHashable<>();
+        }
+
     }
 
     @Override
@@ -68,4 +74,10 @@ public class Screenplay3d implements Screenplay {
     public <T> ArrayMovie<T> buildMovie(final int parentSize) {
         return parentSize > START_3D_SIZE ? new ArraySeason<>(inner) : new ArrayTape<>();
     }
+
+    @Override
+    public <T> ArrayMovie<T> buildMovieHashable(final int parentSize) {
+        return parentSize > START_3D_SIZE ? new ArraySeasonHashable<>(inner) : new ArrayTapeHashable<>();
+    }
+
 }

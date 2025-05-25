@@ -15,7 +15,7 @@ import java.util.*;
  * @author Janusch Rentenatus
  * @param <T> the type of elements in this list
  */
-public class ListSeason<T> extends ArraySeason<T> implements List<T> {
+public class ListSeason<T> extends ArraySeasonHashable<T> implements List<T> {
 
     public ListSeason() {
         super();
@@ -23,10 +23,6 @@ public class ListSeason<T> extends ArraySeason<T> implements List<T> {
 
     public ListSeason(final Screenplay screenplay) {
         super(screenplay);
-    }
-
-    public ListSeason(ArrayTape<T> original) {
-        super(original);
     }
 
     /**
@@ -39,22 +35,6 @@ public class ListSeason<T> extends ArraySeason<T> implements List<T> {
     @Override
     public void add(int index, T element) {
         super.add(index, element);
-    }
-
-    /**
-     * Sets the element at the specified position. Replaces an old element at the specified position in this list with
-     * the specified element.
-     *
-     * @param element element to be appended to this list
-     * @return the old element at the specified position
-     */
-    @Override
-    public T set(int index, T element) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
-        }
-        IteratorWalker<T> walker = getWalkerAtIndex(index);
-        return walker.set(element);
     }
 
     /**

@@ -7,7 +7,9 @@
  */
 package de.jare.ndimcol.ref;
 
-import de.jare.ndimcol.ref.ArrayMovie;
+import static de.jare.ndimcol.Hashable._combine;
+import static de.jare.ndimcol.ref.HashStrategie._equals;
+import static de.jare.ndimcol.ref.HashStrategie._hashCode;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.*;
@@ -65,16 +67,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         recalculateScope();
     }
 
-    public ArraySeason(ArrayTape<T> original) {
-        screenplay = Screenplay2d.INSTANCE;
-        data = new ArrayTape<>(5);
-        data.add(new ArrayTape<>(original));
-        size = original.size();
-        splitOrGlue();
-        splitOrGlue();
-        splitOrGlue();
-        splitOrGlue();
-        updateCounter = 0;
+    /**
+     * Here the tape are informed that private data has been changed from outside.
+     */
+    void added(T element) {
+        //NoOp
     }
 
     /**
@@ -87,7 +84,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public boolean add(T element) {
         if (data.isEmpty()) {
-            final ArrayMovie<T> first = screenplay.buildMovie(0);
+            final ArrayMovie<T> first = buildInnerMovie(0);
             data.add(first); // add to empty data need not be checked
             first.add(element); // add to empty episode need not be checked
             size = 1;
@@ -96,7 +93,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         }
         final ArrayMovie<T> episode = data.get(data.size() - 1);
         if (episode.size() >= midEpisodeSize && episode.pageSpaceLeft() <= 8) {
-            final ArrayMovie<T> nextFree = screenplay.buildMovie(this.size);
+            final ArrayMovie<T> nextFree = buildInnerMovie(this.size);
             if (!data.add(nextFree)) {
                 return false;
             }
@@ -122,7 +119,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     public boolean addFirstFree(T element) {
         int episodeIndex = firstFreeEpisode();
         if (episodeIndex == -1) {
-            final ArrayMovie<T> nextFree = screenplay.buildMovie(this.size);
+            final ArrayMovie<T> nextFree = buildInnerMovie(this.size);
             if (!data.add(nextFree)) {
                 return false;
             }
@@ -247,7 +244,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public boolean addAll(Collection<? extends T> col) {
         if (data.isEmpty()) {
-            final ArrayMovie<T> first = screenplay.buildMovie(0);
+            final ArrayMovie<T> first = buildInnerMovie(0);
             data.add(first);
             first.addAll(col);
             size = col.size();
@@ -284,6 +281,82 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             splitOrGlue();
         }
         return modified;
+    }
+
+    /**
+     * Sets the element at the specified position.Replaces an old element at the specified position in this list with
+     * the specified element.
+     *
+     * @param index index at which the specified element is to be changed
+     * @param element element to be appended to this list
+     * @return the old element at the specified position
+     */
+    public T set(int index, T element) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
+        }
+        IteratorWalker<T> walker = getWalkerAtIndex(index);
+        return walker.set(element);
+    }
+
+    @Override
+    public boolean equals(Object ob) {
+        if (this == ob) {
+            return true;
+        }
+        if (!(ob instanceof ArrayMovie<?>)) {
+            if (!(ob instanceof Collection<?>)) {
+                return false;
+            }
+            return equalsCollection((Collection<?>) ob);
+        }
+        ArrayMovie<?> movie = (ArrayMovie<?>) ob;
+        if (size() != movie.size()) {
+            return false;
+        }
+        IteratorWalker<?> mWalker = movie.softWalker();
+        IteratorWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            if (!equals(walker.next(), mWalker.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean equalsCollection(Collection<?> col) {
+        if (this == col) {
+            return true;
+        }
+        if (size() != col.size()) {
+            return false;
+        }
+        Iterator<?> iter = col.iterator();
+        IteratorWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            if (!equals(walker.next(), iter.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean equals(T a, Object b) {
+        return _equals(a, b);
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 0;
+        IteratorWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            hashCode = _combine(hashCode, _hashCode(walker.next()));
+        }
+        return hashCode;
+    }
+
+    ArrayMovie<T> buildInnerMovie(final int parentSize) {
+        return screenplay.buildMovie(parentSize);
     }
 
     /**
@@ -811,6 +884,17 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         this.updateCounter++;
         lastAccumulatedSize = 0;
         lastEpisode = null;
+    }
+
+    /**
+     * Here the tape are informed that private data or inner tape has been changed from outside.
+     */
+    void deepChanged() {
+        //NoOp
+    }
+
+    void replaced(int index, T ret, T element) {
+        //NoOp
     }
 
     /**
