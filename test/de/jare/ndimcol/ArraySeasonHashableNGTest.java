@@ -11,6 +11,7 @@ import de.jare.ndimcol.ref.ArrayMovie;
 import de.jare.ndimcol.ref.ArraySeason;
 import de.jare.ndimcol.ref.ArraySeasonHashable;
 import de.jare.ndimcol.ref.ArrayTape;
+import de.jare.ndimcol.ref.ArrayTapeHashable;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -188,7 +189,7 @@ public class ArraySeasonHashableNGTest {
     public void testBigArrayHash() {
         ArraySeasonHashable<Integer> data1 = dataBigArray(102);
         ArraySeasonHashable<Integer> data2 = data1.emptyMovie(2803);
-        ArrayTape<Integer> data3 = new ArrayTape<>(2803);
+        ArrayTape<Integer> data3 = new ArrayTapeHashable<>(2803);
         data2.addAll(data1);
         data3.addAll(data1);
         System.out.println("Equals: " + data2.equals(data3));
