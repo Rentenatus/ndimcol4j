@@ -26,6 +26,10 @@ public class HashStrategie<T> {
         return element == null ? 0 : element.hashCode();
     }
 
+    public static int _hashCode(Object element) {
+        return element == null ? 0 : element.hashCode();
+    }
+
     /**
      * Checks whether two objects are equal using the internal equality method.
      *
@@ -49,7 +53,7 @@ public class HashStrategie<T> {
      * @param b the second object to compare
      * @return {@code true} if the objects are equal, {@code false} otherwise
      */
-    public static <U> boolean _equals(U a, Object b) {
+    public static boolean _equals(Object a, Object b) {
         if (a == b) {
             return true;
         }
@@ -58,4 +62,5 @@ public class HashStrategie<T> {
         }
         return a.equals(b);
     }
+
 }

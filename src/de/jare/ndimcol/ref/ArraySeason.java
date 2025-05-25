@@ -7,6 +7,9 @@
  */
 package de.jare.ndimcol.ref;
 
+import static de.jare.ndimcol.Hashable._combine;
+import static de.jare.ndimcol.ref.HashStrategie._equals;
+import static de.jare.ndimcol.ref.HashStrategie._hashCode;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.*;
@@ -278,6 +281,78 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             splitOrGlue();
         }
         return modified;
+    }
+
+    /**
+     * Sets the element at the specified position.Replaces an old element at the specified position in this list with
+     * the specified element.
+     *
+     * @param index index at which the specified element is to be changed
+     * @param element element to be appended to this list
+     * @return the old element at the specified position
+     */
+    public T set(int index, T element) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
+        }
+        IteratorWalker<T> walker = getWalkerAtIndex(index);
+        return walker.set(element);
+    }
+
+    @Override
+    public boolean equals(Object ob) {
+        if (this == ob) {
+            return true;
+        }
+        if (!(ob instanceof ArrayMovie<?>)) {
+            if (!(ob instanceof Collection<?>)) {
+                return false;
+            }
+            return equalsCollection((Collection<?>) ob);
+        }
+        ArrayMovie<?> movie = (ArrayMovie<?>) ob;
+        if (size() != movie.size()) {
+            return false;
+        }
+        IteratorWalker<?> mWalker = movie.softWalker();
+        IteratorWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            if (!equals(walker.next(), mWalker.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean equalsCollection(Collection<?> col) {
+        if (this == col) {
+            return true;
+        }
+        if (size() != col.size()) {
+            return false;
+        }
+        Iterator<?> iter = col.iterator();
+        IteratorWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            if (!equals(walker.next(), iter.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean equals(T a, Object b) {
+        return _equals(a, b);
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 0;
+        IteratorWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            hashCode = _combine(hashCode, _hashCode(walker.next()));
+        }
+        return hashCode;
     }
 
     ArrayMovie<T> buildInnerMovie(final int parentSize) {

@@ -7,7 +7,9 @@
  */
 package de.jare.ndimcol.ref;
 
+import static de.jare.ndimcol.Hashable._combine;
 import static de.jare.ndimcol.ref.HashStrategie._equals;
+import static de.jare.ndimcol.ref.HashStrategie._hashCode;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -118,6 +120,62 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      */
     void deepChanged() {
         //NoOp
+    }
+
+    @Override
+    public boolean equals(Object ob) {
+        if (this == ob) {
+            return true;
+        }
+        if (!(ob instanceof ArrayMovie<?>)) {
+            if (!(ob instanceof Collection<?>)) {
+                return false;
+            }
+            return equalsCollection((Collection<?>) ob);
+        }
+        ArrayMovie<?> movie = (ArrayMovie<?>) ob;
+        if (size() != movie.size()) {
+            return false;
+        }
+        IteratorWalker<?> mWalker = movie.softWalker();
+        IterTapeWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            if (!equals(walker.next(), mWalker.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean equalsCollection(Collection<?> col) {
+        if (this == col) {
+            return true;
+        }
+        if (size() != col.size()) {
+            return false;
+        }
+        Iterator<?> iter = col.iterator();
+        IterTapeWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            if (!equals(walker.next(), iter.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean equals(T a, Object b) {
+        return _equals(a, b);
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 0;
+        IterTapeWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            hashCode = _combine(hashCode, _hashCode(walker.next()));
+        }
+        return hashCode;
     }
 
     /**
@@ -393,10 +451,6 @@ public class ArrayTape<T> implements ArrayMovie<T> {
             updateCounter++;
         }
         return oldElement;
-    }
-
-    public boolean equals(T a, T b) {
-        return _equals(a, b);
     }
 
     /**

@@ -540,6 +540,10 @@ public interface Hashable {
         return (((oldHash * 7) & MASK) + (nextHash & MASK)) & MASK;
     }
 
+    public static int _combine(int oldHash, int nextHash) {
+        return (((oldHash * 7) & MASK) + (nextHash & MASK)) & MASK;
+    }
+
     public default int combine(int oldHash, int power, int nextHash) {
         long left = oldHash;
         int power127 = power & 127;

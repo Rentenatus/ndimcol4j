@@ -81,25 +81,8 @@ public class ArraySeasonHashable<T> extends ArraySeason<T> implements Hashable {
     }
 
     @Override
-    public boolean equals(Object ob) {
-        if (this == ob) {
-            return true;
-        }
-        if (!(ob instanceof ArrayMovie<?>)) {
-            return false;
-        }
-        ArrayMovie<?> movie = (ArrayMovie<?>) ob;
-        if (size() != movie.size()) {
-            return false;
-        }
-        IteratorWalker<?> mWalker = movie.softWalker();
-        IteratorWalker<T> walker = softWalker();
-        while (walker.hasNext()) {
-            if (!strategie.equals(walker.next(), mWalker.next())) {
-                return false;
-            }
-        }
-        return true;
+    public boolean equals(T a, Object b) {
+        return strategie.equals(a, b);
     }
 
     @Override
@@ -177,10 +160,6 @@ public class ArraySeasonHashable<T> extends ArraySeason<T> implements Hashable {
     public boolean addFirstFree(T element) {
         hashComputed = false;
         return super.addFirstFree(element);
-    }
-
-    public boolean equals(T a, T b) {
-        return strategie.equals(a, b);
     }
 
     @Override

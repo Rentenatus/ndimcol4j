@@ -110,28 +110,6 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
     }
 
     @Override
-    public boolean equals(Object ob) {
-        if (this == ob) {
-            return true;
-        }
-        if (!(ob instanceof ArrayMovie<?>)) {
-            return false;
-        }
-        ArrayMovie<?> movie = (ArrayMovie<?>) ob;
-        if (size() != movie.size()) {
-            return false;
-        }
-        IteratorWalker<?> mWalker = movie.softWalker();
-        IterTapeWalker<T> walker = softWalker();
-        while (walker.hasNext()) {
-            if (!strategie.equals(walker.next(), mWalker.next())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
     public int hashCode() {
         if (hashComputed) {
             return hashCode;
@@ -203,7 +181,7 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
     }
 
     @Override
-    public boolean equals(T a, T b) {
+    public boolean equals(T a, Object b) {
         return strategie.equals(a, b);
     }
 
