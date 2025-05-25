@@ -184,6 +184,11 @@ public class ArraySeasonHashable<T> extends ArraySeason<T> implements Hashable {
     }
 
     @Override
+    ArrayMovie<T> buildInnerMovie(final int parentSize) {
+        return screenplay.buildMovieHashable(parentSize);
+    }
+
+    @Override
     public void clear() {
         this.hashCode = 0;
         this.hashComputed = true;

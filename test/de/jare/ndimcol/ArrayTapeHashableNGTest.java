@@ -199,23 +199,23 @@ public class ArrayTapeHashableNGTest {
         ArrayTapeHashable<Integer> data1 = dataBigArray(6800);
         ArrayTape<Integer> data2 = data1.emptyMovie(6803);
         data2.addAll(data1);
-        System.out.println("Hash: " + data1.hashCode());
+        System.out.println("Hash: " + data1.hashCode() + " =?: " + data2.hashCode());
         assertEquals(data1.hashCode(), data2.hashCode());
         data1.add(31);
         data2.add(31);
-        System.out.println("Hash: " + data1.hashCode());
+        System.out.println("Hash: " + data1.hashCode() + " =?: " + data2.hashCode());
         assertEquals(data1.hashCode(), data2.hashCode());
         data1.removeAt(101);
         data2.removeAt(101);
-        System.out.println("Hash: " + data1.hashCode());
+        System.out.println("Hash: " + data1.hashCode() + " =?: " + data2.hashCode());
         assertEquals(data1.hashCode(), data2.hashCode());
         data1.add(31);
         data2.add(31);
-        System.out.println("Hash: " + data1.hashCode());
+        System.out.println("Hash: " + data1.hashCode() + " =?: " + data2.hashCode());
         assertEquals(data1.hashCode(), data2.hashCode());
         int hash = data1.combine(data1.hashCode(), data2.size(), data2.hashCode());
         data1.addAll(data2);
-        System.out.println("Hash: " + hash);
+        System.out.println("Hash: " + data1.hashCode() + " =?: " + hash);
         assertEquals(data1.hashCode(), hash);
 
     }

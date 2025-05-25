@@ -81,7 +81,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public boolean add(T element) {
         if (data.isEmpty()) {
-            final ArrayMovie<T> first = screenplay.buildMovie(0);
+            final ArrayMovie<T> first = buildInnerMovie(0);
             data.add(first); // add to empty data need not be checked
             first.add(element); // add to empty episode need not be checked
             size = 1;
@@ -90,7 +90,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         }
         final ArrayMovie<T> episode = data.get(data.size() - 1);
         if (episode.size() >= midEpisodeSize && episode.pageSpaceLeft() <= 8) {
-            final ArrayMovie<T> nextFree = screenplay.buildMovie(this.size);
+            final ArrayMovie<T> nextFree = buildInnerMovie(this.size);
             if (!data.add(nextFree)) {
                 return false;
             }
@@ -116,7 +116,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     public boolean addFirstFree(T element) {
         int episodeIndex = firstFreeEpisode();
         if (episodeIndex == -1) {
-            final ArrayMovie<T> nextFree = screenplay.buildMovie(this.size);
+            final ArrayMovie<T> nextFree = buildInnerMovie(this.size);
             if (!data.add(nextFree)) {
                 return false;
             }
@@ -241,7 +241,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public boolean addAll(Collection<? extends T> col) {
         if (data.isEmpty()) {
-            final ArrayMovie<T> first = screenplay.buildMovie(0);
+            final ArrayMovie<T> first = buildInnerMovie(0);
             data.add(first);
             first.addAll(col);
             size = col.size();
@@ -278,6 +278,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             splitOrGlue();
         }
         return modified;
+    }
+
+    ArrayMovie<T> buildInnerMovie(final int parentSize) {
+        return screenplay.buildMovie(parentSize);
     }
 
     /**

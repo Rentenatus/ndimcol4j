@@ -10,6 +10,7 @@ package de.jare.ndimcol;
 import de.jare.ndimcol.ref.ArrayMovie;
 import de.jare.ndimcol.ref.ArraySeason;
 import de.jare.ndimcol.ref.ArraySeasonHashable;
+import de.jare.ndimcol.ref.ArrayTape;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -187,16 +188,26 @@ public class ArraySeasonHashableNGTest {
     public void testBigArrayHash() {
         ArraySeasonHashable<Integer> data1 = dataBigArray(102);
         ArraySeasonHashable<Integer> data2 = data1.emptyMovie(2803);
+        ArrayTape<Integer> data3 = new ArrayTape<>(2803);
         data2.addAll(data1);
-        System.out.println("Hash: " + data1.hashCode());
+        data3.addAll(data1);
+        System.out.println("Equals: " + data2.equals(data3));
+        System.out.println("Hash: " + data1.hashCode() + " =?: " + data2.hashCode() + " =?: " + data3.hashCode());
         assertEquals(data1.hashCode(), data2.hashCode());
+        //assertEquals(data1.hashCode(), data3.hashCode());
         data1.add(31);
         data2.add(31);
-        System.out.println("Hash: " + data1.hashCode());
+        data3.add(31);
+        System.out.println("Equals: " + data2.equals(data3));
+        System.out.println("Hash: " + data1.hashCode() + " =?: " + data2.hashCode() + " =?: " + data3.hashCode());
         assertEquals(data1.hashCode(), data2.hashCode());
+        //assertEquals(data1.hashCode(), data3.hashCode());
         data1.removeAt(101);
         data2.removeAt(101);
-        System.out.println("Hash: " + data1.hashCode());
+        data3.removeAt(101);
+        System.out.println("Equals: " + data2.equals(data3));
+        System.out.println("Hash: " + data1.hashCode() + " =?: " + data2.hashCode() + " =?: " + data3.hashCode());
         assertEquals(data1.hashCode(), data2.hashCode());
+        //assertEquals(data1.hashCode(), data3.hashCode());
     }
 }
