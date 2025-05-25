@@ -537,7 +537,7 @@ public interface Hashable {
     public final static long SEVENTH268435456 = 1;
 
     public default int combine(int oldHash, int nextHash) {
-        return (((oldHash * 7) & MASK) + nextHash) & MASK;
+        return (((oldHash * 7) & MASK) + (nextHash & MASK)) & MASK;
     }
 
     public default int combine(int oldHash, int power, int nextHash) {
@@ -562,7 +562,7 @@ public interface Hashable {
     public default int replace(int oldHash, int power, int hashCodeOld, int hashCodeNew) {
         long change = hashCodeNew > hashCodeOld
                 ? hashCodeNew - hashCodeOld
-                : LIMIT + hashCodeNew - hashCodeOld;
+                : (LIMIT - hashCodeOld) + hashCodeNew;
 
         int power127 = power & 127;
         int power128 = power >> 7; // power / 128

@@ -185,9 +185,7 @@ public class ArraySeasonHashableNGTest {
 
     @Test
     public void testBigArrayHash() {
-        //ArraySeasonHashable<Integer> data1 = dataBigArray(2800);
-        //ArraySeasonHashable<Integer> data2 = data1.emptyMovie(2803);
-        ArraySeasonHashable<Integer> data1 = new ArraySeasonHashable<>();
+        ArraySeasonHashable<Integer> data1 = dataBigArray(102);
         ArraySeasonHashable<Integer> data2 = data1.emptyMovie(2803);
         data2.addAll(data1);
         System.out.println("Hash: " + data1.hashCode());

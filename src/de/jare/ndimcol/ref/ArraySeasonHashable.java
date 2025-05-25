@@ -81,10 +81,57 @@ public class ArraySeasonHashable<T> extends ArraySeason<T> implements Hashable {
     }
 
     @Override
-    public boolean add(T element) {
+    public boolean equals(Object ob) {
+        if (this == ob) {
+            return true;
+        }
+        if (!(ob instanceof ArrayMovie<?>)) {
+            return false;
+        }
+        ArrayMovie<?> movie = (ArrayMovie<?>) ob;
+        if (size() != movie.size()) {
+            return false;
+        }
+        IteratorWalker<?> mWalker = movie.softWalker();
+        IteratorWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            if (!strategie.equals(walker.next(), mWalker.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        if (hashComputed) {
+            return hashCode;
+        }
+        hashCode = 0;
+        IterTapeWalker<ArrayMovie<T>> walker = data.softWalker();
+        while (walker.hasNext()) {
+            ArrayMovie<T> nextMovie = walker.next();
+            hashCode = combine(hashCode,
+                    nextMovie.size(),
+                    nextMovie.hashCode());
+        }
+        hashComputed = true;
+        return hashCode;
+    }
+
+    /**
+     * Here the tape are informed that private data has been changed.
+     */
+    @Override
+    void added(T element) {
         if (hashComputed) {
             hashCode = combine(hashCode, strategie.hashCode(element));
         }
+    }
+
+    @Override
+    public boolean add(T element) {
+        added(element);
         return super.add(element);
     }
 

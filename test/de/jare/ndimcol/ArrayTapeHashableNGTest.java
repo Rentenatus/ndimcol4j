@@ -196,8 +196,8 @@ public class ArrayTapeHashableNGTest {
 
     @Test
     public void testBigArrayHash() {
-        ArrayTapeHashable<Integer> data1 = dataBigArray(2800);
-        ArrayTape<Integer> data2 = data1.emptyMovie(2803);
+        ArrayTapeHashable<Integer> data1 = dataBigArray(6800);
+        ArrayTape<Integer> data2 = data1.emptyMovie(6803);
         data2.addAll(data1);
         System.out.println("Hash: " + data1.hashCode());
         assertEquals(data1.hashCode(), data2.hashCode());
@@ -213,5 +213,10 @@ public class ArrayTapeHashableNGTest {
         data2.add(31);
         System.out.println("Hash: " + data1.hashCode());
         assertEquals(data1.hashCode(), data2.hashCode());
+        int hash = data1.combine(data1.hashCode(), data2.size(), data2.hashCode());
+        data1.addAll(data2);
+        System.out.println("Hash: " + hash);
+        assertEquals(data1.hashCode(), hash);
+
     }
 }

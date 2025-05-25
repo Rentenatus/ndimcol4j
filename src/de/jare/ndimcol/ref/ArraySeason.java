@@ -65,6 +65,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
+     * Here the tape are informed that private data has been changed from outside.
+     */
+    void added(T element) {
+        //NoOp
+    }
+
+    /**
      * Adds the specified element to the end of this collection. If the collection is empty, a new episode is created.
      * If the last episode is full, a new episode is created.
      *
