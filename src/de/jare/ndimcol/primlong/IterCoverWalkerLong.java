@@ -77,6 +77,7 @@ public class IterCoverWalkerLong implements IteratorWalkerLong {
     @Override
     public boolean add(long element) {
         if (inner.add(element)) {
+            observer.deepChanged(); // we cannot know if we are at the end
             observer.updateCounter++;
             observer.size++;
             return true;
@@ -94,6 +95,7 @@ public class IterCoverWalkerLong implements IteratorWalkerLong {
     @Override
     public boolean add(Collection<? extends Long> col) {
         if (inner.add(col)) {
+            observer.deepChanged();
             observer.updateCounter++;
             observer.size += col.size();
             return true;
@@ -105,6 +107,7 @@ public class IterCoverWalkerLong implements IteratorWalkerLong {
     public long set(long element) {
         long ret = inner.set(element);
         {
+            observer.replaced(getCurrentIndex(), ret, element);
             observer.updateCounter++;
         }
         return ret;
@@ -121,6 +124,7 @@ public class IterCoverWalkerLong implements IteratorWalkerLong {
     public long removeForward() {
         long ret = inner.removeForward();
         {
+            observer.deepChanged();
             observer.updateCounter++;
             observer.size--;
         }
@@ -164,6 +168,7 @@ public class IterCoverWalkerLong implements IteratorWalkerLong {
     public long removeBackward() {
         long ret = inner.removeBackward();
         {
+            observer.deepChanged();
             observer.updateCounter++;
             observer.size--;
         }
@@ -181,6 +186,7 @@ public class IterCoverWalkerLong implements IteratorWalkerLong {
     public long remove() {
         long ret = inner.remove();
         {
+            observer.deepChanged();
             observer.updateCounter++;
             observer.size--;
         }

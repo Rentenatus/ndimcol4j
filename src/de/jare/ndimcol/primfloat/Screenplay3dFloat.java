@@ -49,6 +49,12 @@ public class Screenplay3dFloat implements ScreenplayFloat {
         public ArrayMovieFloat buildMovie(final int parentSize) {
             return new ArrayTapeFloat();
         }
+
+        @Override
+        public ArrayMovieFloat buildMovieHashable(final int parentSize) {
+            return new ArrayTapeHashableFloat();
+        }
+
     }
 
     @Override
@@ -70,4 +76,10 @@ public class Screenplay3dFloat implements ScreenplayFloat {
     public ArrayMovieFloat buildMovie(final int parentSize) {
         return parentSize > START_3D_SIZE ? new ArraySeasonFloat(inner) : new ArrayTapeFloat();
     }
+
+    @Override
+    public ArrayMovieFloat buildMovieHashable(final int parentSize) {
+        return parentSize > START_3D_SIZE ? new ArraySeasonHashableFloat(inner) : new ArrayTapeHashableFloat();
+    }
+
 }

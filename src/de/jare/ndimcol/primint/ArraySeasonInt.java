@@ -8,7 +8,9 @@
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primint;
 
-import de.jare.ndimcol.ref.ArrayMovie;
+import static de.jare.ndimcol.Hashable._combine;
+import static de.jare.ndimcol.ref.HashStrategie._equals;
+import static de.jare.ndimcol.ref.HashStrategie._hashCode;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.*;
@@ -68,16 +70,12 @@ public class ArraySeasonInt implements ArrayMovieInt {
         recalculateScope();
     }
 
-    public ArraySeasonInt(ArrayTapeInt original) {
-        screenplay = Screenplay2dInt.INSTANCE;
-        data = new de.jare.ndimcol.ref.ArrayTape<>(5);
-        data.add(new ArrayTapeInt(original));
-        size = original.size();
-        splitOrGlue();
-        splitOrGlue();
-        splitOrGlue();
-        splitOrGlue();
-        updateCounter = 0;
+    /**
+     * Here the tape are informed that private data has been changed from outside.
+     */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    void added(int element) {
+        //NoOp
     }
 
     /**
@@ -91,7 +89,7 @@ public class ArraySeasonInt implements ArrayMovieInt {
     @Override
     public boolean add(int element) {
         if (data.isEmpty()) {
-            final ArrayMovieInt first = screenplay.buildMovie(0);
+            final ArrayMovieInt first = buildInnerMovie(0);
             data.add(first); // add to empty data need not be checked
             first.add(element); // add to empty episode need not be checked
             size = 1;
@@ -100,7 +98,7 @@ public class ArraySeasonInt implements ArrayMovieInt {
         }
         final ArrayMovieInt episode = data.get(data.size() - 1);
         if (episode.size() >= midEpisodeSize && episode.pageSpaceLeft() <= 8) {
-            final ArrayMovieInt nextFree = screenplay.buildMovie(this.size);
+            final ArrayMovieInt nextFree = buildInnerMovie(this.size);
             if (!data.add(nextFree)) {
                 return false;
             }
@@ -127,7 +125,7 @@ public class ArraySeasonInt implements ArrayMovieInt {
     public boolean addFirstFree(int element) {
         int episodeIndex = firstFreeEpisode();
         if (episodeIndex == -1) {
-            final ArrayMovieInt nextFree = screenplay.buildMovie(this.size);
+            final ArrayMovieInt nextFree = buildInnerMovie(this.size);
             if (!data.add(nextFree)) {
                 return false;
             }
@@ -255,7 +253,7 @@ public class ArraySeasonInt implements ArrayMovieInt {
     @Override
     public boolean addAll(Collection<? extends Integer> col) {
         if (data.isEmpty()) {
-            final ArrayMovieInt first = screenplay.buildMovie(0);
+            final ArrayMovieInt first = buildInnerMovie(0);
             data.add(first);
             first.addAll(col);
             size = col.size();
@@ -293,6 +291,83 @@ public class ArraySeasonInt implements ArrayMovieInt {
             splitOrGlue();
         }
         return modified;
+    }
+
+    /**
+     * Sets the element at the specified position.Replaces an old element at the specified position in this list with
+     * the specified element.
+     *
+     * @param index index at which the specified element is to be changed
+     * @param element element to be appended to this list
+     * @return the old element at the specified position
+     */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public int set(int index, int element) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
+        }
+        IteratorWalkerInt walker = getWalkerAtIndex(index);
+        return walker.set(element);
+    }
+
+    @Override
+    public boolean equals(Object ob) {
+        if (!(ob instanceof ArrayMovieInt)) {
+            if (!(ob instanceof Collection<?>)) {
+                return false;
+            }
+            return equalsCollection((Collection<?>) ob);
+        }
+        ArrayMovieInt movie = (ArrayMovieInt) ob;
+        if (size() != movie.size()) {
+            return false;
+        }
+        IteratorWalkerInt mWalker = movie.softWalker();
+        IteratorWalkerInt walker = softWalker();
+        while (walker.hasNext()) {
+            if (!equals(walker.next(), mWalker.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean equalsCollection(Collection<?> col) {
+        if (this == col) {
+            return true;
+        }
+        if (size() != col.size()) {
+            return false;
+        }
+        Iterator<?> iter = col.iterator();
+        IteratorWalkerInt walker = softWalker();
+        while (walker.hasNext()) {
+            if (!equals(walker.next(), iter.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean equals(int a, int b) {
+        return _equals(a, b);
+    }
+
+    public boolean equals(int a, Object b) {
+        return _equals(a, b);
+    }
+    @Override
+    public int hashCode() {
+        int hashCode = 0;
+        IteratorWalkerInt walker = softWalker();
+        while (walker.hasNext()) {
+            hashCode = _combine(hashCode, _hashCode(walker.next()));
+        }
+        return hashCode;
+    }
+
+    ArrayMovieInt buildInnerMovie(final int parentSize) {
+        return screenplay.buildMovie(parentSize);
     }
 
     /**
@@ -825,6 +900,18 @@ public class ArraySeasonInt implements ArrayMovieInt {
         this.updateCounter++;
         lastAccumulatedSize = 0;
         lastEpisode = null;
+    }
+
+    /**
+     * Here the tape are informed that private data or inner tape has been changed from outside.
+     */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    void deepChanged() {
+        //NoOp
+    }
+
+    void replaced(int index, int ret, int element) {
+        //NoOp
     }
 
     /**

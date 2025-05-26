@@ -49,6 +49,12 @@ public class Screenplay3dLong implements ScreenplayLong {
         public ArrayMovieLong buildMovie(final int parentSize) {
             return new ArrayTapeLong();
         }
+
+        @Override
+        public ArrayMovieLong buildMovieHashable(final int parentSize) {
+            return new ArrayTapeHashableLong();
+        }
+
     }
 
     @Override
@@ -70,4 +76,10 @@ public class Screenplay3dLong implements ScreenplayLong {
     public ArrayMovieLong buildMovie(final int parentSize) {
         return parentSize > START_3D_SIZE ? new ArraySeasonLong(inner) : new ArrayTapeLong();
     }
+
+    @Override
+    public ArrayMovieLong buildMovieHashable(final int parentSize) {
+        return parentSize > START_3D_SIZE ? new ArraySeasonHashableLong(inner) : new ArrayTapeHashableLong();
+    }
+
 }

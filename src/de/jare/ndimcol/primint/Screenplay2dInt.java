@@ -8,8 +8,6 @@
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primint;
 
-import de.jare.ndimcol.ref.ArrayMovie;
-
 /**
  *
  * @author Janusch Rentenatus
@@ -42,4 +40,10 @@ public class Screenplay2dInt implements ScreenplayInt {
     public ArrayMovieInt buildMovie(final int parentSize) {
         return new ArrayTapeInt();
     }
+
+    @Override
+    public ArrayMovieInt buildMovieHashable(final int parentSize) {
+        return new ArrayTapeHashableInt();
+    }
+
 }

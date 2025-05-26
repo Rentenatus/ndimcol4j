@@ -8,7 +8,6 @@
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primfloat;
 
-import de.jare.ndimcol.ref.ArrayMovie;
 import java.util.Collection;
 
 /**
@@ -169,6 +168,7 @@ public class IterSeasonWalkerFloat implements IteratorWalkerFloat {
         if (innerWalker == null) {
             throw new IllegalStateException("No active inner walker to add elements to.");
         }
+        season.deepChanged();
         return innerWalker.add(element);
     }
 
@@ -184,7 +184,9 @@ public class IterSeasonWalkerFloat implements IteratorWalkerFloat {
         if (innerWalker == null) {
             throw new IllegalStateException("No active inner walker to add elements to.");
         }
-        return innerWalker.set(element);
+        final float ret = innerWalker.set(element);
+        season.replaced(currentIndex, ret, element);
+        return ret;
     }
 
     /**
@@ -199,6 +201,7 @@ public class IterSeasonWalkerFloat implements IteratorWalkerFloat {
         if (innerWalker == null) {
             throw new IllegalStateException("No active inner walker to add elements to.");
         }
+        season.deepChanged();
         return innerWalker.add(col);
     }
 

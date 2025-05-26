@@ -5,15 +5,16 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol.ref;
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+package de.jare.ndimcol.primfloat;
 
 /**
  * A generic hashing strategy for determining hash codes and equality of objects.
  *
- * @param <T> the type of elements in this strategy
  * @author Janusch Rentenatus
  */
-public class HashStrategie<T> {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+public class HashStrategieFloat {
 
     /**
      * Computes the hash code of the specified element. If the element is {@code null}, it returns {@code 0}; otherwise,
@@ -22,14 +23,13 @@ public class HashStrategie<T> {
      * @param element the object whose hash code is to be computed
      * @return the hash code of the object or {@code 0} if the object is {@code null}
      */
-    public int hashCode(T element) {
-        //prim:return _PRIMBOX_.hashCode(element);
-        return element == null ? 0 : element.hashCode();
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public int hashCode(float element) {
+        return Float.hashCode(element);
     }
 
-    public static int _hashCode(Object element) {
-        //prim:return _PRIMBOX_.hashCode(element);
-        return element == null ? 0 : element.hashCode();
+    public static int _hashCode(float element) {
+        return Float.hashCode(element);
     }
 
     /**
@@ -39,7 +39,8 @@ public class HashStrategie<T> {
      * @param b the second object to compare
      * @return {@code true} if the objects are equal, {@code false} otherwise
      */
-    public boolean equals(T a, Object b) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public boolean equals(float a, float b) {
         return _equals(a, b);
     }
 
@@ -50,23 +51,13 @@ public class HashStrategie<T> {
      * are not equal. Otherwise, it uses the {@code equals} method of the first object to compare them.
      * </p>
      *
-     * @param <U> the type of objects being compared
      * @param a the first object to compare
      * @param b the second object to compare
      * @return {@code true} if the objects are equal, {@code false} otherwise
      */
-    public static boolean _equals(Object a, Object b) {
-        //noprim.start
-        if (a == b) {
-            return true;
-        }
-        if (a == null || b == null) {
-            return false;
-        }
-        return a.equals(b);
-        //noprim.ende
-        //prim:return a == b;
-        //prim.ende
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public static boolean _equals(float a, float b) {
+        return a == b;
     }
 
 }

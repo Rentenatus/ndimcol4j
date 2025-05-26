@@ -24,4 +24,7 @@ public interface ScreenplayInt {
     int getMinEpisodeGlue(final int fac);
 
     ArrayMovieInt buildMovie(final int parentSize);
+
+    ArrayMovieInt buildMovieHashable(final int parentSize);
+
 }
