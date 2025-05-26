@@ -8,16 +8,16 @@
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primint;
 
-import de.jare.ndimcol.Hashable;
 import java.util.Collection;
 import java.util.List;
+import de.jare.ndimcol.RentenatusHashable;
 
 /**
  *
  * @author Janusch Rentenatus
  */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-public class ArrayTapeHashableInt extends ArrayTapeInt implements Hashable {
+public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHashable {
 
     private int hashCode;
     private boolean hashComputed;

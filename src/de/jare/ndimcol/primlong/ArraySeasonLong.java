@@ -8,7 +8,7 @@
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primlong;
 
-import static de.jare.ndimcol.Hashable._combine;
+import static de.jare.ndimcol.RentenatusHashable._combine;
 import static de.jare.ndimcol.ref.HashStrategie._equals;
 import static de.jare.ndimcol.ref.HashStrategie._hashCode;
 import java.io.PrintStream;

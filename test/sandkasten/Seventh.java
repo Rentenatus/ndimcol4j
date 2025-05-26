@@ -7,13 +7,13 @@
  */
 package sandkasten;
 
-import de.jare.ndimcol.Hashable;
+import de.jare.ndimcol.RentenatusHashable;
 
 /**
  *
  * @author jRent
  */
-public class Seventh implements Hashable {
+public class Seventh implements RentenatusHashable {
 
     public static void main(String[] args) {
         System.out.println("final static int MASK = " + MASK + ";\n");

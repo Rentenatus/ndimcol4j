@@ -7,15 +7,15 @@
  */
 package de.jare.ndimcol.ref;
 
-import de.jare.ndimcol.Hashable;
 import java.util.Collection;
+import de.jare.ndimcol.RentenatusHashable;
 
 /**
  *
  * @author Janusch Rentenatus
  * @param <T> the type of elements in this tape
  */
-public class ArraySeasonHashable<T> extends ArraySeason<T> implements Hashable {
+public class ArraySeasonHashable<T> extends ArraySeason<T> implements RentenatusHashable {
 
     private int hashCode;
     private boolean hashComputed;

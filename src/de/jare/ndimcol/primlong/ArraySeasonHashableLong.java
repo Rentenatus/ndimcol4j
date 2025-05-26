@@ -8,15 +8,15 @@
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primlong;
 
-import de.jare.ndimcol.Hashable;
 import java.util.Collection;
+import de.jare.ndimcol.RentenatusHashable;
 
 /**
  *
  * @author Janusch Rentenatus
  */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-public class ArraySeasonHashableLong extends ArraySeasonLong implements Hashable {
+public class ArraySeasonHashableLong extends ArraySeasonLong implements RentenatusHashable {
 
     private int hashCode;
     private boolean hashComputed;

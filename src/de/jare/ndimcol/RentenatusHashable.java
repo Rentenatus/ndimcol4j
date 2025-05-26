@@ -11,7 +11,7 @@ package de.jare.ndimcol;
  *
  * @author Janusch Rentenatus
  */
-public interface Hashable {
+public interface RentenatusHashable {
 
     public final static int LIMIT = (1 << 30);
     public final static int MASK = LIMIT - 1; // 2^30 - 1
