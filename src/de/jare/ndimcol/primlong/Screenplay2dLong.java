@@ -8,8 +8,6 @@
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primlong;
 
-import de.jare.ndimcol.ref.ArrayMovie;
-
 /**
  *
  * @author Janusch Rentenatus
@@ -42,4 +40,10 @@ public class Screenplay2dLong implements ScreenplayLong {
     public ArrayMovieLong buildMovie(final int parentSize) {
         return new ArrayTapeLong();
     }
+
+    @Override
+    public ArrayMovieLong buildMovieHashable(final int parentSize) {
+        return new ArrayTapeHashableLong();
+    }
+
 }

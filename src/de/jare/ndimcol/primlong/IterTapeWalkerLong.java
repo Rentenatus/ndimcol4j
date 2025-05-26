@@ -8,7 +8,6 @@
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primlong;
 
-import de.jare.ndimcol.ref.ArrayMovie;
 import java.util.Collection;
 
 /**

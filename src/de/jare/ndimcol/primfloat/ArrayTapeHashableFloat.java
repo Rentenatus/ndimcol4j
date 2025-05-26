@@ -5,7 +5,8 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol.ref;
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+package de.jare.ndimcol.primfloat;
 
 import de.jare.ndimcol.Hashable;
 import java.util.Collection;
@@ -14,23 +15,24 @@ import java.util.List;
 /**
  *
  * @author Janusch Rentenatus
- * @param <T> the type of elements in this tape
  */
-public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+public class ArrayTapeHashableFloat extends ArrayTapeFloat implements Hashable {
 
     private int hashCode;
     private boolean hashComputed;
-    protected HashStrategie<T> strategie;
+    protected HashStrategieFloat strategie;
 
     /**
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty. The update
      * counter and trim countdown are also initialized.
      */
-    public ArrayTapeHashable() {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public ArrayTapeHashableFloat() {
         super();
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategie<>();
+        this.strategie = new HashStrategieFloat();
     }
 
     /**
@@ -39,7 +41,8 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
      *
      * @param strategie to calculate hash code.
      */
-    public ArrayTapeHashable(HashStrategie<T> strategie) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public ArrayTapeHashableFloat(HashStrategieFloat strategie) {
         super();
         this.hashCode = 0;
         this.hashComputed = true;
@@ -52,11 +55,12 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
      *
      * @param initialCapacityOrZero the initial capacity of the ArrayTape
      */
-    public ArrayTapeHashable(int initialCapacityOrZero) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public ArrayTapeHashableFloat(int initialCapacityOrZero) {
         super(initialCapacityOrZero);
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategie<>();
+        this.strategie = new HashStrategieFloat();
     }
 
     /**
@@ -65,15 +69,14 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
      *
      * @param original the ArrayTape to be duplicated
      */
-    public ArrayTapeHashable(ArrayTape<T> original) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public ArrayTapeHashableFloat(ArrayTapeFloat original) {
         super(original);
         this.hashCode = original.hashCode();
         this.hashComputed = true;
-        //prim:this.strategie = (original instanceof ArrayTapeHashable_APPEND_)
-        this.strategie = (original instanceof ArrayTapeHashable)
-                //prim:? ((ArrayTapeHashable_APPEND_) original).getStrategie()
-                ? ((ArrayTapeHashable) original).getStrategie()
-                : new HashStrategie<>();
+        this.strategie = (original instanceof ArrayTapeHashableFloat)
+                ? ((ArrayTapeHashableFloat) original).getStrategie()
+                : new HashStrategieFloat();
     }
 
     /**
@@ -82,11 +85,12 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
      *
      * @param list the List from which the ArrayTape is created
      */
-    public ArrayTapeHashable(List<T> list) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public ArrayTapeHashableFloat(List<Float> list) {
         super(list);
         this.hashCode = 10127;
         this.hashComputed = false;
-        this.strategie = new HashStrategie<>();
+        this.strategie = new HashStrategieFloat();
     }
 
     /**
@@ -96,18 +100,19 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
      * @param list the List from which the ArrayTape is created
      * @param strategie to calculate hash code.
      */
-    public ArrayTapeHashable(List<T> list, HashStrategie<T> strategie) {
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    public ArrayTapeHashableFloat(List<Float> list, HashStrategieFloat strategie) {
         super(list);
         this.hashCode = 10127;
         this.hashComputed = false;
         this.strategie = strategie;
     }
 
-    public HashStrategie<T> getStrategie() {
+    public HashStrategieFloat getStrategie() {
         return strategie;
     }
 
-    public void setStrategie(HashStrategie<T> strategie) {
+    public void setStrategie(HashStrategieFloat strategie) {
         this.strategie = strategie;
     }
 
@@ -117,7 +122,7 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
             return hashCode;
         }
         hashCode = 0;
-        IterTapeWalker<T> walker = softWalker();
+        IterTapeWalkerFloat walker = softWalker();
         while (walker.hasNext()) {
             hashCode = combine(hashCode, strategie.hashCode(walker.next()));
         }
@@ -126,7 +131,7 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
     }
 
     @Override
-    public boolean add(T element) {
+    public boolean add(float element) {
         if (hashComputed) {
             hashCode = combine(hashCode, strategie.hashCode(element));
         }
@@ -134,10 +139,10 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
     }
 
     @Override
-    public boolean addAll(Collection<? extends T> col) {
+    public boolean addAll(Collection<? extends Float> col) {
         if (hashComputed && col.size() <= 128) {
             boolean warwas = false;
-            for (T element : col) {
+            for (float element : col) {
                 warwas = add(element) || warwas;
             }
             return warwas;
@@ -147,19 +152,19 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends T> col) {
+    public boolean addAll(int index, Collection<? extends Float> col) {
         hashComputed = false;
         return super.addAll(index, col);
     }
 
     @Override
-    public boolean addAt(int index, T element) {
+    public boolean addAt(int index, float element) {
         hashComputed = false;
         return super.addAt(index, element);
     }
 
     @Override
-    public boolean addMovie(ArrayMovie<T> movie) {
+    public boolean addMovie(ArrayMovieFloat movie) {
         if (movie.isEmpty()) {
             return false;
         }
@@ -172,7 +177,7 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
     }
 
     @Override
-    public T set(int index, T element) {
+    public float set(int index, float element) {
         if (hashComputed) {
             hashCode = replace(hashCode,
                     size() - 1 - index,
@@ -183,7 +188,7 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
     }
 
     @Override
-    public boolean equals(T a, Object b) {
+    public boolean equals(float a, float b) {
         return strategie.equals(a, b);
     }
 
@@ -197,13 +202,14 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
     /**
      * Here the tape are informed that private data has been changed from outside.
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
     void deepChanged() {
         hashComputed = false;
     }
 
     @Override
-    public boolean removeAll(Object element) {
+    public boolean removeAll(float element) {
         boolean ret = super.removeAll(element);
         if (ret) {
             hashComputed = false;
@@ -230,19 +236,19 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
     }
 
     @Override
-    protected T removeFast(int index) {
+    protected float removeFast(int index) {
         hashComputed = false;
         return super.removeFast(index);
     }
 
     @Override
-    public T removeTrim(int index) {
+    public float removeTrim(int index) {
         hashComputed = false;
         return super.removeTrim(index);
     }
 
     @Override
-    public ArrayTape<T> splitInHalf() {
+    public ArrayTapeFloat splitInHalf() {
         hashComputed = false;
         return super.splitInHalf();
     }
@@ -254,9 +260,10 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements Hashable {
      * @param initialCapacityOrZero the initial capacity of the new movie or zero if no initial capacity is needed
      * @return a new empty ArrayTape with the specified initial capacity
      */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public ArrayTape<T> emptyMovie(int initialCapacityOrZero) {
-        ArrayTapeHashable<T> ret = new ArrayTapeHashable<>(initialCapacityOrZero);
+    public ArrayTapeFloat emptyMovie(int initialCapacityOrZero) {
+        ArrayTapeHashableFloat ret = new ArrayTapeHashableFloat(initialCapacityOrZero);
         ret.setPage(this.getPage());
         ret.setStrategie(this.getStrategie());
         return ret;

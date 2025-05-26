@@ -8,7 +8,9 @@
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primfloat;
 
-import de.jare.ndimcol.ref.ArrayMovie;
+import static de.jare.ndimcol.Hashable._combine;
+import static de.jare.ndimcol.ref.HashStrategie._equals;
+import static de.jare.ndimcol.ref.HashStrategie._hashCode;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,25 +37,6 @@ public class ArrayTapeFloat implements ArrayMovieFloat {
     public static final int DEFAULT_CAPACITY = 32;
     public static final int DEFAULT_PAGE = 64;
     public static final int DEFAULT_COUNTDOWN = DEFAULT_PAGE << 2;
-
-    /**
-     * Compares two objects for equality.If both objects are null, they are considered equal. If one is null and the
-     * other is not, they are not equal. Otherwise, it uses the equals method of the first object to compare them.
-     *
-     * @param a the first object to compare
-     * @param b the second object to compare
-     * @return true if the objects are equal, false otherwise
-     */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    public static <U> boolean equals(U a, U b) {
-        if (a == b) {
-            return true;
-        }
-        if (a == null || b == null) {
-            return false;
-        }
-        return a.equals(b);
-    }
 
     private float[] elementData;
     private int size;
@@ -136,6 +119,70 @@ public class ArrayTapeFloat implements ArrayMovieFloat {
         this.size = 0;
         this.updateCounter++;
         this.trimCountDown = DEFAULT_COUNTDOWN; // Initialize trim countdown
+    }
+
+    /**
+     * Here the tape are informed that private data has been changed from outside.
+     */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    void deepChanged() {
+        //NoOp
+    }
+
+    @Override
+    public boolean equals(Object ob) {
+        if (!(ob instanceof ArrayMovieFloat)) {
+            if (!(ob instanceof Collection<?>)) {
+                return false;
+            }
+            return equalsCollection((Collection<?>) ob);
+        }
+        ArrayMovieFloat movie = (ArrayMovieFloat) ob;
+        if (size() != movie.size()) {
+            return false;
+        }
+        IteratorWalkerFloat mWalker = movie.softWalker();
+        IterTapeWalkerFloat walker = softWalker();
+        while (walker.hasNext()) {
+            if (!equals(walker.next(), mWalker.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean equalsCollection(Collection<?> col) {
+        if (this == col) {
+            return true;
+        }
+        if (size() != col.size()) {
+            return false;
+        }
+        Iterator<?> iter = col.iterator();
+        IterTapeWalkerFloat walker = softWalker();
+        while (walker.hasNext()) {
+            if (!equals(walker.next(), iter.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean equals(float a, float b) {
+        return _equals(a, b);
+    }
+
+    public boolean equals(float a, Object b) {
+        return _equals(a, b);
+    }
+    @Override
+    public int hashCode() {
+        int hashCode = 0;
+        IterTapeWalkerFloat walker = softWalker();
+        while (walker.hasNext()) {
+            hashCode = _combine(hashCode, _hashCode(walker.next()));
+        }
+        return hashCode;
     }
 
     /**
@@ -876,10 +923,11 @@ public class ArrayTapeFloat implements ArrayMovieFloat {
             return null;
         }
         int halfSize = size / 2;
-        ArrayTapeFloat newTape = new ArrayTapeFloat();
+        ArrayTapeFloat newTape = emptyMovie(size - halfSize + page);
         newTape.size = size - halfSize;
         newTape.elementData = new float[newTape.size];
         System.arraycopy(elementData, halfSize, newTape.elementData, 0, newTape.size);
+        newTape.deepChanged();
 
         // Create new elementData array for the current instance with only the first half
         float[] newElementData = new float[halfSize];
@@ -928,11 +976,12 @@ public class ArrayTapeFloat implements ArrayMovieFloat {
             throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", toIndex: " + toIndex + ".");
         }
         int newSize = toIndex - fromIndex;
-        ArrayTapeFloat subMovie = new ArrayTapeFloat(newSize);
+        ArrayTapeFloat subMovie = emptyMovie(newSize);
         if (fromIndex < toIndex) {
             System.arraycopy(elementData, fromIndex, subMovie.elementData, 0, newSize);
         }
         subMovie.size = newSize;
+        subMovie.deepChanged();
         return subMovie;
     }
 
@@ -1046,4 +1095,5 @@ public class ArrayTapeFloat implements ArrayMovieFloat {
         }
         return ret;
     }
+
 }

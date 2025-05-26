@@ -8,8 +8,6 @@
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primfloat;
 
-import de.jare.ndimcol.ref.ArrayMovie;
-
 /**
  *
  * @author Janusch Rentenatus
@@ -42,4 +40,10 @@ public class Screenplay2dFloat implements ScreenplayFloat {
     public ArrayMovieFloat buildMovie(final int parentSize) {
         return new ArrayTapeFloat();
     }
+
+    @Override
+    public ArrayMovieFloat buildMovieHashable(final int parentSize) {
+        return new ArrayTapeHashableFloat();
+    }
+
 }

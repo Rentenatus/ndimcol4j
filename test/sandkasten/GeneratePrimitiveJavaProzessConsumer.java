@@ -51,6 +51,7 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement = new ArrayList<>();
         replacement.add(List.of("package de.jare.ndimcol.ref;", "package de.jare.ndimcol.prim" + prim + ";"));
         replacement.add(List.of("<T> ArrayMovie<T>", "ArrayMovie" + append));
+        replacement.add(List.of("ArrayMovie<?>", "ArrayMovie" + append));
         replacement.add(List.of("<T>", append));
         replacement.add(List.of("extends Collection" + append, " "));
         //replacement.add(List.of("@Override", " "));
@@ -65,10 +66,15 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("List" + append, "List<" + primBox + ">"));
         replacement.add(List.of("ArrayTape<ArrayMovie" + append + ">", "de.jare.ndimcol.ref.ArrayTape<ArrayMovie" + append + ">"));
         replacement.add(List.of("IterTapeWalker<ArrayMovie" + append + ">", "de.jare.ndimcol.ref.IterTapeWalker<ArrayMovie" + append + ">"));
+        replacement.add(List.of("IteratorWalker<?>", "IteratorWalker" + append));
         replacement.add(List.of("data = new ArrayTape<>", "data = new de.jare.ndimcol.ref.ArrayTape<>"));
         replacement.add(List.of("new ArrayTape<>", "new ArrayTape" + append));
+        replacement.add(List.of("new ArrayTapeHashable<>", "new ArrayTapeHashable" + append));
+        replacement.add(List.of("new ArraySeasonHashable<>", "new ArraySeasonHashable" + append));
         replacement.add(List.of("public ArrayTape(", "public ArrayTape" + append + "("));
         replacement.add(List.of("public ArraySeason(", "public ArraySeason" + append + "("));
+        replacement.add(List.of("public ArrayTapeHashable(", "public ArrayTapeHashable" + append + "("));
+        replacement.add(List.of("public ArraySeasonHashable(", "public ArraySeasonHashable" + append + "("));
         replacement.add(List.of("public PredicateAllRunnable(", "public PredicateAllRunnable" + append + "("));
         replacement.add(List.of("Screenplay ", "Screenplay" + append + " "));
         replacement.add(List.of("Screenplay2d", "Screenplay2d" + append));
@@ -82,6 +88,7 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("IterTapeWalkerFreeze<>", "IterTapeWalkerFreeze" + append));
         replacement.add(List.of("public IterTapeWalker(", "public IterTapeWalker" + append + "("));
         replacement.add(List.of("IterTapeWalker<>", "IterTapeWalker" + append));
+        replacement.add(List.of("HashStrategie<>", "HashStrategie" + append));
         replacement.add(List.of("ArrayTape.DEFAULT", "ArrayTape" + append + ".DEFAULT"));
         replacement.add(List.of("ArrayTape<? extends " + primBox + ">", "ArrayTape" + append + ""));
         replacement.add(List.of(" (T) ", " "));

@@ -49,6 +49,12 @@ public class Screenplay3dInt implements ScreenplayInt {
         public ArrayMovieInt buildMovie(final int parentSize) {
             return new ArrayTapeInt();
         }
+
+        @Override
+        public ArrayMovieInt buildMovieHashable(final int parentSize) {
+            return new ArrayTapeHashableInt();
+        }
+
     }
 
     @Override
@@ -70,4 +76,10 @@ public class Screenplay3dInt implements ScreenplayInt {
     public ArrayMovieInt buildMovie(final int parentSize) {
         return parentSize > START_3D_SIZE ? new ArraySeasonInt(inner) : new ArrayTapeInt();
     }
+
+    @Override
+    public ArrayMovieInt buildMovieHashable(final int parentSize) {
+        return parentSize > START_3D_SIZE ? new ArraySeasonHashableInt(inner) : new ArrayTapeHashableInt();
+    }
+
 }

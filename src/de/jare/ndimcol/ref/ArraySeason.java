@@ -300,10 +300,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     @Override
+    //prim:public boolean equals(Object ob) {
     public boolean equals(Object ob) {
+        //noprim.start  
         if (this == ob) {
             return true;
         }
+        //noprim.ende  
         if (!(ob instanceof ArrayMovie<?>)) {
             if (!(ob instanceof Collection<?>)) {
                 return false;
@@ -345,6 +348,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return _equals(a, b);
     }
 
+    //prim:public boolean equals(_PRIM_ a, Object b) {
+    //prim:    return _equals(a, b);
+    //prim:}
+    //prim.ende
     @Override
     public int hashCode() {
         int hashCode = 0;

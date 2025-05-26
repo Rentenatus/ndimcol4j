@@ -77,6 +77,7 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
     @Override
     public boolean add(float element) {
         if (inner.add(element)) {
+            observer.deepChanged(); // we cannot know if we are at the end
             observer.updateCounter++;
             observer.size++;
             return true;
@@ -94,6 +95,7 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
     @Override
     public boolean add(Collection<? extends Float> col) {
         if (inner.add(col)) {
+            observer.deepChanged();
             observer.updateCounter++;
             observer.size += col.size();
             return true;
@@ -105,6 +107,7 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
     public float set(float element) {
         float ret = inner.set(element);
         {
+            observer.replaced(getCurrentIndex(), ret, element);
             observer.updateCounter++;
         }
         return ret;
@@ -121,6 +124,7 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
     public float removeForward() {
         float ret = inner.removeForward();
         {
+            observer.deepChanged();
             observer.updateCounter++;
             observer.size--;
         }
@@ -164,6 +168,7 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
     public float removeBackward() {
         float ret = inner.removeBackward();
         {
+            observer.deepChanged();
             observer.updateCounter++;
             observer.size--;
         }
@@ -181,6 +186,7 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
     public float remove() {
         float ret = inner.remove();
         {
+            observer.deepChanged();
             observer.updateCounter++;
             observer.size--;
         }
