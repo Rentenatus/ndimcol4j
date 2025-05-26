@@ -8,7 +8,40 @@ ArraySeason is the basis for SortedSeasonSet, which, despite binary search, can 
 
 ---
 
-**Comparison:**
+**Coding hash comparison**
+
+This collection offers a special way of calculating HASH values. This is best explained with an example: Let list1, list2, and list3 be arbitrary and list123 be an empty list, then:
+```
+list123.addAll(list1);
+list123.addAll(list2);
+list123.addAll(list3);
+hash = list123.hashCode();
+```
+can be calculated directly from the hashes of the three lists:
+```
+hash = list1.hashCode();
+hash = list2.combine(hash,list2.size(),list2.hashCode());
+hash = list3.combine(hash,list3.size(),list3.hashCode());
+```
+And because ArraySeason manages an ArrayTape of ArrayTape, the hash value can be quickly determined from the individual sublists. Manipulations don't have to affect all sublists, so repeated calculations are faster.
+
+
+Replacing a single element in the list can also calculate the new hash value directly:
+```
+    public T set(int index, T element) {
+        int power = size() - 1 - index;
+        hashCode = replace(hashCode,
+                    power,
+                    strategie.hashCode(get(index)),
+                    strategie.hashCode(element));
+        return super.set(index, element);
+    }
+```
+
+
+**Speed comparison:**
+
+For the speed comparison, I first use only the collection without the running hash calculation.
 
 | Algorithm    | Batch Size | Duration (ms) | Percentage (%) | Notes            |
 |--------------|------------|---------------|----------------|------------------|
