@@ -7,12 +7,14 @@
  */
 package sandkasten;
 
+import de.jare.ndimcol.primint.ArraySeasonHashableInt;
 import de.jare.ndimcol.primint.ArraySeasonInt;
 import de.jare.ndimcol.primint.IteratorInt;
 import de.jare.ndimcol.primint.Screenplay2dInt;
 import de.jare.ndimcol.primint.ScreenplayInt;
 import de.jare.ndimcol.primint.SortedSeasonSetInt;
 import de.jare.ndimcol.ref.ArraySeason;
+import de.jare.ndimcol.ref.ArraySeasonHashable;
 import de.jare.ndimcol.ref.ArrayTape;
 import de.jare.ndimcol.ref.SortedSeasonSet;
 import de.jare.ndimcol.ref.IterTapeWalker;
@@ -103,6 +105,40 @@ public class ListSpeed {
         }
     }
 
+    public void runSeasonHashable(Screenplay sc, final Object[] arr, final int numberElems) {
+        // Erstellen des ursprünglichen Tapes und Hinzufügen von numberElems Elementen
+        ArraySeasonHashable<Integer> originalSeason = new ArraySeasonHashable<>(sc);
+        for (int i = 0; i < arr.length; i++) {
+            originalSeason.add((Integer) arr[i]);
+        }
+        for (int i = 0; i < numberElems; i++) {
+            originalSeason.add(i, i);
+        }
+
+        // Erstellen des neuen Tapes
+        ArraySeasonHashable<Integer> newSeason = new ArraySeasonHashable<>(sc);
+
+        // Verwenden des TapeWalkers, um Elemente zu durchlaufen, hinzuzufügen  
+        Iterator<Integer> iter = originalSeason.iterator();
+        while (iter.hasNext()) {
+            Integer element = iter.next();
+            newSeason.add(element);
+        }
+
+        // Verwenden des TapeWalkers, um Elemente  zu entfernen
+        iter = newSeason.iterator();
+        while (iter.hasNext()) {
+            Integer element = iter.next();
+            originalSeason.remove(element);
+        }
+
+        for (int i = 0; i < numberElems; i++) {
+            if (!newSeason.get(i).equals(i)) {
+                throw new RuntimeException("List failed");
+            }
+        }
+    }
+
     public void runSeasonInt(ScreenplayInt sc, final Object[] arr, final int numberElems) {
         // Erstellen des ursprünglichen Tapes und Hinzufügen von numberElems Elementen
         ArraySeasonInt originalSeason = new ArraySeasonInt(sc);
@@ -115,6 +151,40 @@ public class ListSpeed {
 
         // Erstellen des neuen Tapes
         ArraySeasonInt newSeason = new ArraySeasonInt(sc);
+
+        // Verwenden des TapeWalkers, um Elemente zu durchlaufen, hinzuzufügen  
+        IteratorInt iter = originalSeason.iterator();
+        while (iter.hasNext()) {
+            Integer element = iter.next();
+            newSeason.add(element);
+        }
+
+        // Verwenden des TapeWalkers, um Elemente  zu entfernen
+        iter = newSeason.iterator();
+        while (iter.hasNext()) {
+            Integer element = iter.next();
+            originalSeason.remove(element);
+        }
+
+        for (int i = 0; i < numberElems; i++) {
+            if (newSeason.get(i) != i) {
+                throw new RuntimeException("List failed");
+            }
+        }
+    }
+
+    public void runSeasonHashableInt(ScreenplayInt sc, final Object[] arr, final int numberElems) {
+        // Erstellen des ursprünglichen Tapes und Hinzufügen von numberElems Elementen
+        ArraySeasonHashableInt originalSeason = new ArraySeasonHashableInt(sc);
+        for (int i = 0; i < arr.length; i++) {
+            originalSeason.add((Integer) arr[i]);
+        }
+        for (int i = 0; i < numberElems; i++) {
+            originalSeason.add(i, i);
+        }
+
+        // Erstellen des neuen Tapes
+        ArraySeasonHashableInt newSeason = new ArraySeasonHashableInt(sc);
 
         // Verwenden des TapeWalkers, um Elemente zu durchlaufen, hinzuzufügen  
         IteratorInt iter = originalSeason.iterator();
@@ -320,6 +390,24 @@ public class ListSpeed {
         duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
         System.out.println("ArraySeason    |  " + numberElems + "    |  " + duration + " |  " + (duration * 10000 / durationVector) / 100d + "%||");
 
+        // Zeitmessung für runSeason
+        startTime = System.nanoTime();
+        for (int batch = 0; batch < NUMBER_BATCHES; batch++) {
+            test.runSeasonHashable(Screenplay2d.INSTANCE, arr, numberElems);
+        }
+        endTime = System.nanoTime();
+        duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
+        System.out.println("ArraySeasonHashable|  " + numberElems + "    |  " + duration + " |  " + (duration * 10000 / durationVector) / 100d + "%|with hash cache|");
+
+        // Zeitmessung für runSeasonInt
+        startTime = System.nanoTime();
+        for (int batch = 0; batch < NUMBER_BATCHES; batch++) {
+            test.runSeasonHashableInt(Screenplay2dInt.INSTANCE, arr, numberElems);
+        }
+        endTime = System.nanoTime();
+        duration = (endTime - startTime) / 1_000_000; // Zeit in Millisekunden
+        System.out.println("ArraySeasonHashableInt |  " + numberElems + "    |  " + duration + " |  " + (duration * 10000 / durationVector) / 100d + "%|int without unboxing; hash cache|");
+
         // Zeitmessung für runSeasonInt
         startTime = System.nanoTime();
         for (int batch = 0; batch < NUMBER_BATCHES; batch++) {
@@ -358,7 +446,7 @@ public class ListSpeed {
 
     }
 
-    final static int[] JOBS = new int[]{80, 240, 4_000, 8_000, 24_000};
+    final static int[] JOBS = new int[]{24_000, 8_000, 4_000, 240, 80};
 
     public static void main(String[] args) {
         ListSpeed test = new ListSpeed();
