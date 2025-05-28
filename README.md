@@ -43,6 +43,15 @@ Replacing a single element in the list can also calculate the new hash value dir
 
 | Algorithm    | Batch Size | Duration (ms) | Percentage (%) | Notes            |
 |--------------|------------|---------------|----------------|------------------|
+Vector         |  50000    |  314212 |  100.00%  |reference point.|
+ArrayList      |  50000    |  317340 |  100.99%||
+ArrayTape      |  50000    |  323296 |  102.89%||
+ArraySeason    |  50000    |  12672 |  4.03%||
+ArraySeasonHashable|  50000    |  13417 |  4.27%|with hash cache|
+ArraySeasonHashableInt |  50000    |  4424 |  1.4%|int without unboxing; hash cache|
+ArraySeasonInt |  50000    |  4559 |  1.45%|int without unboxing|
+ArraySeason3d  |  50000    |  28229 |  8.98%||
+SortedSeason   |  50000    |  25013 |  7.96%||
 Vector         |  24000    |  74475 |  100.00%  |reference point.|
 ArrayList      |  24000    |  75888 |  101.89%||
 ArrayTape      |  24000    |  77140 |  103.57%||
