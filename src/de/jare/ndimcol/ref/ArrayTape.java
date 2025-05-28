@@ -325,6 +325,24 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     }
 
     /**
+     * Adds all of the elements in the specified movie to this tape.
+     *
+     * Same as addMovie.
+     *
+     * @param movie movie containing elements to be added to this collection
+     * @return {@code true} if this tape changed as a result of the call
+     */
+    @Override
+    public boolean glueMovie(ArrayMovie<T> movie) {
+        return addMovie(movie);
+    }
+
+    @Override
+    public void assimilateInto(ArrayTape<ArrayMovie<T>> othersData) {
+        othersData.add(this);
+    }
+
+    /**
      * Inserts all elements in the specified collection into this tape, starting at the specified position.
      *
      * @param index index at which to insert the first element from the specified collection

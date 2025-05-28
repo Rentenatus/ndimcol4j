@@ -91,6 +91,20 @@ public interface ArrayMovie<T> extends Collection<T> {
     boolean addMovie(ArrayMovie<T> movie);
 
     /**
+     * Adds the specified movie to this collection.
+     *
+     * The most important difference from addMovie is that the movie doesn't necessarily have to be copied; the object
+     * can also be assimilated in its entirety. Therefore, the application must not write to this object, or ideally,
+     * access it at all.
+     *
+     * @param movie movie containing elements to be added to this collection
+     * @return {@code true} if this collection changed as a result of the call
+     */
+    boolean glueMovie(ArrayMovie<T> movie);
+
+    void assimilateInto(ArrayTape<ArrayMovie<T>> othersData);
+
+    /**
      * Appends the specified element to the end of this list .
      *
      * @param element element to be appended to this list

@@ -19,7 +19,7 @@ public class Screenplay3d implements Screenplay {
     private final Screenplay3dInner inner = new Screenplay3dInner();
 
     static final int DEFAULT_SIZE_3D = 24;
-    static final int START_MAX_EPISODE_SIZE_3D = 2048;
+    static final int START_MAX_EPISODE_SIZE_3D = 8192;
     static final int START_MIN_EPISODE_GLUE_3D = 192;
     static final int DEFAULT_SIZE_3D_INNER = 12;
     static final int START_MAX_EPISODE_SIZE_3D_INNER = 512;

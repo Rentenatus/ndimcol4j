@@ -97,6 +97,21 @@ public interface ArrayMovieLong   {
     boolean addMovie(ArrayMovieLong movie);
 
     /**
+     * Adds the specified movie to this collection.
+     *
+     * The most important difference from addMovie is that the movie doesn't necessarily have to be copied; the object
+     * can also be assimilated in its entirety. Therefore, the application must not write to this object, or ideally,
+     * access it at all.
+     *
+     * @param movie movie containing elements to be added to this collection
+     * @return {@code true} if this collection changed as a result of the call
+     */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    boolean glueMovie(ArrayMovieLong movie);
+
+    void assimilateInto(de.jare.ndimcol.ref.ArrayTape<ArrayMovieLong> othersData);
+
+    /**
      * Appends the specified element to the end of this list .
      *
      * @param element element to be appended to this list

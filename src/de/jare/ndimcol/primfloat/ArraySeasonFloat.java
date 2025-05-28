@@ -284,13 +284,36 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
     public boolean addMovie(ArrayMovieFloat movie) {
         final ArrayTapeFloat episode = new ArrayTapeFloat(movie.size());
         episode.addMovie(movie);
-        boolean modified = data.add(episode);
-        size += movie.size();
-        this.updateCounter++;
+        boolean modified = glueMovie(episode);
         if (episode.size() > maxEpisodeSize) {
             splitOrGlue();
         }
         return modified;
+    }
+
+    /**
+     * Assimilate the specified movie to this collection.
+     *
+     * Therefore, the application must not write to this object, or ideally, access it at all.
+     *
+     * @param episode movie to be assimilate to this collection
+     * @return {@code true} if this collection changed as a result of the call
+     */
+// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public boolean glueMovie(ArrayMovieFloat episode) {
+        if (episode.isEmpty()) {
+            return false;
+        }
+        episode.assimilateInto(data); 
+        size += episode.size();
+        this.updateCounter++;
+        return true;
+    }
+
+    @Override
+    public void assimilateInto(de.jare.ndimcol.ref.ArrayTape<ArrayMovieFloat> othersData) {
+        othersData.addMovie(this.data);
     }
 
     /**
@@ -484,7 +507,7 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
                 data.removeAt(i);
                 i--; // Move back to recheck the merged episode
                 final ArrayMovieFloat prevEpisode = data.get(i);
-                prevEpisode.addMovie(episode);
+                prevEpisode.glueMovie(episode);
                 lastSize = prevEpisode.size();
             } else {
                 lastSize = episode.size();

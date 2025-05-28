@@ -446,7 +446,7 @@ public class ListSpeed {
 
     }
 
-    final static int[] JOBS = new int[]{24_000, 8_000, 4_000, 240, 80};
+    final static int[] JOBS = new int[]{50_000, 24_000, 8_000, 4_000, 240, 80};
 
     public static void main(String[] args) {
         ListSpeed test = new ListSpeed();
