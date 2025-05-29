@@ -16,11 +16,11 @@ import de.jare.ndimcol.RentenatusHashable;
  * @author Janusch Rentenatus
  */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-public class ArraySeasonHashableFloat extends ArraySeasonFloat implements RentenatusHashable {
+public class ArraySeasonHashableFloat extends ArraySeasonFloat implements RentenatusHashable, StrategicHashableFloat {
 
     private int hashCode;
     private boolean hashComputed;
-    protected HashStrategieFloat strategie;
+    protected HashStrategyFloat strategy;
 
     /**
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty. The update
@@ -31,21 +31,21 @@ public class ArraySeasonHashableFloat extends ArraySeasonFloat implements Renten
         super();
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategieFloat();
+        this.strategy = new HashStrategyFloat();
     }
 
     /**
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty.The update
      * counter and trim countdown are also initialized.
      *
-     * @param strategie to calculate hash code.
+     * @param strategy to calculate hash code.
      */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    public ArraySeasonHashableFloat(HashStrategieFloat strategie) {
+    public ArraySeasonHashableFloat(HashStrategyFloat strategy) {
         super();
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = strategie;
+        this.strategy = strategy;
     }
 
     /**
@@ -59,35 +59,45 @@ public class ArraySeasonHashableFloat extends ArraySeasonFloat implements Renten
         super(screenplay);
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategieFloat();
+        this.strategy = new HashStrategyFloat();
     }
 
     /**
-     * Constructs an empty ArrayTape with the specified initial capacity and a default page size of thirty. The update
+     * Constructs an empty ArrayTape with the specified initial capacity and a default page size of thirty.The update
      * counter and trim countdown are also initialized.
      *
      * @param screenplay the screenplay to be used for this season
-     * @param strategie to calculate hash code.
+     * @param strategy to calculate hash code.
      */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    public ArraySeasonHashableFloat(final ScreenplayFloat screenplay, HashStrategieFloat strategie) {
+    public ArraySeasonHashableFloat(final ScreenplayFloat screenplay, HashStrategyFloat strategy) {
         super(screenplay);
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategieFloat();
+        this.strategy = new HashStrategyFloat();
     }
 
-    public HashStrategieFloat getStrategie() {
-        return strategie;
+    @Override
+    public HashStrategyFloat getStrategy() {
+        return strategy;
     }
 
-    public void setStrategie(HashStrategieFloat strategie) {
-        this.strategie = strategie;
+    @Override
+    public void setStrategy(HashStrategyFloat strategy) {
+        this.strategy = strategy;
     }
 
     @Override
     public boolean equals(float a, float b) {
-        return strategie.equals(a, b);
+        return strategy.equals(a, b);
+    }
+
+    @Override
+    public boolean equals(Object ob) {
+        if (hashComputed && ob instanceof StrategicHashableFloat) {
+            return hashCode == ob.hashCode() && super.equals(ob);
+        }
+        return super.equals(ob);
     }
 
     @Override
@@ -114,7 +124,7 @@ public class ArraySeasonHashableFloat extends ArraySeasonFloat implements Renten
     @Override
     void added(float element) {
         if (hashComputed) {
-            hashCode = combine(hashCode, strategie.hashCode(element));
+            hashCode = combine(hashCode, strategy.hashCode(element));
         }
     }
 
@@ -194,8 +204,8 @@ public class ArraySeasonHashableFloat extends ArraySeasonFloat implements Renten
         if (hashComputed) {
             hashCode = replace(hashCode,
                     size() - 1 - index,
-                    strategie.hashCode(old),
-                    strategie.hashCode(element));
+                    strategy.hashCode(old),
+                    strategy.hashCode(element));
         }
     }
 
@@ -227,7 +237,7 @@ public class ArraySeasonHashableFloat extends ArraySeasonFloat implements Renten
     @Override
     public ArraySeasonHashableFloat emptyMovie(int initialCapacityOrZero) {
         ArraySeasonHashableFloat ret = new ArraySeasonHashableFloat(screenplay);
-        ret.setStrategie(this.getStrategie());
+        ret.setStrategy(this.getStrategy());
         return ret;
     }
 }

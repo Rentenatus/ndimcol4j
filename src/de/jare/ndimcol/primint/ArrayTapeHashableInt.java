@@ -17,11 +17,11 @@ import de.jare.ndimcol.RentenatusHashable;
  * @author Janusch Rentenatus
  */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHashable {
+public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHashable, StrategicHashableInt {
 
     private int hashCode;
     private boolean hashComputed;
-    protected HashStrategieInt strategie;
+    protected HashStrategyInt strategy;
 
     /**
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty. The update
@@ -32,21 +32,21 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
         super();
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategieInt();
+        this.strategy = new HashStrategyInt();
     }
 
     /**
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty.The update
      * counter and trim countdown are also initialized.
      *
-     * @param strategie to calculate hash code.
+     * @param strategy to calculate hash code.
      */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    public ArrayTapeHashableInt(HashStrategieInt strategie) {
+    public ArrayTapeHashableInt(HashStrategyInt strategy) {
         super();
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = strategie;
+        this.strategy = strategy;
     }
 
     /**
@@ -60,7 +60,7 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
         super(initialCapacityOrZero);
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategieInt();
+        this.strategy = new HashStrategyInt();
     }
 
     /**
@@ -74,9 +74,9 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
         super(original);
         this.hashCode = original.hashCode();
         this.hashComputed = true;
-        this.strategie = (original instanceof ArrayTapeHashableInt)
-                ? ((ArrayTapeHashableInt) original).getStrategie()
-                : new HashStrategieInt();
+        this.strategy = (original instanceof StrategicHashableInt)
+                ? ((StrategicHashableInt) original).getStrategy()
+                : new HashStrategyInt();
     }
 
     /**
@@ -90,30 +90,40 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
         super(list);
         this.hashCode = 10127;
         this.hashComputed = false;
-        this.strategie = new HashStrategieInt();
+        this.strategy = new HashStrategyInt();
     }
 
     /**
-     * Constructs a new ArrayTape from the specified List. This constructor copies the elements from the given List and
-     * initializes the page size, update counter, and trim countdown.
+     * Constructs a new ArrayTape from the specified List.This constructor copies the elements from the given List and
+ initializes the page size, update counter, and trim countdown.
      *
      * @param list the List from which the ArrayTape is created
-     * @param strategie to calculate hash code.
+     * @param strategy to calculate hash code.
      */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    public ArrayTapeHashableInt(List<Integer> list, HashStrategieInt strategie) {
+    public ArrayTapeHashableInt(List<Integer> list, HashStrategyInt strategy) {
         super(list);
         this.hashCode = 10127;
         this.hashComputed = false;
-        this.strategie = strategie;
+        this.strategy = strategy;
     }
 
-    public HashStrategieInt getStrategie() {
-        return strategie;
+    @Override
+    public HashStrategyInt getStrategy() {
+        return strategy;
     }
 
-    public void setStrategie(HashStrategieInt strategie) {
-        this.strategie = strategie;
+    @Override
+    public void setStrategy(HashStrategyInt strategy) {
+        this.strategy = strategy;
+    }
+
+    @Override
+    public boolean equals(Object ob) {
+        if (hashComputed && ob instanceof StrategicHashableInt) {
+            return hashCode == ob.hashCode() && super.equals(ob);
+        }
+        return super.equals(ob);
     }
 
     @Override
@@ -124,7 +134,7 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
         hashCode = 0;
         IterTapeWalkerInt walker = softWalker();
         while (walker.hasNext()) {
-            hashCode = combine(hashCode, strategie.hashCode(walker.next()));
+            hashCode = combine(hashCode, strategy.hashCode(walker.next()));
         }
         hashComputed = true;
         return hashCode;
@@ -133,7 +143,7 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
     @Override
     public boolean add(int element) {
         if (hashComputed) {
-            hashCode = combine(hashCode, strategie.hashCode(element));
+            hashCode = combine(hashCode, strategy.hashCode(element));
         }
         return super.add(element);
     }
@@ -181,15 +191,15 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
         if (hashComputed) {
             hashCode = replace(hashCode,
                     size() - 1 - index,
-                    strategie.hashCode(get(index)),
-                    strategie.hashCode(element));
+                    strategy.hashCode(get(index)),
+                    strategy.hashCode(element));
         }
         return super.set(index, element);
     }
 
     @Override
     public boolean equals(int a, int b) {
-        return strategie.equals(a, b);
+        return strategy.equals(a, b);
     }
 
     @Override
@@ -265,7 +275,7 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
     public ArrayTapeInt emptyMovie(int initialCapacityOrZero) {
         ArrayTapeHashableInt ret = new ArrayTapeHashableInt(initialCapacityOrZero);
         ret.setPage(this.getPage());
-        ret.setStrategie(this.getStrategie());
+        ret.setStrategy(this.getStrategy());
         return ret;
     }
 }

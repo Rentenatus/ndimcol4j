@@ -8,8 +8,8 @@
 package de.jare.ndimcol.ref;
 
 import static de.jare.ndimcol.RentenatusHashable._combine;
-import static de.jare.ndimcol.ref.HashStrategie._equals;
-import static de.jare.ndimcol.ref.HashStrategie._hashCode;
+import static de.jare.ndimcol.ref.HashStrategy._equals;
+import static de.jare.ndimcol.ref.HashStrategy._hashCode;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;

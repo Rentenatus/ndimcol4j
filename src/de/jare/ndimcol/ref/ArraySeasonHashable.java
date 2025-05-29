@@ -15,11 +15,11 @@ import de.jare.ndimcol.RentenatusHashable;
  * @author Janusch Rentenatus
  * @param <T> the type of elements in this tape
  */
-public class ArraySeasonHashable<T> extends ArraySeason<T> implements RentenatusHashable {
+public class ArraySeasonHashable<T> extends ArraySeason<T> implements RentenatusHashable, StrategicHashable<T> {
 
     private int hashCode;
     private boolean hashComputed;
-    protected HashStrategie<T> strategie;
+    protected HashStrategy<T> strategy;
 
     /**
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty. The update
@@ -29,20 +29,20 @@ public class ArraySeasonHashable<T> extends ArraySeason<T> implements Rentenatus
         super();
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategie<>();
+        this.strategy = new HashStrategy<>();
     }
 
     /**
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty.The update
      * counter and trim countdown are also initialized.
      *
-     * @param strategie to calculate hash code.
+     * @param strategy to calculate hash code.
      */
-    public ArraySeasonHashable(HashStrategie<T> strategie) {
+    public ArraySeasonHashable(HashStrategy<T> strategy) {
         super();
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = strategie;
+        this.strategy = strategy;
     }
 
     /**
@@ -55,34 +55,51 @@ public class ArraySeasonHashable<T> extends ArraySeason<T> implements Rentenatus
         super(screenplay);
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategie<>();
+        this.strategy = new HashStrategy<>();
     }
 
     /**
-     * Constructs an empty ArrayTape with the specified initial capacity and a default page size of thirty. The update
+     * Constructs an empty ArrayTape with the specified initial capacity and a default page size of thirty.The update
      * counter and trim countdown are also initialized.
      *
      * @param screenplay the screenplay to be used for this season
-     * @param strategie to calculate hash code.
+     * @param strategy to calculate hash code.
      */
-    public ArraySeasonHashable(final Screenplay screenplay, HashStrategie<T> strategie) {
+    public ArraySeasonHashable(final Screenplay screenplay, HashStrategy<T> strategy) {
         super(screenplay);
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategie<>();
+        this.strategy = new HashStrategy<>();
     }
 
-    public HashStrategie<T> getStrategie() {
-        return strategie;
+    @Override
+    public HashStrategy<T> getStrategy() {
+        return strategy;
     }
 
-    public void setStrategie(HashStrategie<T> strategie) {
-        this.strategie = strategie;
+    @Override
+    public void setStrategy(HashStrategy<T> strategy) {
+        this.strategy = strategy;
     }
 
     @Override
     public boolean equals(T a, Object b) {
-        return strategie.equals(a, b);
+        return strategy.equals(a, b);
+    }
+
+    @Override
+    //prim:public boolean equals(Object ob) {
+    public boolean equals(Object ob) {
+        //noprim.start  
+        if (this == ob) {
+            return true;
+        }
+        //noprim.ende  
+        //prim:if (hashComputed && ob instanceof StrategicHashable_APPEND_) {
+        if (hashComputed && ob instanceof StrategicHashable<?>) {
+            return hashCode == ob.hashCode() && super.equals(ob);
+        }
+        return super.equals(ob);
     }
 
     @Override
@@ -108,7 +125,7 @@ public class ArraySeasonHashable<T> extends ArraySeason<T> implements Rentenatus
     @Override
     void added(T element) {
         if (hashComputed) {
-            hashCode = combine(hashCode, strategie.hashCode(element));
+            hashCode = combine(hashCode, strategy.hashCode(element));
         }
     }
 
@@ -187,8 +204,8 @@ public class ArraySeasonHashable<T> extends ArraySeason<T> implements Rentenatus
         if (hashComputed) {
             hashCode = replace(hashCode,
                     size() - 1 - index,
-                    strategie.hashCode(old),
-                    strategie.hashCode(element));
+                    strategy.hashCode(old),
+                    strategy.hashCode(element));
         }
     }
 
@@ -219,7 +236,7 @@ public class ArraySeasonHashable<T> extends ArraySeason<T> implements Rentenatus
     @Override
     public ArraySeasonHashable<T> emptyMovie(int initialCapacityOrZero) {
         ArraySeasonHashable<T> ret = new ArraySeasonHashable<>(screenplay);
-        ret.setStrategie(this.getStrategie());
+        ret.setStrategy(this.getStrategy());
         return ret;
     }
 }

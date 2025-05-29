@@ -71,7 +71,7 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("new ArrayTape<>", "new ArrayTape" + append));
         replacement.add(List.of("new ArrayTapeHashable<>", "new ArrayTapeHashable" + append));
         replacement.add(List.of("new ArraySeasonHashable<>", "new ArraySeasonHashable" + append));
-        replacement.add(List.of("public ArrayTape(", "public ArrayTape" + append + "("));
+         replacement.add(List.of("public ArrayTape(", "public ArrayTape" + append + "("));
         replacement.add(List.of("public ArraySeason(", "public ArraySeason" + append + "("));
         replacement.add(List.of("public ArrayTapeHashable(", "public ArrayTapeHashable" + append + "("));
         replacement.add(List.of("public ArraySeasonHashable(", "public ArraySeasonHashable" + append + "("));
@@ -88,7 +88,7 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("IterTapeWalkerFreeze<>", "IterTapeWalkerFreeze" + append));
         replacement.add(List.of("public IterTapeWalker(", "public IterTapeWalker" + append + "("));
         replacement.add(List.of("IterTapeWalker<>", "IterTapeWalker" + append));
-        replacement.add(List.of("HashStrategie<>", "HashStrategie" + append));
+        replacement.add(List.of("HashStrategy<>", "HashStrategy" + append));
         replacement.add(List.of("ArrayTape.DEFAULT", "ArrayTape" + append + ".DEFAULT"));
         replacement.add(List.of("ArrayTape<? extends " + primBox + ">", "ArrayTape" + append + ""));
         replacement.add(List.of(" (T) ", " "));

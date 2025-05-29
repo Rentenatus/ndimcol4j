@@ -7,6 +7,8 @@
  */
 package de.jare.ndimcol;
 
+import de.jare.ndimcol.ref.HashStrategy;
+
 /**
  *
  * @author Janusch Rentenatus

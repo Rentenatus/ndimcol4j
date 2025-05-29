@@ -17,11 +17,11 @@ import de.jare.ndimcol.RentenatusHashable;
  * @author Janusch Rentenatus
  */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-public class ArrayTapeHashableLong extends ArrayTapeLong implements RentenatusHashable {
+public class ArrayTapeHashableLong extends ArrayTapeLong implements RentenatusHashable, StrategicHashableLong {
 
     private int hashCode;
     private boolean hashComputed;
-    protected HashStrategieLong strategie;
+    protected HashStrategyLong strategy;
 
     /**
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty. The update
@@ -32,21 +32,21 @@ public class ArrayTapeHashableLong extends ArrayTapeLong implements RentenatusHa
         super();
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategieLong();
+        this.strategy = new HashStrategyLong();
     }
 
     /**
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty.The update
      * counter and trim countdown are also initialized.
      *
-     * @param strategie to calculate hash code.
+     * @param strategy to calculate hash code.
      */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    public ArrayTapeHashableLong(HashStrategieLong strategie) {
+    public ArrayTapeHashableLong(HashStrategyLong strategy) {
         super();
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = strategie;
+        this.strategy = strategy;
     }
 
     /**
@@ -60,7 +60,7 @@ public class ArrayTapeHashableLong extends ArrayTapeLong implements RentenatusHa
         super(initialCapacityOrZero);
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategieLong();
+        this.strategy = new HashStrategyLong();
     }
 
     /**
@@ -74,9 +74,9 @@ public class ArrayTapeHashableLong extends ArrayTapeLong implements RentenatusHa
         super(original);
         this.hashCode = original.hashCode();
         this.hashComputed = true;
-        this.strategie = (original instanceof ArrayTapeHashableLong)
-                ? ((ArrayTapeHashableLong) original).getStrategie()
-                : new HashStrategieLong();
+        this.strategy = (original instanceof StrategicHashableLong)
+                ? ((StrategicHashableLong) original).getStrategy()
+                : new HashStrategyLong();
     }
 
     /**
@@ -90,30 +90,40 @@ public class ArrayTapeHashableLong extends ArrayTapeLong implements RentenatusHa
         super(list);
         this.hashCode = 10127;
         this.hashComputed = false;
-        this.strategie = new HashStrategieLong();
+        this.strategy = new HashStrategyLong();
     }
 
     /**
-     * Constructs a new ArrayTape from the specified List. This constructor copies the elements from the given List and
-     * initializes the page size, update counter, and trim countdown.
+     * Constructs a new ArrayTape from the specified List.This constructor copies the elements from the given List and
+ initializes the page size, update counter, and trim countdown.
      *
      * @param list the List from which the ArrayTape is created
-     * @param strategie to calculate hash code.
+     * @param strategy to calculate hash code.
      */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    public ArrayTapeHashableLong(List<Long> list, HashStrategieLong strategie) {
+    public ArrayTapeHashableLong(List<Long> list, HashStrategyLong strategy) {
         super(list);
         this.hashCode = 10127;
         this.hashComputed = false;
-        this.strategie = strategie;
+        this.strategy = strategy;
     }
 
-    public HashStrategieLong getStrategie() {
-        return strategie;
+    @Override
+    public HashStrategyLong getStrategy() {
+        return strategy;
     }
 
-    public void setStrategie(HashStrategieLong strategie) {
-        this.strategie = strategie;
+    @Override
+    public void setStrategy(HashStrategyLong strategy) {
+        this.strategy = strategy;
+    }
+
+    @Override
+    public boolean equals(Object ob) {
+        if (hashComputed && ob instanceof StrategicHashableLong) {
+            return hashCode == ob.hashCode() && super.equals(ob);
+        }
+        return super.equals(ob);
     }
 
     @Override
@@ -124,7 +134,7 @@ public class ArrayTapeHashableLong extends ArrayTapeLong implements RentenatusHa
         hashCode = 0;
         IterTapeWalkerLong walker = softWalker();
         while (walker.hasNext()) {
-            hashCode = combine(hashCode, strategie.hashCode(walker.next()));
+            hashCode = combine(hashCode, strategy.hashCode(walker.next()));
         }
         hashComputed = true;
         return hashCode;
@@ -133,7 +143,7 @@ public class ArrayTapeHashableLong extends ArrayTapeLong implements RentenatusHa
     @Override
     public boolean add(long element) {
         if (hashComputed) {
-            hashCode = combine(hashCode, strategie.hashCode(element));
+            hashCode = combine(hashCode, strategy.hashCode(element));
         }
         return super.add(element);
     }
@@ -181,15 +191,15 @@ public class ArrayTapeHashableLong extends ArrayTapeLong implements RentenatusHa
         if (hashComputed) {
             hashCode = replace(hashCode,
                     size() - 1 - index,
-                    strategie.hashCode(get(index)),
-                    strategie.hashCode(element));
+                    strategy.hashCode(get(index)),
+                    strategy.hashCode(element));
         }
         return super.set(index, element);
     }
 
     @Override
     public boolean equals(long a, long b) {
-        return strategie.equals(a, b);
+        return strategy.equals(a, b);
     }
 
     @Override
@@ -265,7 +275,7 @@ public class ArrayTapeHashableLong extends ArrayTapeLong implements RentenatusHa
     public ArrayTapeLong emptyMovie(int initialCapacityOrZero) {
         ArrayTapeHashableLong ret = new ArrayTapeHashableLong(initialCapacityOrZero);
         ret.setPage(this.getPage());
-        ret.setStrategie(this.getStrategie());
+        ret.setStrategy(this.getStrategy());
         return ret;
     }
 }

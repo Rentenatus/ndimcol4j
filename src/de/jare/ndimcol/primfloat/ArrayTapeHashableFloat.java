@@ -17,11 +17,11 @@ import de.jare.ndimcol.RentenatusHashable;
  * @author Janusch Rentenatus
  */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-public class ArrayTapeHashableFloat extends ArrayTapeFloat implements RentenatusHashable {
+public class ArrayTapeHashableFloat extends ArrayTapeFloat implements RentenatusHashable, StrategicHashableFloat {
 
     private int hashCode;
     private boolean hashComputed;
-    protected HashStrategieFloat strategie;
+    protected HashStrategyFloat strategy;
 
     /**
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty. The update
@@ -32,21 +32,21 @@ public class ArrayTapeHashableFloat extends ArrayTapeFloat implements Rentenatus
         super();
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategieFloat();
+        this.strategy = new HashStrategyFloat();
     }
 
     /**
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty.The update
      * counter and trim countdown are also initialized.
      *
-     * @param strategie to calculate hash code.
+     * @param strategy to calculate hash code.
      */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    public ArrayTapeHashableFloat(HashStrategieFloat strategie) {
+    public ArrayTapeHashableFloat(HashStrategyFloat strategy) {
         super();
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = strategie;
+        this.strategy = strategy;
     }
 
     /**
@@ -60,7 +60,7 @@ public class ArrayTapeHashableFloat extends ArrayTapeFloat implements Rentenatus
         super(initialCapacityOrZero);
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategieFloat();
+        this.strategy = new HashStrategyFloat();
     }
 
     /**
@@ -74,9 +74,9 @@ public class ArrayTapeHashableFloat extends ArrayTapeFloat implements Rentenatus
         super(original);
         this.hashCode = original.hashCode();
         this.hashComputed = true;
-        this.strategie = (original instanceof ArrayTapeHashableFloat)
-                ? ((ArrayTapeHashableFloat) original).getStrategie()
-                : new HashStrategieFloat();
+        this.strategy = (original instanceof StrategicHashableFloat)
+                ? ((StrategicHashableFloat) original).getStrategy()
+                : new HashStrategyFloat();
     }
 
     /**
@@ -90,30 +90,40 @@ public class ArrayTapeHashableFloat extends ArrayTapeFloat implements Rentenatus
         super(list);
         this.hashCode = 10127;
         this.hashComputed = false;
-        this.strategie = new HashStrategieFloat();
+        this.strategy = new HashStrategyFloat();
     }
 
     /**
-     * Constructs a new ArrayTape from the specified List. This constructor copies the elements from the given List and
-     * initializes the page size, update counter, and trim countdown.
+     * Constructs a new ArrayTape from the specified List.This constructor copies the elements from the given List and
+ initializes the page size, update counter, and trim countdown.
      *
      * @param list the List from which the ArrayTape is created
-     * @param strategie to calculate hash code.
+     * @param strategy to calculate hash code.
      */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    public ArrayTapeHashableFloat(List<Float> list, HashStrategieFloat strategie) {
+    public ArrayTapeHashableFloat(List<Float> list, HashStrategyFloat strategy) {
         super(list);
         this.hashCode = 10127;
         this.hashComputed = false;
-        this.strategie = strategie;
+        this.strategy = strategy;
     }
 
-    public HashStrategieFloat getStrategie() {
-        return strategie;
+    @Override
+    public HashStrategyFloat getStrategy() {
+        return strategy;
     }
 
-    public void setStrategie(HashStrategieFloat strategie) {
-        this.strategie = strategie;
+    @Override
+    public void setStrategy(HashStrategyFloat strategy) {
+        this.strategy = strategy;
+    }
+
+    @Override
+    public boolean equals(Object ob) {
+        if (hashComputed && ob instanceof StrategicHashableFloat) {
+            return hashCode == ob.hashCode() && super.equals(ob);
+        }
+        return super.equals(ob);
     }
 
     @Override
@@ -124,7 +134,7 @@ public class ArrayTapeHashableFloat extends ArrayTapeFloat implements Rentenatus
         hashCode = 0;
         IterTapeWalkerFloat walker = softWalker();
         while (walker.hasNext()) {
-            hashCode = combine(hashCode, strategie.hashCode(walker.next()));
+            hashCode = combine(hashCode, strategy.hashCode(walker.next()));
         }
         hashComputed = true;
         return hashCode;
@@ -133,7 +143,7 @@ public class ArrayTapeHashableFloat extends ArrayTapeFloat implements Rentenatus
     @Override
     public boolean add(float element) {
         if (hashComputed) {
-            hashCode = combine(hashCode, strategie.hashCode(element));
+            hashCode = combine(hashCode, strategy.hashCode(element));
         }
         return super.add(element);
     }
@@ -181,15 +191,15 @@ public class ArrayTapeHashableFloat extends ArrayTapeFloat implements Rentenatus
         if (hashComputed) {
             hashCode = replace(hashCode,
                     size() - 1 - index,
-                    strategie.hashCode(get(index)),
-                    strategie.hashCode(element));
+                    strategy.hashCode(get(index)),
+                    strategy.hashCode(element));
         }
         return super.set(index, element);
     }
 
     @Override
     public boolean equals(float a, float b) {
-        return strategie.equals(a, b);
+        return strategy.equals(a, b);
     }
 
     @Override
@@ -265,7 +275,7 @@ public class ArrayTapeHashableFloat extends ArrayTapeFloat implements Rentenatus
     public ArrayTapeFloat emptyMovie(int initialCapacityOrZero) {
         ArrayTapeHashableFloat ret = new ArrayTapeHashableFloat(initialCapacityOrZero);
         ret.setPage(this.getPage());
-        ret.setStrategie(this.getStrategie());
+        ret.setStrategy(this.getStrategy());
         return ret;
     }
 }

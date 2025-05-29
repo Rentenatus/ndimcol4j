@@ -16,11 +16,11 @@ import de.jare.ndimcol.RentenatusHashable;
  * @author Janusch Rentenatus
  */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-public class ArraySeasonHashableInt extends ArraySeasonInt implements RentenatusHashable {
+public class ArraySeasonHashableInt extends ArraySeasonInt implements RentenatusHashable, StrategicHashableInt {
 
     private int hashCode;
     private boolean hashComputed;
-    protected HashStrategieInt strategie;
+    protected HashStrategyInt strategy;
 
     /**
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty. The update
@@ -31,21 +31,21 @@ public class ArraySeasonHashableInt extends ArraySeasonInt implements Rentenatus
         super();
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategieInt();
+        this.strategy = new HashStrategyInt();
     }
 
     /**
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty.The update
      * counter and trim countdown are also initialized.
      *
-     * @param strategie to calculate hash code.
+     * @param strategy to calculate hash code.
      */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    public ArraySeasonHashableInt(HashStrategieInt strategie) {
+    public ArraySeasonHashableInt(HashStrategyInt strategy) {
         super();
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = strategie;
+        this.strategy = strategy;
     }
 
     /**
@@ -59,35 +59,45 @@ public class ArraySeasonHashableInt extends ArraySeasonInt implements Rentenatus
         super(screenplay);
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategieInt();
+        this.strategy = new HashStrategyInt();
     }
 
     /**
-     * Constructs an empty ArrayTape with the specified initial capacity and a default page size of thirty. The update
+     * Constructs an empty ArrayTape with the specified initial capacity and a default page size of thirty.The update
      * counter and trim countdown are also initialized.
      *
      * @param screenplay the screenplay to be used for this season
-     * @param strategie to calculate hash code.
+     * @param strategy to calculate hash code.
      */
 // This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    public ArraySeasonHashableInt(final ScreenplayInt screenplay, HashStrategieInt strategie) {
+    public ArraySeasonHashableInt(final ScreenplayInt screenplay, HashStrategyInt strategy) {
         super(screenplay);
         this.hashCode = 0;
         this.hashComputed = true;
-        this.strategie = new HashStrategieInt();
+        this.strategy = new HashStrategyInt();
     }
 
-    public HashStrategieInt getStrategie() {
-        return strategie;
+    @Override
+    public HashStrategyInt getStrategy() {
+        return strategy;
     }
 
-    public void setStrategie(HashStrategieInt strategie) {
-        this.strategie = strategie;
+    @Override
+    public void setStrategy(HashStrategyInt strategy) {
+        this.strategy = strategy;
     }
 
     @Override
     public boolean equals(int a, int b) {
-        return strategie.equals(a, b);
+        return strategy.equals(a, b);
+    }
+
+    @Override
+    public boolean equals(Object ob) {
+        if (hashComputed && ob instanceof StrategicHashableInt) {
+            return hashCode == ob.hashCode() && super.equals(ob);
+        }
+        return super.equals(ob);
     }
 
     @Override
@@ -114,7 +124,7 @@ public class ArraySeasonHashableInt extends ArraySeasonInt implements Rentenatus
     @Override
     void added(int element) {
         if (hashComputed) {
-            hashCode = combine(hashCode, strategie.hashCode(element));
+            hashCode = combine(hashCode, strategy.hashCode(element));
         }
     }
 
@@ -194,8 +204,8 @@ public class ArraySeasonHashableInt extends ArraySeasonInt implements Rentenatus
         if (hashComputed) {
             hashCode = replace(hashCode,
                     size() - 1 - index,
-                    strategie.hashCode(old),
-                    strategie.hashCode(element));
+                    strategy.hashCode(old),
+                    strategy.hashCode(element));
         }
     }
 
@@ -227,7 +237,7 @@ public class ArraySeasonHashableInt extends ArraySeasonInt implements Rentenatus
     @Override
     public ArraySeasonHashableInt emptyMovie(int initialCapacityOrZero) {
         ArraySeasonHashableInt ret = new ArraySeasonHashableInt(screenplay);
-        ret.setStrategie(this.getStrategie());
+        ret.setStrategy(this.getStrategy());
         return ret;
     }
 }

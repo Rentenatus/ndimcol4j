@@ -5,28 +5,31 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol.ref;
+package de.jare.ndimcol;
 
+import de.jare.ndimcol.ref.*;
 import java.util.Collection;
 import java.util.List;
 import de.jare.ndimcol.RentenatusHashable;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
  * @author Janusch Rentenatus
  * @param <T> the type of elements in this tape
  */
-public class ArrayTapeHashable<T> extends ArrayTape<T> implements RentenatusHashable, StrategicHashable<T> {
+public class ArrayListHashable<T> extends ArrayList<T> implements RentenatusHashable, StrategicHashable<T> {
 
     private int hashCode;
     private boolean hashComputed;
     protected HashStrategy<T> strategy;
 
     /**
-     * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty. The update
-     * counter and trim countdown are also initialized.
+     * Constructs an empty ArrayListHashable with an initial capacity of ten and a default page size of thirty. The
+     * update counter and trim countdown are also initialized.
      */
-    public ArrayTapeHashable() {
+    public ArrayListHashable() {
         super();
         this.hashCode = 0;
         this.hashComputed = true;
@@ -34,12 +37,12 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements RentenatusHash
     }
 
     /**
-     * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty.The update
-     * counter and trim countdown are also initialized.
+     * Constructs an empty ArrayListHashable with an initial capacity of ten and a default page size of thirty.The
+     * update counter and trim countdown are also initialized.
      *
      * @param strategy to calculate hash code.
      */
-    public ArrayTapeHashable(HashStrategy<T> strategy) {
+    public ArrayListHashable(HashStrategy<T> strategy) {
         super();
         this.hashCode = 0;
         this.hashComputed = true;
@@ -47,12 +50,12 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements RentenatusHash
     }
 
     /**
-     * Constructs an empty ArrayTape with the specified initial capacity and a default page size of thirty. The update
-     * counter and trim countdown are also initialized.
+     * Constructs an empty ArrayListHashable with the specified initial capacity and a default page size of thirty. The
+     * update counter and trim countdown are also initialized.
      *
      * @param initialCapacityOrZero the initial capacity of the ArrayTape
      */
-    public ArrayTapeHashable(int initialCapacityOrZero) {
+    public ArrayListHashable(int initialCapacityOrZero) {
         super(initialCapacityOrZero);
         this.hashCode = 0;
         this.hashComputed = true;
@@ -60,43 +63,29 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements RentenatusHash
     }
 
     /**
-     * Constructs a new ArrayTape that is a duplicate of the specified ArrayTape. This constructor copies the elements
-     * from the given ArrayTape and initializes the page size, update counter, and trim countdown based on the original.
+     * Constructs a new ArrayListHashable that is a duplicate of the specified ArrayTape. This constructor copies the
+     * elements from the given ArrayList and initializes the page size, update counter, and trim countdown based on the
+     * original.
      *
      * @param original the ArrayTape to be duplicated
      */
-    public ArrayTapeHashable(ArrayTape<T> original) {
+    public ArrayListHashable(List<T> original) {
         super(original);
         this.hashCode = original.hashCode();
         this.hashComputed = true;
-        //prim:this.strategy = (original instanceof StrategicHashable_APPEND_)
         this.strategy = (original instanceof StrategicHashable<?>)
-                //prim:? ((StrategicHashable_APPEND_) original).getStrategy()
                 ? ((StrategicHashable<T>) original).getStrategy()
                 : new HashStrategy<>();
     }
 
     /**
-     * Constructs a new ArrayTape from the specified List. This constructor copies the elements from the given List and
-     * initializes the page size, update counter, and trim countdown.
-     *
-     * @param list the List from which the ArrayTape is created
-     */
-    public ArrayTapeHashable(List<T> list) {
-        super(list);
-        this.hashCode = 10127;
-        this.hashComputed = false;
-        this.strategy = new HashStrategy<>();
-    }
-
-    /**
      * Constructs a new ArrayTape from the specified List.This constructor copies the elements from the given List and
- initializes the page size, update counter, and trim countdown.
+     * initializes the page size, update counter, and trim countdown.
      *
      * @param list the List from which the ArrayTape is created
      * @param strategy to calculate hash code.
      */
-    public ArrayTapeHashable(List<T> list, HashStrategy<T> strategy) {
+    public ArrayListHashable(List<T> list, HashStrategy<T> strategy) {
         super(list);
         this.hashCode = 10127;
         this.hashComputed = false;
@@ -114,32 +103,49 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements RentenatusHash
     }
 
     @Override
-    //prim:public boolean equals(Object ob) {
-    public boolean equals(Object ob) {
-        //noprim.start  
-        if (this == ob) {
-            return true;
-        }
-        //noprim.ende
-        //prim:if (hashComputed && ob instanceof StrategicHashable_APPEND_) {
-        if (hashComputed && ob instanceof StrategicHashable<?>) {
-            return hashCode == ob.hashCode() && super.equals(ob);
-        }
-        return super.equals(ob);
-    }
-
-    @Override
     public int hashCode() {
         if (hashComputed) {
             return hashCode;
         }
         hashCode = 0;
-        IterTapeWalker<T> walker = softWalker();
-        while (walker.hasNext()) {
-            hashCode = combine(hashCode, strategy.hashCode(walker.next()));
+        Iterator<T> iter = iterator();
+        while (iter.hasNext()) {
+            hashCode = combine(hashCode, strategy.hashCode(iter.next()));
         }
         hashComputed = true;
         return hashCode;
+    }
+
+    @Override
+    public boolean equals(Object ob) {
+        if (this == ob) {
+            return true;
+        }
+        if (!(ob instanceof Collection<?>)) {
+            return false;
+        }
+        if (hashComputed && ob instanceof StrategicHashable<?>) {
+            return hashCode == ob.hashCode() && equalsCollection((Collection<?>) ob);
+        }
+        return equalsCollection((Collection<?>) ob);
+    }
+
+    @Override
+    public boolean equalsCollection(Collection<?> col) {
+        if (this == col) {
+            return true;
+        }
+        if (size() != col.size()) {
+            return false;
+        }
+        Iterator<?> iter = col.iterator();
+        Iterator<T> walker = iterator();
+        while (walker.hasNext()) {
+            if (!equals(walker.next(), iter.next())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -148,6 +154,12 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements RentenatusHash
             hashCode = combine(hashCode, strategy.hashCode(element));
         }
         return super.add(element);
+    }
+
+    @Override
+    public void add(int index, T element) {
+        hashComputed = false;
+        super.add(index, element);
     }
 
     @Override
@@ -170,25 +182,6 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements RentenatusHash
     }
 
     @Override
-    public boolean addAt(int index, T element) {
-        hashComputed = false;
-        return super.addAt(index, element);
-    }
-
-    @Override
-    public boolean addMovie(ArrayMovie<T> movie) {
-        if (movie.isEmpty()) {
-            return false;
-        }
-        if (hashComputed) {
-            hashCode = combine(hashCode,
-                    movie.size(),
-                    movie.hashCode());
-        }
-        return super.addMovie(movie);
-    }
-
-    @Override
     public T set(int index, T element) {
         if (hashComputed) {
             hashCode = replace(hashCode,
@@ -199,7 +192,6 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements RentenatusHash
         return super.set(index, element);
     }
 
-    @Override
     public boolean equals(T a, Object b) {
         return strategy.equals(a, b);
     }
@@ -209,23 +201,6 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements RentenatusHash
         this.hashCode = 0;
         this.hashComputed = true;
         super.clear();
-    }
-
-    /**
-     * Here the tape are informed that private data has been changed from outside.
-     */
-    @Override
-    void deepChanged() {
-        hashComputed = false;
-    }
-
-    @Override
-    public boolean removeAll(Object element) {
-        boolean ret = super.removeAll(element);
-        if (ret) {
-            hashComputed = false;
-        }
-        return ret;
     }
 
     @Override
@@ -247,35 +222,32 @@ public class ArrayTapeHashable<T> extends ArrayTape<T> implements RentenatusHash
     }
 
     @Override
-    protected T removeFast(int index) {
+    public T remove(int index) {
         hashComputed = false;
-        return super.removeFast(index);
+        return super.remove(index);
     }
 
     @Override
-    public T removeTrim(int index) {
+    public T removeFirst() {
         hashComputed = false;
-        return super.removeTrim(index);
+        return super.removeFirst();
     }
 
     @Override
-    public ArrayTape<T> splitInHalf() {
+    public T removeLast() {
         hashComputed = false;
-        return super.splitInHalf();
+        return super.removeLast();
     }
 
-    /**
-     * Creates a new empty ArrayTape with the specified initial capacity. The new ArrayTape will have the same page size
-     * as the original.
-     *
-     * @param initialCapacityOrZero the initial capacity of the new movie or zero if no initial capacity is needed
-     * @return a new empty ArrayTape with the specified initial capacity
-     */
     @Override
-    public ArrayTape<T> emptyMovie(int initialCapacityOrZero) {
-        ArrayTapeHashable<T> ret = new ArrayTapeHashable<>(initialCapacityOrZero);
-        ret.setPage(this.getPage());
-        ret.setStrategy(this.getStrategy());
-        return ret;
+    public boolean remove(Object o) {
+        hashComputed = false;
+        return super.remove(o);
+    }
+
+    @Override
+    protected void removeRange(int fromIndex, int toIndex) {
+        hashComputed = false;
+        super.removeRange(fromIndex, toIndex);
     }
 }
