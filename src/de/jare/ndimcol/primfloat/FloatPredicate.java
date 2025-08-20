@@ -17,6 +17,7 @@ import java.util.Objects;
  * {@code float}-consuming primitive type specialization of {@link Predicate}.
  *
  */
+// #### This class has exceptionally not been generated in this package.
 @FunctionalInterface
 public interface FloatPredicate {
 

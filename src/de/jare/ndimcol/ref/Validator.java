@@ -1,0 +1,56 @@
+/**
+ * <copyright>
+ * Copyright (c) 2025, Janusch Rentenatus. This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v2.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v20.html
+ * </copyright>
+ */
+package de.jare.ndimcol.ref;
+
+import de.jare.ndimcol.ValidatorConst;
+
+/**
+ * A generic or primitive, generated interface for validating the similarity or equivalence of two elements.
+ * <p>
+ * Implementations of this interface define specific validation strategies for comparing an {@code observed} value
+ * against an {@code expected} value. The result of the comparison is returned as an integer constant, typically defined
+ * in {@link ValidatorConst}, such as {@code EQUALS}, {@code DIFFERENT}, or other domain-specific codes.
+ * </p>
+ *
+ * <p>
+ * Validators may implement strict equality checks, identity comparisons, or more flexible tolerance-based evaluations.
+ * For example:
+ * </p>
+ * <ul>
+ * <li>{@code ValidatorEqualsCheck} – compares values using {@code equals()}</li>
+ * <li>{@code ValidatorIdentityCheck} – compares object references using {@code ==}</li>
+ * <li>custom validator tolerance check – allows deviations within a defined corridor (e.g. ±5%)</li>
+ * <li>{@code ValidatorAlwaysFits} – always returns {@code EQUALS}, acting as a wildcard</li>
+ * </ul>
+ *
+ * <p>
+ * This interface supports generic types, enabling validation of numbers, strings, complex objects, or domain-specific
+ * data structures.
+ * </p><p>
+ * Primitive, generated copies of this interface also work with primitives. {@code ValidatorIdentityCheck} is impossible
+ * there.
+ * </p>
+ *
+ * @param <T> the type of elements to be validated
+ * @author Janusch Rentenatus
+ */
+public interface Validator<T> extends ValidatorConst {
+
+    /**
+     * Validates the observed value against the expected value.
+     * <p>
+     * The implementation defines what constitutes a match. This may be strict equality, identity, or a domain-specific
+     * tolerance range.
+     * </p>
+     *
+     * @param observed the value that was observed or measured
+     * @param expected the value that is expected or considered correct
+     * @return an integer code representing the validation result, such as {@code EQUALS} or {@code DIFFERENT}
+     */
+    int validate(T observed, T expected);
+}

@@ -18,6 +18,7 @@ import java.util.Objects;
  * {@code FloatConsumer} is expected to operate via side-effects.
  *
  */
+// #### This class has exceptionally not been generated in this package.
 @FunctionalInterface
 public interface FloatConsumer {
 
