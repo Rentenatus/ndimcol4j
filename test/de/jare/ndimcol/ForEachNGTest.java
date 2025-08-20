@@ -46,11 +46,19 @@ public class ForEachNGTest {
             data.add(i * f);
             f = -f;
         }
+        final Integer[] counter = {0};
+        final Integer[] expected = {77420};
         data.forEach(
                 value -> value > 0, // Predicate: checks whether the value is positive
                 value -> assertTrue(value > 0),
                 value -> assertFalse(value > 0)
         );
+        data.forEach(
+                value -> value > 0, // Predicate: checks whether the value is positive
+                value -> assertTrue(value > 0)
+        );
+        data.forEach(value -> counter[0]++);
+        assertEquals(counter, expected);
     }
 
     @Test
@@ -61,11 +69,19 @@ public class ForEachNGTest {
             data.add(i * f);
             f = -f;
         }
+        final Integer[] counter = {0};
+        final Integer[] expected = {77420};
         data.forEach(
                 value -> value > 0, // Predicate: checks whether the value is positive
                 value -> assertTrue(value > 0),
                 value -> assertFalse(value > 0)
         );
+        data.forEach(
+                value -> value > 0, // Predicate: checks whether the value is positive
+                value -> assertTrue(value > 0)
+        );
+        data.forEach(value -> counter[0]++);
+        assertEquals(counter, expected);
     }
 
     @Test
@@ -76,10 +92,18 @@ public class ForEachNGTest {
             data.add(i * f);
             f = -f;
         }
+        final Integer[] counter = {0};
+        final Integer[] expected = {77420};
         data.forEach(
                 value -> value > 0, // Predicate: checks whether the value is positive
                 value -> assertTrue(value > 0),
                 value -> assertFalse(value > 0)
         );
+        data.forEach(
+                value -> value > 0, // Predicate: checks whether the value is positive
+                value -> assertTrue(value > 0)
+        );
+        data.forEach(value -> counter[0]++);
+        assertEquals(counter, expected);
     }
 }
