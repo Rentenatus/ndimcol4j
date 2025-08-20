@@ -13,6 +13,7 @@ import static de.jare.ndimcol.ref.HashStrategy._hashCode;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -294,7 +295,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         if (episode.isEmpty()) {
             return false;
         }
-        episode.assimilateInto(data); 
+        episode.assimilateInto(data);
         size += episode.size();
         this.updateCounter++;
         return true;
@@ -1013,9 +1014,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     @Override
     public IteratorWalker<T> filterFirst(Predicate<? super T> predicate) {
+        int startupdateCounter = updateCounter;
         for (int i = 0; i < data.size(); i++) {
             IteratorWalker<T> walker = data.get(i).filterFirst(predicate);
             if (walker != null) {
+                if (startupdateCounter != updateCounter) {
+                    throw new ConcurrentModificationException("ArraySeasson was modified during iteration.");
+                }
                 return new IterCoverWalker<>(this, walker);
             }
         }
@@ -1024,9 +1029,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     @Override
     public IteratorWalker<T> filterLast(Predicate<? super T> predicate) {
+        int startupdateCounter = updateCounter;
         for (int i = data.size() - 1; i >= 0; i--) {
             IteratorWalker<T> walker = data.get(i).filterLast(predicate);
             if (walker != null) {
+                if (startupdateCounter != updateCounter) {
+                    throw new ConcurrentModificationException("ArraySeasson was modified during iteration.");
+                }
                 return new IterCoverWalker<>(this, walker);
             }
         }
@@ -1036,14 +1045,71 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public ArrayMovie<T> filterAll(Predicate<? super T> predicate) {
         ArraySeason<T> ret = emptyMovie(data.size() << 3);
-        for (int i = 0; i < data.size(); i++) {
-            ArrayMovie<T> elements = data.get(i).filterAll(predicate);
+        IterTapeWalker<ArrayMovie<T>> walker = data.walker();
+        while (walker.hasNext()) {
+            ArrayMovie<T> elements = walker.next();
             if (elements.hasRecord()) {
                 ret.data.add(elements);
             }
         }
         ret.updateSize();
         return ret;
+    }
+
+    /**
+     * Performs the given action for each element of the {@code Iterable} until all elements have been processed or the
+     * action throws an exception. Actions are performed in the order of iteration, if that order is specified.
+     * Exceptions thrown by the action are relayed to the caller.
+     *
+     * @param action The action to be performed for each element
+     * @throws NullPointerException if the specified action is null
+     */
+    @Override
+    public void forEach(Consumer<? super T> action) {
+        IterTapeWalker<ArrayMovie<T>> walker = data.walker();
+        while (walker.hasNext()) {
+            ArrayMovie<T> elements = walker.next();
+            elements.forEach(action);
+        }
+    }
+
+    /**
+     * Executes the given action for each element of the {@code Iterable}, but only if the provided {@code Predicate}
+     * evaluates to {@code true} for that element.Actions are performed in the order of iteration, if such order is
+     * defined. Exceptions thrown by the action are propagated to the caller.
+     *
+     * @param predicate The condition to test each element against
+     * @param thenAction The action to perform on each element that satisfies the predicate
+     * @throws NullPointerException if {@code predicate} or {@code action} is {@code null}
+     */
+    @Override
+    public void forEach(Predicate<? super T> predicate, Consumer<? super T> thenAction) {
+        IterTapeWalker<ArrayMovie<T>> walker = data.walker();
+        while (walker.hasNext()) {
+            ArrayMovie<T> elements = walker.next();
+            elements.forEach(predicate, thenAction);
+        }
+    }
+
+    /**
+     * Executes one of the given actions for each element of the {@code Iterable}, depending on the result of the
+     * provided {@code Predicate}. If the predicate evaluates to {@code true} for an element, {@code thenAction} is
+     * executed. Otherwise, {@code elseAction} is executed. Actions are performed in the order of iteration, if such
+     * order is defined. Exceptions thrown by either action are propagated to the caller.
+     *
+     * @param predicate The condition to test each element against
+     * @param thenAction The action to perform on elements that satisfy the predicate
+     * @param elseAction The action to perform on elements that do not satisfy the predicate
+     * @throws NullPointerException if {@code predicate}, {@code thenAction}, or {@code elseAction} is {@code null}
+     */
+    @Override
+    public void forEach(Predicate<? super T> predicate,
+            Consumer<? super T> thenAction, Consumer<? super T> elseAction) {
+        IterTapeWalker<ArrayMovie<T>> walker = data.walker();
+        while (walker.hasNext()) {
+            ArrayMovie<T> elements = walker.next();
+            elements.forEach(predicate, thenAction, elseAction);
+        }
     }
 
     /**

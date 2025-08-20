@@ -5,7 +5,8 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primlong;
 
 import static de.jare.ndimcol.RentenatusHashable._combine;
@@ -18,7 +19,8 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.function.LongConsumer;
+import java.util.function.LongPredicate;
 
 /**
  * An ArrayTape is a dynamic array implementation that allows for efficient insertion, deletion, and iteration of
@@ -31,7 +33,8 @@ import java.util.function.Predicate;
  *
  * @author Janusch Rentenatus
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 public class ArrayTapeLong implements ArrayMovieLong {
 
     public static final int DEFAULT_CAPACITY = 32;
@@ -49,7 +52,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty. The update
      * counter and trim countdown are also initialized.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArrayTapeLong() {
         this.elementData = new long[DEFAULT_CAPACITY];
         this.size = 0;
@@ -64,7 +68,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @param initialCapacityOrZero the initial capacity of the ArrayTape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArrayTapeLong(int initialCapacityOrZero) {
         this.elementData = new long[initialCapacityOrZero > 0 ? initialCapacityOrZero : DEFAULT_CAPACITY];
         this.size = 0;
@@ -79,7 +84,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @param original the ArrayTape to be duplicated
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArrayTapeLong(ArrayTapeLong original) {
         this.elementData = Arrays.copyOf(original.elementData, original.size + original.page);
         this.size = original.size;
@@ -95,7 +101,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @param list the List from which the ArrayTape is created
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArrayTapeLong(List<Long> list) {
         this.elementData = new long[list.size() + (DEFAULT_PAGE >> 4)];
         for (int i = 0; i < list.size(); i++) {
@@ -112,7 +119,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * incrementing the update counter, and initializing the trim countdown. This effectively removes all elements from
      * the ArrayTape.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public void clear() {
         this.elementData = new long[DEFAULT_CAPACITY];
@@ -124,7 +132,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
     /**
      * Here the tape are informed that private data has been changed from outside.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     void deepChanged() {
         //NoOp
     }
@@ -190,7 +199,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @return the current size of the ArrayTape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int size() {
         return this.size;
@@ -201,7 +211,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @return true if the ArrayTape is empty, false otherwise
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean isEmpty() {
         return this.size == 0;
@@ -212,7 +223,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @return true if the ArrayTape has elements, false otherwise
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean hasRecord() {
         return this.size > 0;
@@ -226,7 +238,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @return true
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean add(long element) {
         // ensureCapacity():fast:Sorry for redundant code.
@@ -250,7 +263,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean addAt(int index, long element) {
         if (index < 0 || index > size) {
@@ -282,7 +296,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @return true if this ArrayTape changed as a result of the call
      * @throws NullPointerException if the specified collection is null
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @SuppressWarnings("unchecked")
     @Override
     public boolean addAll(Collection<? extends Long> col) {
@@ -317,7 +332,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param movie movie containing elements to be added to this collection
      * @return {@code true} if this tape changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean addMovie(ArrayMovieLong movie) {
         if (movie.isEmpty()) {
@@ -339,7 +355,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param movie movie containing elements to be added to this collection
      * @return {@code true} if this tape changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean glueMovie(ArrayMovieLong movie) {
         return addMovie(movie);
@@ -357,7 +374,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param col collection containing elements to be added to this tape
      * @return true if this tape changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public boolean addAll(int index, Collection<? extends Long> col) {
         if (col == null) {
             throw new NullPointerException("Collection cannot be null.");
@@ -410,7 +428,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param minCapacity the minimum capacity that the ArrayTape must accommodate
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public void ensureCapacity(int minCapacity) {
         if (elementData.length < minCapacity) {
             int newCapacity = minCapacity + page + (size >> 2);
@@ -426,7 +445,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @return the element at the specified position in the ArrayTape
      * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size)
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     @SuppressWarnings("unchecked")
     public long get(int index) {
@@ -442,7 +462,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @return the first element in the ArrayTape
      * @throws IndexOutOfBoundsException if the ArrayTape is empty
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     @SuppressWarnings("unchecked")
     public long first() {
@@ -458,7 +479,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @return the last element in the ArrayTape
      * @throws IndexOutOfBoundsException if the ArrayTape is empty
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     @SuppressWarnings("unchecked")
     public long last() {
@@ -478,7 +500,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @return the element previously at the specified position
      * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public long set(int index, long element) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
@@ -500,7 +523,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @return the element that was removed from the ArrayTape
      * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public long removeAt(int index) {
         if (trimCountDown > 0) {
@@ -517,7 +541,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param element the element to be removed from the ArrayTape
      * @return true if any elements were removed, false otherwise
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public boolean removeAll(long element) {
         int removed = 0;
         for (int i = 0; i < size; i++) {
@@ -543,7 +568,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @return true if this ArrayTape changed as a result of the call
      * @throws NullPointerException if the specified collection is null
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean removeAll(Collection<?> col) {
         boolean modified = false;
@@ -566,7 +592,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @return true if this ArrayTape changed as a result of the call
      * @throws NullPointerException if the specified collection is null
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean retainAll(Collection<?> col) {
         if (col == null) {
@@ -596,7 +623,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @return the element that was removed from the ArrayTape
      * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     protected long removeFast(int index) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
@@ -621,7 +649,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @return the element that was removed from the ArrayTape
      * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public long removeTrim(int index) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
@@ -654,7 +683,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param element the element to search for in the ArrayTape
      * @return the index of the first occurrence of the specified element, or -1 if the element is not found
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int indexOf(long element) {
          for (int i = 0; i < size; i++) {
@@ -672,7 +702,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param element the element to search for in the ArrayTape
      * @return the index of the last occurrence of the specified element, or -1 if the element is not found
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int lastIndexOf(long element) {
          for (int i = size - 1; i >= 0; i--) {
@@ -689,7 +720,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param element element whose presence in this ArrayTape is to be tested
      * @return true if this ArrayTape contains the specified element
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean contains(long element) {
         return indexOf(element) > -1;
@@ -702,7 +734,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @return true if this ArrayTape contains all elements in the specified collection
      * @throws NullPointerException if the specified collection is null
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean containsAll(Collection<?> col) {
         if (col == null) {
@@ -723,7 +756,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param element the element to be removed from the ArrayTape
      * @return the index of the removed element, or -1 if the element was not found
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public int indexRemove(long element) {
         int index = indexOf(element);
         if (index < 0) {
@@ -740,7 +774,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param element the element to be removed from the ArrayTape
      * @return the index of the removed element, or -1 if the element was not found
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean remove(long element) {
         int index = indexOf(element);
@@ -760,7 +795,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     protected void trimCapacity() {
         int newCapacity = elementData.length + page;
         elementData = Arrays.copyOf(elementData, newCapacity);
@@ -772,7 +808,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @return the current page size
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public int getPage() {
         return page;
     }
@@ -783,7 +820,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @param page the new page size to be set
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public void setPage(int page) {
         this.page = page;
         updateCounter++;
@@ -795,7 +833,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @return an array containing all the elements in the ArrayTape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     @SuppressWarnings("unchecked")
     public long[] toArray() {
@@ -813,7 +852,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @throws ArrayStoreException if the runtime type of the specified array is not a supertype of the runtime type of
      * every element in this ArrayTape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     @SuppressWarnings("unchecked")
     public long[] toArray(long[] a) {
@@ -831,7 +871,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @return a List containing all the elements in the ArrayTape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @SuppressWarnings("unchecked")
     public List<Long> toList() {
         List<Long> list = new ArrayList<>(size);
@@ -846,7 +887,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @return a IterTapeWalker for soft iteration over the elements in the ArrayTape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public IterTapeWalkerLong softWalker() {
         if (softWalker != null) {
@@ -862,7 +904,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param atIndex start index for walk.
      * @return a IterTapeWalker for soft iteration over the elements in the ArrayTape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public IterTapeWalkerLong leafWalker(int atIndex) {
         if (softWalker != null) {
@@ -877,7 +920,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @return a IterTapeWalkerFreeze for freezing iteration over the elements in the ArrayTape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public IterTapeWalkerLong walker() {
         return new IterTapeWalkerFreezeLong(this);
     }
@@ -887,7 +931,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @return an Iterator.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     @SuppressWarnings("unchecked")
     public IteratorLong iterator() {
@@ -923,7 +968,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
     /**
      * ArrayTape does not support splitting or gluing. This method is a no-op.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public void splitOrGlue() {
         // NoOp
@@ -935,7 +981,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @return a new ArrayTape containing the second half, or null if the size is less than or equal to 1
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public ArrayTapeLong splitInHalf() {
         if (size <= 1) {
@@ -982,7 +1029,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param toIndex high endpoint (exclusive) of the subList
      * @return a new ArrayMovie that is a sub-movie of the current ArrayTape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public ArrayMovieLong subMovie(int fromIndex, int toIndex) {
         if (fromIndex >= size || fromIndex < 0) {
@@ -1011,7 +1059,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param initialCapacityOrZero the initial capacity of the new movie or zero if no initial capacity is needed
      * @return a new empty ArrayTape with the specified initial capacity
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public ArrayTapeLong emptyMovie(int initialCapacityOrZero) {
         ArrayTapeLong ret = new ArrayTapeLong(initialCapacityOrZero);
@@ -1024,7 +1073,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @return the update counter value
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public int getUpdateCounter() {
         return updateCounter;
     }
@@ -1043,7 +1093,8 @@ public class ArrayTapeLong implements ArrayMovieLong {
      *
      * @return the number of elements that can be added
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int pageSpaceLeft() {
         return this.elementData == null ? 0 : (this.elementData.length - size);
@@ -1055,15 +1106,20 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param predicate the predicate to be used for the search
      * @return a leaf walker for the first occurrence of a hit
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @SuppressWarnings("unchecked")
     @Override
-    public IteratorWalkerLong filterFirst(Predicate<? super Long> predicate) {
+    public IteratorWalkerLong filterFirst(LongPredicate predicate) {
+        int startupdateCounter = updateCounter;
         if (predicate == null) {
             throw new NullPointerException("Predicate cannot be null.");
         }
         for (int i = 0; i < size; i++) {
              if (predicate.test(elementData[i])) {
+                if (startupdateCounter != updateCounter) {
+                    throw new ConcurrentModificationException("ArrayTape was modified during iteration.");
+                }
                 return new IterTapeWalkerLong(this, i);
             }
         }
@@ -1076,15 +1132,20 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param predicate the predicate to be used for the search
      * @return a leaf walker for the last occurrence of a hit
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @SuppressWarnings("unchecked")
     @Override
-    public IteratorWalkerLong filterLast(Predicate<? super Long> predicate) {
+    public IteratorWalkerLong filterLast(LongPredicate predicate) {
+        int startupdateCounter = updateCounter;
         if (predicate == null) {
             throw new NullPointerException("Predicate cannot be null.");
         }
         for (int i = size - 1; i >= 0; i--) {
              if (predicate.test(elementData[i])) {
+                if (startupdateCounter != updateCounter) {
+                    throw new ConcurrentModificationException("ArrayTape was modified during iteration.");
+                }
                 return new IterTapeWalkerLong(this, i);
             }
         }
@@ -1097,22 +1158,116 @@ public class ArrayTapeLong implements ArrayMovieLong {
      * @param predicate the predicate to be used for the filter
      * @return a new movie containing all elements that match the given predicate
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @SuppressWarnings("unchecked")
     @Override
-    public ArrayMovieLong filterAll(Predicate<? super Long> predicate) {
+    public ArrayMovieLong filterAll(LongPredicate predicate) {
+        int startupdateCounter = updateCounter;
         if (predicate == null) {
             throw new NullPointerException("Predicate cannot be null.");
         }
         ArrayMovieLong ret = emptyMovie(size >> 4);
         long element;
         for (int i = 0; i < size; i++) {
+            // this notation helps to generate primitives
             element = elementData[i];
             if (predicate.test(element)) {
                 ret.add(element);
             }
         }
+        if (startupdateCounter != updateCounter) {
+            throw new ConcurrentModificationException("ArrayTape was modified during iteration.");
+        }
         return ret;
     }
 
+    /**
+     * Performs the given action for each element of the {@code Iterable} until all elements have been processed or the
+     * action throws an exception. Actions are performed in the order of iteration, if that order is specified.
+     * Exceptions thrown by the action are relayed to the caller.
+     *
+     * @param action The action to be performed for each element
+     * @throws NullPointerException if the specified action is null
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public void forEach(LongConsumer action) {
+        int startupdateCounter = updateCounter;
+        long element;
+        for (int i = 0; i < size; i++) {
+            // this notation helps to generate primitives
+            element = elementData[i];
+            action.accept(element);
+        }
+        if (startupdateCounter != updateCounter) {
+            throw new ConcurrentModificationException("ArrayTape was modified during iteration.");
+        }
+    }
+
+    /**
+     * Executes the given action for each element of the {@code Iterable}, but only if the provided {@code Predicate}
+     * evaluates to {@code true} for that element.Actions are performed in the order of iteration, if such order is
+     * defined. Exceptions thrown by the action are propagated to the caller.
+     *
+     * @param predicate The condition to test each element against
+     * @param thenAction The action to perform on each element that satisfies the predicate
+     * @throws NullPointerException if {@code predicate} or {@code action} is {@code null}
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public void forEach(LongPredicate predicate, LongConsumer thenAction) {
+        int startupdateCounter = updateCounter;
+        if (predicate == null) {
+            throw new NullPointerException("Predicate cannot be null.");
+        }
+        long element;
+        for (int i = 0; i < size; i++) {
+            // this notation helps to generate primitives
+            element = elementData[i];
+            if (predicate.test(element)) {
+                thenAction.accept(element);
+            }
+        }
+        if (startupdateCounter != updateCounter) {
+            throw new ConcurrentModificationException("ArrayTape was modified during iteration.");
+        }
+    }
+
+    /**
+     * Executes one of the given actions for each element of the {@code Iterable}, depending on the result of the
+     * provided {@code Predicate}. If the predicate evaluates to {@code true} for an element, {@code thenAction} is
+     * executed. Otherwise, {@code elseAction} is executed. Actions are performed in the order of iteration, if such
+     * order is defined. Exceptions thrown by either action are propagated to the caller.
+     *
+     * @param predicate The condition to test each element against
+     * @param thenAction The action to perform on elements that satisfy the predicate
+     * @param elseAction The action to perform on elements that do not satisfy the predicate
+     * @throws NullPointerException if {@code predicate}, {@code thenAction}, or {@code elseAction} is {@code null}
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public void forEach(LongPredicate predicate,
+            LongConsumer thenAction, LongConsumer elseAction) {
+        int startupdateCounter = updateCounter;
+        if (predicate == null) {
+            throw new NullPointerException("Predicate cannot be null.");
+        }
+        long element;
+        for (int i = 0; i < size; i++) {
+            // this notation helps to generate primitives
+            element = elementData[i];
+            if (predicate.test(element)) {
+                thenAction.accept(element);
+            } else {
+                elseAction.accept(element);
+            }
+        }
+        if (startupdateCounter != updateCounter) {
+            throw new ConcurrentModificationException("ArrayTape was modified during iteration.");
+        }
+    }
 }

@@ -5,7 +5,8 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primfloat;
 
 import static de.jare.ndimcol.RentenatusHashable._combine;
@@ -14,7 +15,8 @@ import static de.jare.ndimcol.ref.HashStrategy._hashCode;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.*;
-import java.util.function.Predicate;
+// FloatConsumer is unfortunately not available in java.util.function
+// FloatPredicate is unfortunately not available in java.util.function
 
 /**
  * The ArraySeason class represents a collection of episodes, each containing a list of elements. The splitting and
@@ -30,7 +32,8 @@ import java.util.function.Predicate;
  * ArrayMovie&lt;T&gt; extends Collection&lt;T&gt;.
  *
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 public class ArraySeasonFloat implements ArrayMovieFloat {
 
     ScreenplayFloat screenplay;
@@ -47,7 +50,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
     /**
      * Creates a new ArraySeason with the default screenplay (Screenplay2d).
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArraySeasonFloat() {
         screenplay = Screenplay2dFloat.INSTANCE;
         data = new de.jare.ndimcol.ref.ArrayTape<>(screenplay.getDefaultSize());
@@ -61,7 +65,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      *
      * @param screenplay the screenplay to be used for this season
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArraySeasonFloat(final ScreenplayFloat screenplay) {
         this.screenplay = screenplay;
         data = new de.jare.ndimcol.ref.ArrayTape<>(screenplay.getDefaultSize());
@@ -73,7 +78,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
     /**
      * Here the tape are informed that private data has been changed from outside.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     void added(float element) {
         //NoOp
     }
@@ -85,7 +91,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param element the element to be added
      * @return true if the element was added successfully
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean add(float element) {
         if (data.isEmpty()) {
@@ -121,7 +128,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param element the element to be added
      * @return true if the element was added successfully
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public boolean addFirstFree(float element) {
         int episodeIndex = firstFreeEpisode();
         if (episodeIndex == -1) {
@@ -153,7 +161,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param element element to be inserted
      * @return true if this collection changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean addAt(int index, float element) {
         if (lastEpisode != null
@@ -228,7 +237,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param col collection containing elements to be added to this season
      * @return true if this season changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public boolean addAll(int index, Collection<? extends Float> col) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
@@ -249,7 +259,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param col collection containing elements to be added to this collection
      * @return true if this collection changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean addAll(Collection<? extends Float> col) {
         if (data.isEmpty()) {
@@ -279,7 +290,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param movie movie containing elements to be added to this collection
      * @return {@code true} if this seasson changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean addMovie(ArrayMovieFloat movie) {
         final ArrayTapeFloat episode = new ArrayTapeFloat(movie.size());
@@ -299,13 +311,14 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param episode movie to be assimilate to this collection
      * @return {@code true} if this collection changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean glueMovie(ArrayMovieFloat episode) {
         if (episode.isEmpty()) {
             return false;
         }
-        episode.assimilateInto(data); 
+        episode.assimilateInto(data);
         size += episode.size();
         this.updateCounter++;
         return true;
@@ -324,7 +337,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param element element to be appended to this list
      * @return the old element at the specified position
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public float set(int index, float element) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
@@ -399,7 +413,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param index the index of the element to return
      * @return the element at the specified index in this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float get(int index) {
         return getWalkerAtIndex(index).next();
@@ -410,7 +425,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      *
      * @return the last element in this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float first() {
         if (size == 0) {
@@ -424,7 +440,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      *
      * @return the last element in this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float last() {
         if (size == 0) {
@@ -439,7 +456,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param element one times to remove
      * @return true, if the element has removed from this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean remove(float element) {
         IteratorWalkerFloat walker = getWalkerAtElement(element);
@@ -458,7 +476,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param index the index of the element to remove
      * @return the element that was removed from this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float removeAt(int index) {
         if (index < 0 || index >= size) {
@@ -481,7 +500,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * to the next episode together. If an episode is empty, it is removed from the collection. At last, the maximum
      * episode size and minimum glue size are updated based on the current number of episodes.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public void splitOrGlue() {
         int lastSize = maxEpisodeSize;
@@ -521,7 +541,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * Recalculates the maximum episode size and minimum episode glue size based on the current number of episodes in
      * this collection.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     protected void recalculateScope() {
         final int fac = data.size();
         maxEpisodeSize = screenplay.getMaxEpisodeSize(fac);
@@ -535,7 +556,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      *
      * @return the index of the last free episode, or -1 if no free episode is found
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     protected int firstFreeEpisode() {
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i).size() < maxEpisodeSize) {
@@ -552,7 +574,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @return the cover walker at the specified index
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     protected IteratorWalkerFloat getWalkerAtIndex(int index) {
         if (lastEpisode != null
                 && lastAccumulatedSize <= index
@@ -579,7 +602,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param element the element to search for
      * @return the walker at the specified element, or null if element not found
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public IteratorWalkerFloat getWalkerAtElement(final float element) {
         for (int i = 0; i < data.size(); i++) {
             final ArrayMovieFloat episode = data.get(i);
@@ -606,7 +630,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param element the element to search for
      * @return the index of the first occurrence of the specified element, or -1 if the element is not found
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int indexOf(float element) {
         final int dataSize = data.size();
@@ -633,7 +658,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param element the element to search for in the ArrayTape
      * @return the index of the last occurrence of the specified element, or -1 if the element is not found
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int lastIndexOf(float element) {
         final int dataSize = data.size();
@@ -660,7 +686,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param relatedMovie the related movie to find the offset for
      * @return the offset of the specified related movie in this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public int getOffset(ArrayMovieFloat relatedMovie) {
         int offset = 0;
         for (int i = 0; i < data.size(); i++) {
@@ -678,7 +705,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      *
      * @return the number of elements in this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int size() {
         return size;
@@ -689,7 +717,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      *
      * @return true if this collection contains no elements
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean isEmpty() {
         return size == 0;
@@ -700,7 +729,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      *
      * @return true if the ArrayMovie has elements, false otherwise
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean hasRecord() {
         return this.size > 0;
@@ -712,7 +742,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param element the element to check for
      * @return true if the specified element is present in this collection, false otherwise
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean contains(float element) {
         for (ArrayMovieFloat episode : data) {
@@ -728,7 +759,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      *
      * @return an iterator over the elements in this collection in proper sequence
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public IteratorFloat iterator() {
         final IterSeasonWalkerFloat walker = new IterSeasonWalkerFloat(this);
@@ -761,7 +793,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      *
      * @return an array containing all elements in this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float[] toArray() {
         float[] array = new float[size];
@@ -777,7 +810,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param arr the array into which the elements of this collection are to be stored
      * @return an array containing all elements in this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @SuppressWarnings("unchecked")
     @Override
     public float[] toArray(float[] arr) {
@@ -794,7 +828,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param arr the array to copy the elements into
      * @param offset the offset in the array where to start copying
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public void copyToArray(float[] arr, int offset) {
         if (arr.length < size + offset) {
@@ -816,7 +851,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param toIndex high endpoint (exclusive) of the subList
      * @return a new ArrayMovie that is a sub-movie of the current ArraySeason
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public ArrayMovieFloat subMovie(int fromIndex, int toIndex) {
         if (fromIndex >= size || fromIndex < 0) {
@@ -858,7 +894,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param initialCapacityOrZero not used
      * @return a new empty movie with the same screenplay
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public ArraySeasonFloat emptyMovie(int initialCapacityOrZero) {
         return new ArraySeasonFloat(screenplay);
@@ -928,7 +965,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
     /**
      * Here the tape are informed that private data or inner tape has been changed from outside.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     void deepChanged() {
         //NoOp
     }
@@ -944,7 +982,8 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      *
      * @return a new season containing the second half of the elements or null, if this movie is to small for splitting
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public ArrayMovieFloat splitInHalf() {
         if (data.isEmpty()) {
@@ -1019,17 +1058,22 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      *
      * @return space still available
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int pageSpaceLeft() {
         return data.pageSpaceLeft();
     }
 
     @Override
-    public IteratorWalkerFloat filterFirst(Predicate<? super Float> predicate) {
+    public IteratorWalkerFloat filterFirst(FloatPredicate predicate) {
+        int startupdateCounter = updateCounter;
         for (int i = 0; i < data.size(); i++) {
             IteratorWalkerFloat walker = data.get(i).filterFirst(predicate);
             if (walker != null) {
+                if (startupdateCounter != updateCounter) {
+                    throw new ConcurrentModificationException("ArraySeasson was modified during iteration.");
+                }
                 return new IterCoverWalkerFloat(this, walker);
             }
         }
@@ -1037,10 +1081,14 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
     }
 
     @Override
-    public IteratorWalkerFloat filterLast(Predicate<? super Float> predicate) {
+    public IteratorWalkerFloat filterLast(FloatPredicate predicate) {
+        int startupdateCounter = updateCounter;
         for (int i = data.size() - 1; i >= 0; i--) {
             IteratorWalkerFloat walker = data.get(i).filterLast(predicate);
             if (walker != null) {
+                if (startupdateCounter != updateCounter) {
+                    throw new ConcurrentModificationException("ArraySeasson was modified during iteration.");
+                }
                 return new IterCoverWalkerFloat(this, walker);
             }
         }
@@ -1048,16 +1096,79 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
     }
 
     @Override
-    public ArrayMovieFloat filterAll(Predicate<? super Float> predicate) {
+    public ArrayMovieFloat filterAll(FloatPredicate predicate) {
         ArraySeasonFloat ret = emptyMovie(data.size() << 3);
-        for (int i = 0; i < data.size(); i++) {
-            ArrayMovieFloat elements = data.get(i).filterAll(predicate);
+        de.jare.ndimcol.ref.IterTapeWalker<ArrayMovieFloat> walker = data.walker();
+        while (walker.hasNext()) {
+            ArrayMovieFloat elements = walker.next();
             if (elements.hasRecord()) {
                 ret.data.add(elements);
             }
         }
         ret.updateSize();
         return ret;
+    }
+
+    /**
+     * Performs the given action for each element of the {@code Iterable} until all elements have been processed or the
+     * action throws an exception. Actions are performed in the order of iteration, if that order is specified.
+     * Exceptions thrown by the action are relayed to the caller.
+     *
+     * @param action The action to be performed for each element
+     * @throws NullPointerException if the specified action is null
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public void forEach(FloatConsumer action) {
+        de.jare.ndimcol.ref.IterTapeWalker<ArrayMovieFloat> walker = data.walker();
+        while (walker.hasNext()) {
+            ArrayMovieFloat elements = walker.next();
+            elements.forEach(action);
+        }
+    }
+
+    /**
+     * Executes the given action for each element of the {@code Iterable}, but only if the provided {@code Predicate}
+     * evaluates to {@code true} for that element.Actions are performed in the order of iteration, if such order is
+     * defined. Exceptions thrown by the action are propagated to the caller.
+     *
+     * @param predicate The condition to test each element against
+     * @param thenAction The action to perform on each element that satisfies the predicate
+     * @throws NullPointerException if {@code predicate} or {@code action} is {@code null}
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public void forEach(FloatPredicate predicate, FloatConsumer thenAction) {
+        de.jare.ndimcol.ref.IterTapeWalker<ArrayMovieFloat> walker = data.walker();
+        while (walker.hasNext()) {
+            ArrayMovieFloat elements = walker.next();
+            elements.forEach(predicate, thenAction);
+        }
+    }
+
+    /**
+     * Executes one of the given actions for each element of the {@code Iterable}, depending on the result of the
+     * provided {@code Predicate}. If the predicate evaluates to {@code true} for an element, {@code thenAction} is
+     * executed. Otherwise, {@code elseAction} is executed. Actions are performed in the order of iteration, if such
+     * order is defined. Exceptions thrown by either action are propagated to the caller.
+     *
+     * @param predicate The condition to test each element against
+     * @param thenAction The action to perform on elements that satisfy the predicate
+     * @param elseAction The action to perform on elements that do not satisfy the predicate
+     * @throws NullPointerException if {@code predicate}, {@code thenAction}, or {@code elseAction} is {@code null}
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public void forEach(FloatPredicate predicate,
+            FloatConsumer thenAction, FloatConsumer elseAction) {
+        de.jare.ndimcol.ref.IterTapeWalker<ArrayMovieFloat> walker = data.walker();
+        while (walker.hasNext()) {
+            ArrayMovieFloat elements = walker.next();
+            elements.forEach(predicate, thenAction, elseAction);
+        }
     }
 
     /**
@@ -1068,9 +1179,10 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
      * @param predicate the predicate to be used for the filter
      * @return a new movie containing all elements that match the given predicate
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @SuppressWarnings("unchecked")
-    public ArrayMovieFloat filterParallel(Predicate<? super Float> predicate) {
+    public ArrayMovieFloat filterParallel(FloatPredicate predicate) {
         Thread[] threads = new Thread[data.size()];
         Runnable[] tasks = new Runnable[data.size()];
         for (int i = 0; i < data.size(); i++) {

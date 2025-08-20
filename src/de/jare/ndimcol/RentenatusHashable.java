@@ -7,9 +7,14 @@
  */
 package de.jare.ndimcol;
 
-import de.jare.ndimcol.ref.HashStrategy;
-
 /**
+ * The idea is that if you calculate powers of 7 and only keep a certain number of lower bits in the binary
+ * representation, it makes no difference whether you first determine a power completely and then cut it, or whether you
+ * cut the result in the intermediate results each time you multiply by 7.
+ *
+ * And since the number space is limited, at some point a power p will occur
+ *
+ * such that 7 to the power of p equals 7 to the power of 0 = 1.
  *
  * @author Janusch Rentenatus
  */

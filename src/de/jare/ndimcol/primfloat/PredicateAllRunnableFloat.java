@@ -5,15 +5,16 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primfloat;
 
 import de.jare.ndimcol.ref.ArrayMovie;
-import java.util.function.Predicate;
+// FloatPredicate is unfortunately not available in java.util.function
 
 public class PredicateAllRunnableFloat implements Runnable {
 
-    private final Predicate<? super Float> predicate;
+    private final FloatPredicate predicate;
     private final ArrayMovieFloat episode;
     private ArrayMovieFloat elements;
 
@@ -23,8 +24,9 @@ public class PredicateAllRunnableFloat implements Runnable {
      * @param predicate the predicate to be used for filtering
      * @param episode the ArrayMovie to be filtered
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    public PredicateAllRunnableFloat(Predicate<? super Float> predicate, ArrayMovieFloat episode) {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public PredicateAllRunnableFloat(FloatPredicate predicate, ArrayMovieFloat episode) {
         this.predicate = predicate;
         this.episode = episode;
     }
@@ -32,7 +34,8 @@ public class PredicateAllRunnableFloat implements Runnable {
     /**
      * Runs the filter operation on the episode using the predicate.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public void run() {
         elements = episode.filterAll(predicate);
@@ -43,7 +46,8 @@ public class PredicateAllRunnableFloat implements Runnable {
      *
      * @return the ArrayMovie containing all elements that match the predicate
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArrayMovieFloat getElements() {
         return elements;
     }

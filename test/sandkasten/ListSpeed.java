@@ -9,7 +9,6 @@ package sandkasten;
 
 import de.jare.ndimcol.primint.ArraySeasonHashableInt;
 import de.jare.ndimcol.primint.ArraySeasonInt;
-import de.jare.ndimcol.primint.IteratorInt;
 import de.jare.ndimcol.primint.IteratorWalkerInt;
 import de.jare.ndimcol.primint.Screenplay2dInt;
 import de.jare.ndimcol.primint.ScreenplayInt;

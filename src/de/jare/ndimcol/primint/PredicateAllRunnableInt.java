@@ -5,15 +5,16 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primint;
 
 import de.jare.ndimcol.ref.ArrayMovie;
-import java.util.function.Predicate;
+import java.util.function.IntPredicate;
 
 public class PredicateAllRunnableInt implements Runnable {
 
-    private final Predicate<? super Integer> predicate;
+    private final IntPredicate predicate;
     private final ArrayMovieInt episode;
     private ArrayMovieInt elements;
 
@@ -23,8 +24,9 @@ public class PredicateAllRunnableInt implements Runnable {
      * @param predicate the predicate to be used for filtering
      * @param episode the ArrayMovie to be filtered
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    public PredicateAllRunnableInt(Predicate<? super Integer> predicate, ArrayMovieInt episode) {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public PredicateAllRunnableInt(IntPredicate predicate, ArrayMovieInt episode) {
         this.predicate = predicate;
         this.episode = episode;
     }
@@ -32,7 +34,8 @@ public class PredicateAllRunnableInt implements Runnable {
     /**
      * Runs the filter operation on the episode using the predicate.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public void run() {
         elements = episode.filterAll(predicate);
@@ -43,7 +46,8 @@ public class PredicateAllRunnableInt implements Runnable {
      *
      * @return the ArrayMovie containing all elements that match the predicate
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArrayMovieInt getElements() {
         return elements;
     }

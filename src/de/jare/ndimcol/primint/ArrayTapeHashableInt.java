@@ -5,7 +5,8 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primint;
 
 import java.util.Collection;
@@ -16,7 +17,8 @@ import de.jare.ndimcol.RentenatusHashable;
  *
  * @author Janusch Rentenatus
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHashable, StrategicHashableInt {
 
     private int hashCode;
@@ -27,7 +29,8 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty. The update
      * counter and trim countdown are also initialized.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArrayTapeHashableInt() {
         super();
         this.hashCode = 0;
@@ -41,7 +44,8 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
      *
      * @param strategy to calculate hash code.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArrayTapeHashableInt(HashStrategyInt strategy) {
         super();
         this.hashCode = 0;
@@ -55,7 +59,8 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
      *
      * @param initialCapacityOrZero the initial capacity of the ArrayTape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArrayTapeHashableInt(int initialCapacityOrZero) {
         super(initialCapacityOrZero);
         this.hashCode = 0;
@@ -69,7 +74,8 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
      *
      * @param original the ArrayTape to be duplicated
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArrayTapeHashableInt(ArrayTapeInt original) {
         super(original);
         this.hashCode = original.hashCode();
@@ -85,7 +91,8 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
      *
      * @param list the List from which the ArrayTape is created
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArrayTapeHashableInt(List<Integer> list) {
         super(list);
         this.hashCode = 10127;
@@ -100,7 +107,8 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
      * @param list the List from which the ArrayTape is created
      * @param strategy to calculate hash code.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArrayTapeHashableInt(List<Integer> list, HashStrategyInt strategy) {
         super(list);
         this.hashCode = 10127;
@@ -212,7 +220,8 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
     /**
      * Here the tape are informed that private data has been changed from outside.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     void deepChanged() {
         hashComputed = false;
@@ -270,7 +279,8 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
      * @param initialCapacityOrZero the initial capacity of the new movie or zero if no initial capacity is needed
      * @return a new empty ArrayTape with the specified initial capacity
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public ArrayTapeInt emptyMovie(int initialCapacityOrZero) {
         ArrayTapeHashableInt ret = new ArrayTapeHashableInt(initialCapacityOrZero);
