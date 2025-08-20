@@ -5,12 +5,44 @@ My ArrayTape is a collection similar to ArrayList, but ArraySeason maintains an 
 
 ArraySeason is the basis for SortedSeasonSet, which, despite binary search, can still be faster than a simple ArrayList without sorting.
 
+---
+
+**Coding lambda**
+
+Lambdas can now also be used for the primitive types; the LongPredicate, IntPredicate, and LongConsumer, IntConsumer from java.util.function 
+plus the own FloatPredicate, FloatConsumer also operate on primitives.
+
+Example from TestNG
+
+```
+    public void testFloat() {
+        ArraySeasonFloat data = new ArraySeasonFloat();
+        float f = 0.92345f;
+        for (int i = 0; i < 77420; i++) {
+            data.add(i * f);
+            f = -f;
+        }
+        final Integer[] counter = {0};
+        final Integer[] expected = {77420};
+        data.forEach(
+                value -> value > 0, // Predicate: checks whether the value is positive
+                value -> assertTrue(value > 0),
+                value -> assertFalse(value > 0)
+        );
+        data.forEach(
+                value -> value > 0, // Predicate: checks whether the value is positive
+                value -> assertTrue(value > 0)
+        );
+        data.forEach(value -> counter[0]++);
+        assertEquals(counter, expected);
+    }
+```
 
 ---
 
 **Coding hash comparison**
 
-This collection offers a special way of calculating HASH values. This is best explained with an example: Let list1, list2, and list3 be arbitrary and list123 be an empty list, then:
+This collection *ArraySeasonHashable* offers a special way of calculating HASH values. This is best explained with an example: Let list1, list2, and list3 be arbitrary and list123 be an empty list, then:
 ```
 list123.addAll(list1);
 list123.addAll(list2);
