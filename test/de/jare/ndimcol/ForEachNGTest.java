@@ -41,24 +41,34 @@ public class ForEachNGTest {
     @Test
     public void testFloat() {
         ArraySeasonFloat data = new ArraySeasonFloat();
-        float f = 0.012345f;
+        float f = 0.92345f;
         for (int i = 0; i < 77420; i++) {
             data.add(i * f);
             f = -f;
         }
         final Integer[] counter = {0};
         final Integer[] expected = {77420};
+        final Integer[] positiveCounter = {0};
+        final Integer[] elseCounter = {0};
+        final Integer[] positivExpected = {77420 / 2 - 1 /* -1 for the first 0*/};
+        final Integer[] elseExpected = {77420 / 2 + 1 /* +1 for the first 0*/};
         data.forEach(
-                value -> value > 0, // Predicate: checks whether the value is positive
-                value -> assertTrue(value > 0),
-                value -> assertFalse(value > 0)
+                value -> value > 0f, // Predicate: checks whether the value is positive
+                value -> assertTrue(value > 0f),
+                value -> assertFalse(value > 0f)
         );
         data.forEach(
-                value -> value > 0, // Predicate: checks whether the value is positive
-                value -> assertTrue(value > 0)
+                value -> value > 0f, // Predicate: checks whether the value is positive
+                value -> assertTrue(value > 0f)
         );
         data.forEach(value -> counter[0]++);
         assertEquals(counter, expected);
+        data.forEach(value -> value > 0, // Predicate: checks whether the value is positive
+                value -> positiveCounter[0]++,
+                value -> elseCounter[0]++
+        );
+        assertEquals(positiveCounter, positivExpected);
+        assertEquals(elseCounter, elseExpected);
     }
 
     @Test
