@@ -5,7 +5,8 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primfloat;
 
 import java.util.Collection;
@@ -15,7 +16,8 @@ import de.jare.ndimcol.RentenatusHashable;
  *
  * @author Janusch Rentenatus
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 public class ArraySeasonHashableFloat extends ArraySeasonFloat implements RentenatusHashable, StrategicHashableFloat {
 
     private int hashCode;
@@ -26,7 +28,8 @@ public class ArraySeasonHashableFloat extends ArraySeasonFloat implements Renten
      * Constructs an empty ArrayTape with an initial capacity of ten and a default page size of thirty. The update
      * counter and trim countdown are also initialized.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArraySeasonHashableFloat() {
         super();
         this.hashCode = 0;
@@ -40,7 +43,8 @@ public class ArraySeasonHashableFloat extends ArraySeasonFloat implements Renten
      *
      * @param strategy to calculate hash code.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArraySeasonHashableFloat(HashStrategyFloat strategy) {
         super();
         this.hashCode = 0;
@@ -54,7 +58,8 @@ public class ArraySeasonHashableFloat extends ArraySeasonFloat implements Renten
      *
      * @param screenplay the screenplay to be used for this season
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArraySeasonHashableFloat(final ScreenplayFloat screenplay) {
         super(screenplay);
         this.hashCode = 0;
@@ -69,7 +74,8 @@ public class ArraySeasonHashableFloat extends ArraySeasonFloat implements Renten
      * @param screenplay the screenplay to be used for this season
      * @param strategy to calculate hash code.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public ArraySeasonHashableFloat(final ScreenplayFloat screenplay, HashStrategyFloat strategy) {
         super(screenplay);
         this.hashCode = 0;
@@ -120,7 +126,8 @@ public class ArraySeasonHashableFloat extends ArraySeasonFloat implements Renten
     /**
      * Here the tape are informed that private data has been changed.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     void added(float element) {
         if (hashComputed) {
@@ -193,7 +200,8 @@ public class ArraySeasonHashableFloat extends ArraySeasonFloat implements Renten
     /**
      * Here the tape are informed that private data or inner movie has been changed from outside.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     void deepChanged() {
         hashComputed = false;
@@ -233,7 +241,8 @@ public class ArraySeasonHashableFloat extends ArraySeasonFloat implements Renten
      * @param initialCapacityOrZero not used
      * @return a new empty movie with the same screenplay
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public ArraySeasonHashableFloat emptyMovie(int initialCapacityOrZero) {
         ArraySeasonHashableFloat ret = new ArraySeasonHashableFloat(screenplay);

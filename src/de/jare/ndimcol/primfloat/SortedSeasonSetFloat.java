@@ -5,7 +5,8 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primfloat;
 
 import de.jare.ndimcol.ref.ArrayMovie;
@@ -18,7 +19,8 @@ import java.util.function.BiPredicate;
  *
  * @author Janusch Rentenatus
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 public class SortedSeasonSetFloat extends ArraySeasonFloat  {
 
     private final BiPredicateFloatFloat predicate;
@@ -39,7 +41,8 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
      *
      * @param predicate a BiPredicate&lt;T, T&gt; to compare elements
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public SortedSeasonSetFloat(final BiPredicateFloatFloat predicate) {
         this.predicate = predicate;
     }
@@ -50,7 +53,8 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
      * @param element element whose presence in this collection is to be ensured
      * @return true if this collection changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean add(float element) {
         if (isEmpty()) {
@@ -65,7 +69,8 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
      * @param element element whose be added to this collection
      * @return true if this collection changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     protected boolean superAdd(float element) {
         return super.add(element);
     }
@@ -77,7 +82,8 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
      * @param element the element to be inserted
      * @return true if this collection changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     protected boolean superAddAt(int index, float element) {
         return super.addAt(index, element);
     }
@@ -91,7 +97,8 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
      * @param element the element to be processed
      * @return true if the worker was able to process the element, false otherwise
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     protected boolean work(SortedSeasonSetWorkerFloat worker, float element) {
 
         int indexRData = data.size() - 1;
@@ -155,7 +162,8 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
      * @param element the element to be processed
      * @return true if the worker was able to process the episode, false otherwise
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     protected boolean workEpisode(SortedSeasonSetWorkerFloat worker, final ArrayMovieFloat episode, float element) {
         float left = episode.get(0);
         if (predicate.test(element, left)) {
@@ -201,7 +209,8 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
      * @param col collection containing elements to be added to this collection
      * @return true if this collection changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean addAll(Collection<? extends Float> col) {
         boolean changed = false;
@@ -220,7 +229,8 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
      * @param element the element to be inserted
      * @return true if this collection changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean addAt(int index, float element) {
         if (index < 0 || index >= size) {
@@ -243,7 +253,8 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
      * @return nothing
      * @throws UnsupportedOperationException always
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean addFirstFree(float element) {
         throw new UnsupportedOperationException("Not supported in " + getClass().getSimpleName() + ".");
@@ -256,7 +267,8 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
      * @return true if this collection changed as a result of the call
      * @throws ClassCastException if the element is not of the same type as the elements in this set
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @SuppressWarnings("unchecked")
     @Override
     public boolean remove(float element) {
@@ -269,7 +281,8 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
      * @param element the element to be removed
      * @return true if this collection changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public boolean removeT(float element) {
         if (isEmpty()) {
             return false;

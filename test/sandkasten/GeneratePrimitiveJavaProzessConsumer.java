@@ -13,11 +13,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import javax.annotation.processing.Generated;
 
 /**
  *
- * @author jRent
+ * @author Janusch Rentenatus
  */
 public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
 
@@ -47,9 +46,14 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         this.append = append;
         this.prim = prim;
         this.primBox = primBox;
-
         replacement = new ArrayList<>();
         replacement.add(List.of("package de.jare.ndimcol.ref;", "package de.jare.ndimcol.prim" + prim + ";"));
+        replacement.add(List.of("import java.util.function.Consumer;", "import java.util.function." + append + "Consumer;"));
+        replacement.add(List.of("import java.util.function.Predicate;", "import java.util.function." + append + "Predicate;"));
+        replacement.add(List.of("Predicate<? super T>", append + "Predicate"));
+        replacement.add(List.of("Consumer<? super T>", append + "Consumer"));
+        replacement.add(List.of("import java.util.function.FloatConsumer;", "// FloatConsumer is unfortunately not available in java.util.function"));
+        replacement.add(List.of("import java.util.function.FloatPredicate;", "// FloatPredicate is unfortunately not available in java.util.function"));
         replacement.add(List.of("<T> ArrayMovie<T>", "ArrayMovie" + append));
         replacement.add(List.of("ArrayMovie<?>", "ArrayMovie" + append));
         replacement.add(List.of("<T>", append));
@@ -71,7 +75,7 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("new ArrayTape<>", "new ArrayTape" + append));
         replacement.add(List.of("new ArrayTapeHashable<>", "new ArrayTapeHashable" + append));
         replacement.add(List.of("new ArraySeasonHashable<>", "new ArraySeasonHashable" + append));
-         replacement.add(List.of("public ArrayTape(", "public ArrayTape" + append + "("));
+        replacement.add(List.of("public ArrayTape(", "public ArrayTape" + append + "("));
         replacement.add(List.of("public ArraySeason(", "public ArraySeason" + append + "("));
         replacement.add(List.of("public ArrayTapeHashable(", "public ArrayTapeHashable" + append + "("));
         replacement.add(List.of("public ArraySeasonHashable(", "public ArraySeasonHashable" + append + "("));
@@ -147,7 +151,7 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
                 || trimLine.startsWith("//")) {
             modifiedLines.add(line);
             if (trimLine.startsWith("*/")) {
-                modifiedLines.add("// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'");
+                modifiedLines.add("    // #### This code has been generated. Please do not make any changes here.\n    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'");
             }
         } else {
             String modifiedLine = line;

@@ -5,19 +5,22 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primfloat;
 
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.function.Predicate;
+// FloatConsumer is unfortunately not available in java.util.function
+// FloatPredicate is unfortunately not available in java.util.function
 
 /**
  *
  * @author Janusch Rentenatus
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 public interface ArrayMovieFloat   {
 
     /**
@@ -30,7 +33,8 @@ public interface ArrayMovieFloat   {
      * @see #removeAt(int)
      * @see #size()
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     float first();
 
     /**
@@ -43,7 +47,8 @@ public interface ArrayMovieFloat   {
      * @see #removeAt(int)
      * @see #size()
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     float last();
 
     /**
@@ -56,7 +61,8 @@ public interface ArrayMovieFloat   {
      * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     boolean addAt(int index, float element);
 
     default void add(int index, float element) {
@@ -83,7 +89,8 @@ public interface ArrayMovieFloat   {
      * @throws IllegalStateException if not all the elements can be added at this time due to insertion restrictions
      * @see #add(Object)
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     boolean addAll(Collection<? extends Float> col);
 
@@ -93,7 +100,8 @@ public interface ArrayMovieFloat   {
      * @param movie movie containing elements to be added to this collection
      * @return {@code true} if this collection changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     boolean addMovie(ArrayMovieFloat movie);
 
     /**
@@ -106,7 +114,8 @@ public interface ArrayMovieFloat   {
      * @param movie movie containing elements to be added to this collection
      * @return {@code true} if this collection changed as a result of the call
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     boolean glueMovie(ArrayMovieFloat movie);
 
     void assimilateInto(de.jare.ndimcol.ref.ArrayTape<ArrayMovieFloat> othersData);
@@ -118,7 +127,8 @@ public interface ArrayMovieFloat   {
      * @return true (as specified by {@link Collection#add})
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     boolean add(float element);
 
@@ -129,7 +139,8 @@ public interface ArrayMovieFloat   {
      * @return the element at the specified index
      * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     float get(int index);
 
     /**
@@ -140,7 +151,8 @@ public interface ArrayMovieFloat   {
      * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      * @see #remove(Object)
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     float removeAt(int index);
 
     /**
@@ -157,7 +169,8 @@ public interface ArrayMovieFloat   {
      * ({@linkplain Collection##optional-restrictions optional})
      * @throws UnsupportedOperationException if the {@code remove} operation is not supported by this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     boolean remove(float o);
 
@@ -177,7 +190,8 @@ public interface ArrayMovieFloat   {
      * @see #remove(Object)
      * @see #contains(Object)
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     boolean removeAll(Collection<?> col);
 
@@ -197,7 +211,8 @@ public interface ArrayMovieFloat   {
      * @see #remove(Object)
      * @see #contains(Object)
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     boolean retainAll(Collection<?> col);
 
@@ -207,7 +222,8 @@ public interface ArrayMovieFloat   {
      *
      * @throws UnsupportedOperationException if the {@code clear} operation is not supported by this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     void clear();
 
@@ -217,7 +233,8 @@ public interface ArrayMovieFloat   {
      *
      * @return the number of elements in this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     int size();
 
@@ -226,7 +243,8 @@ public interface ArrayMovieFloat   {
      *
      * @return true if the movie is empty, false otherwise
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     boolean isEmpty();
 
@@ -235,7 +253,8 @@ public interface ArrayMovieFloat   {
      *
      * @return true if the movie has elements, false otherwise
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     boolean hasRecord();
 
     /**
@@ -245,7 +264,8 @@ public interface ArrayMovieFloat   {
      *
      * @return a new movie containing the second half of the elements or null, if this movie is to small for splitting
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     ArrayMovieFloat splitInHalf();
 
     /**
@@ -253,7 +273,8 @@ public interface ArrayMovieFloat   {
      *
      * @return this one simple IteratorWalker for this movie
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     IteratorWalkerFloat softWalker();
 
     /**
@@ -265,7 +286,8 @@ public interface ArrayMovieFloat   {
      * @param atIndex the index of the element to start, counted across all elements of the external movie.
      * @return this one IteratorWalker for the deepest ArrayTape of movie with the given index as position
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     IteratorWalkerFloat leafWalker(int atIndex);
 
     /**
@@ -274,7 +296,8 @@ public interface ArrayMovieFloat   {
      *
      * @return an {@code Iterator} over the elements in this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     IteratorFloat iterator();
 
@@ -285,7 +308,8 @@ public interface ArrayMovieFloat   {
      * @param element the element to search for
      * @return the index of the first equal element in the movie or -1 if not found
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     int indexOf(float element);
 
     /**
@@ -299,7 +323,8 @@ public interface ArrayMovieFloat   {
      * @throws NullPointerException if the specified element is null and this collection does not permit null elements
      * ({@linkplain Collection##optional-restrictions optional})
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     boolean contains(float o);
 
@@ -315,7 +340,8 @@ public interface ArrayMovieFloat   {
      * collection is null.
      * @see #contains(Object)
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     boolean containsAll(Collection<?> col);
 
@@ -326,7 +352,8 @@ public interface ArrayMovieFloat   {
      * @param element the element to search for in the ArrayTape
      * @return the index of the last occurrence of the specified element, or -1 if the element is not found
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     int lastIndexOf(float element);
 
     /**
@@ -335,7 +362,8 @@ public interface ArrayMovieFloat   {
      * @param array the array to copy the elements to
      * @param offset the offset in the array to start copying to
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     void copyToArray(float[] array, int offset);
 
     /**
@@ -356,7 +384,8 @@ public interface ArrayMovieFloat   {
      * @return an array, whose {@linkplain Class#getComponentType runtime component
      * type} is {@code Object}, containing all of the elements in this collection
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     float[] toArray();
 
@@ -402,7 +431,8 @@ public interface ArrayMovieFloat   {
      *         runtime component type} of the specified array
      * @throws NullPointerException if the specified array is null
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     float[] toArray(float[] arr);
 
@@ -413,7 +443,8 @@ public interface ArrayMovieFloat   {
      * @param toIndex high endpoint (exclusive) of the subList
      * @return a new ArrayMovie that is a sub-movie of the current ArrayMovie
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     ArrayMovieFloat subMovie(int fromIndex, int toIndex);
 
     /**
@@ -423,14 +454,16 @@ public interface ArrayMovieFloat   {
      * @param initialCapacityOrZero the initial capacity of the new movie or zero if no initial capacity is needed
      * @return a new empty movie with the specified initial capacity
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     ArrayMovieFloat emptyMovie(int initialCapacityOrZero);
 
     /**
      * Check if the movies in a season are to big and need to be split or if they are to small and need be glued
      * together. Nothing to do for a movie itself.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     void splitOrGlue();
 
     /**
@@ -441,7 +474,8 @@ public interface ArrayMovieFloat   {
      * @param offset the offset to add to the index of each element (if this is a movie of movies)
      * @return the number of elements printed plus offset (the index of the next element from the next movie)
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     int debug(PrintStream out, String prefix, int offset);
 
     /**
@@ -451,7 +485,8 @@ public interface ArrayMovieFloat   {
      * @param prefix the prefix to print before each element
      * @return the number of elements printed
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     default int debug(PrintStream out, String prefix) {
         return debug(out, prefix, 0);
     }
@@ -461,7 +496,8 @@ public interface ArrayMovieFloat   {
      *
      * @return space still available or zero if the Movie is not an ArrayTape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     int pageSpaceLeft();
 
     /**
@@ -470,8 +506,9 @@ public interface ArrayMovieFloat   {
      * @param predicate the predicate to be used for the search
      * @return a leaf walker for the first occurrence of a hit
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    IteratorWalkerFloat filterFirst(Predicate<? super Float> predicate);
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    IteratorWalkerFloat filterFirst(FloatPredicate predicate);
 
     /**
      * Returns a leaf walker for the last occurrence of a hit considering the given predicate.
@@ -479,8 +516,9 @@ public interface ArrayMovieFloat   {
      * @param predicate the predicate to be used for the search
      * @return a leaf walker for the last occurrence of a hit
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    IteratorWalkerFloat filterLast(Predicate<? super Float> predicate);
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    IteratorWalkerFloat filterLast(FloatPredicate predicate);
 
     /**
      * Return a new movie containing all elements that match the given predicate.
@@ -488,7 +526,50 @@ public interface ArrayMovieFloat   {
      * @param predicate the predicate to be used for the filter
      * @return a new movie containing all elements that match the given predicate
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
-    ArrayMovieFloat filterAll(Predicate<? super Float> predicate);
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    ArrayMovieFloat filterAll(FloatPredicate predicate);
+
+    /**
+     * Performs the given action for each element of the {@code Iterable} until all elements have been processed or the
+     * action throws an exception. Actions are performed in the order of iteration, if that order is specified.
+     * Exceptions thrown by the action are relayed to the caller.
+     *
+     * @param action The action to be performed for each element
+     * @throws NullPointerException if the specified action is null
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    
+    public void forEach(FloatConsumer action);
+
+    /**
+     * Executes the given action for each element of the {@code Iterable}, but only if the provided {@code Predicate}
+     * evaluates to {@code true} for that element.Actions are performed in the order of iteration, if such order is
+     * defined. Exceptions thrown by the action are propagated to the caller.
+     *
+     * @param predicate The condition to test each element against
+     * @param thenAction The action to perform on each element that satisfies the predicate
+     * @throws NullPointerException if {@code predicate} or {@code action} is {@code null}
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public void forEach(FloatPredicate predicate, FloatConsumer thenAction);
+
+    /**
+     * Executes one of the given actions for each element of the {@code Iterable}, depending on the result of the
+     * provided {@code Predicate}. If the predicate evaluates to {@code true} for an element, {@code thenAction} is
+     * executed. Otherwise, {@code elseAction} is executed. Actions are performed in the order of iteration, if such
+     * order is defined. Exceptions thrown by either action are propagated to the caller.
+     *
+     * @param predicate The condition to test each element against
+     * @param thenAction The action to perform on elements that satisfy the predicate
+     * @param elseAction The action to perform on elements that do not satisfy the predicate
+     * @throws NullPointerException if {@code predicate}, {@code thenAction}, or {@code elseAction} is {@code null}
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public void forEach(FloatPredicate predicate,
+            FloatConsumer thenAction, FloatConsumer elseAction);
 
 }

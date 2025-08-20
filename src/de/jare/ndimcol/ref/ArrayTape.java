@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -1091,12 +1092,16 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     @SuppressWarnings("unchecked")
     @Override
     public IteratorWalker<T> filterFirst(Predicate<? super T> predicate) {
+        int startupdateCounter = updateCounter;
         if (predicate == null) {
             throw new NullPointerException("Predicate cannot be null.");
         }
         for (int i = 0; i < size; i++) {
             //prim: if (predicate.test(elementData[i])) {
             if (predicate.test((T) elementData[i])) {
+                if (startupdateCounter != updateCounter) {
+                    throw new ConcurrentModificationException("ArrayTape was modified during iteration.");
+                }
                 return new IterTapeWalker<>(this, i);
             }
         }
@@ -1112,12 +1117,16 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     @SuppressWarnings("unchecked")
     @Override
     public IteratorWalker<T> filterLast(Predicate<? super T> predicate) {
+        int startupdateCounter = updateCounter;
         if (predicate == null) {
             throw new NullPointerException("Predicate cannot be null.");
         }
         for (int i = size - 1; i >= 0; i--) {
             //prim: if (predicate.test(elementData[i])) {
             if (predicate.test((T) elementData[i])) {
+                if (startupdateCounter != updateCounter) {
+                    throw new ConcurrentModificationException("ArrayTape was modified during iteration.");
+                }
                 return new IterTapeWalker<>(this, i);
             }
         }
@@ -1133,18 +1142,105 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     @SuppressWarnings("unchecked")
     @Override
     public ArrayMovie<T> filterAll(Predicate<? super T> predicate) {
+        int startupdateCounter = updateCounter;
         if (predicate == null) {
             throw new NullPointerException("Predicate cannot be null.");
         }
         ArrayMovie<T> ret = emptyMovie(size >> 4);
         T element;
         for (int i = 0; i < size; i++) {
+            // this notation helps to generate primitives
             element = (T) elementData[i];
             if (predicate.test(element)) {
                 ret.add(element);
             }
         }
+        if (startupdateCounter != updateCounter) {
+            throw new ConcurrentModificationException("ArrayTape was modified during iteration.");
+        }
         return ret;
     }
 
+    /**
+     * Performs the given action for each element of the {@code Iterable} until all elements have been processed or the
+     * action throws an exception. Actions are performed in the order of iteration, if that order is specified.
+     * Exceptions thrown by the action are relayed to the caller.
+     *
+     * @param action The action to be performed for each element
+     * @throws NullPointerException if the specified action is null
+     */
+    @Override
+    public void forEach(Consumer<? super T> action) {
+        int startupdateCounter = updateCounter;
+        T element;
+        for (int i = 0; i < size; i++) {
+            // this notation helps to generate primitives
+            element = (T) elementData[i];
+            action.accept(element);
+        }
+        if (startupdateCounter != updateCounter) {
+            throw new ConcurrentModificationException("ArrayTape was modified during iteration.");
+        }
+    }
+
+    /**
+     * Executes the given action for each element of the {@code Iterable}, but only if the provided {@code Predicate}
+     * evaluates to {@code true} for that element.Actions are performed in the order of iteration, if such order is
+     * defined. Exceptions thrown by the action are propagated to the caller.
+     *
+     * @param predicate The condition to test each element against
+     * @param thenAction The action to perform on each element that satisfies the predicate
+     * @throws NullPointerException if {@code predicate} or {@code action} is {@code null}
+     */
+    @Override
+    public void forEach(Predicate<? super T> predicate, Consumer<? super T> thenAction) {
+        int startupdateCounter = updateCounter;
+        if (predicate == null) {
+            throw new NullPointerException("Predicate cannot be null.");
+        }
+        T element;
+        for (int i = 0; i < size; i++) {
+            // this notation helps to generate primitives
+            element = (T) elementData[i];
+            if (predicate.test(element)) {
+                thenAction.accept(element);
+            }
+        }
+        if (startupdateCounter != updateCounter) {
+            throw new ConcurrentModificationException("ArrayTape was modified during iteration.");
+        }
+    }
+
+    /**
+     * Executes one of the given actions for each element of the {@code Iterable}, depending on the result of the
+     * provided {@code Predicate}. If the predicate evaluates to {@code true} for an element, {@code thenAction} is
+     * executed. Otherwise, {@code elseAction} is executed. Actions are performed in the order of iteration, if such
+     * order is defined. Exceptions thrown by either action are propagated to the caller.
+     *
+     * @param predicate The condition to test each element against
+     * @param thenAction The action to perform on elements that satisfy the predicate
+     * @param elseAction The action to perform on elements that do not satisfy the predicate
+     * @throws NullPointerException if {@code predicate}, {@code thenAction}, or {@code elseAction} is {@code null}
+     */
+    @Override
+    public void forEach(Predicate<? super T> predicate,
+            Consumer<? super T> thenAction, Consumer<? super T> elseAction) {
+        int startupdateCounter = updateCounter;
+        if (predicate == null) {
+            throw new NullPointerException("Predicate cannot be null.");
+        }
+        T element;
+        for (int i = 0; i < size; i++) {
+            // this notation helps to generate primitives
+            element = (T) elementData[i];
+            if (predicate.test(element)) {
+                thenAction.accept(element);
+            } else {
+                elseAction.accept(element);
+            }
+        }
+        if (startupdateCounter != updateCounter) {
+            throw new ConcurrentModificationException("ArrayTape was modified during iteration.");
+        }
+    }
 }

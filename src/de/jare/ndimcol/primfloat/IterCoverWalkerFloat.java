@@ -5,7 +5,8 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primfloat;
 
 import de.jare.ndimcol.ref.ArrayMovie;
@@ -14,7 +15,8 @@ import java.util.Collection;
 /**
  *
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 public class IterCoverWalkerFloat implements IteratorWalkerFloat {
 
     final IteratorWalkerFloat inner;
@@ -25,7 +27,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      *
      * @return the ArraySeason being observed
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public ArrayMovieFloat getRelatedMovie() {
         return this.observer;
@@ -36,7 +39,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      *
      * @param inner the IteratorWalker to be cover.
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public IterCoverWalkerFloat(ArraySeasonFloat observer, IteratorWalkerFloat inner) {
         this.inner = inner;
         this.observer = observer;
@@ -47,7 +51,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      *
      * @return true if the current index is less than the size of the ArrayTape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean hasNext() {
         return inner.hasNext();
@@ -59,7 +64,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      * @return the next element in the inner IteratorWalker
      * @throws IndexOutOfBoundsException if there are no more elements in the inner IteratorWalker
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float next() {
         return inner.next();
@@ -73,7 +79,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      * @return true
      * @throws OutOfMemoryError if there is not enough memory to create an element with the increased capacity
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean add(float element) {
         if (inner.add(element)) {
@@ -91,7 +98,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      * @param col collection containing elements to be added
      * @return true if the addition is successful
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean add(Collection<? extends Float> col) {
         if (inner.add(col)) {
@@ -119,7 +127,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      * @return the next element that was removed from the inner IteratorWalker
      * @throws IndexOutOfBoundsException if there are no more elements in the inner IteratorWalker
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float removeForward() {
         float ret = inner.removeForward();
@@ -139,7 +148,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      *
      * @return true if the current index is greater than 0
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean hasPrevious() {
         return inner.hasPrevious();
@@ -151,7 +161,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      * @return the previous element in the inner IteratorWalker
      * @throws IndexOutOfBoundsException if there are no previous elements
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float previous() {
         return inner.previous();
@@ -163,7 +174,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      * @return the previous element that was removed from the inner IteratorWalker
      * @throws IndexOutOfBoundsException if there are no previous elements in the inner IteratorWalker
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float removeBackward() {
         float ret = inner.removeBackward();
@@ -181,7 +193,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      * @return the current element that was removed from the inner IteratorWalker
      * @throws IndexOutOfBoundsException if there are no more elements in the inner IteratorWalker
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float remove() {
         float ret = inner.remove();
@@ -198,7 +211,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      *
      * @return the inner IteratorWalker
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public IteratorWalkerFloat goFirst() {
         return inner.goFirst();
@@ -209,7 +223,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      *
      * @return the inner IteratorWalker
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public IteratorWalkerFloat goLast() {
         return inner.goLast();
@@ -222,7 +237,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      * @return IteratorWalker of the deepest ArrayTape of movie
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public IteratorWalkerFloat goLeafIndex(int index) {
         return inner.goLeafIndex(index);
@@ -233,7 +249,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      *
      * @return the current index position
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int getCurrentIndex() {
         return observer.getOffset(inner.getRelatedMovie()) + inner.getCurrentIndex();
@@ -244,7 +261,8 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
      *
      * @return the current size of own ArrayTape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int size() {
         return inner.size();

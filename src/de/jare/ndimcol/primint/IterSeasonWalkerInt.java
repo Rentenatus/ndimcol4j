@@ -5,7 +5,8 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primint;
 
 import java.util.Collection;
@@ -14,7 +15,8 @@ import java.util.Collection;
  *
  * @author Janusch Rentenatus
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 public class IterSeasonWalkerInt implements IteratorWalkerInt {
 
     private final de.jare.ndimcol.ref.IterTapeWalker<ArrayMovieInt> outerWalker; // Walker for the outer ArrayTape
@@ -28,7 +30,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      *
      * @param season the ArraySeason that contains other ArrayMovies
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public IterSeasonWalkerInt(ArraySeasonInt season) {
         this.season = season;
         this.outerWalker = season.data.softWalker();
@@ -47,7 +50,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      *
      * @return the ArraySeason being traversed
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public ArrayMovieInt getRelatedMovie() {
         return this.season;
@@ -58,7 +62,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      *
      * @return true if there are more elements
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean hasNext() {
         return (innerWalker != null && innerWalker.hasNext()) || outerWalker.hasNext();
@@ -69,7 +74,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      *
      * @return the next element
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int next() {
         if (innerWalker != null && innerWalker.hasNext()) {
@@ -88,7 +94,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      * @return the next element that was removed from the ArraySeason
      * @throws IndexOutOfBoundsException if there are no more elements in the season
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int removeForward() {
         forward = true;
@@ -100,7 +107,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      *
      * @return true if there are previous elements
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean hasPrevious() {
         return (innerWalker != null && innerWalker.hasPrevious()) || outerWalker.hasPrevious();
@@ -111,7 +119,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      *
      * @return the previous element
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int previous() {
         if (innerWalker != null && innerWalker.hasPrevious()) {
@@ -133,7 +142,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      * @return the previous element that was removed from the ArraySeason
      * @throws IndexOutOfBoundsException if there are no previous elements in the season
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int removeBackward() {
         forward = false;
@@ -146,7 +156,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      * @return the current element that was removed
      * @throws IndexOutOfBoundsException if there are no previous elements in the tape
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int remove() {
         if (forward) {
@@ -162,7 +173,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      * @param element the element to be added
      * @return true if the addition is successful
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean add(int element) {
         if (innerWalker == null) {
@@ -178,7 +190,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      * @param element the element to be set
      * @return the previous element that was replaced
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int set(int element) {
         if (innerWalker == null) {
@@ -195,7 +208,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      * @param col collection containing elements to be added
      * @return true if the addition is successful
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean add(Collection<? extends Integer> col) {
         if (innerWalker == null) {
@@ -210,7 +224,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      *
      * @return this walker
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public IteratorWalkerInt goFirst() {
         outerWalker.goFirst();
@@ -230,7 +245,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      *
      * @return this walker
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public IteratorWalkerInt goLast() {
         outerWalker.goLast();
@@ -256,7 +272,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      * @return IteratorWalker of the deepest ArrayTape of movie
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public IteratorWalkerInt goLeafIndex(int index) {
         if (index < 0 || index >= season.size()) {
@@ -292,7 +309,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      *
      * @return the accumulated index
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int getCurrentIndex() {
         return currentIndex;
@@ -303,7 +321,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      *
      * @return the total size
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int size() {
         return season.size();
@@ -314,7 +333,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      *
      * @return true if the SeasonTape is empty
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean isEmpty() {
         return season.isEmpty();
@@ -325,7 +345,8 @@ public class IterSeasonWalkerInt implements IteratorWalkerInt {
      *
      * @return true if the SeasonTape has a record
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean hasRecord() {
         return season.hasRecord();

@@ -5,7 +5,8 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primlong;
 
 import de.jare.ndimcol.ref.ArrayMovie;
@@ -16,7 +17,8 @@ import java.util.Collection;
  *
  * @author Jansuch Rentenatus
  */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 public interface IteratorWalkerLong {
 
     /**
@@ -24,7 +26,8 @@ public interface IteratorWalkerLong {
      *
      * @return the ArrayMovie being traversed
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     ArrayMovieLong getRelatedMovie();
 
     /**
@@ -32,7 +35,8 @@ public interface IteratorWalkerLong {
      *
      * @return the current element
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     boolean hasNext();
 
     /**
@@ -40,7 +44,8 @@ public interface IteratorWalkerLong {
      *
      * @return the current element
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     long removeForward();
 
     /**
@@ -48,7 +53,8 @@ public interface IteratorWalkerLong {
      *
      * @return the next element
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     long next();
 
     /**
@@ -56,7 +62,8 @@ public interface IteratorWalkerLong {
      *
      * @return true if the current index is greater than 0
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     boolean hasPrevious();
 
     /**
@@ -64,7 +71,8 @@ public interface IteratorWalkerLong {
      *
      * @return the current element
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     long previous();
 
     /**
@@ -72,7 +80,8 @@ public interface IteratorWalkerLong {
      *
      * @return the removed element
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     long removeBackward();
 
     /**
@@ -81,7 +90,8 @@ public interface IteratorWalkerLong {
      *
      * @return the removed element
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     long remove();
 
     /**
@@ -90,7 +100,8 @@ public interface IteratorWalkerLong {
      * @param element the element to be added
      * @return true if the element was added successfully, false otherwise
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     boolean add(long element);
 
     /**
@@ -99,7 +110,8 @@ public interface IteratorWalkerLong {
      * @param col the collection of elements to be added
      * @return true if the elements were added successfully, false otherwise
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     boolean add(Collection<? extends Long> col);
 
     long set(long element);
@@ -109,7 +121,8 @@ public interface IteratorWalkerLong {
      *
      * @return this
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     IteratorWalkerLong goFirst();
 
     /**
@@ -117,7 +130,8 @@ public interface IteratorWalkerLong {
      *
      * @return this
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     IteratorWalkerLong goLast();
 
     /**
@@ -130,7 +144,8 @@ public interface IteratorWalkerLong {
      * @return IteratorWalker of the deepest ArrayTape of movie
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     IteratorWalkerLong goLeafIndex(int index);
 
     /**
@@ -138,7 +153,8 @@ public interface IteratorWalkerLong {
      *
      * @return the current index position
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     int getCurrentIndex();
 
     /**
@@ -146,7 +162,8 @@ public interface IteratorWalkerLong {
      *
      * @return the current size of own ArrayMovie
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     int size();
 
     /**
@@ -154,7 +171,8 @@ public interface IteratorWalkerLong {
      *
      * @return true if the ArrayMovie is empty, false otherwise
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     boolean isEmpty();
 
     /**
@@ -162,7 +180,8 @@ public interface IteratorWalkerLong {
      *
      * @return true if the ArrayMovie has elements, false otherwise
      */
-// This code has been generated. Please do not make any changes here. Modify package 'de.jare.ndimcol' and use 'GeneratePrimitiveJavaFiles'
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     boolean hasRecord();
 
 }

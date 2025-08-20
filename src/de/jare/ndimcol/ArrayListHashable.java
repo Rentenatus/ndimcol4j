@@ -10,7 +10,6 @@ package de.jare.ndimcol;
 import de.jare.ndimcol.ref.*;
 import java.util.Collection;
 import java.util.List;
-import de.jare.ndimcol.RentenatusHashable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
