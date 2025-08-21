@@ -10,8 +10,6 @@ package de.jare.ndimcol;
 import de.jare.ndimcol.primfloat.ArraySeasonFloat;
 import de.jare.ndimcol.primint.ArraySeasonInt;
 import de.jare.ndimcol.primlong.ArraySeasonLong;
-import de.jare.ndimcol.ref.ArrayMovie;
-import de.jare.ndimcol.ref.ArrayTape;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -21,20 +19,20 @@ import org.testng.annotations.Test;
  *
  * @author Janusch Rentenatus
  */
-public class ForEachNGTest {
+public class MethodForEachNGTest {
 
-    public ForEachNGTest() {
+    public MethodForEachNGTest() {
     }
 
     @BeforeClass
     public static void setUpClass() throws Exception {
         System.out.println("===============================================");
-        System.out.println("## Start ForEachNGTest.");
+        System.out.println("## Start MethodForEachNGTest.");
     }
 
     @AfterClass
     public static void tearDownClass() throws Exception {
-        System.out.println("## End ForEachNGTest.");
+        System.out.println("## End MethodForEachNGTest.");
         System.out.println("===============================================");
     }
 

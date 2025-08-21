@@ -311,6 +311,30 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     }
 
     /**
+     * Adds all of the elements in the specified array to the end of this ArrayTape (optional operation).
+     *
+     * @param arr array containing elements to be added to this ArrayTape
+     * @return {@code true} if this ArrayTape changed as a result of the call
+     * @see #add(Object)
+     * @see #addAll(Collection)
+     */
+    @Override
+    public boolean addAll(T[] arr) {
+        if (arr == null) {
+            throw new NullPointerException("Array cannot be null.");
+        }
+        if (arr.length == 0) {
+            return false;
+        }
+        int newSize = size + arr.length;
+        ensureCapacity(newSize);
+        System.arraycopy(arr, 0, elementData, size, arr.length);
+        size = newSize;
+        updateCounter++;
+        return true;
+    }
+
+    /**
      * Adds all of the elements in the specified movie to this tape.
      *
      * @param movie movie containing elements to be added to this collection
@@ -1012,7 +1036,6 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         if (offset < 0 || offset + size > array.length) {
             throw new IndexOutOfBoundsException("Offset out of bounds: " + offset + ".");
         }
-
         System.arraycopy(elementData, 0, array, offset, size);
     }
 
