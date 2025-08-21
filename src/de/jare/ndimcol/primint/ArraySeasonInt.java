@@ -254,10 +254,10 @@ public class ArraySeasonInt implements ArrayMovieInt {
     }
 
     /**
-     * Adds all elements in the specified collection to this collection.
+     * Adds all elements in the specified collection to this seasson.
      *
-     * @param col collection containing elements to be added to this collection
-     * @return true if this collection changed as a result of the call
+     * @param col collection containing elements to be added to this seasson
+     * @return true if this seasson changed as a result of the call
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
@@ -278,6 +278,33 @@ public class ArraySeasonInt implements ArrayMovieInt {
         boolean modified = episode.addAll(col);
         size += col.size();
         this.updateCounter++;
+        if (episode.size() > maxEpisodeSize) {
+            splitOrGlue();
+        }
+        return modified;
+    }
+
+    /**
+     * Adds all of the elements in the specified array to the end of this seasson.
+     *
+     * @param arr array containing elements to be added to this seasson
+     * @return {@code true} if this seasson changed as a result of the call
+     * @see #add(Object)
+     * @see #addAll(Collection)
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public boolean addAll(int[] arr) {
+        if (arr == null) {
+            throw new NullPointerException("Array cannot be null.");
+        }
+        if (arr.length == 0) {
+            return false;
+        }
+        final ArrayTapeInt episode = new ArrayTapeInt(arr.length);
+        episode.addAll(arr);
+        boolean modified = glueMovie(episode);
         if (episode.size() > maxEpisodeSize) {
             splitOrGlue();
         }

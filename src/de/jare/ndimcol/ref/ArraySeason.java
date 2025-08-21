@@ -237,10 +237,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
-     * Adds all elements in the specified collection to this collection.
+     * Adds all elements in the specified collection to this seasson.
      *
-     * @param col collection containing elements to be added to this collection
-     * @return true if this collection changed as a result of the call
+     * @param col collection containing elements to be added to this seasson
+     * @return true if this seasson changed as a result of the call
      */
     @Override
     public boolean addAll(Collection<? extends T> col) {
@@ -259,6 +259,31 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         boolean modified = episode.addAll(col);
         size += col.size();
         this.updateCounter++;
+        if (episode.size() > maxEpisodeSize) {
+            splitOrGlue();
+        }
+        return modified;
+    }
+
+    /**
+     * Adds all of the elements in the specified array to the end of this seasson.
+     *
+     * @param arr array containing elements to be added to this seasson
+     * @return {@code true} if this seasson changed as a result of the call
+     * @see #add(Object)
+     * @see #addAll(Collection)
+     */
+    @Override
+    public boolean addAll(T[] arr) {
+        if (arr == null) {
+            throw new NullPointerException("Array cannot be null.");
+        }
+        if (arr.length == 0) {
+            return false;
+        }
+        final ArrayTape<T> episode = new ArrayTape<>(arr.length);
+        episode.addAll(arr);
+        boolean modified = glueMovie(episode);
         if (episode.size() > maxEpisodeSize) {
             splitOrGlue();
         }
