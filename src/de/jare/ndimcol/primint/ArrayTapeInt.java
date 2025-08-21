@@ -307,21 +307,9 @@ public class ArrayTapeInt implements ArrayMovieInt {
         if (col.isEmpty()) {
             return false;
         }
-        if (col instanceof ArrayTapeInt) {
-            ArrayTapeInt tape = (ArrayTapeInt) col;
-            int newSize = size + tape.size;
-
-            // Ensure capacity
-            ensureCapacity(newSize);
-
-            // Copy elements from tape
-            System.arraycopy(tape.elementData, 0, elementData, size, tape.size);
-            size = newSize;
-        } else {
             for (int element : col) {
                 add(element);
             }
-        }
         updateCounter++;
         return true;
     }
