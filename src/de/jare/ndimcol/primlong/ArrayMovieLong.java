@@ -79,20 +79,26 @@ public interface ArrayMovieLong   {
      *
      * @param col collection containing elements to be added to this collection
      * @return {@code true} if this collection changed as a result of the call
-     * @throws UnsupportedOperationException if the {@code addAll} operation is not supported by this collection
-     * @throws ClassCastException if the class of an element of the specified collection prevents it from being added to
-     * this collection
-     * @throws NullPointerException if the specified collection contains a null element and this collection does not
-     * permit null elements, or if the specified collection is null
-     * @throws IllegalArgumentException if some property of an element of the specified collection prevents it from
-     * being added to this collection
-     * @throws IllegalStateException if not all the elements can be added at this time due to insertion restrictions
      * @see #add(Object)
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     
     boolean addAll(Collection<? extends Long> col);
+
+    /**
+     * Adds all of the elements in the specified array to this collection (optional operation). The behavior of this
+     * operation is undefined if the specified array is modified while the operation is in progress. If the specified
+     * array contains elements in a defined order, processing of its elements generally occurs in that order.
+     *
+     * @param arr array containing elements to be added to this collection
+     * @return {@code true} if this collection changed as a result of the call
+     * @see #add(Object)
+     * @see #addAll(Collection)
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    boolean addAll(long[] arr);
 
     /**
      * Adds all of the elements in the specified movie to this collection.
