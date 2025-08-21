@@ -287,6 +287,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         if (col.isEmpty()) {
             return false;
         }
+        //noprim.start  
         if (col instanceof ArrayTape<? extends T>) {
             ArrayTape<T> tape = (ArrayTape<T>) col;
             int newSize = size + tape.size;
@@ -298,10 +299,13 @@ public class ArrayTape<T> implements ArrayMovie<T> {
             System.arraycopy(tape.elementData, 0, elementData, size, tape.size);
             size = newSize;
         } else {
+            //noprim.end  
             for (T element : col) {
                 add(element);
             }
+            //noprim.start  
         }
+        //noprim.end
         updateCounter++;
         return true;
     }
