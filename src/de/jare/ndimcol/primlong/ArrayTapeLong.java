@@ -307,21 +307,9 @@ public class ArrayTapeLong implements ArrayMovieLong {
         if (col.isEmpty()) {
             return false;
         }
-        if (col instanceof ArrayTapeLong) {
-            ArrayTapeLong tape = (ArrayTapeLong) col;
-            int newSize = size + tape.size;
-
-            // Ensure capacity
-            ensureCapacity(newSize);
-
-            // Copy elements from tape
-            System.arraycopy(tape.elementData, 0, elementData, size, tape.size);
-            size = newSize;
-        } else {
             for (long element : col) {
                 add(element);
             }
-        }
         updateCounter++;
         return true;
     }

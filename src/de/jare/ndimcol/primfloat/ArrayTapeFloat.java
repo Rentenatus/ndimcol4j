@@ -307,21 +307,9 @@ public class ArrayTapeFloat implements ArrayMovieFloat {
         if (col.isEmpty()) {
             return false;
         }
-        if (col instanceof ArrayTapeFloat) {
-            ArrayTapeFloat tape = (ArrayTapeFloat) col;
-            int newSize = size + tape.size;
-
-            // Ensure capacity
-            ensureCapacity(newSize);
-
-            // Copy elements from tape
-            System.arraycopy(tape.elementData, 0, elementData, size, tape.size);
-            size = newSize;
-        } else {
             for (float element : col) {
                 add(element);
             }
-        }
         updateCounter++;
         return true;
     }
