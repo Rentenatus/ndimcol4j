@@ -25,7 +25,7 @@ package de.jare.ndimcol.ref;
  * @param <T> the type of elements to be validated
  * @author Janusch Rentenatus
  */
-public class ValidatorAlwaysFits<T> implements Validator<T> {
+public class ValidatorAlwaysFits<T> implements MovieValidator<T> {
 
     /**
      * Validates two elements by always returning {@code EQUALS}.

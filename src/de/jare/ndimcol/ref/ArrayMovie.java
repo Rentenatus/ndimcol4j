@@ -7,8 +7,8 @@
  */
 package de.jare.ndimcol.ref;
 
-import static de.jare.ndimcol.ValidatorConst.LONGER;
-import static de.jare.ndimcol.ValidatorConst.SHORTER;
+import static de.jare.ndimcol.MovieValidatorConst.LONGER;
+import static de.jare.ndimcol.MovieValidatorConst.SHORTER;
 import de.jare.ndimcol.primint.ArrayMovieInt;
 import de.jare.ndimcol.primint.ArraySeasonInt;
 import java.io.PrintStream;
@@ -535,13 +535,13 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @return an {@code ArrayMovieInt} containing validation results for each element
      */
     public default ArrayMovieInt validate(ArrayMovie<T> observed,
-            de.jare.ndimcol.ref.ArrayMovie<Validator<T>> validatorList,
+            de.jare.ndimcol.ref.ArrayMovie<MovieValidator<T>> validatorList,
             // must be fully qualified so that it can be found in the primitive copies.
-            Validator<T> defaultValidator) {
+            MovieValidator<T> defaultValidator) {
         ArrayMovieInt ret = new ArraySeasonInt();
         int index = 0;
         int valSize = validatorList == null ? -1 : validatorList.size();
-        Validator<T> val;
+        MovieValidator<T> val;
         IteratorWalker<T> expextedWalk = this.softWalker();
         IteratorWalker<T> observedWalk = observed.softWalker();
         while (expextedWalk.hasNext() && observedWalk.hasNext()) {
@@ -556,9 +556,11 @@ public interface ArrayMovie<T> extends Collection<T> {
             index++;
         }
         while (observedWalk.hasNext()) {
+            observedWalk.next();
             ret.add(LONGER);
         }
         while (expextedWalk.hasNext()) {
+            expextedWalk.next();
             ret.add(SHORTER);
         }
         return ret;

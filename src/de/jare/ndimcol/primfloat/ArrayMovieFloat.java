@@ -9,8 +9,8 @@
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primfloat;
 
-import static de.jare.ndimcol.ValidatorConst.LONGER;
-import static de.jare.ndimcol.ValidatorConst.SHORTER;
+import static de.jare.ndimcol.MovieValidatorConst.LONGER;
+import static de.jare.ndimcol.MovieValidatorConst.SHORTER;
 import de.jare.ndimcol.primint.ArrayMovieInt;
 import de.jare.ndimcol.primint.ArraySeasonInt;
 import java.io.PrintStream;

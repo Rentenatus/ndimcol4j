@@ -9,14 +9,14 @@
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primlong;
 
-import de.jare.ndimcol.ValidatorConst;
+import de.jare.ndimcol.MovieValidatorConst;
 
 /**
  * A generic or primitive, generated interface for validating the similarity or equivalence of two elements.
  * <p>
  * Implementations of this interface define specific validation strategies for comparing an {@code observed} value
  * against an {@code expected} value. The result of the comparison is returned as an integer constant, typically defined
- * in {@link ValidatorConst}, such as {@code EQUALS}, {@code DIFFERENT}, or other domain-specific codes.
+ * in {@link MovieValidatorConst}, such as {@code EQUALS}, {@code DIFFERENT}, or other domain-specific codes.
  * </p>
  *
  * <p>
@@ -42,7 +42,7 @@ import de.jare.ndimcol.ValidatorConst;
  */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
-public interface ValidatorLong extends ValidatorConst {
+public interface ValidatorLong extends MovieValidatorConst {
 
     /**
      * Validates the observed value against the expected value.

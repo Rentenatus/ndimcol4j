@@ -25,7 +25,7 @@ package de.jare.ndimcol.ref;
  * @param <T> the type of elements to be validated
  * @author Janusch Rentenatus
  */
-public class ValidatorIdentityCheck<T> implements Validator<T> {
+public class ValidatorIdentityCheck<T> implements MovieValidator<T> {
 
     /**
      * Validates whether the observed and expected elements are the same object.

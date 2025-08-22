@@ -25,7 +25,7 @@ package de.jare.ndimcol;
  *
  * @author Janusch Rentenatus
  */
-public interface ValidatorConst {
+public interface MovieValidatorConst {
 
     /**
      * Indicates that the observed and expected elements are considered equal. This is typically used when the
