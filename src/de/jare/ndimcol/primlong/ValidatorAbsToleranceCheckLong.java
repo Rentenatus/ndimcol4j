@@ -40,7 +40,7 @@ package de.jare.ndimcol.primlong;
  * @author Janusch Rentenatus
  */
 // #### This class has exceptionally not been generated in this package.
-public class ValidatorAbsToleranceCheckLong implements ValidatorLong {
+public class ValidatorAbsToleranceCheckLong implements MovieValidatorLong {
 
     /**
      * Allowed deviation below the expected value

@@ -40,7 +40,7 @@ package de.jare.ndimcol.primint;
  * @author Janusch Rentenatus
  */
 // #### This class has exceptionally not been generated in this package.
-public class ValidatorAbsToleranceCheckInt implements ValidatorInt {
+public class ValidatorAbsToleranceCheckInt implements MovieValidatorInt {
 
     /**
      * Allowed deviation below the expected value

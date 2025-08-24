@@ -45,7 +45,7 @@ package de.jare.ndimcol.primfloat;
  * @author Janusch Rentenatus
  */
 // #### This class has exceptionally not been generated in this package.
-public class ValidatorRelToleranceCheckFloat implements ValidatorFloat {
+public class ValidatorRelToleranceCheckFloat implements MovieValidatorFloat {
 
     /**
      * Relative lower tolerance factor (e.g. 0.90 for 10% below expected)
