@@ -7,13 +7,13 @@
  */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
-package de.jare.ndimcol.primfloat;
+package de.jare.ndimcol.primlong;
 
 /**
  * A validator that always considers two elements as matching.
  * <p>
  * This class acts as a "wildcard" or placeholder for validation sequences where the actual comparison between elements
- * is irrelevant or intentionally ignored. It consistently returns {@code EQUALS}, regardless of the values provided.
+ * is irrelevant or intentionally ignored. It consistently returns {@code INGNORED}, regardless of the values provided.
  * </p>
  *
  * <p>
@@ -28,20 +28,20 @@ package de.jare.ndimcol.primfloat;
  */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
-public class ValidatorAlwaysFitsFloat implements MovieValidatorFloat {
+public class ValidatorIgnoreLong implements MovieValidatorLong {
 
     /**
-     * Validates two elements by always returning {@code EQUALS}.
+     * Validates two elements by always returning {@code INGNORED}.
      *
      * @param observed the observed element
      * @param expected the expected element
-     * @return {@code EQUALS}, regardless of the input values
+     * @return {@code INGNORED}, regardless of the input values
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public int validate(float observed, float expected) {
-        return EQUALS;
+    public int validate(long observed, long expected) {
+        return INGNORED;
     }
 
 }

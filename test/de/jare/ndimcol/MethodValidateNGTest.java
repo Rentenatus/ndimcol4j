@@ -7,25 +7,17 @@
  */
 package de.jare.ndimcol;
 
-import de.jare.ndimcol.primfloat.ArraySeasonFloat;
 import de.jare.ndimcol.primint.ArrayMovieInt;
-import de.jare.ndimcol.primint.ArraySeasonInt;
-import de.jare.ndimcol.primint.SortedSeasonSetInt;
-import de.jare.ndimcol.primlong.ArraySeasonLong;
 import de.jare.ndimcol.ref.ArrayMovie;
 import de.jare.ndimcol.ref.ArraySeason;
-import de.jare.ndimcol.ref.ArrayTape;
+import de.jare.ndimcol.ref.MovieValidator;
 import de.jare.ndimcol.ref.ValidatorEqualsCheck;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import de.jare.ndimcol.ref.ValidatorIdentityCheck;
+import de.jare.ndimcol.ref.ValidatorIgnore;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import de.jare.ndimcol.ref.MovieValidator;
-import de.jare.ndimcol.ref.ValidatorAlwaysFits;
-import de.jare.ndimcol.ref.ValidatorIdentityCheck;
 
 /**
  *
@@ -65,7 +57,7 @@ public class MethodValidateNGTest {
         validatorList.add(new ValidatorEqualsCheck<>());
         validatorList.add(new ValidatorEqualsCheck<>());
 
-        ArrayMovieInt result = expected.validate(observed, validatorList, new ValidatorAlwaysFits<>());
+        ArrayMovieInt result = expected.validate(observed, validatorList, new ValidatorIgnore<>());
 
         assertEquals(result.get(0), MovieValidatorConst.EQUALS);
         assertEquals(result.get(1), MovieValidatorConst.DIFFERENT);
@@ -115,11 +107,11 @@ public class MethodValidateNGTest {
         validatorList.add(null); // fallback
         validatorList.add(null); // fallback
 
-        ArrayMovieInt result = expected.validate(observed, validatorList, new ValidatorAlwaysFits<>());
+        ArrayMovieInt result = expected.validate(observed, validatorList, new ValidatorIgnore<>());
 
-        assertEquals(result.get(0), MovieValidatorConst.EQUALS);
-        assertEquals(result.get(1), MovieValidatorConst.EQUALS);
-        assertEquals(result.get(2), MovieValidatorConst.EQUALS);
+        assertEquals(result.get(0), MovieValidatorConst.INGNORED);
+        assertEquals(result.get(1), MovieValidatorConst.INGNORED);
+        assertEquals(result.get(2), MovieValidatorConst.INGNORED);
     }
 
     @Test
@@ -137,11 +129,11 @@ public class MethodValidateNGTest {
         validatorList.add(new ValidatorEqualsCheck<>());
         validatorList.add(null); // fallback
 
-        ArrayMovieInt result = expected.validate(observed, validatorList, new ValidatorAlwaysFits<>());
+        ArrayMovieInt result = expected.validate(observed, validatorList, new ValidatorIgnore<>());
 
         assertEquals(result.size(), 3);
         assertEquals(result.get(0), MovieValidatorConst.EQUALS);
-        assertEquals(result.get(1), MovieValidatorConst.EQUALS); // fallback
+        assertEquals(result.get(1), MovieValidatorConst.INGNORED); // fallback
         assertEquals(result.get(2), MovieValidatorConst.LONGER); // observed has extra
     }
 }

@@ -14,6 +14,7 @@ import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 import java.util.function.Predicate;
 
 /**
@@ -1082,6 +1083,19 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     /**
+     * Return a new movie containing all indexes of entries that match the given predicate.
+     *
+     * @param predicate the predicate to be used for the filter
+     * @return a new movie containing all indexes of entries that match the given predicate
+     */
+    @Override
+    public de.jare.ndimcol.primint.ArrayMovieInt filterAllIndexes(Predicate<? super T> predicate) {
+        final de.jare.ndimcol.primint.ArrayMovieInt ret = new de.jare.ndimcol.primint.ArraySeasonInt();
+        forEach(predicate, null, 0, idx -> ret.add(idx));
+        return ret;
+    }
+
+    /**
      * Performs the given action for each element of the {@code Iterable} until all elements have been processed or the
      * action throws an exception. Actions are performed in the order of iteration, if that order is specified.
      * Exceptions thrown by the action are relayed to the caller.
@@ -1113,6 +1127,28 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         while (walker.hasNext()) {
             ArrayMovie<T> elements = walker.next();
             elements.forEach(predicate, thenAction);
+        }
+    }
+
+    /**
+     * Executes the given action for each element of the ArrayTape, but only if the provided {@code Predicate} evaluates
+     * to {@code true} for that element.Actions are performed in the order of iteration, if such order is
+     * defined.Exceptions thrown by the action are propagated to the caller.
+     *
+     * @param predicate The condition to test each element against
+     * @param thenActionOrNull The action to perform on each element that satisfies the predicate
+     * @param startOffset index offset
+     * @param thenIndexActionOrNull The action to perform on index thus element
+     * @throws NullPointerException if {@code predicate} or {@code action} is {@code null}
+     */
+    @Override
+    public void forEach(Predicate<? super T> predicate, Consumer<? super T> thenActionOrNull,
+            int startOffset, IntConsumer thenIndexActionOrNull) {
+        int offset = startOffset;
+        for (int i = 0; i < data.size(); i++) {
+            ArrayMovie<T> episode = data.get(i);
+            episode.forEach(predicate, thenActionOrNull, offset, thenIndexActionOrNull);
+            offset += episode.size();
         }
     }
 
