@@ -9,6 +9,10 @@
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primlong;
 
+import static de.jare.ndimcol.MovieValidatorConst.LONGER;
+import static de.jare.ndimcol.MovieValidatorConst.SHORTER;
+import de.jare.ndimcol.primint.ArrayMovieInt;
+import de.jare.ndimcol.primint.ArraySeasonInt;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Iterator;
@@ -577,5 +581,73 @@ public interface ArrayMovieLong   {
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public void forEach(LongPredicate predicate,
             LongConsumer thenAction, LongConsumer elseAction);
+
+    /**
+     * Validates the contents of this {@code ArrayMovie<T>} (expected values) against an observed {@code ArrayMovie<T>},
+     * using a list of individual validators and a fallback default validator.
+     * <p>
+     * The method performs element-wise comparison between the expected and observed values. For each index {@code i},
+     * the following logic is applied:
+     * </p>
+     * <ul>
+     * <li>If {@code validatorList != null} and {@code validatorList[i] != null}, use that validator.</li>
+     * <li>If {@code validatorList} is {@code null} or shorter than the expected length, or contains {@code null} at
+     * index {@code i}, use {@code defaultValidator} instead.</li>
+     * </ul>
+     *
+     * <p>
+     * The result is an {@code ArrayMovieInt} containing validation codes for each position, such as {@code EQUALS},
+     * {@code DIFFERENT}, {@code ACCEPTABLE}, etc., depending on the validator logic.
+     * </p>
+     *
+     * <p>
+     * <strong>Example:</strong></p>
+     * <pre>
+     * expected = [10, 20, 30]
+     * observed = [10, 22, 29]
+     * validatorList = [ValidatorEqualsCheck, null, ValidatorToleranceCheck]
+     * defaultValidator = ValidatorAlwaysFits
+     *
+     * result = [EQUALS, EQUALS (via default), ACCEPTABLE]
+     * </pre>
+     *
+     * @param observed the {@code ArrayMovie<T>} containing observed or actual values
+     * @param validatorList a list of validators to apply per element; may be {@code null} or partially filled
+     * @param defaultValidator the fallback validator used when no specific validator is available
+     * @return an {@code ArrayMovieInt} containing validation results for each element
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public default ArrayMovieInt validate(ArrayMovieLong observed,
+            de.jare.ndimcol.ref.ArrayMovie<MovieValidatorLong> validatorList,
+            // must be fully qualified so that it can be found in the primitive copies.
+            MovieValidatorLong defaultValidator) {
+        ArrayMovieInt ret = new ArraySeasonInt();
+        int index = 0;
+        int valSize = validatorList == null ? -1 : validatorList.size();
+        MovieValidatorLong val;
+        IteratorWalkerLong expextedWalk = this.softWalker();
+        IteratorWalkerLong observedWalk = observed.softWalker();
+        while (expextedWalk.hasNext() && observedWalk.hasNext()) {
+            val = null;
+            if (index < valSize) {
+                val = validatorList.get(index);
+            }
+            val = val == null ? defaultValidator : val;
+            ret.add(val.validate(
+                    observedWalk.next(), expextedWalk.next()
+            ));
+            index++;
+        }
+        while (observedWalk.hasNext()) {
+            observedWalk.next();
+            ret.add(LONGER);
+        }
+        while (expextedWalk.hasNext()) {
+            expextedWalk.next();
+            ret.add(SHORTER);
+        }
+        return ret;
+    }
 
 }

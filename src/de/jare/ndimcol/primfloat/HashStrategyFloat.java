@@ -10,7 +10,7 @@
 package de.jare.ndimcol.primfloat;
 
 /**
- * A generic hashing strategy for determining hash codes and equality of objects.
+ * A strategy for determining hash codes and equality of objects.
  *
  * @author Janusch Rentenatus
  */

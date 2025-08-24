@@ -8,7 +8,7 @@
 package de.jare.ndimcol.ref;
 
 /**
- * A generic hashing strategy for determining hash codes and equality of objects.
+ * A strategy for determining hash codes and equality of objects.
  *
  * @param <T> the type of elements in this strategy
  * @author Janusch Rentenatus

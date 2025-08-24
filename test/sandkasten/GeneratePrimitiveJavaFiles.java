@@ -44,6 +44,11 @@ public class GeneratePrimitiveJavaFiles {
                 System.out.println(" .");
                 continue;
             }
+            if (p.endsWith("ValidatorEqualsCheck.java")) {
+                System.out.println("x  " + p);
+                System.out.println(" .");
+                continue;
+            }
 
             System.out.println(">  " + p);
             int indexOf = p.indexOf("\\de\\jare\\");
