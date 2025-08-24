@@ -8,7 +8,7 @@
 package de.jare.ndimcol.ref;
 
 /**
- * A generic or primitive, generated validator that checks for equality between two elements.
+ * A validator that checks for equality between two elements.
  * <p>
  * This implementation compares the observed and expected values using {@link Object#equals(Object)}. If both values are
  * {@code null}, they are considered equal. If only one is {@code null}, they are considered different.

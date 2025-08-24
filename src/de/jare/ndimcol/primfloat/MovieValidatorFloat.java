@@ -5,7 +5,9 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol.ref;
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+package de.jare.ndimcol.primfloat;
 
 import de.jare.ndimcol.MovieValidatorConst;
 
@@ -29,10 +31,11 @@ import de.jare.ndimcol.MovieValidatorConst;
  * </ul>
  *
  *
- * @param <T> the type of elements to be validated
  * @author Janusch Rentenatus
  */
-public interface MovieValidator<T> extends MovieValidatorConst {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+public interface MovieValidatorFloat extends MovieValidatorConst {
 
     /**
      * Validates the observed value against the expected value.
@@ -45,5 +48,7 @@ public interface MovieValidator<T> extends MovieValidatorConst {
      * @param expected the value that is expected or considered correct
      * @return an integer code representing the validation result, such as {@code EQUALS} or {@code DIFFERENT}
      */
-    int validate(T observed, T expected);
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    int validate(float observed, float expected);
 }

@@ -10,7 +10,7 @@
 package de.jare.ndimcol.primint;
 
 /**
- * A generic or primitive, generated validator that checks whether two elements are identical by reference.
+ * A validator that checks whether two elements are identical by reference.
  * <p>
  * This implementation uses the {@code ==} operator to determine if the observed and expected elements refer to the
  * exact same object in memory. It does not perform deep or value-based comparison.
@@ -28,7 +28,7 @@ package de.jare.ndimcol.primint;
  */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
-public class ValidatorIdentityCheckInt implements ValidatorInt {
+public class ValidatorIdentityCheckInt implements MovieValidatorInt {
 
     /**
      * Validates whether the observed and expected elements are the same object.

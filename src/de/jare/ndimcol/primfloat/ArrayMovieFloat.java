@@ -619,13 +619,13 @@ public interface ArrayMovieFloat   {
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public default ArrayMovieInt validate(ArrayMovieFloat observed,
-            de.jare.ndimcol.ref.ArrayMovie<ValidatorFloat> validatorList,
+            de.jare.ndimcol.ref.ArrayMovie<MovieValidatorFloat> validatorList,
             // must be fully qualified so that it can be found in the primitive copies.
-            ValidatorFloat defaultValidator) {
+            MovieValidatorFloat defaultValidator) {
         ArrayMovieInt ret = new ArraySeasonInt();
         int index = 0;
         int valSize = validatorList == null ? -1 : validatorList.size();
-        ValidatorFloat val;
+        MovieValidatorFloat val;
         IteratorWalkerFloat expextedWalk = this.softWalker();
         IteratorWalkerFloat observedWalk = observed.softWalker();
         while (expextedWalk.hasNext() && observedWalk.hasNext()) {
@@ -640,9 +640,11 @@ public interface ArrayMovieFloat   {
             index++;
         }
         while (observedWalk.hasNext()) {
+            observedWalk.next();
             ret.add(LONGER);
         }
         while (expextedWalk.hasNext()) {
+            expextedWalk.next();
             ret.add(SHORTER);
         }
         return ret;

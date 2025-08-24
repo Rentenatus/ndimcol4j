@@ -10,7 +10,7 @@
 package de.jare.ndimcol.primint;
 
 /**
- * A generic or primitive, generated validator that always considers two elements as matching.
+ * A validator that always considers two elements as matching.
  * <p>
  * This class acts as a "wildcard" or placeholder for validation sequences where the actual comparison between elements
  * is irrelevant or intentionally ignored. It consistently returns {@code EQUALS}, regardless of the values provided.
@@ -28,7 +28,7 @@ package de.jare.ndimcol.primint;
  */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
-public class ValidatorAlwaysFitsInt implements ValidatorInt {
+public class ValidatorAlwaysFitsInt implements MovieValidatorInt {
 
     /**
      * Validates two elements by always returning {@code EQUALS}.

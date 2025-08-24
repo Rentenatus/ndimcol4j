@@ -8,7 +8,7 @@
 package de.jare.ndimcol.ref;
 
 /**
- * A generic or primitive, generated validator that always considers two elements as matching.
+ * A validator that always considers two elements as matching.
  * <p>
  * This class acts as a "wildcard" or placeholder for validation sequences where the actual comparison between elements
  * is irrelevant or intentionally ignored. It consistently returns {@code EQUALS}, regardless of the values provided.
