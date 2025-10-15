@@ -15,6 +15,7 @@ import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 import java.util.function.Predicate;
 
 /**
@@ -465,6 +466,14 @@ public interface ArrayMovie<T> extends Collection<T> {
     ArrayMovie<T> filterAll(Predicate<? super T> predicate);
 
     /**
+     * Return a new movie containing all indexes of entries that match the given predicate.
+     *
+     * @param predicate the predicate to be used for the filter
+     * @return a new movie containing all indexes of entries that match the given predicate
+     */
+    de.jare.ndimcol.primint.ArrayMovieInt filterAllIndexes(Predicate<? super T> predicate);
+
+    /**
      * Performs the given action for each element of the {@code Iterable} until all elements have been processed or the
      * action throws an exception. Actions are performed in the order of iteration, if that order is specified.
      * Exceptions thrown by the action are relayed to the caller.
@@ -485,6 +494,20 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @throws NullPointerException if {@code predicate} or {@code action} is {@code null}
      */
     public void forEach(Predicate<? super T> predicate, Consumer<? super T> thenAction);
+
+    /**
+     * Executes the given action for each element of the {@code Iterable}, but only if the provided {@code Predicate}
+     * evaluates to {@code true} for that element.Actions are performed in the order of iteration, if such order is
+     * defined.Exceptions thrown by the action are propagated to the caller.
+     *
+     * @param predicate The condition to test each element against
+     * @param thenActionOrNull The action to perform on each element that satisfies the predicate
+     * @param offset index offset
+     * @param thenIndexActionOrNull The action to perform on index thus element
+     * @throws NullPointerException if {@code predicate} or {@code action} is {@code null}
+     */
+    public void forEach(Predicate<? super T> predicate, Consumer<? super T> thenActionOrNull,
+            int offset, IntConsumer thenIndexActionOrNull);
 
     /**
      * Executes one of the given actions for each element of the {@code Iterable}, depending on the result of the

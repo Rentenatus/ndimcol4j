@@ -11,7 +11,7 @@ package de.jare.ndimcol.ref;
  * A validator that always considers two elements as matching.
  * <p>
  * This class acts as a "wildcard" or placeholder for validation sequences where the actual comparison between elements
- * is irrelevant or intentionally ignored. It consistently returns {@code EQUALS}, regardless of the values provided.
+ * is irrelevant or intentionally ignored. It consistently returns {@code INGNORED}, regardless of the values provided.
  * </p>
  *
  * <p>
@@ -25,18 +25,18 @@ package de.jare.ndimcol.ref;
  * @param <T> the type of elements to be validated
  * @author Janusch Rentenatus
  */
-public class ValidatorAlwaysFits<T> implements MovieValidator<T> {
+public class ValidatorIgnore<T> implements MovieValidator<T> {
 
     /**
-     * Validates two elements by always returning {@code EQUALS}.
+     * Validates two elements by always returning {@code INGNORED}.
      *
      * @param observed the observed element
      * @param expected the expected element
-     * @return {@code EQUALS}, regardless of the input values
+     * @return {@code INGNORED}, regardless of the input values
      */
     @Override
     public int validate(T observed, T expected) {
-        return EQUALS;
+        return INGNORED;
     }
 
 }

@@ -16,6 +16,7 @@ import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.*;
 // FloatConsumer is unfortunately not available in java.util.function
+import java.util.function.IntConsumer;
 // FloatPredicate is unfortunately not available in java.util.function
 
 /**
@@ -1137,6 +1138,21 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
     }
 
     /**
+     * Return a new movie containing all indexes of entries that match the given predicate.
+     *
+     * @param predicate the predicate to be used for the filter
+     * @return a new movie containing all indexes of entries that match the given predicate
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public de.jare.ndimcol.primint.ArrayMovieInt filterAllIndexes(FloatPredicate predicate) {
+        final de.jare.ndimcol.primint.ArrayMovieInt ret = new de.jare.ndimcol.primint.ArraySeasonInt();
+        forEach(predicate, null, 0, idx -> ret.add(idx));
+        return ret;
+    }
+
+    /**
      * Performs the given action for each element of the {@code Iterable} until all elements have been processed or the
      * action throws an exception. Actions are performed in the order of iteration, if that order is specified.
      * Exceptions thrown by the action are relayed to the caller.
@@ -1172,6 +1188,30 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
         while (walker.hasNext()) {
             ArrayMovieFloat elements = walker.next();
             elements.forEach(predicate, thenAction);
+        }
+    }
+
+    /**
+     * Executes the given action for each element of the ArrayTape, but only if the provided {@code Predicate} evaluates
+     * to {@code true} for that element.Actions are performed in the order of iteration, if such order is
+     * defined.Exceptions thrown by the action are propagated to the caller.
+     *
+     * @param predicate The condition to test each element against
+     * @param thenActionOrNull The action to perform on each element that satisfies the predicate
+     * @param startOffset index offset
+     * @param thenIndexActionOrNull The action to perform on index thus element
+     * @throws NullPointerException if {@code predicate} or {@code action} is {@code null}
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public void forEach(FloatPredicate predicate, FloatConsumer thenActionOrNull,
+            int startOffset, IntConsumer thenIndexActionOrNull) {
+        int offset = startOffset;
+        for (int i = 0; i < data.size(); i++) {
+            ArrayMovieFloat episode = data.get(i);
+            episode.forEach(predicate, thenActionOrNull, offset, thenIndexActionOrNull);
+            offset += episode.size();
         }
     }
 

@@ -46,15 +46,20 @@ public interface MovieValidatorConst {
     int ACCEPTABLE = 2;
 
     /**
+     * Indicates that the observed element was ignored.
+     */
+    int INGNORED = 4;
+
+    /**
      * This value is returned only when comparing collections of values: if the observed collection contains more
      * elements than the expected collection.
      */
-    int LONGER = 4;
+    int LONGER = 16;
 
     /**
      * This value is returned only when comparing collections of values: if the observed collection contains fewer
      * elements than the expected collection.
      */
-    int SHORTER = 8;
+    int SHORTER = 32 + 1;
 
 }
