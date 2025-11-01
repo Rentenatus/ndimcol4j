@@ -292,4 +292,14 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
         return work(workerRemove, element);
     }
 
+    public SortedSeasonSet<T> union(SortedSeasonSet<T> os) {
+        SortedSeasonSet<T> set = new SortedSeasonSet<>(predicate);
+        set.addMovie(os);
+        IteratorWalker<T> walker = softWalker();
+        while (walker.hasNext()) {
+            set.add(walker.next());
+        }
+        return set;
+    }
+
 }
