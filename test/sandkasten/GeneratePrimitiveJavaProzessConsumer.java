@@ -103,6 +103,7 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("BiPredicate<T, T>", "BiPredicate" + append + append));
         replacement.add(List.of("implements Set" + append, ""));
         replacement.add(List.of("public SortedSeasonSet(", "public SortedSeasonSet" + append + "("));
+        replacement.add(List.of("SortedSeasonSet<>(", "SortedSeasonSet" + append + "("));
 
         skipNext = false;
         noprim = false;

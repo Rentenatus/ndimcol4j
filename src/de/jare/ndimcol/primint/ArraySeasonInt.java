@@ -1063,6 +1063,15 @@ public class ArraySeasonInt implements ArrayMovieInt {
     }
 
     @Override
+    public IteratorWalkerInt softWalkerBackwards() {
+        if (softWalker != null) {
+            return softWalker.goLast();
+        }
+        softWalker = new IterSeasonWalkerInt(this);
+        return softWalker.goLast();
+    }
+
+    @Override
     public IteratorWalkerInt leafWalker(int atIndex) {
         if (softWalker != null) {
             return softWalker.goLeafIndex(atIndex);

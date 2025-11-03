@@ -32,7 +32,7 @@ public class SortedSeasonSetNGTest {
 
         @Override
         public boolean equals(Object ob) {
-            return i.equals(ob);
+            return i.equals(((CoInteger) ob).i);
         }
 
         @Override
@@ -46,7 +46,7 @@ public class SortedSeasonSetNGTest {
 
     }
 
-    class BiPredicateCoInteger implements BiPredicate<CoInteger, CoInteger> {
+    class BiPredicateCoIntegerGr implements BiPredicate<CoInteger, CoInteger> {
 
         /**
          * Evaluates this predicate e2 greater as e1.
@@ -60,6 +60,42 @@ public class SortedSeasonSetNGTest {
         @Override
         public boolean test(CoInteger o1, CoInteger o2) {
             return o2.intValue() > o1.intValue();
+        }
+
+    }
+
+    class BiPredicateCoIntegerEv implements BiPredicate<CoInteger, CoInteger> {
+
+        /**
+         * Evaluates this predicate e2 == e1.
+         *
+         *
+         * @param o1 the first input argument
+         * @param o2 the second input argument
+         * @return {@code true} if the input arguments are the same
+         *
+         */
+        @Override
+        public boolean test(CoInteger o1, CoInteger o2) {
+            return o2 == o1;
+        }
+
+    }
+
+    class BiPredicateCoIntegerNever implements BiPredicate<CoInteger, CoInteger> {
+
+        /**
+         * Never match.
+         *
+         *
+         * @param o1 the first input argument
+         * @param o2 the second input argument
+         * @return {@code false}
+         *
+         */
+        @Override
+        public boolean test(CoInteger o1, CoInteger o2) {
+            return false;
         }
 
     }
@@ -81,28 +117,64 @@ public class SortedSeasonSetNGTest {
 
     @Test
     public void testSomeMethod() {
-        SortedSeasonSet<CoInteger> set = new SortedSeasonSet(new BiPredicateCoInteger());
-        CoInteger[] src = {new CoInteger(2),
+        SortedSeasonSet<CoInteger> setDef = new SortedSeasonSet(new BiPredicateCoIntegerGr());
+        SortedSeasonSet<CoInteger> setEven = new SortedSeasonSet(new BiPredicateCoIntegerGr(), new BiPredicateCoIntegerEv());
+        SortedSeasonSet<CoInteger> setAmbi = new SortedSeasonSet(new BiPredicateCoIntegerGr(), new BiPredicateCoIntegerNever());
+        CoInteger[] src = {
+            new CoInteger(2),
             new CoInteger(7),
             new CoInteger(0),
             new CoInteger(2),
             new CoInteger(3),
-            new CoInteger(7)
+            new CoInteger(7),
+            null
         };
+        src[6] = src[4];
         for (int i = 0; i < src.length; i++) {
-            set.add(src[i]);
-            System.out.println(src[i] + "  -->  " + src[i].hashCode());
+            setDef.add(src[i]);
+            setEven.add(src[i]);
+            setAmbi.add(src[i]);
+            System.out.println(src[i] + "  -1->  " + src[i].hashCode());
         }
-        System.out.println("---");
-        IteratorWalker<CoInteger> walker = set.softWalker();
+        for (int i = 0; i < src.length; i++) {
+            setDef.add(src[i]);
+            setEven.add(src[i]);
+            setAmbi.add(src[i]);
+            System.out.println(src[i] + "  -2->  " + src[i].hashCode());
+        }
+
+        assertEquals(setDef.get(0).hashCode(), src[2].hashCode());
+        assertEquals(setDef.get(1).hashCode(), src[0].hashCode());
+        assertEquals(setDef.get(2).hashCode(), src[4].hashCode());
+        assertEquals(setDef.get(3).hashCode(), src[1].hashCode());
+
+        setDef.remove(src[1]);
+        setEven.remove(src[1]);
+        setAmbi.remove(src[1]);
+
+        System.out.println("--- simple set");
+        IteratorWalker<CoInteger> walker = setDef.softWalker();
         while (walker.hasNext()) {
             CoInteger ob = walker.next();
             System.out.println(ob + "  -->  " + ob.hashCode());
         }
-        assertEquals(set.get(0).hashCode(), src[2].hashCode());
-        assertEquals(set.get(1).hashCode(), src[0].hashCode());
-        assertEquals(set.get(2).hashCode(), src[4].hashCode());
-        assertEquals(set.get(3).hashCode(), src[1].hashCode());
+        System.out.println("--- identity == ");
+        walker = setEven.softWalker();
+        while (walker.hasNext()) {
+            CoInteger ob = walker.next();
+            System.out.println(ob + "  -->  " + ob.hashCode());
+        }
+        System.out.println("--- multiple ambiguity");
+        walker = setAmbi.softWalker();
+        while (walker.hasNext()) {
+            CoInteger ob = walker.next();
+            System.out.println(ob + "  -->  " + ob.hashCode());
+        }
+
+        assertEquals(setDef.size(), 3);
+        assertEquals(setEven.size(), 5);
+        assertEquals(setAmbi.size(), 14);
+
     }
 
 }

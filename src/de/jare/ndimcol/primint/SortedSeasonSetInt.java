@@ -24,6 +24,7 @@ import java.util.function.BiPredicate;
 public class SortedSeasonSetInt extends ArraySeasonInt  {
 
     private final BiPredicateIntInt predicate;
+    private final BiPredicateIntInt ambiguity;
     private final SortedSeasonSetWorkerInt workerAdd = new SortedSeasonSetWorkerAddInt();
     private final SortedSeasonSetWorkerInt workerRemove = new SortedSeasonSetWorkerRemoveInt();
 
@@ -34,17 +35,36 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
      */
     public SortedSeasonSetInt() {
         this.predicate = new BiPredicateIntIntGr();
+        this.ambiguity = null;
     }
 
     /**
      * Constructor for SortedSeasonSet.
      *
-     * @param predicate a BiPredicate&lt;T, T&gt; to compare elements
+     * @param predicate a BiPredicate&lt;T, T&gt; to compare elements. If A is not smaller than B and A is not greater
+     * than B, then A is equal to B.
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public SortedSeasonSetInt(final BiPredicateIntInt predicate) {
         this.predicate = predicate;
+        this.ambiguity = null;
+    }
+
+    /**
+     * Constructor for SortedSeasonSet.
+     *
+     * If A is not smaller than B and A is not greater than B, then A can still be unequal to B if ambiguity prevents
+     * the test for equality. In this case, A and B are stored, with the order being random.
+     *
+     * @param predicate a BiPredicate&lt;T, T&gt; to compare elements in their order
+     * @param ambiguity a BiPredicate&lt;T, T&gt; to compare elements in their equality
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public SortedSeasonSetInt(final BiPredicateIntInt predicate, final BiPredicateIntInt ambiguity) {
+        this.predicate = predicate;
+        this.ambiguity = ambiguity;
     }
 
     /**
@@ -111,10 +131,11 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
         if (predicate.test(right, element)) {
             return worker.episodeToBigDo(this, element);
         }
-        if (predicate.test(rightData.get(0), element)) {
+        final int candidateR = rightData.get(0);
+        if (predicate.test(candidateR, element)) {
             return worker.episodeDo(this, rightData, element);
-        } else if (!predicate.test(element, rightData.get(0))) {
-            return worker.elementEqualsDo(this, rightData, 0, element);
+        } else if (!predicate.test(element, candidateR)) {
+            return workElementEquals(worker, rightData, 0, element, candidateR);
         }
 
         final ArrayMovieInt leftData = data.get(0);
@@ -147,7 +168,7 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
                     return worker.episodeDo(this, episode, element);
                 }
             } else {
-                return worker.elementEqualsDo(this, episode, 0, element);
+                return workElementEquals(worker, episode, 0, element, first);
             }
         }
         return false;
@@ -169,24 +190,26 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
         if (predicate.test(element, left)) {
             return worker.elementToSmallDo(this, episode, element);
         } else if (!predicate.test(left, element)) {
-            return worker.elementEqualsDo(this, episode, 0, element);
+            return workElementEquals(worker, episode, 0, element, left);
         }
         int indexR = episode.size() - 1;
         int right = episode.get(indexR);
         if (predicate.test(right, element)) {
             return worker.elementToBigDo(this, episode, element);
         } else if (!predicate.test(element, right)) {
-            return worker.elementEqualsDo(this, episode, indexR, element);
+            return workElementEquals(worker, episode, indexR, element, right);
         }
 
         int indexL = 0;
         while (indexL < indexR) {
             if (indexL + 1 == indexR) {
-                if (!predicate.test(element, episode.get(indexR))) {
-                    return worker.elementEqualsDo(this, episode, indexR, element);
+                final int candidateR = episode.get(indexR);
+                if (!predicate.test(element, candidateR)) {
+                    return workElementEquals(worker, episode, indexR, element, candidateR);
                 }
-                if (!predicate.test(episode.get(indexL), element)) {
-                    return worker.elementEqualsDo(this, episode, indexL, element);
+                final int candidateL = episode.get(indexL);
+                if (!predicate.test(candidateL, element)) {
+                    return workElementEquals(worker, episode, indexL, element, candidateL);
                 }
                 return worker.elementPassedDo(this, episode, indexR, element);
             }
@@ -197,10 +220,87 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
             } else if (predicate.test(candidate, element)) {
                 indexL = indexM;
             } else {
-                return worker.elementEqualsDo(this, episode, indexM, element);
+                return workElementEquals(worker, episode, indexM, element, candidate);
             }
         }
         return false;
+    }
+
+    public boolean workElementEquals(SortedSeasonSetWorkerInt worker, final ArrayMovieInt episode, int indexM, int element, int candidate) {
+        if (ambiguity == null) {
+            return worker.elementEqualsDo(this, episode, indexM, element);
+        }
+        if (ambiguity.test(element, candidate)) {
+            return worker.elementEqualsDo(this, episode, indexM, element);
+        }
+        de.jare.ndimcol.ref.IterTapeWalker<ArrayMovieInt> dataWalker = data.softWalker();
+        ArrayMovieInt episodeL = null;
+        ArrayMovieInt episodeR = null;
+        int offset = 0;
+        while (dataWalker.hasNext()) {
+            ArrayMovieInt next = dataWalker.next();
+            if (next == episode) {
+                if (dataWalker.hasNext()) {
+                    episodeR = dataWalker.next();
+                }
+                break;
+            } else {
+                episodeL = next;
+                offset += next.size();
+            }
+        }
+        // Look to the right:
+        IteratorWalkerInt walker = episode.leafWalker(indexM);
+        int move = 0;
+        while (walker.hasNext()) {
+            int next = walker.next();
+            move++;
+            if (predicate.test(element, next)) {
+                break;
+            } else if (ambiguity.test(element, next)) {
+                return worker.elementEqualsDo(this, episode, indexM + move, element);
+            }
+        }
+        if (episodeR != null && !walker.hasNext()) {
+            walker = episodeR.softWalker();
+            move = 0;
+            while (walker.hasNext()) {
+                int next = walker.next();
+                move++;
+                if (predicate.test(element, next)) {
+                    break;
+                } else if (ambiguity.test(element, next)) {
+                    return worker.elementEqualsDo(this, episodeR, move, element);
+                }
+            }
+        }
+        // Look to the left:
+        walker = episode.leafWalker(indexM);
+        move = 0;
+        while (walker.hasPrevious()) {
+            int prev = walker.previous();
+            move++;
+            if (predicate.test(prev, element)) {
+                break;
+            } else if (ambiguity.test(element, prev)) {
+                return worker.elementEqualsDo(this, episode, indexM - move, element);
+            }
+        }
+        if (episodeL != null && !walker.hasPrevious()) {
+            walker = episodeL.softWalkerBackwards();
+            move = episodeL.size();
+            while (walker.hasPrevious()) {
+                int prev = walker.previous();
+                move--;
+                if (predicate.test(prev, element)) {
+                    break;
+                } else if (ambiguity.test(element, prev)) {
+                    return worker.elementEqualsDo(this, episodeL, move, element);
+                }
+            }
+        }
+        // Nothing found:
+        return worker.elementPassedDo(this, episode, indexM, element);
     }
 
     /**
@@ -288,6 +388,40 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
             return false;
         }
         return work(workerRemove, element);
+    }
+
+    /**
+     * Creates a new empty season with the same screenplay. The new movie is not a copy of this movie.
+     *
+     * @param initialCapacityOrZero not used
+     * @return a new empty movie with the same screenplay
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public ArraySeasonInt emptyMovie(int initialCapacityOrZero) {
+        return new SortedSeasonSetInt(predicate, ambiguity);
+    }
+
+    /**
+     * Copy this an add all of ArrayMovie.
+     *
+     * @param os ArrayMovie
+     * @return big set.
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public SortedSeasonSetInt union(ArrayMovieInt os) {
+        SortedSeasonSetInt set = new SortedSeasonSetInt(predicate, ambiguity);
+        de.jare.ndimcol.ref.IterTapeWalker<ArrayMovieInt> dataWalker = data.softWalker();
+        while (dataWalker.hasNext()) {
+            set.addMovie(dataWalker.next().cloneMovie());
+        }
+        IteratorWalkerInt walker = os.softWalker();
+        while (walker.hasNext()) {
+            set.add(walker.next());
+        }
+        return set;
     }
 
 }

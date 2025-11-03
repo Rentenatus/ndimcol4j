@@ -928,6 +928,21 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     }
 
     /**
+     * Returns a IterTapeWalker that allows for soft (non-freezing) iteration backwards over the elements in the
+     * ArrayTape.
+     *
+     * @return a IterTapeWalker for soft iteration backwards over the elements in the ArrayTape
+     */
+    @Override
+    public IterTapeWalker<T> softWalkerBackwards() {
+        if (softWalker != null) {
+            return softWalker.goLast();
+        }
+        softWalker = new IterTapeWalker<>(this);
+        return softWalker.goLast();
+    }
+
+    /**
      * Returns a IterTapeWalker that allows for soft (non-freezing) iteration over the elements in the ArrayTape.
      *
      * @param atIndex start index for walk.

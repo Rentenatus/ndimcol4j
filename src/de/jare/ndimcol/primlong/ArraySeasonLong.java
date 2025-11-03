@@ -1063,6 +1063,15 @@ public class ArraySeasonLong implements ArrayMovieLong {
     }
 
     @Override
+    public IteratorWalkerLong softWalkerBackwards() {
+        if (softWalker != null) {
+            return softWalker.goLast();
+        }
+        softWalker = new IterSeasonWalkerLong(this);
+        return softWalker.goLast();
+    }
+
+    @Override
     public IteratorWalkerLong leafWalker(int atIndex) {
         if (softWalker != null) {
             return softWalker.goLeafIndex(atIndex);

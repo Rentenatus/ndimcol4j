@@ -1063,6 +1063,15 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
     }
 
     @Override
+    public IteratorWalkerFloat softWalkerBackwards() {
+        if (softWalker != null) {
+            return softWalker.goLast();
+        }
+        softWalker = new IterSeasonWalkerFloat(this);
+        return softWalker.goLast();
+    }
+
+    @Override
     public IteratorWalkerFloat leafWalker(int atIndex) {
         if (softWalker != null) {
             return softWalker.goLeafIndex(atIndex);

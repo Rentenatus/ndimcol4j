@@ -1010,6 +1010,15 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     @Override
+    public IteratorWalker<T> softWalkerBackwards() {
+        if (softWalker != null) {
+            return softWalker.goLast();
+        }
+        softWalker = new IterSeasonWalker<>(this);
+        return softWalker.goLast();
+    }
+
+    @Override
     public IteratorWalker<T> leafWalker(int atIndex) {
         if (softWalker != null) {
             return softWalker.goLeafIndex(atIndex);

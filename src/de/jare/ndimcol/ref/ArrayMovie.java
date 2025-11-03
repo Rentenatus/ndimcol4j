@@ -248,6 +248,13 @@ public interface ArrayMovie<T> extends Collection<T> {
     IteratorWalker<T> softWalker();
 
     /**
+     * Returns a simple shared IteratorWalker backward for this movie. This simple iterator can not be used parallel.
+     *
+     * @return this one simple IteratorWalker backward for this movie
+     */
+    IteratorWalker<T> softWalkerBackwards();
+
+    /**
      * Returns a shared IteratorWalker for deepest ArrayTape of movie. A ArraySaesson in 2d is a ArrayTape of ArrayTape.
      * A ArraySaesson in 3d is a ArrayTape of 2d ArraySaesson means ArrayTape of ArrayTape of ArrayTape.
      * <p>
@@ -397,6 +404,10 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @return a new ArrayMovie that is a sub-movie of the current ArrayMovie
      */
     ArrayMovie<T> subMovie(int fromIndex, int toIndex);
+
+    public default ArrayMovie<T> cloneMovie() {
+        return subMovie(0, size() - 1);
+    }
 
     /**
      * Creates a new empty movie with the specified initial capacity if possible. The new movie is not a copy of this

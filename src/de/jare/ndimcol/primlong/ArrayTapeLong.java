@@ -914,6 +914,23 @@ public class ArrayTapeLong implements ArrayMovieLong {
     }
 
     /**
+     * Returns a IterTapeWalker that allows for soft (non-freezing) iteration backwards over the elements in the
+     * ArrayTape.
+     *
+     * @return a IterTapeWalker for soft iteration backwards over the elements in the ArrayTape
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public IterTapeWalkerLong softWalkerBackwards() {
+        if (softWalker != null) {
+            return softWalker.goLast();
+        }
+        softWalker = new IterTapeWalkerLong(this);
+        return softWalker.goLast();
+    }
+
+    /**
      * Returns a IterTapeWalker that allows for soft (non-freezing) iteration over the elements in the ArrayTape.
      *
      * @param atIndex start index for walk.

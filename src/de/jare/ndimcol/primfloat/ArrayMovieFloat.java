@@ -289,6 +289,15 @@ public interface ArrayMovieFloat   {
     IteratorWalkerFloat softWalker();
 
     /**
+     * Returns a simple shared IteratorWalker backward for this movie. This simple iterator can not be used parallel.
+     *
+     * @return this one simple IteratorWalker backward for this movie
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    IteratorWalkerFloat softWalkerBackwards();
+
+    /**
      * Returns a shared IteratorWalker for deepest ArrayTape of movie. A ArraySaesson in 2d is a ArrayTape of ArrayTape.
      * A ArraySaesson in 3d is a ArrayTape of 2d ArraySaesson means ArrayTape of ArrayTape of ArrayTape.
      * <p>
@@ -457,6 +466,10 @@ public interface ArrayMovieFloat   {
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     ArrayMovieFloat subMovie(int fromIndex, int toIndex);
+
+    public default ArrayMovieFloat cloneMovie() {
+        return subMovie(0, size() - 1);
+    }
 
     /**
      * Creates a new empty movie with the specified initial capacity if possible. The new movie is not a copy of this
