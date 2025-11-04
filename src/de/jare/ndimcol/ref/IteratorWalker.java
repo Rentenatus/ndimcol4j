@@ -108,7 +108,16 @@ public interface IteratorWalker<T> {
     IteratorWalker<T> goLast();
 
     /**
-     * Sets the current index to the specified position .
+     * Sets the current index of this walker to the specified position.
+     *
+     * @param index the index to set as the current position
+     * @param headForward looking for next or prev element.
+     * @return this or null if failed
+     */
+    IteratorWalker<T> gotoIndex(int index, boolean headForward);
+
+    /**
+     * Sets the current index to the specified position and cover the walker if needed.
      * <p>
      * A ArraySaesson in 2d is a ArrayTape of ArrayTape. A ArraySaesson in 3d is a ArrayTape of 2d ArraySaesson means
      * ArrayTape of ArrayTape of ArrayTape.

@@ -231,7 +231,22 @@ public class IterCoverWalkerInt implements IteratorWalkerInt {
     }
 
     /**
-     * Sets the current index to the specified position .
+     * Sets the current index to the specified position.
+     *
+     * @param index the index to set as the current position
+     * @param headForward looking for next or prev element.
+     * @return this or null if failed
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public IteratorWalkerInt gotoIndex(int index, boolean headForward) {
+        IteratorWalkerInt ret = inner.gotoIndex(index, headForward);
+        return ret == null ? null : this;
+    }
+
+    /**
+     * Sets the current index to the specified position.
      *
      * @param index the index to set as the current position
      * @return IteratorWalker of the deepest ArrayTape of movie

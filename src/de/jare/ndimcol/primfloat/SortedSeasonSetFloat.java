@@ -233,27 +233,12 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
         if (ambiguity.test(element, candidate)) {
             return worker.elementEqualsDo(this, episode, indexM, element);
         }
-        de.jare.ndimcol.ref.IterTapeWalker<ArrayMovieFloat> dataWalker = data.softWalker();
-        ArrayMovieFloat episodeL = null;
-        ArrayMovieFloat episodeR = null;
-        int offset = 0;
-        while (dataWalker.hasNext()) {
-            ArrayMovieFloat next = dataWalker.next();
-            if (next == episode) {
-                if (dataWalker.hasNext()) {
-                    episodeR = dataWalker.next();
-                }
-                break;
-            } else {
-                episodeL = next;
-                offset += next.size();
-            }
-        }
+        IterSeasonWalkerFloat setWalker = new IterSeasonWalkerFloat(this);
         // Look to the right:
-        IteratorWalkerFloat walker = episode.leafWalker(indexM);
+        setWalker.gotoIndex(indexM, true);
         int move = 0;
-        while (walker.hasNext()) {
-            float next = walker.next();
+        while (setWalker.hasNext()) {
+            float next = setWalker.next();
             move++;
             if (predicate.test(element, next)) {
                 break;
@@ -261,42 +246,16 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
                 return worker.elementEqualsDo(this, episode, indexM + move, element);
             }
         }
-        if (episodeR != null && !walker.hasNext()) {
-            walker = episodeR.softWalker();
-            move = 0;
-            while (walker.hasNext()) {
-                float next = walker.next();
-                move++;
-                if (predicate.test(element, next)) {
-                    break;
-                } else if (ambiguity.test(element, next)) {
-                    return worker.elementEqualsDo(this, episodeR, move, element);
-                }
-            }
-        }
         // Look to the left:
-        walker = episode.leafWalker(indexM);
+        setWalker.gotoIndex(indexM, false);
         move = 0;
-        while (walker.hasPrevious()) {
-            float prev = walker.previous();
+        while (setWalker.hasPrevious()) {
+            float prev = setWalker.previous();
             move++;
             if (predicate.test(prev, element)) {
                 break;
             } else if (ambiguity.test(element, prev)) {
                 return worker.elementEqualsDo(this, episode, indexM - move, element);
-            }
-        }
-        if (episodeL != null && !walker.hasPrevious()) {
-            walker = episodeL.softWalkerBackwards();
-            move = episodeL.size();
-            while (walker.hasPrevious()) {
-                float prev = walker.previous();
-                move--;
-                if (predicate.test(prev, element)) {
-                    break;
-                } else if (ambiguity.test(element, prev)) {
-                    return worker.elementEqualsDo(this, episodeL, move, element);
-                }
             }
         }
         // Nothing found:

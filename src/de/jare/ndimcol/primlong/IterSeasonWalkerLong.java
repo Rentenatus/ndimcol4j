@@ -262,6 +262,37 @@ public class IterSeasonWalkerLong implements IteratorWalkerLong {
         return this;
     }
 
+    public IteratorWalkerLong gotoIndex(int index, boolean headForward) {
+        if (index < 0 || index >= season.size()) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + season.size());
+        }
+        outerWalker.goFirst();
+        currentIndex = 0;
+
+        if (outerWalker.hasNext()) {
+            innerWalker = outerWalker.next().softWalker();
+            forward = headForward;
+        } else {
+            return null;
+        }
+        while (currentIndex <= index) {
+            final int searchIndex = index - currentIndex;
+            if (searchIndex < innerWalker.size()) {
+                innerWalker.gotoIndex(searchIndex, headForward);
+                currentIndex = index;
+                return this;
+            } else {
+                currentIndex = currentIndex + innerWalker.size();
+                if (outerWalker.hasNext()) {
+                    innerWalker = outerWalker.next().softWalker();
+                } else {
+                    throw new IndexOutOfBoundsException("Unexpected end of ArrayTape during traversal.");
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * Sets the current index to the specified position .
      * <p>

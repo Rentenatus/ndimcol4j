@@ -230,6 +230,15 @@ public class IterTapeWalkerInt implements IteratorWalkerInt {
         return this;
     }
 
+    public IteratorWalkerInt gotoIndex(int index, boolean headForward) {
+        if (index < 0 || index >= tape.size()) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + tape.size());
+        }
+        currentIndex = index;
+        forward = headForward;
+        return this;
+    }
+
     /**
      * Sets the current index to the specified position in the ArrayTape.Throws an IndexOutOfBoundsException if the
      * index is out of range.

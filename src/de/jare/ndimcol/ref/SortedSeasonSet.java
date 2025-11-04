@@ -237,27 +237,12 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
         if (ambiguity.test(element, candidate)) {
             return worker.elementEqualsDo(this, episode, indexM, element);
         }
-        IterTapeWalker<ArrayMovie<T>> dataWalker = data.softWalker();
-        ArrayMovie<T> episodeL = null;
-        ArrayMovie<T> episodeR = null;
-        int offset = 0;
-        while (dataWalker.hasNext()) {
-            ArrayMovie<T> next = dataWalker.next();
-            if (next == episode) {
-                if (dataWalker.hasNext()) {
-                    episodeR = dataWalker.next();
-                }
-                break;
-            } else {
-                episodeL = next;
-                offset += next.size();
-            }
-        }
+        IterSeasonWalker<T> setWalker = new IterSeasonWalker<>(this);
         // Look to the right:
-        IteratorWalker<T> walker = episode.leafWalker(indexM);
+        setWalker.gotoIndex(indexM, true);
         int move = 0;
-        while (walker.hasNext()) {
-            T next = walker.next();
+        while (setWalker.hasNext()) {
+            T next = setWalker.next();
             move++;
             if (predicate.test(element, next)) {
                 break;
@@ -265,42 +250,16 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
                 return worker.elementEqualsDo(this, episode, indexM + move, element);
             }
         }
-        if (episodeR != null && !walker.hasNext()) {
-            walker = episodeR.softWalker();
-            move = 0;
-            while (walker.hasNext()) {
-                T next = walker.next();
-                move++;
-                if (predicate.test(element, next)) {
-                    break;
-                } else if (ambiguity.test(element, next)) {
-                    return worker.elementEqualsDo(this, episodeR, move, element);
-                }
-            }
-        }
         // Look to the left:
-        walker = episode.leafWalker(indexM);
+        setWalker.gotoIndex(indexM, false);
         move = 0;
-        while (walker.hasPrevious()) {
-            T prev = walker.previous();
+        while (setWalker.hasPrevious()) {
+            T prev = setWalker.previous();
             move++;
             if (predicate.test(prev, element)) {
                 break;
             } else if (ambiguity.test(element, prev)) {
                 return worker.elementEqualsDo(this, episode, indexM - move, element);
-            }
-        }
-        if (episodeL != null && !walker.hasPrevious()) {
-            walker = episodeL.softWalkerBackwards();
-            move = episodeL.size();
-            while (walker.hasPrevious()) {
-                T prev = walker.previous();
-                move--;
-                if (predicate.test(prev, element)) {
-                    break;
-                } else if (ambiguity.test(element, prev)) {
-                    return worker.elementEqualsDo(this, episodeL, move, element);
-                }
             }
         }
         // Nothing found:

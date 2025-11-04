@@ -206,7 +206,20 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
     }
 
     /**
-     * Sets the current index to the specified position .
+     * Sets the current index to the specified position.
+     *
+     * @param index the index to set as the current position
+     * @param headForward looking for next or prev element.
+     * @return this or null if failed
+     */
+    @Override
+    public IteratorWalker<T> gotoIndex(int index, boolean headForward) {
+        IteratorWalker<T> ret = inner.gotoIndex(index, headForward);
+        return ret == null ? null : this;
+    }
+
+    /**
+     * Sets the current index to the specified position.
      *
      * @param index the index to set as the current position
      * @return IteratorWalker of the deepest ArrayTape of movie
