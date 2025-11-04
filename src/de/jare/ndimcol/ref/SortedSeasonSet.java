@@ -24,6 +24,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
     private final BiPredicate<T, T> ambiguity;
     private final SortedSeasonSetWorker<T> workerAdd = new SortedSeasonSetWorkerAdd<>();
     private final SortedSeasonSetWorker<T> workerRemove = new SortedSeasonSetWorkerRemove<>();
+    private final SortedSeasonSetWorkerIndexOf<T> workerIndexOf = new SortedSeasonSetWorkerIndexOf<>();
 
 //noprim.start  
     /**
@@ -318,6 +319,89 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
     }
 
     /**
+     * Perform a brute force search.
+     *
+     * It uses equals comparison like any other standard list.
+     *
+     * Returns the index of the first occurrence of the specified element in the ArrayTape, or -1 if the element is not
+     * found. If the specified element is null, it checks for null elements in the ArrayTape.
+     *
+     * @param element the element to search for
+     * @return the index of the first occurrence of the specified element, or -1 if the element is not found
+     */
+    public int indexOfByBruteForce(Object element) {
+        return super.indexOf(element);
+    }
+
+    /**
+     * Performs a search in sequential order. Uses interval nesting.
+     *
+     * It uses test of ambiguity if this predicate is set.
+     *
+     * Returns the index of the first occurrence of the specified element in the ArrayTape, or -1 if the element is not
+     * found. If the specified element is null, it checks for null elements in the ArrayTape.
+     *
+     * @param element the element to search for
+     * @return the index of the first occurrence of the specified element, or -1 if the element is not found
+     */
+    @Override
+    public int indexOf(Object element) {
+        if (isEmpty()) {
+            return -1;
+        }
+        boolean found = work(workerIndexOf, (T) element);
+        return found ? workerIndexOf.getIndex() : -1;
+    }
+
+    /**
+     * Returns the walker at the specified element in this collection.
+     *
+     * Perform a brute force search.
+     *
+     * It uses equals comparison like any other standard list.
+     *
+     * @param element the element to search for
+     * @return the walker at the specified element, or null if element not found
+     */
+    public IteratorWalker<T> getWalkerAtElementByBruteForce(final Object element) {
+        return super.getWalkerAtElement(element);
+    }
+
+    /**
+     * Performs a search in sequential order. Uses interval nesting.
+     *
+     * It uses test of ambiguity if this predicate is set.
+     *
+     * Returns the walker at the specified element in this collection.
+     *
+     * @param element the element to search for
+     * @return the walker at the specified element, or null if element not found
+     */
+    @Override
+    public IteratorWalker<T> getWalkerAtElement(final Object element) {
+        if (isEmpty()) {
+            return null;
+        }
+        boolean found = work(workerIndexOf, (T) element);
+        if (!found) {
+            return null;
+        }
+        ArrayMovie<T> episode = workerIndexOf.getEpisode();
+        int accumulatedSize = 0;
+        IterTapeWalker<ArrayMovie<T>> dataWalker = data.softWalker();
+        while (dataWalker.hasNext()) {
+            ArrayMovie<T> next = dataWalker.next();
+            if (next == episode) {
+                break;
+            }
+            accumulatedSize += next.size();
+        }
+        return new IterCoverWalker<>(this,
+                workerIndexOf.getEpisode().leafWalker(
+                        workerIndexOf.getIndex() - accumulatedSize));
+    }
+
+    /**
      * Remove the specified element from this set.
      *
      * @param element the element to be removed
@@ -326,7 +410,8 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public boolean remove(Object element) {
+    public boolean remove(Object element
+    ) {
         //noprim.start  
         if (element == null) {
             return false;

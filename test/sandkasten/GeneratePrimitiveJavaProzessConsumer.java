@@ -100,6 +100,7 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("Iterator<>", "Iterator" + append));
         replacement.add(List.of("SortedSeasonSetWorkerAdd<>", "SortedSeasonSetWorkerAdd" + append));
         replacement.add(List.of("SortedSeasonSetWorkerRemove<>", "SortedSeasonSetWorkerRemove" + append));
+        replacement.add(List.of("SortedSeasonSetWorkerIndexOf<>", "SortedSeasonSetWorkerIndexOf" + append));
         replacement.add(List.of("BiPredicate<T, T>", "BiPredicate" + append + append));
         replacement.add(List.of("implements Set" + append, ""));
         replacement.add(List.of("public SortedSeasonSet(", "public SortedSeasonSet" + append + "("));

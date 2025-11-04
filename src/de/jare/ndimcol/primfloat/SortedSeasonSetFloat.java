@@ -27,6 +27,7 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
     private final BiPredicateFloatFloat ambiguity;
     private final SortedSeasonSetWorkerFloat workerAdd = new SortedSeasonSetWorkerAddFloat();
     private final SortedSeasonSetWorkerFloat workerRemove = new SortedSeasonSetWorkerRemoveFloat();
+    private final SortedSeasonSetWorkerIndexOfFloat workerIndexOf = new SortedSeasonSetWorkerIndexOfFloat();
 
     
      /**
@@ -320,6 +321,97 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
     }
 
     /**
+     * Perform a brute force search.
+     *
+     * It uses equals comparison like any other standard list.
+     *
+     * Returns the index of the first occurrence of the specified element in the ArrayTape, or -1 if the element is not
+     * found. If the specified element is null, it checks for null elements in the ArrayTape.
+     *
+     * @param element the element to search for
+     * @return the index of the first occurrence of the specified element, or -1 if the element is not found
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public int indexOfByBruteForce(float element) {
+        return super.indexOf(element);
+    }
+
+    /**
+     * Performs a search in sequential order. Uses interval nesting.
+     *
+     * It uses test of ambiguity if this predicate is set.
+     *
+     * Returns the index of the first occurrence of the specified element in the ArrayTape, or -1 if the element is not
+     * found. If the specified element is null, it checks for null elements in the ArrayTape.
+     *
+     * @param element the element to search for
+     * @return the index of the first occurrence of the specified element, or -1 if the element is not found
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public int indexOf(float element) {
+        if (isEmpty()) {
+            return -1;
+        }
+        boolean found = work(workerIndexOf, element);
+        return found ? workerIndexOf.getIndex() : -1;
+    }
+
+    /**
+     * Returns the walker at the specified element in this collection.
+     *
+     * Perform a brute force search.
+     *
+     * It uses equals comparison like any other standard list.
+     *
+     * @param element the element to search for
+     * @return the walker at the specified element, or null if element not found
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public IteratorWalkerFloat getWalkerAtElementByBruteForce(final float element) {
+        return super.getWalkerAtElement(element);
+    }
+
+    /**
+     * Performs a search in sequential order. Uses interval nesting.
+     *
+     * It uses test of ambiguity if this predicate is set.
+     *
+     * Returns the walker at the specified element in this collection.
+     *
+     * @param element the element to search for
+     * @return the walker at the specified element, or null if element not found
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
+    public IteratorWalkerFloat getWalkerAtElement(final float element) {
+        if (isEmpty()) {
+            return null;
+        }
+        boolean found = work(workerIndexOf, element);
+        if (!found) {
+            return null;
+        }
+        ArrayMovieFloat episode = workerIndexOf.getEpisode();
+        int accumulatedSize = 0;
+        de.jare.ndimcol.ref.IterTapeWalker<ArrayMovieFloat> dataWalker = data.softWalker();
+        while (dataWalker.hasNext()) {
+            ArrayMovieFloat next = dataWalker.next();
+            if (next == episode) {
+                break;
+            }
+            accumulatedSize += next.size();
+        }
+        return new IterCoverWalkerFloat(this,
+                workerIndexOf.getEpisode().leafWalker(
+                        workerIndexOf.getIndex() - accumulatedSize));
+    }
+
+    /**
      * Remove the specified element from this set.
      *
      * @param element the element to be removed
@@ -330,7 +422,8 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @SuppressWarnings("unchecked")
     @Override
-    public boolean remove(float element) {
+    public boolean remove(float element
+    ) {
         return removeT(element);
     }
 
