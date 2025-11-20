@@ -13,8 +13,10 @@ import java.util.function.BiPredicate;
  * A helpful class when working with ambiguities in SortedSeasonSet.
  *
  * @author Janusch Rentenatus
+ * 
+ * @param <T> the type of elements in this set
  */
-public class BiPredicateAmbiguityIdentity implements BiPredicate<Object, Object> {
+public class BiPredicateAmbiguityIdentity<T> implements BiPredicate<T, T> {
 
     /**
      * A singleton instance of {@link BiPredicateAmbiguityEquals}.
@@ -34,7 +36,7 @@ public class BiPredicateAmbiguityIdentity implements BiPredicate<Object, Object>
      *
      */
     @Override
-    public boolean test(Object o1, Object o2) {
+    public boolean test(T o1, T o2) {
         return o1 == o2;
     }
 
