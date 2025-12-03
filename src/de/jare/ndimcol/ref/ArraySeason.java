@@ -407,6 +407,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         return true;
     }
 
+    /**
+     * Equality check for elements.
+     *
+     * @param a element of type T
+     * @param b other element
+     * @return true, if both are equals
+     */
     public boolean equals(T a, Object b) {
         return _equals(a, b);
     }
