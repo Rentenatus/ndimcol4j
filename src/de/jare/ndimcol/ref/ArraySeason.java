@@ -45,6 +45,14 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     private ArrayMovie<T> lastEpisode = null;
     private IterSeasonWalker<T> softWalker;
 
+    ArraySeason(ArrayTape<ArrayMovie<T>> data, int size) {
+        screenplay = Screenplay2d.INSTANCE;
+        this.data = data;
+        this.size = size;
+        updateCounter = 0;
+        recalculateScope();
+    }
+
     /**
      * Creates a new ArraySeason with the default screenplay (Screenplay2d).
      */
@@ -355,6 +363,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         if (this == ob) {
             return true;
         }
+        if (ob == null) {
+            return false;
+        }
         //noprim.ende  
         if (!(ob instanceof ArrayMovie<?>)) {
             if (!(ob instanceof Collection<?>)) {
@@ -379,6 +390,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     public boolean equalsCollection(Collection<?> col) {
         if (this == col) {
             return true;
+        }
+        if (col == null) {
+            return false;
         }
         if (size() != col.size()) {
             return false;
