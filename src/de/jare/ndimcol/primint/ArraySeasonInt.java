@@ -48,6 +48,14 @@ public class ArraySeasonInt implements ArrayMovieInt {
     private ArrayMovieInt lastEpisode = null;
     private IterSeasonWalkerInt softWalker;
 
+    ArraySeasonInt(de.jare.ndimcol.ref.ArrayTape<ArrayMovieInt> data, int size) {
+        screenplay = Screenplay2dInt.INSTANCE;
+        this.data = data;
+        this.size = size;
+        updateCounter = 0;
+        recalculateScope();
+    }
+
     /**
      * Creates a new ArraySeason with the default screenplay (Screenplay2d).
      */
@@ -401,6 +409,9 @@ public class ArraySeasonInt implements ArrayMovieInt {
         if (this == col) {
             return true;
         }
+        if (col == null) {
+            return false;
+        }
         if (size() != col.size()) {
             return false;
         }
@@ -414,6 +425,15 @@ public class ArraySeasonInt implements ArrayMovieInt {
         return true;
     }
 
+    /**
+     * Equality check for elements.
+     *
+     * @param a element of type T
+     * @param b other element
+     * @return true, if both are equals
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public boolean equals(int a, int b) {
         return _equals(a, b);
     }

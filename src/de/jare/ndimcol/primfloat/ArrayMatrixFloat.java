@@ -5,7 +5,9 @@
  * http://www.eclipse.org/legal/epl-v20.html
  * </copyright>
  */
-package de.jare.ndimcol.ref;
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+package de.jare.ndimcol.primfloat;
 
 import static de.jare.ndimcol.ref.HashStrategy._equals;
 import java.io.PrintStream;
@@ -39,40 +41,52 @@ import java.util.Iterator;
  *
  *
  * @author Janusch Rentenatus
- * @param <T> the type of elements stored in the matrix
  */
-//prim: public class ArrayMatrix_APPEND_ {
-public class ArrayMatrix<T> implements Collection<T> {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+ public class ArrayMatrixFloat {
 
     /**
      * Number of columns in the matrix.
      */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     private int cols;
 
     /**
      * Number of rows in the matrix.
      */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     private int rows;
 
     /**
      * Total number of elements (rows × cols).
      */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     private int size;
 
     /**
      * Default initialization value for each cell.
      */
-    private final T initValue;
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    private final float initValue;
 
     /**
      * Nested structure holding rows of elements.
      */
-    de.jare.ndimcol.ref.ArrayTape<ArrayTape<T>> content;
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    de.jare.ndimcol.ref.ArrayTape<ArrayTapeFloat> content;
 
     /**
      * Flattened view of all elements for iteration and collection operations.
      */
-    ArraySeason<T> cover;
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    ArraySeasonFloat cover;
 
     /**
      * Constructs a new matrix with the given dimensions and initialization value.
@@ -84,33 +98,35 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param rows number of rows
      * @param initValue default value for all cells
      */
-    public ArrayMatrix(int cols, int rows, T initValue) {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public ArrayMatrixFloat(int cols, int rows, float initValue) {
         this.cols = cols;
         this.rows = rows;
         this.size = cols * rows;
         this.initValue = initValue;
 
-        ArrayTape<T> template = new ArrayTape<>(cols);
+        ArrayTapeFloat template = new ArrayTapeFloat(cols);
         for (int i = 0; i < cols; i++) {
             template.add(initValue);
         }
-        this.content = new ArrayTape<>(rows);
-        ArrayTape<ArrayMovie<T>> s_content = new ArrayTape<>(rows);
+        this.content = new de.jare.ndimcol.ref.ArrayTape<>(rows);
+        de.jare.ndimcol.ref.ArrayTape<ArrayMovieFloat> s_content = new de.jare.ndimcol.ref.ArrayTape<>(rows);
         for (int i = 0; i < rows; i++) {
-            ArrayTape<T> row = new ArrayTape<>(cols);
+            ArrayTapeFloat row = new ArrayTapeFloat(cols);
             row.addMovie(template);
             this.content.add(row);
             s_content.add(row);
         }
-        //prim:this.cover = new ArraySeason_APPEND_(s_content, size);
-        this.cover = new ArraySeason(s_content, size);
+        this.cover = new ArraySeasonFloat(s_content, size);
     }
 
     /**
      * @return total number of elements in the matrix
      */
-    //prim:// Primitives don't overwrite anything. 
-    @Override
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    // Primitives don't overwrite anything. 
     public int size() {
         return this.size;
     }
@@ -118,6 +134,8 @@ public class ArrayMatrix<T> implements Collection<T> {
     /**
      * @return number of columns
      */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public int getCols() {
         return cols;
     }
@@ -125,6 +143,8 @@ public class ArrayMatrix<T> implements Collection<T> {
     /**
      * @return number of rows
      */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public int getRows() {
         return rows;
     }
@@ -136,7 +156,9 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param row row index
      * @return element at the given position
      */
-    public T get(int col, int row) {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public float get(int col, int row) {
         return content.get(row).get(col);
     }
 
@@ -148,15 +170,18 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param value new value to set
      * @return the previous value at that position
      */
-    public T set(int col, int row, T value) {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public float set(int col, int row, float value) {
         return content.get(row).set(col, value);
     }
 
     /**
      * @return {@code true} if the matrix contains no elements
      */
-    //prim:// Primitives don't overwrite anything. 
-    @Override
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    // Primitives don't overwrite anything. 
     public boolean isEmpty() {
         return this.size == 0;
     }
@@ -167,10 +192,11 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param ob object to search for
      * @return {@code true} if found in any row
      */
-    //prim:// Primitives don't overwrite anything. 
-    @Override
-    public boolean contains(Object ob) {
-        for (ArrayTape<T> row : content) {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    // Primitives don't overwrite anything. 
+    public boolean contains(float ob) {
+        for (ArrayTapeFloat row : content) {
             if (row.contains(ob)) {
                 return true;
             }
@@ -181,18 +207,20 @@ public class ArrayMatrix<T> implements Collection<T> {
     /**
      * @return iterator over all elements (flattened view)
      */
-    //prim:// Primitives don't overwrite anything. 
-    @Override
-    public Iterator<T> iterator() {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    // Primitives don't overwrite anything. 
+    public IteratorFloat iterator() {
         return cover.iterator();
     }
 
     /**
      * @return array containing all elements
      */
-    //prim:// Primitives don't overwrite anything. 
-    @Override
-    public Object[] toArray() {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    // Primitives don't overwrite anything. 
+    public float[] toArray() {
         return cover.toArray();
     }
 
@@ -201,10 +229,10 @@ public class ArrayMatrix<T> implements Collection<T> {
      *
      * @param arr
      */
-    //prim:// Primitives don't overwrite anything. 
-    @Override
-    //prim:public  _PRIM_[] toArray(_PRIM_[] arr) {
-    public <T> T[] toArray(T[] arr) {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    // Primitives don't overwrite anything. 
+    public  float[] toArray(float[] arr) {
         return cover.toArray(arr);
     }
 
@@ -214,9 +242,10 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param element
      * @return -
      */
-    //prim:// Primitives don't overwrite anything. 
-    @Override
-    public boolean add(T element) {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    // Primitives don't overwrite anything. 
+    public boolean add(float element) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -226,9 +255,10 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param ob
      * @return -
      */
-    //prim:// Primitives don't overwrite anything. 
-    @Override
-    public boolean remove(Object ob) {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    // Primitives don't overwrite anything. 
+    public boolean remove(float ob) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -238,8 +268,9 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param col collection to be checked for containment in this collection
      * @return {@code true} if this collection contains all of the elements in the specified collection
      */
-    //prim:// Primitives don't overwrite anything. 
-    @Override
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    // Primitives don't overwrite anything. 
     public boolean containsAll(Collection<?> col) {
         return cover.containsAll(col);
     }
@@ -250,9 +281,10 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param col
      * @return -
      */
-    //prim:// Primitives don't overwrite anything. 
-    @Override
-    public boolean addAll(Collection<? extends T> col) {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    // Primitives don't overwrite anything. 
+    public boolean addAll(Collection<? extends Float> col) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -262,8 +294,9 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param col
      * @return -
      */
-    //prim:// Primitives don't overwrite anything. 
-    @Override
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    // Primitives don't overwrite anything. 
     public boolean removeAll(Collection<?> col) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -274,8 +307,9 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param col
      * @return -
      */
-    //prim:// Primitives don't overwrite anything. 
-    @Override
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    // Primitives don't overwrite anything. 
     public boolean retainAll(Collection<?> col) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -283,14 +317,15 @@ public class ArrayMatrix<T> implements Collection<T> {
     /**
      * Clears the matrix, resetting dimensions to zero and removing all content.
      */
-    //prim:// Primitives don't overwrite anything. 
-    @Override
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    // Primitives don't overwrite anything. 
     public void clear() {
         this.cols = 0;
         this.rows = 0;
         this.size = 0;
-        this.content = new ArrayTape<>();
-        this.cover = new ArraySeason<>();
+        this.content = new de.jare.ndimcol.ref.ArrayTape<>();
+        this.cover = new ArraySeasonFloat();
     }
 
     /**
@@ -298,13 +333,17 @@ public class ArrayMatrix<T> implements Collection<T> {
      *
      * @return cloned movie view of the matrix
      */
-    public ArrayMovie<T> toArrayMovie() {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public ArrayMovieFloat toArrayMovie() {
         return cover.cloneMovie();
     }
 
     /**
      * @return hash code based on the flattened cover view
      */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int hashCode() {
         return cover.hashCode();
@@ -323,26 +362,24 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param ob object to compare
      * @return {@code true} if equal
      */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    //prim:public boolean equals(Object ob) {
     public boolean equals(Object ob) {
-        //noprim.start  
-        if (this == ob) {
-            return true;
-        }
-        //noprim.ende  
-        if (!(ob instanceof ArrayMatrix<?>)) {
+        if (!(ob instanceof ArrayMatrixFloat)) {
             if (!(ob instanceof Collection<?>)) {
                 return false;
             }
             return equalsCollection((Collection<?>) ob);
         }
-        return equalsMatrix((ArrayMatrix<?>) ob);
+        return equalsMatrix((ArrayMatrixFloat) ob);
     }
 
     /**
      * Equality check against a generic collection.
      */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public boolean equalsCollection(Collection<?> col) {
         return cover.equalsCollection(col);
     }
@@ -350,7 +387,9 @@ public class ArrayMatrix<T> implements Collection<T> {
     /**
      * Equality check against another matrix.
      */
-    public boolean equalsMatrix(ArrayMatrix<?> col) {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public boolean equalsMatrix(ArrayMatrixFloat col) {
         if (this == col) {
             return true;
         }
@@ -370,7 +409,9 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param b other element
      * @return true, if both are equals
      */
-    public boolean equals(T a, Object b) {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public boolean equals(float a, float b) {
         return _equals(a, b);
     }
 
@@ -380,7 +421,9 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param arr the array to copy the elements into
      * @param offset the offset in the array where to start copying
      */
-    public void copyToArray(Object[] arr, int offset) {
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public void copyToArray(float[] arr, int offset) {
         cover.copyToArray(arr, offset);
     }
 
@@ -392,9 +435,11 @@ public class ArrayMatrix<T> implements Collection<T> {
      * @param offset starting offset for debug output
      * @return updated offset after printing
      */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public int debug(PrintStream out, String prefix, int offset) {
         for (int i = 0; i < rows; i++) {
-            ArrayMovie<T> episode = content.get(i);
+            ArrayMovieFloat episode = content.get(i);
             offset = episode.debug(out, prefix + "row[" + i + "]  ", offset);
         }
         return offset;
