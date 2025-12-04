@@ -42,7 +42,7 @@ import java.util.Iterator;
  * @param <T> the type of elements stored in the matrix
  */
 //prim: public class ArrayMatrix_APPEND_ {
-public class ArrayMatrix<T> implements Collection<T> {
+public class ArrayMatrix<T> implements Collection<T>, Iterable<T> {
 
     /**
      * Number of columns in the matrix.
