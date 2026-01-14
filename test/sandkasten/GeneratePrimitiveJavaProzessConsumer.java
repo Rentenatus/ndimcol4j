@@ -56,6 +56,7 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("import java.util.function.FloatPredicate;", "// FloatPredicate is unfortunately not available in java.util.function"));
         replacement.add(List.of("<T> ArrayMovie<T>", "ArrayMovie" + append));
         replacement.add(List.of("ArrayMovie<?>", "ArrayMovie" + append));
+        replacement.add(List.of("ArrayMatrix<?>", "ArrayMatrix" + append));
         replacement.add(List.of("<T>", append));
         replacement.add(List.of("extends Collection" + append, " "));
         //replacement.add(List.of("@Override", " "));
@@ -72,11 +73,13 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("IterTapeWalker<ArrayMovie" + append + ">", "de.jare.ndimcol.ref.IterTapeWalker<ArrayMovie" + append + ">"));
         replacement.add(List.of("IteratorWalker<?>", "IteratorWalker" + append));
         replacement.add(List.of("data = new ArrayTape<>", "data = new de.jare.ndimcol.ref.ArrayTape<>"));
+        replacement.add(List.of("content = new ArrayTape<>", "content = new de.jare.ndimcol.ref.ArrayTape<>"));
         replacement.add(List.of("new ArrayTape<>", "new ArrayTape" + append));
         replacement.add(List.of("new ArrayTapeHashable<>", "new ArrayTapeHashable" + append));
         replacement.add(List.of("new ArraySeasonHashable<>", "new ArraySeasonHashable" + append));
         replacement.add(List.of("public ArrayTape(", "public ArrayTape" + append + "("));
         replacement.add(List.of("public ArraySeason(", "public ArraySeason" + append + "("));
+        replacement.add(List.of("public ArrayMatrix(", "public ArrayMatrix" + append + "("));
         replacement.add(List.of("public ArrayTapeHashable(", "public ArrayTapeHashable" + append + "("));
         replacement.add(List.of("public ArraySeasonHashable(", "public ArraySeasonHashable" + append + "("));
         replacement.add(List.of("public PredicateAllRunnable(", "public PredicateAllRunnable" + append + "("));
@@ -105,7 +108,8 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("implements Set" + append, ""));
         replacement.add(List.of("public SortedSeasonSet(", "public SortedSeasonSet" + append + "("));
         replacement.add(List.of("SortedSeasonSet<>(", "SortedSeasonSet" + append + "("));
-
+        replacement.add(List.of("ArraySeason(de.jare.ndimcol.ref.ArrayTape<ArrayMovie", "ArraySeason"+append+"(de.jare.ndimcol.ref.ArrayTape<ArrayMovie"));
+       
         skipNext = false;
         noprim = false;
         isInterface = false;

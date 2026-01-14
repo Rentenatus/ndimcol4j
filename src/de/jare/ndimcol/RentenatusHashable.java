@@ -543,14 +543,49 @@ public interface RentenatusHashable {
 
     public final static long SEVENTH268435456 = 1;
 
+    /**
+     * Combines two hash values using a rolling-hash step based on multiplication by 7 in a 30‑bit modular space. This
+     * operation is equivalent to:
+     *
+     * <pre>
+     *     h' = (7 * oldHash + nextHash) mod 2^30
+     * </pre>
+     *
+     * @param oldHash the existing hash value
+     * @param nextHash the next value to incorporate
+     * @return the combined hash, reduced to 30 bits
+     */
     public default int combine(int oldHash, int nextHash) {
         return (((oldHash * 7) & MASK) + (nextHash & MASK)) & MASK;
     }
 
+    /**
+     * Static variant of {@link #combine(int, int)} for use without an instance.
+     *
+     * @param oldHash the existing hash value
+     * @param nextHash the next value to incorporate
+     * @return the combined hash, reduced to 30 bits
+     */
     public static int _combine(int oldHash, int nextHash) {
         return (((oldHash * 7) & MASK) + (nextHash & MASK)) & MASK;
     }
 
+    /**
+     * Combines a hash value with another value while applying a power of 7 in the 30‑bit modular space. This method
+     * efficiently computes:
+     *
+     * <pre>
+     *     h' = (oldHash * 7^power + nextHash) mod 2^30
+     * </pre>
+     *
+     * using precomputed lookup tables for 7^k at various block sizes (1, 128, 16384, 2,097,152, ...). This avoids
+     * repeated multiplication and ensures constant‑time exponentiation for arbitrary {@code power}.
+     *
+     * @param oldHash the existing hash value
+     * @param power the exponent of 7 to apply before adding {@code nextHash}
+     * @param nextHash the value to incorporate after the exponentiation step
+     * @return the updated hash, reduced to 30 bits
+     */
     public default int combine(int oldHash, int power, int nextHash) {
         long left = oldHash;
         int power127 = power & 127;
@@ -570,6 +605,27 @@ public interface RentenatusHashable {
         return ((int) left + nextHash) & MASK;
     }
 
+    /**
+     * Replaces a single element inside a rolling hash without recomputing the entire sequence. This method adjusts the
+     * hash by removing the contribution of {@code hashCodeOld} at the given power position and adding the contribution
+     * of {@code hashCodeNew}.
+     *
+     * The operation performed is:
+     *
+     * <pre>
+     *     delta = (hashCodeNew - hashCodeOld) mod 2^30
+     *     h' = (oldHash + delta * 7^power) mod 2^30
+     * </pre>
+     *
+     * Like {@link #combine(int, int, int)}, this uses precomputed exponent tables to apply {@code 7^power} in constant
+     * time.
+     *
+     * @param oldHash the current hash value
+     * @param power the exponent position of the element being replaced
+     * @param hashCodeOld the old element's hash contribution
+     * @param hashCodeNew the new element's hash contribution
+     * @return the updated hash after applying the replacement
+     */
     public default int replace(int oldHash, int power, int hashCodeOld, int hashCodeNew) {
         long change = hashCodeNew > hashCodeOld
                 ? hashCodeNew - hashCodeOld

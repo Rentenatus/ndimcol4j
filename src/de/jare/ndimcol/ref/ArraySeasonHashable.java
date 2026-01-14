@@ -120,6 +120,26 @@ public class ArraySeasonHashable<T> extends ArraySeason<T> implements Rentenatus
     }
 
     /**
+     * Incorporates the hash of this list into an existing rolling hash value.
+     * <p>
+     * The method applies the list's {@code hashCode()} at the position corresponding to its current {@code size()},
+     * using the rolling-hash combination rule:
+     *
+     * <pre>
+     *     h' = (prevHash * 7^size() + hashCode()) mod 2^30
+     * </pre>
+     *
+     * This allows the list to contribute a single aggregated hash value while preserving positional semantics within a
+     * larger hash structure.
+     *
+     * @param prevHash the previously accumulated hash value
+     * @return the updated hash after incorporating this list's hash
+     */
+    public int combineListHash(int prevHash) {
+        return combine(prevHash, size(), hashCode());
+    }
+
+    /**
      * Here the tape are informed that private data has been changed.
      */
     @Override

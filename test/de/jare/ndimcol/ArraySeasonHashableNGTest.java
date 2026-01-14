@@ -211,4 +211,24 @@ public class ArraySeasonHashableNGTest {
         assertEquals(data1.hashCode(), data2.hashCode());
         //assertEquals(data1.hashCode(), data3.hashCode());
     }
+
+    @Test
+    public void testCombine() {
+        System.out.println("-------------- Test rolling hash value.");
+        ArraySeasonHashable<Integer> list1 = dataBigArray(102);
+        ArraySeasonHashable<Integer> list2 = dataBigArray(102);
+        ArraySeasonHashable<Integer> list3 = dataBigArray(102);
+
+        int hash = list1.hashCode();
+        hash = list2.combine(hash, list2.size(), list2.hashCode());
+        hash = list3.combineListHash(hash);
+
+        ArraySeasonHashable<Integer> list123 = new ArraySeasonHashable<>();
+        list123.addAll(list1);
+        list123.addAll(list2);
+        list123.addAll(list3);
+        assertEquals(list123.hashCode(), hash);
+        System.out.println("Hash:" + hash);
+        System.out.println("--------------");
+    }
 }
