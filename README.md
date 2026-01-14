@@ -52,8 +52,8 @@ hash = list123.hashCode();
 can be calculated directly from the hashes of the three lists:
 ```
 hash = list1.hashCode();
-hash = list2.combine(hash,list2.size(),list2.hashCode());
-hash = list3.combine(hash,list3.size(),list3.hashCode());
+hash = list2.combineListHash(hash);
+hash = list3.combineListHash(hash);
 ```
 And because ArraySeason manages an ArrayTape of ArrayTape, the hash value can be quickly determined from the individual sublists. Manipulations don't have to affect all sublists, so repeated calculations are faster.
 
