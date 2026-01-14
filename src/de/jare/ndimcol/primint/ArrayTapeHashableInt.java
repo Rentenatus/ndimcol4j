@@ -102,7 +102,7 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
 
     /**
      * Constructs a new ArrayTape from the specified List.This constructor copies the elements from the given List and
- initializes the page size, update counter, and trim countdown.
+     * initializes the page size, update counter, and trim countdown.
      *
      * @param list the List from which the ArrayTape is created
      * @param strategy to calculate hash code.
@@ -146,6 +146,28 @@ public class ArrayTapeHashableInt extends ArrayTapeInt implements RentenatusHash
         }
         hashComputed = true;
         return hashCode;
+    }
+
+    /**
+     * Incorporates the hash of this list into an existing rolling hash value.
+     * <p>
+     * The method applies the list's {@code hashCode()} at the position corresponding to its current {@code size()},
+     * using the rolling-hash combination rule:
+     *
+     * <pre>
+     *     h' = (prevHash * 7^size() + hashCode()) mod 2^30
+     * </pre>
+     *
+     * This allows the list to contribute a single aggregated hash value while preserving positional semantics within a
+     * larger hash structure.
+     *
+     * @param prevHash the previously accumulated hash value
+     * @return the updated hash after incorporating this list's hash
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public int combineListHash(int prevHash) {
+        return combine(prevHash, size(), hashCode());
     }
 
     @Override
