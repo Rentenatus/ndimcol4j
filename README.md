@@ -70,6 +70,39 @@ Replacing a single element in the list can also calculate the new hash value dir
     }
 ```
 
+**HashSet without HashSet**
+
+*SortedSeasonSet* provides a memory‑efficient alternative to Java’s HashSet by eliminating the need for bucket structures, wrapper nodes, or tree‑based collision handling. Instead of storing elements in hash buckets, the collection keeps all elements sorted by their hash code inside an *ArraySeason<T>* (a fragmented, two‑dimensional array structure).
+
+This design offers several advantages:
+
+- No bucket or tree nodes:  
+Elements are stored directly in compact array segments, avoiding the additional objects normally required by HashMap/HashSet internals.
+
+- Efficient lookup via interval nesting:  
+Because the hash codes are sorted, the set locates the correct hash interval using binary search. Only elements with the same hash code need to be checked for equality, keeping collision handling lightweight.
+
+- Low memory footprint:  
+The absence of wrapper nodes and linked structures reduces object count and improves cache locality, which is especially beneficial for large datasets.
+
+- Fast modifications through fragmentation:  
+Since ArraySeason<T> splits the data into smaller partitions, insertions and shifts affect only a fraction of the total elements. This makes updates significantly faster than in monolithic arrays.
+
+SortedSeasonSet therefore behaves like a HashSet—unique elements, fast lookup—but achieves this without relying on Java’s hash table machinery. The result is a compact, cache‑friendly, and high‑performance set implementation suitable for large collections and performance‑critical applications.
+
+Example:
+```
+// Ambiguity predicate: two objects are considered identical only if they are the same instance (o1 == o2)
+final BiPredicateAmbiguityIdentity<T> ambiguity = new BiPredicateAmbiguityIdentity<>();
+
+// Hash ordering predicate: elements are sorted by their hash code;
+// if two elements share the same hash code, the ambiguity predicate decides whether they are identical
+final BiPredicateHashGr<T> predicate = new BiPredicateHashGr<>();
+
+// Create a SortedSeasonSet that behaves like a HashSet without using Java's HashSet infrastructure
+SortedSeasonSet<T> setHash = new SortedSeasonSet<>(predicate, ambiguity);
+```
+
 
 **Speed comparison:**
 
