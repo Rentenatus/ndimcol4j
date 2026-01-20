@@ -18,11 +18,13 @@ public class SortedSeasonSetWorkerIndexOf<T> extends SortedSeasonSetWorker<T> {
 
     int index = -1;
     ArrayMovie<T> episode = null;
+    T found;
 
     @Override
-    boolean elementEqualsDo(final SortedSeasonSet<T> caller, final ArrayMovie<T> episode, final int index, final T element) {
+    boolean elementEqualsDo(final SortedSeasonSet<T> caller, final ArrayMovie<T> episode, final int index, final T candidate) {
         this.index = index;
         this.episode = episode;
+        this.found = candidate;
         return true;
     }
 
@@ -33,6 +35,9 @@ public class SortedSeasonSetWorkerIndexOf<T> extends SortedSeasonSetWorker<T> {
     public ArrayMovie<T> getEpisode() {
         return episode;
     }
-    
-    
+
+    public T getFound() {
+        return found;
+    }
+
 }

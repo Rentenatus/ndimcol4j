@@ -346,15 +346,19 @@ public class ListSpeed {
         }
     }
 
-    protected static void batch(ListSpeed test, int numberElems) {
+    private Object[] createTestData(int numberElems) {
         ArraySeason<Integer> testCol = new ArraySeason<>();
         Random random = new Random();
-
         for (int i = 0; i < numberElems; i++) {
-            int randomNumber = random.nextInt(numberElems * 2); // Zufälliger Integer  
+            int randomNumber = random.nextInt(numberElems * 2); // Zufälliger Integer
             boolean ok2 = testCol.add(randomNumber);
         }
         Object[] arr = testCol.toArray();
+        return arr;
+    }
+
+    protected static void batch(ListSpeed test, int numberElems) {
+        Object[] arr = test.createTestData(numberElems);
 
         // Zeitmessung für runVector
         long startTime = System.nanoTime();

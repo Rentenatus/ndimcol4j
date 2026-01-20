@@ -10,17 +10,16 @@ package de.jare.ndimcol.utils;
 import java.util.function.BiPredicate;
 
 /**
- * Sort over hash code.
- *
- *
- * A hash set can be implemented using:
+ * Sort over hash code.A hash set can be implemented using:
  *
  * {@code final BiPredicateAmbiguityIdentity<T> ambiguity = new BiPredicateAmbiguityIdentity<>();}
  * {@code final BiPredicateHashGr<T> predicate = new BiPredicateHashGr<>();}
  * {@code SortedSeasonSet<T> setHash = new SortedSeasonSet<>(predicate, ambiguity);}
  *
- * The elements are sorted according to their hash code using `BiPredicateHashGr`. The hash search is then performed
- * using interval nesting.
+ * The elements are sorted according to their hash code using `BiPredicateHashGr`.
+ *
+ *
+ * The hash search is then performed using interval nesting.
  *
  * The order of objects with the same hash code is random. Ambiguity is described using `BiPredicateAmbiguityIdentity`.
  *
@@ -29,11 +28,12 @@ import java.util.function.BiPredicate;
  *
  *
  * @author Janusch Rentenatus
+ * @param <T> the type of elements in this predicate
  */
 public class BiPredicateHashGr<T> implements BiPredicate<T, T> {
 
     /**
-     * Evaluates this hashCode of o1 greater as hashCode of o1.
+     * Evaluates this hashCode of o2 greater as hashCode of o1.
      *
      *
      * @param o1 the first input argument

@@ -11,7 +11,6 @@ import de.jare.ndimcol.ref.IteratorWalker;
 import de.jare.ndimcol.ref.SortedSeasonSet;
 import de.jare.ndimcol.utils.BiPredicateAmbiguityIdentity;
 import de.jare.ndimcol.utils.BiPredicateHashGr;
-import de.jare.ndimcol.utils.BiPredicateInteger;
 import java.util.function.BiPredicate;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
@@ -24,7 +23,7 @@ import org.testng.annotations.Test;
  */
 public class SortedSeasonSetNGTest {
 
-    class CoInteger {
+    public class CoInteger {
 
         Integer i;
 
@@ -38,14 +37,32 @@ public class SortedSeasonSetNGTest {
         }
 
         @Override
+        public int hashCode() {
+            return super.hashCode() + 31 * i;
+        }
+
+        @Override
         public String toString() {
             return i.toString();
         }
 
-        private int intValue() {
+        public int intValue() {
             return i.intValue();
         }
 
+    }
+
+    public class CoIntegerWrapper {
+
+        CoInteger coi;
+
+        public CoIntegerWrapper(CoInteger coi) {
+            this.coi = coi;
+        }
+
+        public CoInteger getCoi() {
+            return coi;
+        }
     }
 
     class BiPredicateCoIntegerGr implements BiPredicate<CoInteger, CoInteger> {
@@ -122,9 +139,9 @@ public class SortedSeasonSetNGTest {
         SortedSeasonSet<CoInteger> setDef = new SortedSeasonSet<>(new BiPredicateCoIntegerGr());
         SortedSeasonSet<CoInteger> setEven = new SortedSeasonSet<>(new BiPredicateCoIntegerGr(), new BiPredicateCoIntegerEv());
         SortedSeasonSet<CoInteger> setAmbi = new SortedSeasonSet<>(new BiPredicateCoIntegerGr(), new BiPredicateCoIntegerNever());
-        final BiPredicateAmbiguityIdentity<CoInteger> ambiguity = new BiPredicateAmbiguityIdentity<>();
-        final BiPredicateHashGr<CoInteger> predicate = new BiPredicateHashGr<>();
-        SortedSeasonSet<CoInteger> setHash = new SortedSeasonSet<>(predicate, ambiguity);
+        final BiPredicateAmbiguityIdentity<CoInteger> ambiguity1 = new BiPredicateAmbiguityIdentity<>();
+        final BiPredicateHashGr<CoInteger> predicate1 = new BiPredicateHashGr<>();
+        SortedSeasonSet<CoInteger> setHash = new SortedSeasonSet<>(predicate1, ambiguity1);
         CoInteger[] src = {
             new CoInteger(2),
             new CoInteger(7),
@@ -135,6 +152,7 @@ public class SortedSeasonSetNGTest {
             null
         };
         src[6] = src[4];
+        System.out.println("<-- source array");
         for (int i = 0; i < src.length; i++) {
             setDef.add(src[i]);
             setEven.add(src[i]);
@@ -159,6 +177,8 @@ public class SortedSeasonSetNGTest {
         setEven.remove(src[1]);
         setAmbi.remove(src[1]);
         setHash.remove(src[1]);
+        System.out.println("<-- remove src[1]");
+        System.out.println(src[1] + "  -r->  " + src[1].hashCode());
 
         System.out.println("--- simple set");
         IteratorWalker<CoInteger> walker = setDef.softWalker();

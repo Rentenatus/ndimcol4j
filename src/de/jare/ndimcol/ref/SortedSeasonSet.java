@@ -233,10 +233,10 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
 
     public boolean workElementEquals(SortedSeasonSetWorker<T> worker, final ArrayMovie<T> episode, int indexM, T element, T candidate) {
         if (ambiguity == null) {
-            return worker.elementEqualsDo(this, episode, indexM, element);
+            return worker.elementEqualsDo(this, episode, indexM, candidate);
         }
         if (ambiguity.test(element, candidate)) {
-            return worker.elementEqualsDo(this, episode, indexM, element);
+            return worker.elementEqualsDo(this, episode, indexM, candidate);
         }
         IterSeasonWalker<T> setWalker = new IterSeasonWalker<>(this);
         // Look to the right:
@@ -248,7 +248,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
             if (predicate.test(element, next)) {
                 break;
             } else if (ambiguity.test(element, next)) {
-                return worker.elementEqualsDo(this, episode, indexM + move, element);
+                return worker.elementEqualsDo(this, episode, indexM + move, next);
             }
         }
         // Look to the left:
@@ -260,7 +260,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
             if (predicate.test(prev, element)) {
                 break;
             } else if (ambiguity.test(element, prev)) {
-                return worker.elementEqualsDo(this, episode, indexM - move, element);
+                return worker.elementEqualsDo(this, episode, indexM - move, prev);
             }
         }
         // Nothing found:
@@ -351,6 +351,26 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
         }
         boolean found = work(workerIndexOf, (T) element);
         return found ? workerIndexOf.getIndex() : -1;
+    }
+
+    /**
+     * Performs a search in sequential order. Uses interval nesting.
+     *
+     * It uses test of ambiguity if this predicate is set.
+     *
+     * Returns the first object that occupies the space of the object being searched for (it does not have to be the
+     * same object), or null if the element is not found. If the specified element is null, it returns null.
+     *
+     * @param element the like element to search for
+     * @return Returns the first object that occupies the space of the object being searched for (it does not have to
+     * be, or null if the element is not found the same object).
+     */
+    public T get(Object element) {
+        if (isEmpty() || element == null) {
+            return null;
+        }
+        boolean found = work(workerIndexOf, (T) element);
+        return found ? workerIndexOf.getFound() : null;
     }
 
     /**
