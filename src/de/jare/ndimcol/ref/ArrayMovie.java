@@ -66,6 +66,15 @@ public interface ArrayMovie<T> extends Collection<T> {
     }
 
     /**
+     * Inserts all elements in the specified collection into this season, starting at the specified position.
+     *
+     * @param index index at which to insert the last element from the specified collection
+     * @param col collection containing elements to be added to this season
+     * @return true if this season changed as a result of the call
+     */
+    public boolean addAll(int index, Collection<? extends T> col);
+
+    /**
      * Adds all of the elements in the specified collection to this collection (optional operation).The behavior of this
      * operation is undefined if the specified collection is modified while the operation is in progress. (This implies
      * that the behavior of this call is undefined if the specified collection is this collection, and this collection
@@ -78,7 +87,9 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @see #add(Object)
      */
     @Override
-    boolean addAll(Collection<? extends T> col);
+
+    boolean addAll(Collection<? extends T> col
+    );
 
     /**
      * Adds all of the elements in the specified array to this collection (optional operation). The behavior of this
@@ -90,7 +101,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @see #add(Object)
      * @see #addAll(Collection)
      */
-    boolean addAll(T[] arr);
+    boolean addAll(T[] arr
+    );
 
     /**
      * Adds all of the elements in the specified movie to this collection.
@@ -98,7 +110,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param movie movie containing elements to be added to this collection
      * @return {@code true} if this collection changed as a result of the call
      */
-    boolean addMovie(ArrayMovie<T> movie);
+    boolean addMovie(ArrayMovie<T> movie
+    );
 
     /**
      * Adds the specified movie to this collection.
@@ -110,9 +123,11 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param movie movie containing elements to be added to this collection
      * @return {@code true} if this collection changed as a result of the call
      */
-    boolean glueMovie(ArrayMovie<T> movie);
+    boolean glueMovie(ArrayMovie<T> movie
+    );
 
-    void assimilateInto(ArrayTape<ArrayMovie<T>> othersData);
+    void assimilateInto(ArrayTape<ArrayMovie<T>> othersData
+    );
 
     /**
      * Appends the specified element to the end of this list .
@@ -122,7 +137,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @throws OutOfMemoryError if there is not enough memory to create a new array with the increased capacity
      */
     @Override
-    boolean add(T element);
+    boolean add(T element
+    );
 
     /**
      * Get the element at the specified index.
@@ -131,7 +147,18 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @return the element at the specified index
      * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
-    T get(int index);
+    T get(int index
+    );
+
+    /**
+     * Sets the element at the specified position.Replaces an old element at the specified position in this list with
+     * the specified element.
+     *
+     * @param index index at which the specified element is to be changed
+     * @param element element to be appended to this list
+     * @return the old element at the specified position
+     */
+    public T set(int index, T element);
 
     /**
      * Removes the element at the specified position in this list.
@@ -141,7 +168,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      * @see #remove(Object)
      */
-    T removeAt(int index);
+    T removeAt(int index
+    );
 
     /**
      * Removes a single instance of the specified element from this collection, if it is present (optional operation).
@@ -158,7 +186,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @throws UnsupportedOperationException if the {@code remove} operation is not supported by this collection
      */
     @Override
-    boolean remove(Object o);
+    boolean remove(Object o
+    );
 
     /**
      * Removes all of this collection's elements that are also contained in the specified collection (optional
@@ -177,7 +206,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @see #contains(Object)
      */
     @Override
-    boolean removeAll(Collection<?> col);
+    boolean removeAll(Collection<?> col
+    );
 
     /**
      * Retains only the elements in this collection that are contained in the specified collection (optional
@@ -196,7 +226,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @see #contains(Object)
      */
     @Override
-    boolean retainAll(Collection<?> col);
+    boolean retainAll(Collection<?> col
+    );
 
     /**
      * Removes all of the elements from this collection (optional operation). The collection will be empty after this
@@ -263,7 +294,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param atIndex the index of the element to start, counted across all elements of the external movie.
      * @return this one IteratorWalker for the deepest ArrayTape of movie with the given index as position
      */
-    IteratorWalker<T> leafWalker(int atIndex);
+    IteratorWalker<T> leafWalker(int atIndex
+    );
 
     /**
      * Returns an iterator over the elements in this collection. There are no guarantees concerning the order in which
@@ -281,7 +313,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param element the element to search for
      * @return the index of the first equal element in the movie or -1 if not found
      */
-    int indexOf(Object element);
+    int indexOf(Object element
+    );
 
     /**
      * Returns {@code true} if this collection contains the specified element. More formally, returns {@code true} if
@@ -295,7 +328,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * ({@linkplain Collection##optional-restrictions optional})
      */
     @Override
-    boolean contains(Object o);
+    boolean contains(Object o
+    );
 
     /**
      * Returns {@code true} if this collection contains all of the elements in the specified collection.
@@ -310,7 +344,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @see #contains(Object)
      */
     @Override
-    boolean containsAll(Collection<?> col);
+    boolean containsAll(Collection<?> col
+    );
 
     /**
      * Returns the index of the last occurrence of the specified element in the ArrayTape, or -1 if the element is not
@@ -319,7 +354,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param element the element to search for in the ArrayTape
      * @return the index of the last occurrence of the specified element, or -1 if the element is not found
      */
-    int lastIndexOf(Object element);
+    int lastIndexOf(Object element
+    );
 
     /**
      * Copy the elements of this movie to the specified array.
@@ -327,7 +363,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param array the array to copy the elements to
      * @param offset the offset in the array to start copying to
      */
-    void copyToArray(Object[] array, int offset);
+    void copyToArray(Object[] array, int offset
+    );
 
     /**
      * Returns an array containing all of the elements in this collection. If this collection makes any guarantees as to
@@ -394,7 +431,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @throws NullPointerException if the specified array is null
      */
     @Override
-    <U> U[] toArray(U[] arr);
+    <U> U[] toArray(U[] arr
+    );
 
     /**
      * Copy the elements of this movie to the new ArrayMovie.
@@ -403,7 +441,8 @@ public interface ArrayMovie<T> extends Collection<T> {
      * @param toIndex high endpoint (exclusive) of the subList
      * @return a new ArrayMovie that is a sub-movie of the current ArrayMovie
      */
-    ArrayMovie<T> subMovie(int fromIndex, int toIndex);
+    ArrayMovie<T> subMovie(int fromIndex, int toIndex
+    );
 
     public default ArrayMovie<T> cloneMovie() {
         return subMovie(0, size() - 1);

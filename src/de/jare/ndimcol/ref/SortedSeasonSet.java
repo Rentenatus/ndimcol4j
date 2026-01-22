@@ -127,6 +127,9 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @return true if the worker was able to process the element, false otherwise
      */
     protected boolean work(SortedSeasonSetWorker<T> worker, T element) {
+        if (simple != null) {
+            return worker.episodeDo(this, simple, element);
+        }
 
         int indexRData = data.size() - 1;
         final ArrayMovie<T> rightData = data.get(indexRData);
@@ -406,6 +409,10 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
         if (!found) {
             return null;
         }
+        if (simple != null) {
+            return new IterCoverWalker<>(this,
+                    simple.leafWalker(workerIndexOf.getIndex()));
+        }
         ArrayMovie<T> episode = workerIndexOf.getEpisode();
         int accumulatedSize = 0;
         IterTapeWalker<ArrayMovie<T>> dataWalker = data.softWalker();
@@ -473,6 +480,9 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @return big set.
      */
     public SortedSeasonSet<T> union(ArrayMovie<T> os) {
+        if (simple != null) {
+            makeComplex();
+        }
         SortedSeasonSet<T> set = new SortedSeasonSet<>(predicate, ambiguity);
         IterTapeWalker<ArrayMovie<T>> dataWalker = data.softWalker();
         while (dataWalker.hasNext()) {

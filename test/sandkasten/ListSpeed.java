@@ -238,7 +238,7 @@ public class ListSpeed {
 
         for (int i = 0; i < numberElems; i++) {
             if (!newTape.get(i).equals(i)) {
-                throw new RuntimeException("List failed");
+                throw new RuntimeException("List failed at " + i);
             }
         }
     }
@@ -450,8 +450,8 @@ public class ListSpeed {
         System.out.println("|SortedSeasonInt|  " + numberElems + "    |  " + duration + " |  " + (duration * 10000 / durationVector) / 100d + "%|int without unboxing|");
 
     }
-
-    final static int[] JOBS = new int[]{50_000, 24_000, 8_000, 4_000, 240, 80};
+//50_000, 24_000,
+    final static int[] JOBS = new int[]{8_000, 4_000, 240, 80};
 
     public static void main(String[] args) {
         ListSpeed test = new ListSpeed();

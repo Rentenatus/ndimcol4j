@@ -34,8 +34,12 @@ import java.util.function.Predicate;
  */
 public class ArraySeason<T> implements ArrayMovie<T> {
 
+    static final int SMALLEST = 1020;
+    static final int SMALLEST2 = SMALLEST * 2;
+
     Screenplay screenplay;
     ArrayTape<ArrayMovie<T>> data;
+    ArrayMovie<T> simple;
     int size;
     int maxEpisodeSize;
     int midEpisodeSize;
@@ -44,10 +48,17 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     private int lastAccumulatedSize = 0;
     private ArrayMovie<T> lastEpisode = null;
     private IterSeasonWalker<T> softWalker;
+    private IterCoverWalker<T> softSimpleWalker;
 
     ArraySeason(ArrayTape<ArrayMovie<T>> data, int size) {
         screenplay = Screenplay2d.INSTANCE;
-        this.data = data;
+        if (data.size() == 1 && size < SMALLEST) {
+            this.data = null;
+            this.simple = data.first();
+        } else {
+            this.data = data;
+            this.simple = null;
+        }
         this.size = size;
         updateCounter = 0;
         recalculateScope();
@@ -58,10 +69,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     public ArraySeason() {
         screenplay = Screenplay2d.INSTANCE;
-        data = new ArrayTape<>(screenplay.getDefaultSize());
+        data = null;
+        simple = createStarter();
         size = 0;
         updateCounter = 0;
-        recalculateScope();
     }
 
     /**
@@ -71,10 +82,25 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     public ArraySeason(final Screenplay screenplay) {
         this.screenplay = screenplay;
-        data = new ArrayTape<>(screenplay.getDefaultSize());
+        data = null;
+        simple = createStarter();
         size = 0;
         updateCounter = 0;
+    }
+
+    protected void makeComplex() {
+        size = simple.size();
+        data = new ArrayTape<>(screenplay.getDefaultSize());
+        data.add(simple);
+        lastAccumulatedSize = 0;
+        lastEpisode = simple;
+        simple = null;
+        softSimpleWalker = null;
         recalculateScope();
+    }
+
+    protected ArrayTape<T> createStarter() {
+        return new ArrayTape<>();
     }
 
     /**
@@ -93,6 +119,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public boolean add(T element) {
+        if (simple != null) {
+            if (size < SMALLEST) {
+                size++;
+                return simple.add(element);
+            }
+            makeComplex();
+        }
         if (data.isEmpty()) {
             final ArrayMovie<T> first = buildInnerMovie(0);
             data.add(first); // add to empty data need not be checked
@@ -127,6 +160,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @return true if the element was added successfully
      */
     public boolean addFirstFree(T element) {
+        if (simple != null) {
+            if (size < SMALLEST) {
+                size++;
+                return simple.add(element);
+            }
+            makeComplex();
+        }
         int episodeIndex = firstFreeEpisode();
         if (episodeIndex == -1) {
             final ArrayMovie<T> nextFree = buildInnerMovie(this.size);
@@ -159,6 +199,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public boolean addAt(int index, T element) {
+        if (simple != null) {
+            if (size < SMALLEST) {
+                size++;
+                return simple.addAt(index, element);
+            }
+            makeComplex();
+        }
         if (lastEpisode != null
                 && lastAccumulatedSize <= index
                 && index < lastAccumulatedSize + lastEpisode.size()) {
@@ -232,6 +279,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @return true if this season changed as a result of the call
      */
     public boolean addAll(int index, Collection<? extends T> col) {
+        if (simple != null) {
+            if (size + col.size() <= SMALLEST) {
+                size += col.size();
+                return simple.addAll(index, col);
+            }
+            makeComplex();
+        }
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
@@ -253,6 +307,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public boolean addAll(Collection<? extends T> col) {
+        if (simple != null) {
+            if (size + col.size() <= SMALLEST) {
+                size += col.size();
+                return simple.addAll(col);
+            }
+            makeComplex();
+        }
         if (data.isEmpty()) {
             final ArrayMovie<T> first = buildInnerMovie(0);
             data.add(first);
@@ -284,6 +345,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public boolean addAll(T[] arr) {
+        if (simple != null) {
+            if (size + arr.length <= SMALLEST) {
+                size += arr.length;
+                return simple.addAll(arr);
+            }
+            makeComplex();
+        }
         if (arr == null) {
             throw new NullPointerException("Array cannot be null.");
         }
@@ -307,6 +375,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public boolean addMovie(ArrayMovie<T> movie) {
+        if (simple != null) {
+            if (size + movie.size() <= SMALLEST) {
+                size += movie.size();
+                return simple.addMovie(movie);
+            }
+            makeComplex();
+        }
         final ArrayTape<T> episode = new ArrayTape<>(movie.size());
         episode.addMovie(movie);
         boolean modified = glueMovie(episode);
@@ -326,6 +401,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public boolean glueMovie(ArrayMovie<T> episode) {
+        if (simple != null) {
+            if (size + episode.size() <= SMALLEST) {
+                size += episode.size();
+                return simple.addMovie(episode);
+            }
+            makeComplex();
+        }
         if (episode.isEmpty()) {
             return false;
         }
@@ -337,7 +419,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     @Override
     public void assimilateInto(ArrayTape<ArrayMovie<T>> othersData) {
-        othersData.addMovie(this.data);
+        if (simple != null) {
+            othersData.add(simple);
+        } else {
+            othersData.addMovie(this.data);
+        }
     }
 
     /**
@@ -349,6 +435,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @return the old element at the specified position
      */
     public T set(int index, T element) {
+        if (simple != null) {
+            return simple.set(index, element);
+        }
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
@@ -424,6 +513,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     //prim.ende
     @Override
     public int hashCode() {
+        if (simple != null) {
+            return _hashCode(simple);
+        }
         int hashCode = 0;
         IteratorWalker<T> walker = softWalker();
         while (walker.hasNext()) {
@@ -444,6 +536,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public T get(int index) {
+        if (simple != null) {
+            return simple.get(index);
+        }
         return getWalkerAtIndex(index).next();
     }
 
@@ -456,6 +551,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     public T first() {
         if (size == 0) {
             throw new IndexOutOfBoundsException("Season is empty.");
+        }
+        if (simple != null) {
+            return simple.first();
         }
         return data.first().first();
     }
@@ -470,6 +568,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         if (size == 0) {
             throw new IndexOutOfBoundsException("Season is empty.");
         }
+        if (simple != null) {
+            return simple.last();
+        }
         return data.last().last();
     }
 
@@ -481,6 +582,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public boolean remove(Object element) {
+        if (simple != null) {
+            boolean ret = simple.remove(element);
+            size = simple.size();
+            return ret;
+        }
         IteratorWalker<T> walker = getWalkerAtElement(element);
         if (walker == null) {
             return false;
@@ -499,6 +605,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public T removeAt(int index) {
+        if (simple != null) {
+            T ret = simple.removeAt(index);
+            size = simple.size();
+            return ret;
+        }
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
@@ -521,6 +632,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public void splitOrGlue() {
+        if (simple != null) {
+            return;
+        }
         int lastSize = maxEpisodeSize;
         for (int i = 0; i < data.size(); i++) {
             ArrayMovie<T> episode = data.get(i);
@@ -559,6 +673,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * this collection.
      */
     protected void recalculateScope() {
+        if (simple != null) {
+            return;
+        }
         final int fac = data.size();
         maxEpisodeSize = screenplay.getMaxEpisodeSize(fac);
         minEpisodeGlue = screenplay.getMinEpisodeGlue(fac);
@@ -572,6 +689,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @return the index of the last free episode, or -1 if no free episode is found
      */
     protected int firstFreeEpisode() {
+        if (simple != null) {
+            return 0;
+        }
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i).size() < maxEpisodeSize) {
                 return i;
@@ -588,6 +708,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     protected IteratorWalker<T> getWalkerAtIndex(int index) {
+        if (simple != null) {
+            return new IterCoverWalker<>(this, simple.leafWalker(index));
+        }
         if (lastEpisode != null
                 && lastAccumulatedSize <= index
                 && index < lastAccumulatedSize + lastEpisode.size()) {
@@ -614,12 +737,18 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @return the walker at the specified element, or null if element not found
      */
     public IteratorWalker<T> getWalkerAtElement(final Object element) {
+        if (simple != null) {
+            final int episodeIndex = simple.indexOf(element);
+            if (episodeIndex >= 0) {
+                return new IterCoverWalker<>(this, simple.leafWalker(episodeIndex));
+            }
+            return null;
+        }
         for (int i = 0; i < data.size(); i++) {
             final ArrayMovie<T> episode = data.get(i);
             final int episodeIndex = episode.indexOf(element);
             if (episodeIndex >= 0) {
                 return new IterCoverWalker<>(this, episode.leafWalker(episodeIndex));
-
             }
         }
         return null;
@@ -641,6 +770,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public int indexOf(Object element) {
+        if (simple != null) {
+            return simple.indexOf(element);
+        }
         final int dataSize = data.size();
         if (dataSize == 1) {
             final ArrayMovie<T> episode = data.first();
@@ -667,6 +799,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public int lastIndexOf(Object element) {
+        if (simple != null) {
+            return simple.lastIndexOf(element);
+        }
         final int dataSize = data.size();
         if (dataSize == 1) {
             final ArrayMovie<T> episode = data.first();
@@ -692,6 +827,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @return the offset of the specified related movie in this collection
      */
     public int getOffset(ArrayMovie<T> relatedMovie) {
+        if (simple != null) {
+            return 0;
+        }
         int offset = 0;
         for (int i = 0; i < data.size(); i++) {
             ArrayMovie<T> episode = data.get(i);
@@ -741,6 +879,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public boolean contains(Object element) {
+        if (simple != null) {
+            return simple.contains(element);
+        }
         for (ArrayMovie<T> episode : data) {
             if (episode.contains(element)) {
                 return true;
@@ -756,7 +897,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public Iterator<T> iterator() {
-        final IterSeasonWalker<T> walker = new IterSeasonWalker<>(this);
+        final IteratorWalker<T> walker = simple != null
+                ? simple.softWalker()
+                : new IterSeasonWalker<>(this);
         return new Iterator<>() {
             private int initialUpdateCounter = Integer.MIN_VALUE;
 
@@ -788,6 +931,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public Object[] toArray() {
+        if (simple != null) {
+            return simple.toArray();
+        }
         Object[] array = new Object[size];
         copyToArray(array, 0);
         return array;
@@ -805,6 +951,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @SuppressWarnings("unchecked")
     @Override
     public <U> U[] toArray(U[] arr) {
+        if (simple != null) {
+            return simple.toArray(arr);
+        }
         if (arr.length < size) {
             //prim:arr=new _PRIM_[size];
             arr = (U[]) Array.newInstance(arr.getClass().getComponentType(), size);
@@ -821,6 +970,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public void copyToArray(Object[] arr, int offset) {
+        if (simple != null) {
+            simple.copyToArray(arr, offset);
+            return;
+        }
         if (arr.length < size + offset) {
             throw new IndexOutOfBoundsException("My size + offset: " + (size + offset)
                     + ", Target array size: " + arr.length + ".");
@@ -847,6 +1000,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public ArrayMovie<T> subMovie(int fromIndex, int toIndex) {
+        if (simple != null) {
+            return simple.subMovie(fromIndex, toIndex);
+        }
         if (fromIndex >= size || fromIndex < 0) {
             throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", Size: " + size + ".");
         }
@@ -858,6 +1014,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         }
 
         ArraySeason<T> subMovie = emptyMovie(0);
+        subMovie.makeComplex();
         if (fromIndex == toIndex) {
             return subMovie;
         }
@@ -893,6 +1050,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     @Override
     public boolean containsAll(Collection<?> col) {
+        if (simple != null) {
+            return simple.containsAll(col);
+        }
         if (col == null) {
             throw new NullPointerException("Collection cannot be null.");
         }
@@ -910,6 +1070,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     public boolean removeAll(Collection<?> col) {
         if (col == null) {
             throw new NullPointerException("Collection cannot be null.");
+        }
+        if (simple != null) {
+            boolean ret = simple.removeAll(col);
+            size = simple.size();
+            return ret;
         }
         boolean modified = false;
         //noprim.start  
@@ -935,6 +1100,11 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         if (col == null) {
             throw new NullPointerException("Collection cannot be null.");
         }
+        if (simple != null) {
+            boolean ret = simple.retainAll(col);
+            size = simple.size();
+            return ret;
+        }
         if (col.isEmpty()) {
             clear();
             return true;
@@ -955,7 +1125,8 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     @Override
     public void clear() {
-        data = new ArrayTape<>(screenplay.getDefaultSize());
+        data = null;
+        simple = createStarter();
         size = 0;
         this.updateCounter++;
         lastAccumulatedSize = 0;
@@ -985,10 +1156,18 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         if (data.isEmpty()) {
             return null;
         }
-        lastEpisode = null;
-        lastAccumulatedSize = 0;
         this.updateCounter++;
         ArraySeason<T> ret = emptyMovie((size >> 1) + screenplay.getDefaultSize());
+        if (simple != null) {
+            ArrayMovie<T> other = simple.splitInHalf();
+            size = simple.size();
+            if (other == null) {
+                return null;
+            }
+            ret.addMovie(other);
+        }
+        lastEpisode = null;
+        lastAccumulatedSize = 0;
         ret.screenplay = screenplay;
         if (data.size() == 1) {
             ArrayMovie<T> other = data.get(0).splitInHalf();
@@ -996,13 +1175,14 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             if (other == null) {
                 return null;
             }
-            ret.data.add(other);
+            ret.addMovie(other);
         } else {
             ArrayTape<ArrayMovie<T>> other = data.splitInHalf();
             updateSize();
             if (other == null) {
                 return null;
             }
+            ret.makeComplex();
             ret.data.addAll(other);
         }
         ret.updateSize();
@@ -1010,6 +1190,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     }
 
     protected void updateSize() {
+        if (simple != null) {
+            size = simple.size();
+            return;
+        }
         int oldSize = size;
         size = 0;
         for (int i = 0; i < data.size(); i++) {
@@ -1023,6 +1207,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     @Override
     public IteratorWalker<T> softWalker() {
+        if (simple != null) {
+            if (softSimpleWalker != null) {
+                return softSimpleWalker.goFirst();
+            }
+            softSimpleWalker = new IterCoverWalker<>(this, simple.softWalker());
+            return softSimpleWalker;
+        }
         if (softWalker != null) {
             return softWalker.goFirst();
         }
@@ -1032,6 +1223,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     @Override
     public IteratorWalker<T> softWalkerBackwards() {
+        if (simple != null) {
+            if (softSimpleWalker != null) {
+                return softSimpleWalker.goLast();
+            }
+            softSimpleWalker = new IterCoverWalker<>(this, simple.softWalker());
+            return softSimpleWalker.goLast();
+        }
         if (softWalker != null) {
             return softWalker.goLast();
         }
@@ -1041,6 +1239,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     @Override
     public IteratorWalker<T> leafWalker(int atIndex) {
+        if (simple != null) {
+            return new IterCoverWalker<>(this, simple.softWalker().goLeafIndex(atIndex));
+        }
         if (softWalker != null) {
             return softWalker.goLeafIndex(atIndex);
         }
@@ -1050,9 +1251,13 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     @Override
     public int debug(PrintStream out, String prefix, int offset) {
+        if (simple != null) {
+            out.println(prefix + "simple.size() =  " + simple.size());
+            return simple.debug(out, prefix + "simple  ", offset);
+        }
         for (int i = 0; i < data.size(); i++) {
             ArrayMovie<T> episode = data.get(i);
-            out.println(prefix + "s[" + i + "] .size() =  " + episode.size());
+            out.println(prefix + "s[" + i + "].size() =  " + episode.size());
             offset = episode.debug(out, prefix + "s[" + i + "]  ", offset);
         }
         return offset;
@@ -1065,11 +1270,17 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public int pageSpaceLeft() {
+        if (simple != null) {
+            return 0;
+        }
         return data.pageSpaceLeft();
     }
 
     @Override
     public IteratorWalker<T> filterFirst(Predicate<? super T> predicate) {
+        if (simple != null) {
+            return simple.filterFirst(predicate);
+        }
         int startupdateCounter = updateCounter;
         for (int i = 0; i < data.size(); i++) {
             IteratorWalker<T> walker = data.get(i).filterFirst(predicate);
@@ -1085,6 +1296,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     @Override
     public IteratorWalker<T> filterLast(Predicate<? super T> predicate) {
+        if (simple != null) {
+            return simple.filterLast(predicate);
+        }
         int startupdateCounter = updateCounter;
         for (int i = data.size() - 1; i >= 0; i--) {
             IteratorWalker<T> walker = data.get(i).filterLast(predicate);
@@ -1100,6 +1314,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
 
     @Override
     public ArrayMovie<T> filterAll(Predicate<? super T> predicate) {
+        if (simple != null) {
+            return simple.filterAll(predicate);
+        }
         ArraySeason<T> ret = emptyMovie(data.size() << 3);
         IterTapeWalker<ArrayMovie<T>> walker = data.walker();
         while (walker.hasNext()) {
@@ -1135,6 +1352,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public void forEach(Consumer<? super T> action) {
+        if (simple != null) {
+            simple.forEach(action);
+            return;
+        }
         IterTapeWalker<ArrayMovie<T>> walker = data.walker();
         while (walker.hasNext()) {
             ArrayMovie<T> elements = walker.next();
@@ -1153,6 +1374,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public void forEach(Predicate<? super T> predicate, Consumer<? super T> thenAction) {
+        if (simple != null) {
+            simple.forEach(predicate, thenAction);
+            return;
+        }
         IterTapeWalker<ArrayMovie<T>> walker = data.walker();
         while (walker.hasNext()) {
             ArrayMovie<T> elements = walker.next();
@@ -1174,6 +1399,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public void forEach(Predicate<? super T> predicate, Consumer<? super T> thenActionOrNull,
             int startOffset, IntConsumer thenIndexActionOrNull) {
+        if (simple != null) {
+            simple.forEach(predicate, thenActionOrNull, startOffset, thenIndexActionOrNull);
+            return;
+        }
         int offset = startOffset;
         for (int i = 0; i < data.size(); i++) {
             ArrayMovie<T> episode = data.get(i);
@@ -1196,6 +1425,10 @@ public class ArraySeason<T> implements ArrayMovie<T> {
     @Override
     public void forEach(Predicate<? super T> predicate,
             Consumer<? super T> thenAction, Consumer<? super T> elseAction) {
+        if (simple != null) {
+            simple.forEach(predicate, thenAction, elseAction);
+            return;
+        }
         IterTapeWalker<ArrayMovie<T>> walker = data.walker();
         while (walker.hasNext()) {
             ArrayMovie<T> elements = walker.next();
@@ -1213,6 +1446,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @SuppressWarnings("unchecked")
     public ArrayMovie<T> filterParallel(Predicate<? super T> predicate) {
+        if (simple != null) {
+            return simple.filterAll(predicate);
+        }
         Thread[] threads = new Thread[data.size()];
         Runnable[] tasks = new Runnable[data.size()];
         for (int i = 0; i < data.size(); i++) {
@@ -1221,6 +1457,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             threads[i].start();
         }
         ArraySeason<T> ret = emptyMovie(data.size() << 3);
+        ret.makeComplex();
         for (int i = 0; i < data.size(); i++) {
             try {
                 threads[i].join();

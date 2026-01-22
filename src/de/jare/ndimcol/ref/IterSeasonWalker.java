@@ -29,11 +29,13 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
      */
     public IterSeasonWalker(ArraySeason<T> season) {
         this.season = season;
-        this.outerWalker = season.data.softWalker();
+        this.outerWalker = season.simple != null ? null : season.data.softWalker();
         this.currentIndex = 0;
         this.forward = true;
 
-        if (outerWalker.hasNext()) {
+        if (outerWalker == null) {
+            this.innerWalker = season.simple.softWalker();
+        } else if (outerWalker.hasNext()) {
             this.innerWalker = outerWalker.next().softWalker();
         } else {
             this.innerWalker = null; // No inner tapes available
@@ -57,7 +59,7 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
      */
     @Override
     public boolean hasNext() {
-        return (innerWalker != null && innerWalker.hasNext()) || outerWalker.hasNext();
+        return (innerWalker != null && innerWalker.hasNext()) || (outerWalker != null && outerWalker.hasNext());
     }
 
     /**
@@ -70,7 +72,7 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
         if (innerWalker != null && innerWalker.hasNext()) {
             currentIndex++;
             return innerWalker.next();
-        } else if (outerWalker.hasNext()) {
+        } else if (outerWalker != null && outerWalker.hasNext()) {
             innerWalker = outerWalker.next().softWalker();
             return next();
         }
@@ -96,7 +98,7 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
      */
     @Override
     public boolean hasPrevious() {
-        return (innerWalker != null && innerWalker.hasPrevious()) || outerWalker.hasPrevious();
+        return (innerWalker != null && innerWalker.hasPrevious()) || (outerWalker != null && outerWalker.hasPrevious());
     }
 
     /**
@@ -109,7 +111,7 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
         if (innerWalker != null && innerWalker.hasPrevious()) {
             currentIndex--;
             return innerWalker.previous();
-        } else if (outerWalker.hasPrevious()) {
+        } else if (outerWalker != null && outerWalker.hasPrevious()) {
             innerWalker = outerWalker.previous().softWalker();
             innerWalker.goLast(); // Go to the last element of the inner tape
             currentIndex--;
@@ -199,9 +201,13 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
      */
     @Override
     public IteratorWalker<T> goFirst() {
-        outerWalker.goFirst();
         currentIndex = 0;
         forward = true;
+        if (outerWalker == null) {
+            innerWalker = season.simple.softWalker();
+            return this;
+        }
+        outerWalker.goFirst();
 
         if (outerWalker.hasNext()) {
             innerWalker = outerWalker.next().softWalker();
@@ -218,9 +224,14 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
      */
     @Override
     public IteratorWalker<T> goLast() {
-        outerWalker.goLast();
         currentIndex = season.size() - 1;
         forward = false;
+        if (outerWalker == null) {
+            innerWalker = season.simple.softWalker();
+            innerWalker.goLast();
+            return this;
+        }
+        outerWalker.goLast();
 
         if (outerWalker.hasPrevious()) {
             innerWalker = outerWalker.previous().softWalker();
@@ -234,6 +245,12 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
     public IteratorWalker<T> gotoIndex(int index, boolean headForward) {
         if (index < 0 || index >= season.size()) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + season.size());
+        }
+        if (outerWalker == null) {
+            innerWalker = season.simple.softWalker();
+            innerWalker.gotoIndex(index, headForward);
+            currentIndex = index;
+            return this;
         }
         outerWalker.goFirst();
         currentIndex = 0;
@@ -277,6 +294,11 @@ public class IterSeasonWalker<T> implements IteratorWalker<T> {
         if (index < 0 || index >= season.size()) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + season.size());
         }
+        if (outerWalker == null) {
+            innerWalker = season.simple.softWalker();
+            return new IterCoverWalker<>(season, innerWalker.goLeafIndex(index));
+        }
+
         outerWalker.goFirst();
         currentIndex = 0;
 

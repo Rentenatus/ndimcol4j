@@ -73,6 +73,11 @@ public class ArraySeasonHashable<T> extends ArraySeason<T> implements Rentenatus
     }
 
     @Override
+    protected ArrayTape<T> createStarter() {
+        return new ArrayTapeHashable<>(SMALLEST / 4);
+    }
+
+    @Override
     public HashStrategy<T> getStrategy() {
         return strategy;
     }
@@ -107,6 +112,11 @@ public class ArraySeasonHashable<T> extends ArraySeason<T> implements Rentenatus
         if (hashComputed) {
             return hashCode;
         }
+        hashComputed = true;
+        if (simple != null) {
+            hashCode = simple.hashCode();
+            return hashCode;
+        }
         hashCode = 0;
         IterTapeWalker<ArrayMovie<T>> walker = data.softWalker();
         while (walker.hasNext()) {
@@ -115,7 +125,6 @@ public class ArraySeasonHashable<T> extends ArraySeason<T> implements Rentenatus
                     nextMovie.size(),
                     nextMovie.hashCode());
         }
-        hashComputed = true;
         return hashCode;
     }
 
