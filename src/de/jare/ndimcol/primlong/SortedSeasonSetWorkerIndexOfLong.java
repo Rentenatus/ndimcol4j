@@ -21,11 +21,13 @@ public class SortedSeasonSetWorkerIndexOfLong extends SortedSeasonSetWorkerLong 
 
     int index = -1;
     ArrayMovieLong episode = null;
+    long found;
 
     @Override
-    boolean elementEqualsDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final int index, final long element) {
+    boolean elementEqualsDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final int index, final long candidate) {
         this.index = index;
         this.episode = episode;
+        this.found = candidate;
         return true;
     }
 
@@ -36,6 +38,9 @@ public class SortedSeasonSetWorkerIndexOfLong extends SortedSeasonSetWorkerLong 
     public ArrayMovieLong getEpisode() {
         return episode;
     }
-    
-    
+
+    public long getFound() {
+        return found;
+    }
+
 }

@@ -9,8 +9,7 @@ package de.jare.ndimcol.ref;
 
 import de.jare.ndimcol.ref.ArrayMovie;
 
-/**
- *
+/** 
  * @author Janusch Rentenatus
  */
 public class Screenplay3d implements Screenplay {
@@ -19,12 +18,12 @@ public class Screenplay3d implements Screenplay {
     private final Screenplay3dInner inner = new Screenplay3dInner();
 
     static final int DEFAULT_SIZE_3D = 24;
-    static final int START_MAX_EPISODE_SIZE_3D = 8192;
-    static final int START_MIN_EPISODE_GLUE_3D = 192;
+    static final int START_MAX_EPISODE_SIZE_3D = 3200;
+    static final int START_MIN_EPISODE_GLUE_3D = 512;
     static final int DEFAULT_SIZE_3D_INNER = 12;
-    static final int START_MAX_EPISODE_SIZE_3D_INNER = 512;
-    static final int START_MIN_EPISODE_GLUE_3D_INNER = 128;
-    static final int START_3D_SIZE = 4096;
+    static final int START_MAX_EPISODE_SIZE_3D_INNER = 400;
+    static final int START_MIN_EPISODE_GLUE_3D_INNER = 100;
+    static final int START_3D_SIZE = 1024;
 
     static class Screenplay3dInner implements Screenplay {
 

@@ -9,8 +9,7 @@
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primfloat;
 
-/**
- *
+/** 
  * @author Janusch Rentenatus
  */
     // #### This code has been generated. Please do not make any changes here.
@@ -19,9 +18,9 @@ public class Screenplay2dFloat implements ScreenplayFloat {
 
     public final static ScreenplayFloat INSTANCE = new Screenplay2dFloat();
 
-    static final int DEFAULT_SIZE_2D = 30;
-    static final int START_MAX_EPISODE_SIZE_2D = 800;
-    static final int START_MIN_EPISODE_GLUE_2D = 200;
+    static final int DEFAULT_SIZE_2D = 32;
+    static final int START_MAX_EPISODE_SIZE_2D = 400;
+    static final int START_MIN_EPISODE_GLUE_2D = 100;
 
     @Override
     public int getDefaultSize() {

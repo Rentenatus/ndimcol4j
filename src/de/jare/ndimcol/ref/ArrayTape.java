@@ -35,7 +35,7 @@ import java.util.function.Predicate;
  */
 public class ArrayTape<T> implements ArrayMovie<T> {
 
-    public static final int DEFAULT_CAPACITY = 32;
+    public static final int DEFAULT_CAPACITY = 9;
     public static final int DEFAULT_PAGE = 64;
     public static final int DEFAULT_COUNTDOWN = DEFAULT_PAGE << 2;
 
@@ -1123,7 +1123,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      */
     @Override
     public int pageSpaceLeft() {
-        return this.elementData == null ? 0 : (this.elementData.length - size);
+        return this.elementData.length - size;
     }
 
     /**

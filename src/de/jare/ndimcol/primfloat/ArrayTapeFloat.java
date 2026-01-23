@@ -38,7 +38,7 @@ import java.util.function.IntConsumer;
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 public class ArrayTapeFloat implements ArrayMovieFloat {
 
-    public static final int DEFAULT_CAPACITY = 32;
+    public static final int DEFAULT_CAPACITY = 9;
     public static final int DEFAULT_PAGE = 64;
     public static final int DEFAULT_COUNTDOWN = DEFAULT_PAGE << 2;
 
@@ -1128,7 +1128,7 @@ public class ArrayTapeFloat implements ArrayMovieFloat {
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int pageSpaceLeft() {
-        return this.elementData == null ? 0 : (this.elementData.length - size);
+        return this.elementData.length - size;
     }
 
     /**

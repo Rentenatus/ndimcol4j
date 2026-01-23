@@ -112,8 +112,8 @@ public class ArraySeasonLong implements ArrayMovieLong {
             this.updateCounter++;
             return true;
         }
-        final ArrayMovieLong episode = data.get(data.size() - 1);
-        if (episode.size() >= midEpisodeSize && episode.pageSpaceLeft() <= 8) {
+        final ArrayMovieLong episode = data.last();
+        if (episode.size() >= midEpisodeSize && episode.pageSpaceLeft() <= 3) {
             final ArrayMovieLong nextFree = buildInnerMovie(this.size);
             if (!data.add(nextFree)) {
                 return false;

@@ -112,8 +112,8 @@ public class ArraySeasonInt implements ArrayMovieInt {
             this.updateCounter++;
             return true;
         }
-        final ArrayMovieInt episode = data.get(data.size() - 1);
-        if (episode.size() >= midEpisodeSize && episode.pageSpaceLeft() <= 8) {
+        final ArrayMovieInt episode = data.last();
+        if (episode.size() >= midEpisodeSize && episode.pageSpaceLeft() <= 3) {
             final ArrayMovieInt nextFree = buildInnerMovie(this.size);
             if (!data.add(nextFree)) {
                 return false;

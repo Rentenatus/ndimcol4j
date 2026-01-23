@@ -11,8 +11,7 @@ package de.jare.ndimcol.primfloat;
 
 import de.jare.ndimcol.ref.ArrayMovie;
 
-/**
- *
+/** 
  * @author Janusch Rentenatus
  */
     // #### This code has been generated. Please do not make any changes here.
@@ -23,12 +22,12 @@ public class Screenplay3dFloat implements ScreenplayFloat {
     private final Screenplay3dFloatInner inner = new Screenplay3dFloatInner();
 
     static final int DEFAULT_SIZE_3D = 24;
-    static final int START_MAX_EPISODE_SIZE_3D = 8192;
-    static final int START_MIN_EPISODE_GLUE_3D = 192;
+    static final int START_MAX_EPISODE_SIZE_3D = 3200;
+    static final int START_MIN_EPISODE_GLUE_3D = 512;
     static final int DEFAULT_SIZE_3D_INNER = 12;
-    static final int START_MAX_EPISODE_SIZE_3D_INNER = 512;
-    static final int START_MIN_EPISODE_GLUE_3D_INNER = 128;
-    static final int START_3D_SIZE = 4096;
+    static final int START_MAX_EPISODE_SIZE_3D_INNER = 400;
+    static final int START_MIN_EPISODE_GLUE_3D_INNER = 100;
+    static final int START_3D_SIZE = 1024;
 
     static class Screenplay3dFloatInner implements ScreenplayFloat {
 

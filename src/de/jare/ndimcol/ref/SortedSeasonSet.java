@@ -366,9 +366,11 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * be, or null if the element is not found the same object).
      */
     public T get(Object element) {
+        //noprim.start  
         if (isEmpty() || element == null) {
             return null;
         }
+        //noprim.ende  
         boolean found = work(workerIndexOf, (T) element);
         return found ? workerIndexOf.getFound() : null;
     }
@@ -376,8 +378,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
     /**
      * Returns the walker at the specified element in this collection.
      *
-     * Perform a brute force search.
-     *
+     * Perform a brute force search.     *
      * It uses equals comparison like any other standard list.
      *
      * @param element the element to search for

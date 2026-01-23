@@ -229,10 +229,10 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
 
     public boolean workElementEquals(SortedSeasonSetWorkerInt worker, final ArrayMovieInt episode, int indexM, int element, int candidate) {
         if (ambiguity == null) {
-            return worker.elementEqualsDo(this, episode, indexM, element);
+            return worker.elementEqualsDo(this, episode, indexM, candidate);
         }
         if (ambiguity.test(element, candidate)) {
-            return worker.elementEqualsDo(this, episode, indexM, element);
+            return worker.elementEqualsDo(this, episode, indexM, candidate);
         }
         IterSeasonWalkerInt setWalker = new IterSeasonWalkerInt(this);
         // Look to the right:
@@ -244,7 +244,7 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
             if (predicate.test(element, next)) {
                 break;
             } else if (ambiguity.test(element, next)) {
-                return worker.elementEqualsDo(this, episode, indexM + move, element);
+                return worker.elementEqualsDo(this, episode, indexM + move, next);
             }
         }
         // Look to the left:
@@ -256,7 +256,7 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
             if (predicate.test(prev, element)) {
                 break;
             } else if (ambiguity.test(element, prev)) {
-                return worker.elementEqualsDo(this, episode, indexM - move, element);
+                return worker.elementEqualsDo(this, episode, indexM - move, prev);
             }
         }
         // Nothing found:
@@ -360,10 +360,28 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
     }
 
     /**
+     * Performs a search in sequential order. Uses interval nesting.
+     *
+     * It uses test of ambiguity if this predicate is set.
+     *
+     * Returns the first object that occupies the space of the object being searched for (it does not have to be the
+     * same object), or null if the element is not found. If the specified element is null, it returns null.
+     *
+     * @param element the like element to search for
+     * @return Returns the first object that occupies the space of the object being searched for (it does not have to
+     * be, or null if the element is not found the same object).
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public int get(int element) {
+        boolean found = work(workerIndexOf, element);
+        return found ? workerIndexOf.getFound() : null;
+    }
+
+    /**
      * Returns the walker at the specified element in this collection.
      *
-     * Perform a brute force search.
-     *
+     * Perform a brute force search.     *
      * It uses equals comparison like any other standard list.
      *
      * @param element the element to search for

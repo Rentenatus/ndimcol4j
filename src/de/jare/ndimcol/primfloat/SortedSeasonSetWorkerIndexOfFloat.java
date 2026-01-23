@@ -21,11 +21,13 @@ public class SortedSeasonSetWorkerIndexOfFloat extends SortedSeasonSetWorkerFloa
 
     int index = -1;
     ArrayMovieFloat episode = null;
+    float found;
 
     @Override
-    boolean elementEqualsDo(final SortedSeasonSetFloat caller, final ArrayMovieFloat episode, final int index, final float element) {
+    boolean elementEqualsDo(final SortedSeasonSetFloat caller, final ArrayMovieFloat episode, final int index, final float candidate) {
         this.index = index;
         this.episode = episode;
+        this.found = candidate;
         return true;
     }
 
@@ -36,6 +38,9 @@ public class SortedSeasonSetWorkerIndexOfFloat extends SortedSeasonSetWorkerFloa
     public ArrayMovieFloat getEpisode() {
         return episode;
     }
-    
-    
+
+    public float getFound() {
+        return found;
+    }
+
 }
