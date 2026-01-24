@@ -70,6 +70,119 @@ Replacing a single element in the list can also calculate the new hash value dir
     }
 ```
 
+---
+
+**3D mesh‑glue system for jMonkeyEngine 3 (jME3)**
+
+In jMonkeyEngine 3 (jME3), a 3D scene often contains many small mesh fragments—such as sprites, vegetation quads, modular geometry pieces, or procedurally generated elements. Rendering each fragment as a separate Geometry object is inefficient because every object produces its own draw call, state change, and buffer binding. This quickly becomes a performance bottleneck, especially when hundreds or thousands of small meshes are involved.
+
+The mesh‑glue system solves this problem by combining many small mesh fragments (“atoms”) into one large, optimized mesh. Instead of letting jME3 batch the geometry at runtime, the system builds a single mesh manually, giving full control over all parameter.
+
+Because the system performs all merging and updates directly inside the mesh data, it eliminates the need for jME3’s post‑processing batch optimizations and avoids repeated re‑batching by applying corrections directly within the combined mesh.
+```
+// 1) Create a GlueConfig for Position(3), TexCoord(3), Color(4)
+GlueConfig<VertexBuffer.Type> config = new GlueConfig<>(
+    new VertexBuffer.Type[]{
+        VertexBuffer.Type.Position,
+        VertexBuffer.Type.TexCoord,
+        VertexBuffer.Type.Color
+    },
+    new int[]{3, 3, 4}
+);
+
+GluableSingeleMesh<VertexBuffer.Type> atom1 = new GluableSingeleMesh<>(config);
+
+// Register attributes
+atom1.registerPosition(VertexBuffer.Type.Position);
+atom1.registerTexture(VertexBuffer.Type.TexCoord);
+
+// Position buffer (4 vertices)
+atom1.setContent(VertexBuffer.Type.Position, new float[]{
+    0,0,0,
+    1,0,0,
+    1,1,0,
+    0,1,0
+});
+
+// TexCoord buffer (u,v,layer)
+atom1.setContent(VertexBuffer.Type.TexCoord, new float[]{
+    0,0,2,
+    1,0,2,
+    1,1,2,
+    0,1,2
+});
+
+// Color buffer
+atom1.setContent(VertexBuffer.Type.Color, new float[]{
+    1,0,0,1,
+    1,0,0,1,
+    1,0,0,1,
+    1,0,0,1
+});
+
+// Index buffer
+atom1.setIndexbuffer(new short[]{0,1,2, 0,2,3});
+
+GluableSingeleMesh<VertexBuffer.Type> atom2 = new GluableSingeleMesh<>(config);
+
+atom2.registerPosition(VertexBuffer.Type.Position);
+atom2.registerTexture(VertexBuffer.Type.TexCoord);
+
+atom2.setContent(VertexBuffer.Type.Position, new float[]{
+    2,0,0,
+    3,0,0,
+    3,1,0,
+    2,1,0
+});
+
+atom2.setContent(VertexBuffer.Type.TexCoord, new float[]{
+    0,0,5,
+    1,0,5,
+    1,1,5,
+    0,1,5
+});
+
+atom2.setContent(VertexBuffer.Type.Color, new float[]{
+    0,1,0,1,
+    0,1,0,1,
+    0,1,0,1,
+    0,1,0,1
+});
+
+atom2.setIndexbuffer(new short[]{0,1,2, 0,2,3});
+
+GluedMesh gluedMesh = new GluedMesh(config);
+
+// Add both atoms
+gluedMesh.add(atom1);
+gluedMesh.add(atom2);
+
+// Build the final merged mesh
+gluedMesh.calculate();
+
+// Retrieve the glued result
+GluableSingeleMesh<VertexBuffer.Type> result = gluedMesh.getGlued();
+
+```
+
+On‑the‑fly Manipulation
+
+```
+gluedMesh.setPos(atom2, 0, 2, 0); // move up by 2 units
+gluedMesh.changeImageIndex(atom1, 7); // switch to texture layer 7
+```
+
+On‑the‑Fly Add Example
+```
+// Add third atom dynamically
+gluedMesh.add(atom3);
+
+// No need to call calculate() again
+// enhance(atom3) is automatically invoked
+```
+
+---
+
 **HashSet without HashSet**
 
 *SortedSeasonSet* provides a memory‑efficient alternative to Java’s HashSet by eliminating the need for bucket structures, wrapper nodes, or tree‑based collision handling. Instead of storing elements in hash buckets, the collection keeps all elements sorted by their hash code inside an *ArraySeason<T>* (a fragmented, two‑dimensional array structure).
@@ -102,6 +215,9 @@ final BiPredicateHashGr<T> predicate = new BiPredicateHashGr<>();
 // Create a SortedSeasonSet that behaves like a HashSet without using Java's HashSet infrastructure
 SortedSeasonSet<T> setHash = new SortedSeasonSet<>(predicate, ambiguity);
 ```
+
+
+---
 
 
 **Speed comparison:**
