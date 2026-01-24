@@ -24,6 +24,7 @@ public class GeneratePrimitiveJavaFiles {
         String directoryPath = args.length == 0 ? JAREDIR : args[0];
         calculate(directoryPath, "Int", "int", "Integer");
         calculate(directoryPath, "Long", "long", "Long");
+        calculate(directoryPath, "Short", "short", "Short");
         calculate(directoryPath, "Float", "float", "Float");
     }
 

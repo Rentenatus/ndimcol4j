@@ -54,6 +54,8 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("Consumer<? super T>", append + "Consumer"));
         replacement.add(List.of("import java.util.function.FloatConsumer;", "// FloatConsumer is unfortunately not available in java.util.function"));
         replacement.add(List.of("import java.util.function.FloatPredicate;", "// FloatPredicate is unfortunately not available in java.util.function"));
+        replacement.add(List.of("import java.util.function.ShortConsumer;", "// ShortConsumer is unfortunately not available in java.util.function"));
+        replacement.add(List.of("import java.util.function.ShortPredicate;", "// ShortPredicate is unfortunately not available in java.util.function"));
         replacement.add(List.of("<T> ArrayMovie<T>", "ArrayMovie" + append));
         replacement.add(List.of("ArrayMovie<?>", "ArrayMovie" + append));
         replacement.add(List.of("ArrayMatrix<?>", "ArrayMatrix" + append));
