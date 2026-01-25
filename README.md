@@ -90,11 +90,17 @@ GlueConfig<VertexBuffer.Type> config = new GlueConfig<>(
     new int[]{3, 3, 4}
 );
 
-GluableSingeleMesh<VertexBuffer.Type> atom1 = new GluableSingeleMesh<>(config);
+// Register which attributes represent Position and TexCoord
+config.registerPosition(VertexBuffer.Type.Position);
+config.registerTexture(VertexBuffer.Type.TexCoord);
 
-// Register attributes
-atom1.registerPosition(VertexBuffer.Type.Position);
-atom1.registerTexture(VertexBuffer.Type.TexCoord);
+// ---------------------------
+// Create first mesh atom
+// ---------------------------
+GluableSingleMesh<VertexBuffer.Type> atom1 = new GluableSingleMesh<>(config);
+
+// Local translation (optional)
+atom1.setPos(0, 0, 0);
 
 // Position buffer (4 vertices)
 atom1.setContent(VertexBuffer.Type.Position, new float[]{
@@ -123,18 +129,23 @@ atom1.setContent(VertexBuffer.Type.Color, new float[]{
 // Index buffer
 atom1.setIndexbuffer(new short[]{0,1,2, 0,2,3});
 
-GluableSingeleMesh<VertexBuffer.Type> atom2 = new GluableSingeleMesh<>(config);
+// ---------------------------
+// Create second mesh atom
+// ---------------------------
+GluableSingleMesh<VertexBuffer.Type> atom2 = new GluableSingleMesh<>(config);
 
-atom2.registerPosition(VertexBuffer.Type.Position);
-atom2.registerTexture(VertexBuffer.Type.TexCoord);
+// Local translation (instead of hardcoding positions)
+atom2.setPos(2, 0, 0);
 
+// Base quad at origin (will be translated by setPos)
 atom2.setContent(VertexBuffer.Type.Position, new float[]{
-    2,0,0,
-    3,0,0,
-    3,1,0,
-    2,1,0
+    0,0,0,
+    1,0,0,
+    1,1,0,
+    0,1,0
 });
 
+// TexCoord buffer (u,v,layer)
 atom2.setContent(VertexBuffer.Type.TexCoord, new float[]{
     0,0,5,
     1,0,5,
@@ -142,6 +153,7 @@ atom2.setContent(VertexBuffer.Type.TexCoord, new float[]{
     0,1,5
 });
 
+// Color buffer
 atom2.setContent(VertexBuffer.Type.Color, new float[]{
     0,1,0,1,
     0,1,0,1,
@@ -149,11 +161,14 @@ atom2.setContent(VertexBuffer.Type.Color, new float[]{
     0,1,0,1
 });
 
+// Index buffer
 atom2.setIndexbuffer(new short[]{0,1,2, 0,2,3});
 
+// ---------------------------
+// Glue both atoms together
+// ---------------------------
 GluedMesh gluedMesh = new GluedMesh(config);
 
-// Add both atoms
 gluedMesh.add(atom1);
 gluedMesh.add(atom2);
 
@@ -161,8 +176,7 @@ gluedMesh.add(atom2);
 gluedMesh.calculate();
 
 // Retrieve the glued result
-GluableSingeleMesh<VertexBuffer.Type> result = gluedMesh.getGlued();
-
+GluableSingleMesh<VertexBuffer.Type> result = gluedMesh.getGlued();
 ```
 
 On‑the‑fly Manipulation
