@@ -9,6 +9,9 @@ package de.jare.jme.meshglue;
 
 import de.jare.ndimcol.primfloat.ArrayTapeFloat;
 import de.jare.ndimcol.primshort.ArrayTapeShort;
+import de.jare.ndimcol.primshort.IterTapeWalkerShort;
+import de.jare.ndimcol.ref.ArrayTape;
+import de.jare.ndimcol.ref.IterTapeWalker;
 import java.util.ArrayList;
 
 /**
@@ -40,6 +43,11 @@ public class GluedMesh {
     private final ArrayList<GluableSingleMesh> atoms;
 
     /**
+     * The list of wasted mesh fragments after merge.
+     */
+    private final ArrayTape<GluableSingleMesh> waste;
+
+    /**
      * The final merged mesh created after {@link #calculate()}.
      */
     private GluableSingleMesh glued;
@@ -51,6 +59,7 @@ public class GluedMesh {
      */
     public GluedMesh(GlueConfig config) {
         this.atoms = new ArrayList<>();
+        this.waste = new ArrayTape<>();
         this.glued = null;
         this.config = config;
     }
@@ -70,8 +79,62 @@ public class GluedMesh {
 
         // If a glued mesh already exists, merge the new atom immediately
         if (glued != null) {
+            if (replaceWaste(atom)) {
+                // found a hole.
+                return;
+            }
             enhance(atom);
         }
+    }
+
+    /**
+     * Removes a previously added mesh fragment ("atom") from this glued mesh. The removal is performed lazily: instead
+     * of rebuilding the entire combined mesh, the method attempts to invalidate only the index references belonging to
+     * the removed atom.
+     *
+     * <p>
+     * The removal process works as follows:
+     * </p>
+     * <ul>
+     * <li>The atom is removed from the internal atom list.</li>
+     * <li>If the atom was never part of the glued mesh (no valid offset), the method returns immediately.</li>
+     * <li>If no glued mesh exists yet, the removal is trivial.</li>
+     * <li>If the number of removed atoms ("waste") grows too large relative to the number of active atoms, the entire
+     * glued mesh is discarded and must be rebuilt on the next {@code calculate()} call.</li>
+     * <li>Otherwise, the atom is added to the waste list and its index range is removed from the combined index buffer
+     * via {@link #cutoff(GluableSingleMesh)}.</li>
+     * </ul>
+     *
+     * <p>
+     * This lazy removal strategy avoids expensive full rebuilds and allows the system to reuse freed vertex slots later
+     * for new atoms, enabling efficient real-time mesh updates.
+     * </p>
+     *
+     * @param atom The mesh fragment to remove.
+     *
+     * @return {@code true} if the atom was removed or invalidated successfully, {@code false} if the atom was not found
+     * or was never part of the glued mesh.
+     */
+    public boolean remove(GluableSingleMesh atom) {
+        final int index = atoms.indexOf(atom);
+        if (index < 0) {
+            return false;
+        }
+        atoms.remove(index);
+        if (atom.getAtomOffset() < 0) {
+            return false;
+        }
+        if (glued == null) {
+            return true;
+        }
+        if (waste.size() > (atoms.size() >> 2)) {
+            glued = null;
+            waste.clear();
+            return true;
+        }
+        waste.add(atom);
+        cutoff(atom);
+        return true;
     }
 
     /**
@@ -79,6 +142,7 @@ public class GluedMesh {
      */
     public void clear() {
         atoms.clear();
+        waste.clear();
         this.glued = null;
     }
 
@@ -100,6 +164,7 @@ public class GluedMesh {
      * 32k vertices).
      */
     public void calculate() {
+        waste.clear();
 
         if (atoms.isEmpty()) {
             glued = new GluableSingleMesh(config);
@@ -141,13 +206,7 @@ public class GluedMesh {
             // Determine vertex count of this atom (based on first attribute)
             int step = atom.getContent(0).length / config.getComponents()[0];
 
-            // Validate that all attributes have the same vertex count
-            for (int i = 1; i < count; i++) {
-                int expected = atom.getContent(i).length / config.getComponents()[i];
-                if (step != expected) {
-                    throw new IllegalArgumentException("Single mesh is malformed.");
-                }
-            }
+            validateVertexCount(count, atom, step);
 
             // Store vertex count inside the atom (optional metadata)
             atom.setAtomOffset(offset);
@@ -172,6 +231,24 @@ public class GluedMesh {
         // Assign merged attribute arrays
         for (int i = 0; i < count; i++) {
             glued.setContent(i, content[i].toArray());
+        }
+    }
+
+    /**
+     * Validate that all attributes have the same vertex count.
+     *
+     * @param count
+     * @param atom
+     * @param step
+     * @throws IllegalArgumentException
+     */
+    private void validateVertexCount(final int count, GluableSingleMesh atom, int step) throws IllegalArgumentException {
+
+        for (int i = 1; i < count; i++) {
+            int expected = atom.getContent(i).length / config.getComponents()[i];
+            if (step != expected) {
+                throw new IllegalArgumentException("Single mesh is malformed.");
+            }
         }
     }
 
@@ -262,13 +339,7 @@ public class GluedMesh {
         // Determine vertex count of this atom (based on first attribute)
         int step = atom.getContent(0).length / config.getComponents()[0];
 
-        // Validate that all attributes have the same vertex count
-        for (int i = 1; i < count; i++) {
-            int expected = atom.getContent(i).length / config.getComponents()[i];
-            if (step != expected) {
-                throw new IllegalArgumentException("Single mesh is malformed.");
-            }
-        }
+        validateVertexCount(count, atom, step);
 
         // Store the global offset inside the atom for future on-the-fly updates
         atom.setAtomOffset(offset);
@@ -296,6 +367,160 @@ public class GluedMesh {
     }
 
     /**
+     * Attempts to reuse a previously freed vertex slot ("waste") for inserting the given mesh fragment ("atom") without
+     * growing the combined mesh or triggering a full rebuild.
+     *
+     * <p>
+     * When an atom is removed, its vertex range remains in the combined mesh but its index references are deleted.
+     * These unused vertex regions are tracked in the {@code waste} list. This method checks whether one of these
+     * regions has exactly the same vertex count as the new atom. If a matching slot is found, the atom is inserted
+     * directly into that region:
+     * </p>
+     *
+     * <ul>
+     * <li>The slot's offset is reused as the atom's new {@code atomOffset}.</li>
+     * <li>All vertex attributes are overwritten in-place inside the glued mesh.</li>
+     * <li>The atom's index buffer is appended with the correct offset applied.</li>
+     * <li>The waste entry is removed, shrinking the waste list.</li>
+     * </ul>
+     *
+     * <p>
+     * This slot-recycling mechanism avoids unnecessary buffer growth and prevents repeated re-batching. It enables
+     * highly efficient real-time updates where atoms can be removed and replaced without disturbing the offsets of
+     * other atoms or requiring a full mesh rebuild.
+     * </p>
+     *
+     * @param atom The mesh fragment to insert into a previously freed slot.
+     *
+     * @return {@code true} if a matching waste slot was found and reused, {@code false} if no suitable slot exists and
+     * the caller must fall back to normal incremental growth (via {@code enhance()}).
+     *
+     * @throws IllegalArgumentException If the atom uses a different {@link GlueConfig} than the glued mesh.
+     */
+    private boolean replaceWaste(GluableSingleMesh atom) {
+        // Ensure all atoms use the same configuration
+        if (atom.getConfig() != config) {
+            throw new IllegalArgumentException("Bad config.");
+        }
+
+        // Determine vertex count of this atom (based on first attribute)
+        int step = atom.getContent(0).length / config.getComponents()[0];
+
+        // Number of attribute channels (e.g., Position, TexCoord, Color)
+        final int count = config.componentsCount();
+        validateVertexCount(count, atom, step);
+
+        int offset = -1;
+        IterTapeWalker<GluableSingleMesh> walker = waste.softWalker();
+        while (walker.hasNext()) {
+            GluableSingleMesh next = walker.next();
+            if (step != atom.getContent(0).length / config.getComponents()[0]) {
+                continue;
+            }
+            offset = next.getAtomOffset();
+            next.setAtomOffset(-1); // recycled
+            walker.remove();
+            break;
+        }
+
+        if (offset < 0) {
+            // no hole found
+            return false;
+        }
+        // Attribute index for position data
+        int positionIndex = config.getPositionIndex();
+
+        // Copy existing index buffer
+        final ArrayTapeShort indexbufferTape = new ArrayTapeShort();
+        // Internal knowledge: the next add operation extends the buffer, so it is more likely to create a new array.
+        // The passed reference is therefore not corrupted in this algorithm.
+        indexbufferTape.setBufferData(glued.getIndexbuffer());
+
+        // Merge atom's index buffer with offset adjustment
+        short[] atomIndexbuffer = atom.getIndexbuffer();
+        for (int i = 0; i < atomIndexbuffer.length; i++) {
+            indexbufferTape.add((short) (atomIndexbuffer[i] + offset));
+        }
+
+        // Store the global offset inside the atom for future on-the-fly updates
+        atom.setAtomOffset(offset);
+
+        // Rewrite all attribute arrays from the new atom
+        for (int i = 0; i < count; i++) {
+            final float[] gluedCcontent = glued.getContent(i);
+            final float[] atomCcontent = atom.getContent(i);
+            int index = 0;
+            while (index < atomCcontent.length) {
+                if (i != positionIndex) {
+                    gluedCcontent[index + offset] = atomCcontent[index];
+                    index++;
+                } else {
+                    gluedCcontent[index + offset] = atomCcontent[index] + atom.getX();  // X
+                    index++;
+                    gluedCcontent[index + offset] = atomCcontent[index] + atom.getY();  // Y
+                    index++;
+                    gluedCcontent[index + offset] = atomCcontent[index] + atom.getZ();  // Z
+                    index++;
+                }
+            }
+        }
+
+        // Update the glued mesh with the new combined index buffer
+        glued.setIndexbuffer(indexbufferTape.toArray());
+
+        return true;
+    }
+
+    /**
+     * Removes all index-buffer references belonging to the given atom from the combined mesh. This operation
+     * effectively makes the atom invisible without modifying or shifting any vertex data.
+     *
+     * <p>
+     * The method identifies the atom's vertex range using its stored {@code atomOffset} and vertex count. All indices
+     * that fall within this range are removed from the combined index buffer. The vertex data remains in place and may
+     * later be reused by inserting a new atom of identical vertex size.
+     * </p>
+     *
+     * <p>
+     * This approach avoids costly buffer compaction and preserves the offsets of all remaining atoms, making it
+     * suitable for real-time mesh manipulation where stability and incremental updates are more important than memory
+     * compactness.
+     * </p>
+     *
+     * @param atom The mesh fragment whose index references should be removed.
+     *
+     * @throws IllegalArgumentException If the atom uses a different {@link GlueConfig} than the glued mesh.
+     */
+    private void cutoff(GluableSingleMesh atom) {
+        // Global vertex offset for index-buffer adjustment
+        int offset = atom.getAtomOffset();
+
+        // Copy existing index buffer
+        final ArrayTapeShort indexbufferTape = new ArrayTapeShort();
+        // The passed reference will be corrupted. Therefore, we must not forget to reset this array.
+        indexbufferTape.setBufferData(glued.getIndexbuffer());
+
+        // Ensure all atoms use the same configuration
+        if (atom.getConfig() != config) {
+            throw new IllegalArgumentException("Bad config.");
+        } // Determine vertex count of this atom (based on first attribute)
+        int step = atom.getContent(0).length / config.getComponents()[0];
+        int border = offset + step;
+
+        // remove index buffer atom entries
+        IterTapeWalkerShort walker = indexbufferTape.softWalker();
+        while (walker.hasNext()) {
+            short next = walker.next();
+            if (next >= offset && next < border) {
+                walker.remove();
+            }
+        }
+
+        // Set the shortened index buffer
+        glued.setIndexbuffer(indexbufferTape.toArray());
+    }
+
+    /**
      * Applies an on-the-fly translation to a specific sub-mesh ("atom") inside the already glued mesh.This operation
      * writes the updated vertex positions directly into the combined mesh buffer, without rebuilding the entire
      * mesh.<p>
@@ -319,9 +544,7 @@ public class GluedMesh {
         int positionIndex = config.getPositionIndex();
         if (positionIndex < 0) {
             throw new IllegalStateException("Position type is not registered.");
-        }
-
-        // Original per-atom vertex data
+        } // Original per-atom vertex data
         float[] posAtomContent = atom.getContent(positionIndex);
         int length = posAtomContent.length;
 
@@ -375,9 +598,7 @@ public class GluedMesh {
         }
         if (config.getComponents()[texCoordIndex] != 3) {
             throw new IllegalStateException("TexCoord type needs 3 components (u, v, layerIndex).");
-        }
-
-        // Original per-atom texture coordinates
+        } // Original per-atom texture coordinates
         float[] texAtomContent = atom.getContent(texCoordIndex);
         int length = texAtomContent.length;
 
