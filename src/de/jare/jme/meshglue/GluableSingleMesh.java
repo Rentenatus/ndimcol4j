@@ -27,7 +27,7 @@ package de.jare.jme.meshglue;
  * @param <KeyType> The key type used to identify vertex attribute channels. Typically
  * {@link com.jme3.scene.VertexBuffer.Type}.
  */
-public class GluableSingeleMesh<KeyType> {
+public class GluableSingleMesh<KeyType> {
 
     private short[] indexbuffer;
     private final GlueConfig config;
@@ -36,8 +36,6 @@ public class GluableSingeleMesh<KeyType> {
     private float y;
     private float z;
     private int atomOffset;
-    private int positionIndex;
-    private int texCoordIndex;
 
     /**
      * Creates a new mesh fragment using the given configuration. All attribute arrays are initialized to {@code null}
@@ -45,13 +43,14 @@ public class GluableSingeleMesh<KeyType> {
      *
      * @param config The vertex layout configuration describing attribute types and component counts.
      */
-    public GluableSingeleMesh(GlueConfig config) {
+    public GluableSingleMesh(GlueConfig config) {
+        this.x = 0f;
+        this.y = 0f;
+        this.z = 0f;
         this.config = config;
         this.content = new float[config.componentsCount()][];
         this.indexbuffer = null;
         this.atomOffset = 0;
-        this.positionIndex = -1;
-        this.texCoordIndex = -1;
     }
 
     /**
@@ -60,54 +59,14 @@ public class GluableSingeleMesh<KeyType> {
      * @param config The vertex layout configuration.
      * @param indexbuffer The index buffer for this mesh fragment.
      */
-    public GluableSingeleMesh(GlueConfig config, short[] indexbuffer) {
+    public GluableSingleMesh(GlueConfig config, short[] indexbuffer) {
+        this.x = 0f;
+        this.y = 0f;
+        this.z = 0f;
         this.config = config;
         this.content = new float[config.componentsCount()][];
         this.indexbuffer = indexbuffer;
         this.atomOffset = 0;
-        this.positionIndex = -1;
-        this.texCoordIndex = -1;
-    }
-
-    /**
-     * Creates a new mesh fragment with the given configuration and index buffer.
-     *
-     * @param config The vertex layout configuration.
-     * @param indexbuffer The index buffer for this mesh fragment.
-     * @param positionIndex the index of this mesh parameter.
-     * @param texCoordIndex the index of this mesh parameter.
-     */
-    public GluableSingeleMesh(GlueConfig config, short[] indexbuffer, int positionIndex, int texCoordIndex) {
-        this.config = config;
-        this.content = new float[config.componentsCount()][];
-        this.indexbuffer = indexbuffer;
-        this.atomOffset = 0;
-        this.positionIndex = positionIndex;
-        this.texCoordIndex = texCoordIndex;
-    }
-
-    /**
-     * Registers which attribute type represents vertex positions. This enables position-based operations such as
-     * {@link #move(float, float, float)}.
-     *
-     * @param typePosition The attribute type corresponding to vertex positions.
-     *
-     * @return The index of the position attribute within the configuration.
-     */
-    public int registerPosition(KeyType typePosition) {
-        return positionIndex = config.getIndex(typePosition);
-    }
-
-    /**
-     * Registers which attribute type represents texture coordinates. This enables texture-layer operations such as
-     * {@link #changeImageIndex(float)}.
-     *
-     * @param typeTexCoord The attribute type corresponding to texture coordinates.
-     *
-     * @return The index of the texture coordinate attribute.
-     */
-    public int registerTexture(KeyType typeTexCoord) {
-        return texCoordIndex = config.getIndex(typeTexCoord);
     }
 
     /**
@@ -231,30 +190,14 @@ public class GluableSingeleMesh<KeyType> {
     }
 
     /**
-     * Translates all vertex positions of this mesh fragment by the given deltas. This operation modifies the underlying
-     * position buffer and updates the stored translation values.
+     * Change the X , Y, Z translation of this mesh fragment.
      *
      * @param dx Offset along the X axis.
      * @param dy Offset along the Y axis.
      * @param dz Offset along the Z axis.
      *
-     * @throws IllegalStateException If no position attribute has been registered.
      */
     public void move(final float dx, final float dy, final float dz) {
-        if (positionIndex < 0) {
-            throw new IllegalStateException("Position type is not registred.");
-        }
-        float[] posContent = content[positionIndex];
-        int length = posContent.length;
-        int i = 0;
-        while (i < length) {
-            posContent[i] += dx;
-            i++;
-            posContent[i] += dy;
-            i++;
-            posContent[i] += dz;
-            i++;
-        }
         x += dx;
         y += dy;
         z += dz;
@@ -270,6 +213,7 @@ public class GluableSingeleMesh<KeyType> {
      * contain exactly three components.
      */
     public void changeImageIndex(final float imageIndex) {
+        final int texCoordIndex = config.getTexCoordIndex();
         if (texCoordIndex < 0) {
             throw new IllegalStateException("TexCoord type is not registred.");
         }
@@ -322,14 +266,6 @@ public class GluableSingeleMesh<KeyType> {
      */
     public void setAtomOffset(int atomOffset) {
         this.atomOffset = atomOffset;
-    }
-
-    public int getPositionIndex() {
-        return positionIndex;
-    }
-
-    public int getTexCoordIndex() {
-        return texCoordIndex;
     }
 
 }

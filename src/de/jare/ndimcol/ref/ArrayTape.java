@@ -104,6 +104,14 @@ public class ArrayTape<T> implements ArrayMovie<T> {
         this.trimCountDown = DEFAULT_COUNTDOWN; // Initialize trim countdown
     }
 
+    public void setBufferData(final Object[] elementData) {
+        this.elementData = elementData;
+        this.size = elementData.length;
+        this.updateCounter = 0;
+        this.trimCountDown = DEFAULT_COUNTDOWN; // Reset trim countdown
+        deepChanged();
+    }
+
     /**
      * Clears the ArrayTape by resetting the elementData array to its default capacity, setting the size to zero,
      * incrementing the update counter, and initializing the trim countdown. This effectively removes all elements from

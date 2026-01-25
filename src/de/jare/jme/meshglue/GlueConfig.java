@@ -40,6 +40,9 @@ public class GlueConfig<KeyType> {
     private KeyType[] types;
     private int[] components;
 
+    private int positionIndex;
+    private int texCoordIndex;
+
     /**
      * Creates an empty configuration. Both {@code types} and {@code components} are initialized to {@code null} and
      * must be assigned before use.
@@ -47,6 +50,8 @@ public class GlueConfig<KeyType> {
     public GlueConfig() {
         this.types = null;
         this.components = null;
+        this.positionIndex = -1;
+        this.texCoordIndex = -1;
     }
 
     /**
@@ -63,6 +68,50 @@ public class GlueConfig<KeyType> {
         if (components.length != types.length) {
             throw new IllegalArgumentException("Bad config data.");
         }
+    }
+
+    /**
+     * Creates a configuration with the given attribute types and component counts.
+     *
+     * @param types An array describing the vertex attribute categories in order.
+     * @param components The number of float components for each attribute. Must have the same length as {@code types}.
+     * @param positionIndex the index of this mesh parameter.
+     * @param texCoordIndex the index of this mesh parameter.
+     */
+    public GlueConfig(final KeyType[] types, final int[] components, int positionIndex, int texCoordIndex) {
+        this(types, components);
+        this.positionIndex = positionIndex;
+        this.texCoordIndex = texCoordIndex;
+    }
+
+    /**
+     * Registers which attribute type represents vertex positions. This enables position-based operations.
+     *
+     * @param typePosition The attribute type corresponding to vertex positions.
+     *
+     * @return The index of the position attribute within the configuration.
+     */
+    public int registerPosition(KeyType typePosition) {
+        return positionIndex = getIndex(typePosition);
+    }
+
+    /**
+     * Registers which attribute type represents texture coordinates. This enables texture-layer operations.
+     *
+     * @param typeTexCoord The attribute type corresponding to texture coordinates.
+     *
+     * @return The index of the texture coordinate attribute.
+     */
+    public int registerTexture(KeyType typeTexCoord) {
+        return texCoordIndex = getIndex(typeTexCoord);
+    }
+
+    public int getPositionIndex() {
+        return positionIndex;
+    }
+
+    public int getTexCoordIndex() {
+        return texCoordIndex;
     }
 
     /**
