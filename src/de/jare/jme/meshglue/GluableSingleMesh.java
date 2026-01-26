@@ -28,7 +28,7 @@ package de.jare.jme.meshglue;
  * {@link com.jme3.scene.VertexBuffer.Type}.
  */
 public class GluableSingleMesh<KeyType> {
-
+ 
     private short[] indexbuffer;
     private final GlueConfig config;
     private final float[][] content;
@@ -264,7 +264,7 @@ public class GluableSingleMesh<KeyType> {
      *
      * @param atomOffset The new index offset.
      */
-    public void setAtomOffset(int atomOffset) {
+    protected void setAtomOffset(int atomOffset) {
         this.atomOffset = atomOffset;
     }
 

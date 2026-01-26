@@ -534,7 +534,7 @@ public class ArraySeasonLong implements ArrayMovieLong {
         IteratorWalkerLong walker = getWalkerAtIndex(index);
         // walker ist a CoverWalker, not a leaf walker
         // walker push observer.size--; and observer.updateCounter++;
-        long removedElement = walker.removeForward();
+        long removedElement = walker.removeBackward();
         if (walker.isEmpty()) {
             splitOrGlue();
         }

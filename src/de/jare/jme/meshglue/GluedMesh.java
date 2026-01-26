@@ -64,6 +64,10 @@ public class GluedMesh {
         this.config = config;
     }
 
+    public GluableSingleMesh getGlued() {
+        return glued;
+    }
+
     /**
      * Adds a mesh fragment to the collection. If a glued mesh already exists, the new fragment is merged directly into
      * the existing combined mesh without requiring a full rebuild.
@@ -142,6 +146,26 @@ public class GluedMesh {
      */
     public void clear() {
         atoms.clear();
+        waste.clear();
+        this.glued = null;
+    }
+
+    /**
+     * Invalidates the current glued mesh and discards all incremental state.
+     *
+     * <p>
+     * This method clears the waste list and removes the internally cached combined mesh, forcing the next
+     * {@code calculate()} call to rebuild the entire structure from the remaining atoms. It is typically used when
+     * incremental updates are no longer reliable or when a full reset of the glue state is required.
+     * </p>
+     *
+     * <p>
+     * <strong>Recommendation:</strong> If you already know in advance that a large number of structural changes will be
+     * performed, you should avoid on-the-fly gluing and call {@code invalidate()} first. This prevents unnecessary
+     * incremental updates and ensures that the next rebuild starts from a clean and consistent state.
+     * </p>
+     */
+    public void invalidate() {
         waste.clear();
         this.glued = null;
     }
@@ -506,7 +530,7 @@ public class GluedMesh {
         } // Determine vertex count of this atom (based on first attribute)
         int step = atom.getContent(0).length / config.getComponents()[0];
         int border = offset + step;
-
+ 
         // remove index buffer atom entries
         IterTapeWalkerShort walker = indexbufferTape.softWalker();
         while (walker.hasNext()) {

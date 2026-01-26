@@ -40,7 +40,7 @@ public interface IteratorWalkerLong {
     boolean hasNext();
 
     /**
-     * Returns the current element and returns it. Takes forward movement by positioning.
+     * Removed the current element and returns it. Takes movement by positioning.
      *
      * @return the current element
      */
@@ -67,7 +67,7 @@ public interface IteratorWalkerLong {
     boolean hasPrevious();
 
     /**
-     * Returns the current element and returns it. Takes backward movement by positioning.
+     * Removed the current element and returns it. Takes backward movement by positioning.
      *
      * @return the current element
      */
@@ -76,7 +76,7 @@ public interface IteratorWalkerLong {
     long previous();
 
     /**
-     * Removes the current element and returns it. Takes backward movement by positioning.
+     * Removes the current element and returns it.
      *
      * @return the removed element
      */

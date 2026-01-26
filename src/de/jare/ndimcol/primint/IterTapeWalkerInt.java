@@ -128,17 +128,18 @@ public class IterTapeWalkerInt implements IteratorWalkerInt {
     }
 
     /**
-     * Removes the next element in the ArrayTape and advances the current index. Throws an IndexOutOfBoundsException if
-     * there are no more elements.
+     * Removes the element in the ArrayTape and movet the current index.
      *
-     * @return the next element that was removed from the ArrayTape
+     * Throws an IndexOutOfBoundsException if there are no more elements.
+     *
+     * @return the element that was removed from the ArrayTape
      * @throws IndexOutOfBoundsException if there are no more elements in the tape
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int removeForward() {
-        return tape.removeAt(currentIndex);
+        return tape.removeAt(--currentIndex);
     }
 
     /**
@@ -172,17 +173,18 @@ public class IterTapeWalkerInt implements IteratorWalkerInt {
     }
 
     /**
-     * Removes the previous element in the ArrayTape and moves the current index backward. Throws an
-     * IndexOutOfBoundsException if there are no previous elements.
+     * Removes the element in the ArrayTape.
      *
-     * @return the previous element that was removed from the ArrayTape
+     * Throws an IndexOutOfBoundsException if there are no previous elements.
+     *
+     * @return the element that was removed from the ArrayTape
      * @throws IndexOutOfBoundsException if there are no previous elements in the tape
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int removeBackward() {
-        return tape.removeAt(--currentIndex);
+        return tape.removeAt(currentIndex);
     }
 
     /**
@@ -225,17 +227,21 @@ public class IterTapeWalkerInt implements IteratorWalkerInt {
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public IterTapeWalkerInt goLast() {
-        currentIndex = tape.size() - 1;
+        currentIndex = tape.size();
         forward = false;
         return this;
     }
 
+    @Override
     public IteratorWalkerInt gotoIndex(int index, boolean headForward) {
         if (index < 0 || index >= tape.size()) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + tape.size());
         }
-        currentIndex = index;
         forward = headForward;
+        currentIndex = index;
+        if (!headForward) {
+            currentIndex++;
+        }
         return this;
     }
 

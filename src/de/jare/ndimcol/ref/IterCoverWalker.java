@@ -108,9 +108,9 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
     }
 
     /**
-     * Removes the next element in the inner IteratorWalker.
+     * Removes the element in the inner IteratorWalker.
      *
-     * @return the next element that was removed from the inner IteratorWalker
+     * @return the element that was removed from the inner IteratorWalker
      * @throws IndexOutOfBoundsException if there are no more elements in the inner IteratorWalker
      */
     @Override
@@ -150,9 +150,9 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
     }
 
     /**
-     * Removes the previous element .
+     * Removes the element .
      *
-     * @return the previous element that was removed from the inner IteratorWalker
+     * @return the element that was removed from the inner IteratorWalker
      * @throws IndexOutOfBoundsException if there are no previous elements in the inner IteratorWalker
      */
     @Override

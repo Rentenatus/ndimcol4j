@@ -534,7 +534,7 @@ public class ArraySeasonShort implements ArrayMovieShort {
         IteratorWalkerShort walker = getWalkerAtIndex(index);
         // walker ist a CoverWalker, not a leaf walker
         // walker push observer.size--; and observer.updateCounter++;
-        short removedElement = walker.removeForward();
+        short removedElement = walker.removeBackward();
         if (walker.isEmpty()) {
             splitOrGlue();
         }

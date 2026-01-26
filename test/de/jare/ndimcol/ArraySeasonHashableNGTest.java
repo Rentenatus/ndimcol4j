@@ -59,18 +59,19 @@ public class ArraySeasonHashableNGTest {
     @Test
     public void testRmoveAt() {
         ArraySeason<Integer> data = dataMiniArray();
-        data.removeAt(2);
         System.out.println("-------------- testRmoveAt");
         data.debug(System.out, " . ");
-        System.out.println("--------------");
+        System.out.println("-------------- removeAt(4)");
+        data.removeAt(4);
+        data.debug(System.out, " . ");
+        System.out.println("-------------- removeAt(2)");
         data.removeAt(2);
-        System.out.println("--------------");
         data.debug(System.out, " . ");
         System.out.println("--------------");
         assertEquals("" + data.size(), "3");
         assertEquals("" + data.get(0), "4");
         assertEquals("" + data.get(1), "5");
-        assertEquals("" + data.get(2), "8");
+        assertEquals("" + data.get(2), "7");
     }
 
     @Test

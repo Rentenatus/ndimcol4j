@@ -534,7 +534,7 @@ public class ArraySeasonFloat implements ArrayMovieFloat {
         IteratorWalkerFloat walker = getWalkerAtIndex(index);
         // walker ist a CoverWalker, not a leaf walker
         // walker push observer.size--; and observer.updateCounter++;
-        float removedElement = walker.removeForward();
+        float removedElement = walker.removeBackward();
         if (walker.isEmpty()) {
             splitOrGlue();
         }

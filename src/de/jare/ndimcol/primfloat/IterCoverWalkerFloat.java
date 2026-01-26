@@ -122,9 +122,9 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
     }
 
     /**
-     * Removes the next element in the inner IteratorWalker.
+     * Removes the element in the inner IteratorWalker.
      *
-     * @return the next element that was removed from the inner IteratorWalker
+     * @return the element that was removed from the inner IteratorWalker
      * @throws IndexOutOfBoundsException if there are no more elements in the inner IteratorWalker
      */
     // #### This code has been generated. Please do not make any changes here.
@@ -169,9 +169,9 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
     }
 
     /**
-     * Removes the previous element .
+     * Removes the element .
      *
-     * @return the previous element that was removed from the inner IteratorWalker
+     * @return the element that was removed from the inner IteratorWalker
      * @throws IndexOutOfBoundsException if there are no previous elements in the inner IteratorWalker
      */
     // #### This code has been generated. Please do not make any changes here.

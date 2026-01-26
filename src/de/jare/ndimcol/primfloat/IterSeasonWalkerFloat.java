@@ -78,6 +78,7 @@ public class IterSeasonWalkerFloat implements IteratorWalkerFloat {
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float next() {
+        forward = true;
         if (innerWalker != null && innerWalker.hasNext()) {
             currentIndex++;
             return innerWalker.next();
@@ -89,17 +90,24 @@ public class IterSeasonWalkerFloat implements IteratorWalkerFloat {
     }
 
     /**
-     * Removes the next element. Throws an IndexOutOfBoundsException if there are no more elements.
+     * Removes the element. Throws an IndexOutOfBoundsException if there are no more elements.
      *
-     * @return the next element that was removed from the ArraySeason
+     * @return the element that was removed from the ArraySeason
      * @throws IndexOutOfBoundsException if there are no more elements in the season
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float removeForward() {
-        forward = true;
-        return season.removeAt(currentIndex);
+        if (innerWalker == null) {
+            return season.removeAt(--currentIndex);
+        }
+        float ret = innerWalker.removeForward();
+        currentIndex--;
+        season.deepChanged();
+        season.updateCounter++;
+        season.size--;
+        return ret;
     }
 
     /**
@@ -123,6 +131,7 @@ public class IterSeasonWalkerFloat implements IteratorWalkerFloat {
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float previous() {
+        forward = false;
         if (innerWalker != null && innerWalker.hasPrevious()) {
             currentIndex--;
             return innerWalker.previous();
@@ -136,18 +145,23 @@ public class IterSeasonWalkerFloat implements IteratorWalkerFloat {
     }
 
     /**
-     * Removes the previous element and moves the current index backward. Throws an IndexOutOfBoundsException if there
-     * are no previous elements.
+     * Removes the element. Throws an IndexOutOfBoundsException if there are no previous elements.
      *
-     * @return the previous element that was removed from the ArraySeason
+     * @return the element that was removed from the ArraySeason
      * @throws IndexOutOfBoundsException if there are no previous elements in the season
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public float removeBackward() {
-        forward = false;
-        return season.removeAt(--currentIndex);
+        if (innerWalker == null) {
+            return season.removeAt(currentIndex);
+        }
+        float ret = innerWalker.removeBackward();
+        season.deepChanged();
+        season.updateCounter++;
+        season.size--;
+        return ret;
     }
 
     /**
@@ -250,7 +264,7 @@ public class IterSeasonWalkerFloat implements IteratorWalkerFloat {
     @Override
     public IteratorWalkerFloat goLast() {
         outerWalker.goLast();
-        currentIndex = season.size() - 1;
+        currentIndex = season.size();
         forward = false;
 
         if (outerWalker.hasPrevious()) {
@@ -262,6 +276,7 @@ public class IterSeasonWalkerFloat implements IteratorWalkerFloat {
         return this;
     }
 
+    @Override
     public IteratorWalkerFloat gotoIndex(int index, boolean headForward) {
         if (index < 0 || index >= season.size()) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + season.size());
@@ -280,6 +295,9 @@ public class IterSeasonWalkerFloat implements IteratorWalkerFloat {
             if (searchIndex < innerWalker.size()) {
                 innerWalker.gotoIndex(searchIndex, headForward);
                 currentIndex = index;
+                if (!headForward) {
+                    currentIndex++;
+                }
                 return this;
             } else {
                 currentIndex = currentIndex + innerWalker.size();

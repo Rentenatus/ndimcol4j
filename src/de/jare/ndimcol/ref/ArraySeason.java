@@ -505,7 +505,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
         IteratorWalker<T> walker = getWalkerAtIndex(index);
         // walker ist a CoverWalker, not a leaf walker
         // walker push observer.size--; and observer.updateCounter++;
-        T removedElement = walker.removeForward();
+        T removedElement = walker.removeBackward();
         if (walker.isEmpty()) {
             splitOrGlue();
         }

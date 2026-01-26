@@ -57,10 +57,11 @@ public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements Iterat
     }
 
     /**
-     * Removes the next element in the ArrayTape and advances the current index. Checks for concurrent modifications
-     * before proceeding and updates the initial update counter after removal.
+     * Removes the element in the ArrayTape and changes the current index.
      *
-     * @return the next element that was removed from the ArrayTape
+     * Checks for concurrent modifications before proceeding and updates the initial update counter after removal.
+     *
+     * @return the element that was removed from the ArrayTape
      * @throws ConcurrentModificationException if the ArrayTape has been modified during iteration
      */
     @Override
@@ -98,10 +99,10 @@ public class IterTapeWalkerFreeze<T> extends IterTapeWalker<T> implements Iterat
     }
 
     /**
-     * Removes the previous element in the ArrayTape and moves the current index backward. Checks for concurrent
-     * modifications before proceeding and updates the initial update counter after removal.
+     * Removes the element in the ArrayTape . Checks for concurrent modifications before proceeding and updates the
+     * initial update counter after removal.
      *
-     * @return the previous element that was removed from the ArrayTape
+     * @return the element that was removed from the ArrayTape
      * @throws ConcurrentModificationException if the ArrayTape has been modified during iteration
      */
     @Override
