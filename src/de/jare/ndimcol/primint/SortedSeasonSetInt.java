@@ -379,57 +379,6 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
     }
 
     /**
-     * Returns the walker at the specified element in this collection.
-     *
-     * Perform a brute force search.     *
-     * It uses equals comparison like any other standard list.
-     *
-     * @param element the element to search for
-     * @return the walker at the specified element, or null if element not found
-     */
-    // #### This code has been generated. Please do not make any changes here.
-    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
-    public IteratorWalkerInt getWalkerAtElementByBruteForce(final int element) {
-        return super.getWalkerAtElement(element);
-    }
-
-    /**
-     * Performs a search in sequential order. Uses interval nesting.
-     *
-     * It uses test of ambiguity if this predicate is set.
-     *
-     * Returns the walker at the specified element in this collection.
-     *
-     * @param element the element to search for
-     * @return the walker at the specified element, or null if element not found
-     */
-    // #### This code has been generated. Please do not make any changes here.
-    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
-    @Override
-    public IteratorWalkerInt getWalkerAtElement(final int element) {
-        if (isEmpty()) {
-            return null;
-        }
-        boolean found = work(workerIndexOf, element);
-        if (!found) {
-            return null;
-        }
-        ArrayMovieInt episode = workerIndexOf.getEpisode();
-        int accumulatedSize = 0;
-        de.jare.ndimcol.ref.IterTapeWalker<ArrayMovieInt> dataWalker = data.softWalker();
-        while (dataWalker.hasNext()) {
-            ArrayMovieInt next = dataWalker.next();
-            if (next == episode) {
-                break;
-            }
-            accumulatedSize += next.size();
-        }
-        return new IterCoverWalkerInt(this,
-                workerIndexOf.getEpisode().leafWalker(
-                        workerIndexOf.getIndex() - accumulatedSize));
-    }
-
-    /**
      * Remove the specified element from this set.
      *
      * @param element the element to be removed

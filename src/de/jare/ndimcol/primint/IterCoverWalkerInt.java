@@ -37,6 +37,7 @@ public class IterCoverWalkerInt implements IteratorWalkerInt {
     /**
      * Constructs a CoverWalker.
      *
+     * @param observer outer movie.
      * @param inner the IteratorWalker to be cover.
      */
     // #### This code has been generated. Please do not make any changes here.
@@ -241,7 +242,7 @@ public class IterCoverWalkerInt implements IteratorWalkerInt {
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public IteratorWalkerInt gotoIndex(int index, boolean headForward) {
-        IteratorWalkerInt ret = inner.gotoIndex(index, headForward);
+        IteratorWalkerInt ret = inner.gotoIndex(index - observer.getOffset(inner.getRelatedMovie()), headForward);
         return ret == null ? null : this;
     }
 

@@ -32,6 +32,7 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
     /**
      * Constructs a CoverWalker.
      *
+     * @param observer outer movie.
      * @param inner the IteratorWalker to be cover.
      */
     public IterCoverWalker(ArraySeason<T> observer, IteratorWalker<T> inner) {
@@ -214,7 +215,7 @@ public class IterCoverWalker<T> implements IteratorWalker<T> {
      */
     @Override
     public IteratorWalker<T> gotoIndex(int index, boolean headForward) {
-        IteratorWalker<T> ret = inner.gotoIndex(index, headForward);
+        IteratorWalker<T> ret = inner.gotoIndex(index - observer.getOffset(inner.getRelatedMovie()), headForward);
         return ret == null ? null : this;
     }
 

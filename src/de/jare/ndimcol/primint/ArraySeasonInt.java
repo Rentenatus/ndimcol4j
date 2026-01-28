@@ -508,14 +508,15 @@ public class ArraySeasonInt implements ArrayMovieInt {
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public boolean remove(int element) {
-        IteratorWalkerInt walker = getWalkerAtElement(element);
-        if (walker == null) {
-            return false;
+        for (int i = 0; i < data.size(); i++) {
+            final ArrayMovieInt episode = data.get(i);
+            if (episode.remove(element)) {
+                size--;
+                updateCounter++;
+                return true;
+            }
         }
-        // walker ist a CoverWalker, not a leaf walker
-        // walker push observer.size--; and observer.updateCounter++;
-        walker.removeForward();
-        return true;
+        return false;
     }
 
     /**
@@ -528,17 +529,63 @@ public class ArraySeasonInt implements ArrayMovieInt {
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public int removeAt(int index) {
+        if (lastEpisode != null
+                && lastAccumulatedSize <= index
+                && index < lastAccumulatedSize + lastEpisode.size()) {
+            int ret = lastEpisode.removeAt(index - lastAccumulatedSize);
+            updateCounter++;
+            size--;
+            if (lastEpisode.size() < minEpisodeGlue) {
+                splitOrGlue();
+            }
+            return ret;
+        }
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
-        IteratorWalkerInt walker = getWalkerAtIndex(index);
-        // walker ist a CoverWalker, not a leaf walker
-        // walker push observer.size--; and observer.updateCounter++;
-        int removedElement = walker.removeBackward();
-        if (walker.isEmpty()) {
-            splitOrGlue();
+        int accumulatedSize = 0;
+        final int dataSize = data.size();
+        {
+            final ArrayMovieInt episode = data.get(0);
+            int episodeSize = episode.size();
+            if (index < episodeSize) {
+                lastEpisode = null;
+                int ret = episode.removeAt(index);
+                updateCounter++;
+                size--;
+                if (episode.size() < minEpisodeGlue) {
+                    splitOrGlue();
+                }
+                return ret;
+            }
+            accumulatedSize = episodeSize;
         }
-        return removedElement;
+        for (int i = 1; i < dataSize; i++) {
+            final ArrayMovieInt episode = data.get(i);
+            int episodeSize = episode.size();
+            if (index < accumulatedSize + episodeSize) {
+                lastAccumulatedSize = accumulatedSize;
+                lastEpisode = episode;
+                int ret = episode.removeAt(index - lastAccumulatedSize);
+                updateCounter++;
+                size--;
+                if (episode.size() < minEpisodeGlue) {
+                    splitOrGlue();
+                }
+                return ret;
+            }
+            accumulatedSize += episodeSize;
+        }
+        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
+
+//        IteratorWalker<T> walker = getWalkerAtIndex(index);
+//        // walker ist a CoverWalker, not a leaf walker
+//        // walker push observer.size--; and observer.updateCounter++;
+//        T removedElement = walker.removeBackward();
+//        if (walker.isEmpty()) {
+//            splitOrGlue();
+//        }
+//        return removedElement;
     }
 
     /**
@@ -642,33 +689,6 @@ public class ArraySeasonInt implements ArrayMovieInt {
             accumulatedSize += episodeSize;
         }
         throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
-    }
-
-    /**
-     * Returns the walker at the specified element in this collection.
-     *
-     * @param element the element to search for
-     * @return the walker at the specified element, or null if element not found
-     */
-    // #### This code has been generated. Please do not make any changes here.
-    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
-    public IteratorWalkerInt getWalkerAtElement(final int element) {
-        for (int i = 0; i < data.size(); i++) {
-            final ArrayMovieInt episode = data.get(i);
-            final int episodeIndex = episode.indexOf(element);
-            if (episodeIndex >= 0) {
-                return new IterCoverWalkerInt(this, episode.leafWalker(episodeIndex));
-
-            }
-        }
-        return null;
-//        if (data.isEmpty()) {
-//            return null;
-//        }
-//        if (element == null) {
-//            return filterFirst(Objects::isNull);
-//        }
-//        return filterFirst(element::equals);
     }
 
     /**

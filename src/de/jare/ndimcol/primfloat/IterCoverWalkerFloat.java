@@ -37,6 +37,7 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
     /**
      * Constructs a CoverWalker.
      *
+     * @param observer outer movie.
      * @param inner the IteratorWalker to be cover.
      */
     // #### This code has been generated. Please do not make any changes here.
@@ -241,7 +242,7 @@ public class IterCoverWalkerFloat implements IteratorWalkerFloat {
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public IteratorWalkerFloat gotoIndex(int index, boolean headForward) {
-        IteratorWalkerFloat ret = inner.gotoIndex(index, headForward);
+        IteratorWalkerFloat ret = inner.gotoIndex(index - observer.getOffset(inner.getRelatedMovie()), headForward);
         return ret == null ? null : this;
     }
 
