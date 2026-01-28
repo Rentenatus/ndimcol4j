@@ -102,6 +102,10 @@ public class IterSeasonWalkerLong implements IteratorWalkerLong {
         if (innerWalker == null) {
             return season.removeAt(--currentIndex);
         }
+        if (!innerWalker.hasPrevious()) {
+            season.splitOrGlue();
+            return season.removeAt(--currentIndex);
+        }
         long ret = innerWalker.removeForward();
         currentIndex--;
         season.deepChanged();
@@ -155,6 +159,10 @@ public class IterSeasonWalkerLong implements IteratorWalkerLong {
     @Override
     public long removeBackward() {
         if (innerWalker == null) {
+            return season.removeAt(currentIndex);
+        }
+        if (!innerWalker.hasNext()) {
+            season.splitOrGlue();
             return season.removeAt(currentIndex);
         }
         long ret = innerWalker.removeBackward();

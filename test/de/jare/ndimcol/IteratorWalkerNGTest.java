@@ -14,6 +14,8 @@ import de.jare.ndimcol.ref.ArrayTape;
 import de.jare.ndimcol.ref.ArrayTapeHashable;
 import de.jare.ndimcol.ref.IteratorWalker;
 import de.jare.ndimcol.ref.ListSeason;
+import de.jare.ndimcol.ref.Screenplay;
+import de.jare.ndimcol.ref.Screenplay2d;
 import java.util.ArrayList;
 import java.util.Collection;
 import static org.testng.Assert.*;
@@ -42,11 +44,45 @@ public class IteratorWalkerNGTest {
         System.out.println("===============================================");
     }
 
+    class Screenplay2dSmall implements Screenplay {
+
+        static final int DEFAULT_SIZE_2D = 2;
+        static final int START_MAX_EPISODE_SIZE_2D = 2;
+        static final int START_MIN_EPISODE_GLUE_2D = 1;
+
+        @Override
+        public int getDefaultSize() {
+            return DEFAULT_SIZE_2D;
+        }
+
+        @Override
+        public int getMaxEpisodeSize(final int fac) {
+            return START_MAX_EPISODE_SIZE_2D;
+        }
+
+        @Override
+        public int getMinEpisodeGlue(final int fac) {
+            return START_MIN_EPISODE_GLUE_2D;
+        }
+
+        @Override
+        public <T> ArrayMovie<T> buildMovie(final int parentSize) {
+            return new ArrayTape<>(2);
+        }
+
+        @Override
+        public <T> ArrayMovie<T> buildMovieHashable(final int parentSize) {
+            return new ArrayTapeHashable<>(2);
+        }
+
+    }
+
     private Collection<ArrayMovie<String>> dataCollection() {
         final Collection<ArrayMovie<String>> ret;
-        ret = new ArrayList<>(5);
+        ret = new ArrayList<>(6);
         ret.add(new ArrayTape<>());
         ret.add(new ArraySeason<>());
+        ret.add(new ArraySeason<>(new Screenplay2dSmall()));
         ret.add(new ArrayTapeHashable<>());
         ret.add(new ArraySeasonHashable<>());
         ret.add(new ListSeason<>());

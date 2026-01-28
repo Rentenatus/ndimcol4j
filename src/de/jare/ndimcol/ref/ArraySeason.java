@@ -537,9 +537,9 @@ public class ArraySeason<T> implements ArrayMovie<T> {
                 data.addAt(i + 1, newEpisode);
                 i++; // Skip the newly added episode to avoid immediate reprocessing
                 lastSize = maxEpisodeSize;
-            } else if (lastSize + episodeSize < minEpisodeGlue
-                    || episodeSize < 8 && i > 0
-                    || lastSize < 8) {
+            } else if ((lastSize + episodeSize < minEpisodeGlue
+                    || episodeSize < 8
+                    || lastSize < 8) && i > 0) {
                 lastEpisode = null;
                 data.removeAt(i);
                 i--; // Move back to recheck the merged episode

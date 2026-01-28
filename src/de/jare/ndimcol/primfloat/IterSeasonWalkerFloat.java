@@ -102,6 +102,10 @@ public class IterSeasonWalkerFloat implements IteratorWalkerFloat {
         if (innerWalker == null) {
             return season.removeAt(--currentIndex);
         }
+        if (!innerWalker.hasPrevious()) {
+            season.splitOrGlue();
+            return season.removeAt(--currentIndex);
+        }
         float ret = innerWalker.removeForward();
         currentIndex--;
         season.deepChanged();
@@ -155,6 +159,10 @@ public class IterSeasonWalkerFloat implements IteratorWalkerFloat {
     @Override
     public float removeBackward() {
         if (innerWalker == null) {
+            return season.removeAt(currentIndex);
+        }
+        if (!innerWalker.hasNext()) {
+            season.splitOrGlue();
             return season.removeAt(currentIndex);
         }
         float ret = innerWalker.removeBackward();
