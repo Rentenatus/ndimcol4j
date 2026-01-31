@@ -530,7 +530,7 @@ public class GluedMesh {
         } // Determine vertex count of this atom (based on first attribute)
         int step = atom.getContent(0).length / config.getComponents()[0];
         int border = offset + step;
- 
+
         // remove index buffer atom entries
         IterTapeWalkerShort walker = indexbufferTape.softWalker();
         while (walker.hasNext()) {
@@ -563,12 +563,16 @@ public class GluedMesh {
 
         // Starting vertex index inside the glued mesh
         int offset = atom.getAtomOffset();
+        if (offset < 0) {
+            throw new IllegalStateException("Atom is not registered.");
+        }
 
         // Attribute index for position data
         int positionIndex = config.getPositionIndex();
         if (positionIndex < 0) {
             throw new IllegalStateException("Position type is not registered.");
-        } // Original per-atom vertex data
+        }
+        // Original per-atom vertex data
         float[] posAtomContent = atom.getContent(positionIndex);
         int length = posAtomContent.length;
 
@@ -596,6 +600,49 @@ public class GluedMesh {
     }
 
     /**
+     * Updates a non-positional vertex attribute of a specific sub-mesh ("atom") inside the already glued mesh by
+     * overwriting the corresponding region of the combined vertex buffer.
+     *
+     * <p>
+     * The method copies the atom's local attribute array directly into the global glued mesh buffer at the atom's
+     * assigned {@code atomOffset}. This operation is intended for attributes whose values can be replaced verbatim,
+     * such as normals, colors, tangents, or custom per-vertex data.
+     * </p>
+     *
+     * <p>
+     * <strong>Important:</strong> This method must <em>not</em> be used to update vertex positions. Position attributes
+     * require relative translation based on the atom's current world offset. Using {@code updateContent} for positions
+     * would overwrite the translated coordinates and destroy the atom's relative placement inside the glued mesh. For
+     * positional updates, use {@link #setPos(GluableSingleMesh, float, float, float)} instead.
+     * </p>
+     *
+     * @param anIndex The attribute index to update (e.g., normal, color, texCoord).
+     *
+     * @param atom The mesh fragment whose attribute data should be written into the glued mesh.
+     *
+     * @throws IllegalStateException If the attribute index is invalid or not registered.
+     *
+     * @see #setPos(GluableSingleMesh, float, float, float)
+     * @see GluableSingleMesh#getContent(int)
+     */
+    public void updateContent(int anIndex, GluableSingleMesh atom) {
+
+        if (anIndex < 0) {
+            throw new IllegalStateException("Data is not registered.");
+        }
+
+        int offset = atom.getAtomOffset();
+        if (offset < 0) {
+            throw new IllegalStateException("Atom is not registered.");
+        }
+
+        float[] atomContent = atom.getContent(anIndex);
+        float[] trgContent = glued.getContent(anIndex);
+
+        System.arraycopy(atomContent, 0, trgContent, offset, atomContent.length);
+    }
+
+    /**
      * Updates the texture-layer index of a specific sub-mesh ("atom") inside the already glued mesh. This is typically
      * used with texture arrays, where the third texture coordinate component selects the texture layer.
      *
@@ -614,6 +661,9 @@ public class GluedMesh {
 
         // Starting vertex index inside the glued mesh
         int offset = atom.getAtomOffset();
+        if (offset < 0) {
+            throw new IllegalStateException("Atom is not registered.");
+        }
 
         // Attribute index for texture coordinates
         int texCoordIndex = config.getTexCoordIndex();

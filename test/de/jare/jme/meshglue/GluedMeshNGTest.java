@@ -118,6 +118,8 @@ public class GluedMeshNGTest {
         GluableSingleMesh<String> atom3 = createTestAtom("C", 4, 0, 0, 7);
         glued.add(atom3); // should reuse atom1 slot
 
+        glued.updateContent(config.getIndex("Color"), atom2);
+
         assertEquals(atom1.getAtomOffset(), -1);
         assertEquals(oldOffset1, atom3.getAtomOffset());
     }
@@ -147,6 +149,8 @@ public class GluedMeshNGTest {
 
         System.out.println("  Atom 1 offset: " + atom1.getAtomOffset());
         System.out.println("  Atom 2 offset: " + atom2.getAtomOffset());
+
+        glued.updateContent(config.getIndex("Color"), atom2);
 
         // atom1 indices should be gone
         idx = glued.getGlued().getIndexbuffer();
