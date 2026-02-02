@@ -80,6 +80,26 @@ public class ArrayTapeFloat implements ArrayMovieFloat {
     }
 
     /**
+     * Constructs an empty ArrayTape with the specified initial capacity, size and a default page size of thirty.The
+     * update counter and trim countdown are also initialized.
+     *
+     * @param initialCapacity the initial capacity of the ArrayTape
+     * @param fillout if true then size = initialCapacity
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public ArrayTapeFloat(int initialCapacity, boolean fillout) {
+        this.size = initialCapacity > 0 ? initialCapacity : DEFAULT_CAPACITY;
+        this.elementData = new float[this.size];
+        if (!fillout) {
+            this.size = 0;
+        }
+        this.page = DEFAULT_PAGE;
+        this.updateCounter = 9;
+        this.trimCountDown = DEFAULT_COUNTDOWN;
+    }
+
+    /**
      * Constructs a new ArrayTape that is a duplicate of the specified ArrayTape. This constructor copies the elements
      * from the given ArrayTape and initializes the page size, update counter, and trim countdown based on the original.
      *

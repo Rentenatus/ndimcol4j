@@ -73,6 +73,24 @@ public class ArrayTape<T> implements ArrayMovie<T> {
     }
 
     /**
+     * Constructs an empty ArrayTape with the specified initial capacity, size and a default page size of thirty.The
+     * update counter and trim countdown are also initialized.
+     *
+     * @param initialCapacity the initial capacity of the ArrayTape
+     * @param fillout if true then size = initialCapacity
+     */
+    public ArrayTape(int initialCapacity, boolean fillout) {
+        this.size = initialCapacity > 0 ? initialCapacity : DEFAULT_CAPACITY;
+        this.elementData = new Object[this.size];
+        if (!fillout) {
+            this.size = 0;
+        }
+        this.page = DEFAULT_PAGE;
+        this.updateCounter = 9;
+        this.trimCountDown = DEFAULT_COUNTDOWN;
+    }
+
+    /**
      * Constructs a new ArrayTape that is a duplicate of the specified ArrayTape. This constructor copies the elements
      * from the given ArrayTape and initializes the page size, update counter, and trim countdown based on the original.
      *
