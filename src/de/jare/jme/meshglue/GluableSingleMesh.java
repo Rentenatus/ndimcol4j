@@ -28,7 +28,7 @@ package de.jare.jme.meshglue;
  * {@link com.jme3.scene.VertexBuffer.Type}.
  */
 public class GluableSingleMesh<KeyType> {
- 
+
     private short[] indexbuffer;
     private final GlueConfig config;
     private final float[][] content;
@@ -204,15 +204,16 @@ public class GluableSingleMesh<KeyType> {
     }
 
     /**
-     * Updates the texture-layer index for all vertices in this mesh fragment. This is typically used when working with
+     * Updates the texture-layer index for all vertices in this mesh fragment.This is typically used when working with
      * texture arrays, where the third texture coordinate component selects the texture layer.
      *
      * @param imageIndex The new texture-layer index to assign.
+     * @param copyBuffer instance new buffer and copy?
      *
      * @throws IllegalStateException If no texture coordinate attribute has been registered or if the attribute does not
      * contain exactly three components.
      */
-    public void changeImageIndex(final float imageIndex) {
+    public void changeImageIndex(final float imageIndex, boolean copyBuffer) {
         final int texCoordIndex = config.getTexCoordIndex();
         if (texCoordIndex < 0) {
             throw new IllegalStateException("TexCoord type is not registred.");
@@ -222,13 +223,40 @@ public class GluableSingleMesh<KeyType> {
         }
         float[] texContent = content[texCoordIndex];
         int length = texContent.length;
+        float[] trgContent = copyBuffer ? new float[length] : texContent;
         int i = 0;
         while (i < length) {
+            trgContent[i] = texContent[i];
             i++; // skip u
+            trgContent[i] = texContent[i];
             i++; // skip v
-            texContent[i] = imageIndex; // set layer index
+            trgContent[i] = imageIndex; // set layer index
             i++;
         }
+        content[texCoordIndex] = trgContent;
+    }
+
+    public void moveTexCoord(float dx, float dy, boolean copyBuffer) {
+        final int texCoordIndex = config.getTexCoordIndex();
+        if (texCoordIndex < 0) {
+            throw new IllegalStateException("TexCoord type is not registred.");
+        }
+        if (config.getComponents()[texCoordIndex] != 3) {
+            throw new IllegalStateException("TexCoord type needs 3 komponents (x,y,index).");
+        }
+        float[] texContent = content[texCoordIndex];
+        int length = texContent.length;
+        float[] trgContent = copyBuffer ? new float[length] : texContent;
+        int i = 0;
+        while (i < length) {
+            trgContent[i] = texContent[i] + dx;
+            i++; // skip u
+            trgContent[i] = texContent[i] + dy;
+            i++; // skip v
+            trgContent[i] = texContent[i];
+            i++;
+        }
+        content[texCoordIndex] = trgContent;
     }
 
     /**
