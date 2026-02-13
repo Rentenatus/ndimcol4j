@@ -63,7 +63,7 @@ public class GluedMesh {
         this.glued = null;
         this.config = config;
     }
-    
+
     public GluableSingleMesh getGlued() {
         return glued;
     }
@@ -82,7 +82,7 @@ public class GluedMesh {
         if (atom.getIndexbuffer() == null) {
             throw new IllegalArgumentException("Atom has no index buffer.");
         }
-        
+
         atoms.add(atom);
 
         // If a glued mesh already exists, merge the new atom immediately
@@ -192,8 +192,9 @@ public class GluedMesh {
      * 32k vertices).
      */
     public void calculate() {
+        glued = null;
         waste.clear();
-        
+
         if (atoms.isEmpty()) {
             glued = new GluableSingleMesh(config);
             return;
@@ -233,7 +234,7 @@ public class GluedMesh {
 
             // Determine vertex count of this atom (based on first attribute)
             int step = atom.getContent(0).length / config.getComponents()[0];
-            
+
             validateVertexCount(count, atom, step);
 
             // Store vertex count inside the atom (optional metadata)
@@ -254,12 +255,13 @@ public class GluedMesh {
         }
 
         // Create final merged mesh
-        glued = new GluableSingleMesh(config, indexbuffer.toArray());
+        GluableSingleMesh nGlued = new GluableSingleMesh(config, indexbuffer.toArray());
 
         // Assign merged attribute arrays
         for (int i = 0; i < count; i++) {
-            glued.setContent(i, content[i].toArray());
+            nGlued.setContent(i, content[i].toArray());
         }
+        glued = nGlued;
     }
 
     /**
@@ -271,7 +273,7 @@ public class GluedMesh {
      * @throws IllegalArgumentException
      */
     private void validateVertexCount(final int count, GluableSingleMesh atom, int step) throws IllegalArgumentException {
-        
+
         for (int i = 1; i < count; i++) {
             int expected = atom.getContent(i).length / config.getComponents()[i];
             if (step != expected) {
@@ -279,7 +281,7 @@ public class GluedMesh {
             }
         }
     }
-    
+
     private void appendNextAtomBuffers(GluableSingleMesh atom, final int bufferCount, int positionIndex, final ArrayTapeFloat[] content) {
         for (int i = 0; i < bufferCount; i++) {
             if (i != positionIndex) {
@@ -366,7 +368,7 @@ public class GluedMesh {
 
         // Determine vertex count of this atom (based on first attribute)
         int step = atom.getContent(0).length / config.getComponents()[0];
-        
+
         validateVertexCount(count, atom, step);
 
         // Store the global offset inside the atom for future on-the-fly updates
@@ -437,7 +439,7 @@ public class GluedMesh {
         // Number of attribute channels (e.g., Position, TexCoord, Color)
         final int count = config.componentsCount();
         validateVertexCount(count, atom, step);
-        
+
         int offset = -1;
         IterTapeWalker<GluableSingleMesh> walker = waste.softWalker();
         while (walker.hasNext()) {
@@ -450,7 +452,7 @@ public class GluedMesh {
             walker.remove();
             break;
         }
-        
+
         if (offset < 0) {
             // no hole found
             return false;
@@ -495,7 +497,7 @@ public class GluedMesh {
 
         // Update the glued mesh with the new combined index buffer
         glued.setIndexbuffer(indexbufferTape.toArray());
-        
+
         return true;
     }
 
@@ -595,7 +597,7 @@ public class GluedMesh {
         }
         atom.setPos(px, py, pz);
     }
-    
+
     public void move(GluableSingleMesh atom, final float dx, final float dy, final float dz) {
         final float px = atom.getX() + dx;
         final float py = atom.getY() + dy;
@@ -630,19 +632,19 @@ public class GluedMesh {
      * @see GluableSingleMesh#getContent(int)
      */
     public void updateContent(int anIndex, GluableSingleMesh atom) {
-        
+
         if (anIndex < 0) {
             throw new IllegalStateException("Data is not registered.");
         }
-        
+
         int offset = atom.getAtomOffset();
         if (offset < 0) {
             throw new IllegalStateException("Atom is not registered.");
         }
-        
+
         float[] atomContent = atom.getContent(anIndex);
         float[] trgContent = glued.getContent(anIndex);
-        
+
         System.arraycopy(atomContent, 0, trgContent, offset, atomContent.length);
     }
 
@@ -694,9 +696,9 @@ public class GluedMesh {
 
             // Update glued mesh data
             texContent[index + offset] = imageIndex;
-            
+
             index++;
         }
     }
-    
+
 }
