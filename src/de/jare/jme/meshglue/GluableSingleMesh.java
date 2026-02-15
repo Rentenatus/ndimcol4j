@@ -296,4 +296,13 @@ public class GluableSingleMesh<KeyType> {
         this.atomOffset = atomOffset;
     }
 
+    /**
+     * Checks if this mash contains any points.
+     *
+     * @return true, if at least one point is noted.
+     */
+    public boolean isEmpty() {
+        return indexbuffer == null || indexbuffer.length == 0;
+    }
+
 }
