@@ -16,6 +16,7 @@ package de.jare.jme.meshglue;
  * by higher-level mesh builders to interpret, validate, and combine vertex buffers in a predictable way.
  * </p>
  *
+ *
  * <p>
  * Example configuration:</p>
  *
@@ -157,6 +158,16 @@ public class GlueConfig<KeyType> {
      */
     public int componentsCount() {
         return components.length;
+    }
+
+    /**
+     * Returns the components count.
+     *
+     * @param index
+     * @return The component count.
+     */
+    public int getComponent(int index) {
+        return components[index];
     }
 
     /**

@@ -22,6 +22,7 @@ import java.util.ArrayList;
  * finally written into a new {@link GluableSingleMesh} instance that contains the combined vertex and index data.
  * </p>
  *
+ *
  * <p>
  * All atoms must share the same {@link GlueConfig}. Each atom must contain attribute arrays of equal vertex count, and
  * the index buffer must reference only local vertices. During assembly, indices are offset to match their new global
@@ -479,17 +480,18 @@ public class GluedMesh {
         for (int i = 0; i < count; i++) {
             final float[] gluedCcontent = glued.getContent(i);
             final float[] atomCcontent = atom.getContent(i);
+            int offsetBuffer = offset * config.getComponent(positionIndex);
             int index = 0;
             while (index < atomCcontent.length) {
                 if (i != positionIndex) {
-                    gluedCcontent[index + offset] = atomCcontent[index];
+                    gluedCcontent[index + offsetBuffer] = atomCcontent[index];
                     index++;
                 } else {
-                    gluedCcontent[index + offset] = atomCcontent[index] + atom.getX();  // X
+                    gluedCcontent[index + offsetBuffer] = atomCcontent[index] + atom.getX();  // X
                     index++;
-                    gluedCcontent[index + offset] = atomCcontent[index] + atom.getY();  // Y
+                    gluedCcontent[index + offsetBuffer] = atomCcontent[index] + atom.getY();  // Y
                     index++;
-                    gluedCcontent[index + offset] = atomCcontent[index] + atom.getZ();  // Z
+                    gluedCcontent[index + offsetBuffer] = atomCcontent[index] + atom.getZ();  // Z
                     index++;
                 }
             }
@@ -522,8 +524,8 @@ public class GluedMesh {
      * @throws IllegalArgumentException If the atom uses a different {@link GlueConfig} than the glued mesh.
      */
     private void cutoff(GluableSingleMesh atom) {
-        // Global vertex offset for index-buffer adjustment
-        int offset = atom.getAtomOffset();
+        // Global vertex offset for index-buffer adjustment 
+        int offset = atom.getAtomOffset() * 3;
 
         // Copy existing index buffer
         final ArrayTapeShort indexbufferTape = new ArrayTapeShort();
@@ -533,7 +535,9 @@ public class GluedMesh {
         // Ensure all atoms use the same configuration
         if (atom.getConfig() != config) {
             throw new IllegalArgumentException("Bad config.");
-        } // Determine vertex count of this atom (based on first attribute)
+        }
+
+// Determine vertex count of this atom (based on first attribute)
         int step = atom.getContent(0).length / config.getComponents()[0];
         int border = offset + step;
 
@@ -566,24 +570,25 @@ public class GluedMesh {
      * @throws IllegalStateException If the atom has no registered position attribute.
      */
     public void setPos(GluableSingleMesh atom, final float px, final float py, final float pz) {
-
-        // Starting vertex index inside the glued mesh
-        int offset = atom.getAtomOffset();
-        if (offset < 0) {
-            throw new IllegalStateException("Atom is not registered.");
-        }
-
         // Attribute index for position data
         int positionIndex = config.getPositionIndex();
         if (positionIndex < 0) {
             throw new IllegalStateException("Position type is not registered.");
         }
+
+        // Starting vertex index inside the glued mesh
+        int count = config.getComponent(positionIndex);
+        int offset = atom.getAtomOffset() * count;
+        if (offset < 0) {
+            throw new IllegalStateException("Atom is not registered.");
+        }
+
         // Original per-atom vertex data
         float[] posAtomContent = atom.getContent(positionIndex);
         int length = posAtomContent.length;
 
         // Combined mesh vertex data
-        float[] posContent = glued.getContent(positionIndex);
+        final float[] posContent = glued.getContent(positionIndex);
 
         // Overwrite the glued mesh with translated values
         int index = 0;
@@ -637,7 +642,8 @@ public class GluedMesh {
             throw new IllegalStateException("Data is not registered.");
         }
 
-        int offset = atom.getAtomOffset();
+        int count = config.getComponent(anIndex);
+        int offset = atom.getAtomOffset() * count;
         if (offset < 0) {
             throw new IllegalStateException("Atom is not registered.");
         }
@@ -666,7 +672,7 @@ public class GluedMesh {
     public void changeImageIndex(GluableSingleMesh atom, final float imageIndex) {
 
         // Starting vertex index inside the glued mesh
-        int offset = atom.getAtomOffset();
+        int offset = atom.getAtomOffset() * 3;
         if (offset < 0) {
             throw new IllegalStateException("Atom is not registered.");
         }
@@ -683,7 +689,7 @@ public class GluedMesh {
         int length = texAtomContent.length;
 
         // Combined mesh texture coordinates
-        float[] texContent = glued.getContent(texCoordIndex);
+        final float[] texContent = glued.getContent(texCoordIndex);
 
         // Overwrite the glued mesh with the new layer index
         int index = 0;
