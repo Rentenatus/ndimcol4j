@@ -12,7 +12,6 @@ import de.jare.ndimcol.primshort.ArrayTapeShort;
 import de.jare.ndimcol.primshort.IterTapeWalkerShort;
 import de.jare.ndimcol.ref.ArrayTape;
 import de.jare.ndimcol.ref.IterTapeWalker;
-import java.util.ArrayList;
 
 /**
  * Assembles ("glues") multiple {@link GluableSingleMesh} fragments into a single combined mesh.This class performs
@@ -41,7 +40,7 @@ public class GluedMesh {
     /**
      * The list of mesh fragments to be merged.
      */
-    private final ArrayList<GluableSingleMesh> atoms;
+    private final ArrayTape<GluableSingleMesh> atoms;
 
     /**
      * The list of wasted mesh fragments after merge.
@@ -59,7 +58,7 @@ public class GluedMesh {
      * @param config The shared vertex layout configuration.
      */
     public GluedMesh(GlueConfig config) {
-        this.atoms = new ArrayList<>();
+        this.atoms = new ArrayTape<>();
         this.waste = new ArrayTape<>();
         this.glued = null;
         this.config = config;
