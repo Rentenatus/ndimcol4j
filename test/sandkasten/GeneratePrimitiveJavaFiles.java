@@ -18,7 +18,7 @@ import java.util.*;
  */
 public class GeneratePrimitiveJavaFiles {
 
-    final static String JAREDIR = "D:\\git_ndimcol4j\\ndimcol4j\\src\\de";
+    final static String JAREDIR = ".\\de";
 
     public static void main(String[] args) {
         String directoryPath = args.length == 0 ? JAREDIR : args[0];

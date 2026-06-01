@@ -68,6 +68,11 @@ public class SortedSeasonSetLong extends ArraySeasonLong  {
         this.ambiguity = ambiguity;
     }
 
+    @Override
+    public long set(int index, long element) {
+        throw new UnsupportedOperationException("This is a sorted set; direct setting is therefore not allowed.");
+    }
+
     /**
      * Adds the specified element to this collection if it is not already present.
      *

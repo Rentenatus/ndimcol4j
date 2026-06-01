@@ -545,6 +545,7 @@ public class ArrayTapeFloat implements ArrayMovieFloat {
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
     public float set(int index, float element) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");

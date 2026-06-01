@@ -68,6 +68,11 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
         this.ambiguity = ambiguity;
     }
 
+    @Override
+    public short set(int index, short element) {
+        throw new UnsupportedOperationException("This is a sorted set; direct setting is therefore not allowed.");
+    }
+
     /**
      * Adds the specified element to this collection if it is not already present.
      *

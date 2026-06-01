@@ -77,6 +77,11 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
         this.ambiguity = ambiguity;
     }
 
+    @Override
+    public T set(int index, T element) {
+        throw new UnsupportedOperationException("This is a sorted set; direct setting is therefore not allowed.");
+    }
+
     /**
      * Adds the specified element to this collection if it is not already present.
      *

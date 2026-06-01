@@ -57,6 +57,20 @@ public interface ArrayMovieLong   {
     long last();
 
     /**
+     * Replaces the element at the specified position in the ArrayTape with the specified element. Returns the element
+     * previously at the specified position. Increments the update counter if the element at the specified position is
+     * not equal to the new element. Throws an IndexOutOfBoundsException if the index is out of range.
+     *
+     * @param index the index of the element to replace
+     * @param element the element to be stored at the specified position
+     * @return the element previously at the specified position
+     * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public long set(int index, long element);
+
+    /**
      * Inserts the specified element at the specified position in this list . Shifts the element currently at that
      * position (if any) and any subsequent elements to the right (adds one to their indices).
      *

@@ -545,6 +545,7 @@ public class ArrayTapeShort implements ArrayMovieShort {
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    @Override
     public short set(int index, short element) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");

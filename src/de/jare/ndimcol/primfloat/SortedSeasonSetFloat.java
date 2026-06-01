@@ -68,6 +68,11 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
         this.ambiguity = ambiguity;
     }
 
+    @Override
+    public float set(int index, float element) {
+        throw new UnsupportedOperationException("This is a sorted set; direct setting is therefore not allowed.");
+    }
+
     /**
      * Adds the specified element to this collection if it is not already present.
      *

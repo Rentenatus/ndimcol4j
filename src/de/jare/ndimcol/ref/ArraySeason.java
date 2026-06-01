@@ -348,6 +348,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @param element element to be appended to this list
      * @return the old element at the specified position
      */
+    @Override
     public T set(int index, T element) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");

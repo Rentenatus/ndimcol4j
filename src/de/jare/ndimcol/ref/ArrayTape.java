@@ -521,6 +521,7 @@ public class ArrayTape<T> implements ArrayMovie<T> {
      * @return the element previously at the specified position
      * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt; size)
      */
+    @Override
     public T set(int index, T element) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
