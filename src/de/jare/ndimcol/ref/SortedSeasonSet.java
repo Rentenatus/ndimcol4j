@@ -7,6 +7,7 @@
  */
 package de.jare.ndimcol.ref;
 
+import de.jare.ndimcol.utils.SortedSeasonSetAddResult;
 import de.jare.ndimcol.ref.ArrayMovie;
 import java.util.Collection;
 import java.util.Comparator;
@@ -22,7 +23,6 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
 
     private final BiPredicate<T, T> predicate;
     private final BiPredicate<T, T> ambiguity;
-    private final SortedSeasonSetWorker<T> workerAdd = new SortedSeasonSetWorkerAdd<>();
     private final SortedSeasonSetWorker<T> workerRemove = new SortedSeasonSetWorkerRemove<>();
     private final SortedSeasonSetWorkerIndexOf<T> workerIndexOf = new SortedSeasonSetWorkerIndexOf<>();
 
@@ -78,7 +78,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
     }
 
     @Override
-    public T set(int index, T element) {
+    public final T set(int index, T element) {
         throw new UnsupportedOperationException("This is a sorted set; direct setting is therefore not allowed.");
     }
 
@@ -89,7 +89,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @return true if this collection changed as a result of the call
      */
     @Override
-    public boolean add(T element) {
+    public final boolean add(T element) {
         //noprim.start  
         if (element == null) {
             return false;
@@ -98,7 +98,23 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
         if (isEmpty()) {
             return super.add(element);
         }
+
+        final SortedSeasonSetWorker<T> workerAdd = new SortedSeasonSetWorkerAdd<>();
         return work(workerAdd, element);
+    }
+
+    public final SortedSeasonSetAddResult resAdd(T element) {
+        //noprim.start  
+        if (element == null) {
+            return SortedSeasonSetAddResult.resultOfNull();
+        }
+        //noprim.end  
+        if (isEmpty()) {
+            return SortedSeasonSetAddResult.resultOfEmpty(super.add(element));
+        }
+        final SortedSeasonSetWorkerAdd<T> workerAdd = new SortedSeasonSetWorkerAdd<>();
+        work(workerAdd, element);
+        return workerAdd.getResult();
     }
 
     /**
@@ -107,7 +123,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @param element element whose be added to this collection
      * @return true if this collection changed as a result of the call
      */
-    protected boolean superAdd(T element) {
+    protected final boolean superAdd(T element) {
         return super.add(element);
     }
 
@@ -118,7 +134,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @param element the element to be inserted
      * @return true if this collection changed as a result of the call
      */
-    protected boolean superAddAt(int index, T element) {
+    protected final boolean superAddAt(int index, T element) {
         return super.addAt(index, element);
     }
 
@@ -141,7 +157,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
 
         T right = rightData.get(rightData.size() - 1);
         if (predicate.test(right, element)) {
-            return worker.episodeToBigDo(this, element);
+            return worker.episodeRightToBigDo(this, element);
         }
         final T candidateR = rightData.get(0);
         if (predicate.test(candidateR, element)) {
@@ -153,7 +169,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
         final ArrayMovie<T> leftData = data.get(0);
         T left = leftData.get(0);
         if (predicate.test(element, left)) {
-            return worker.episodeToSmallDo(this, element);
+            return worker.episodeLeftToSmallDo(this, element);
         }
         if (predicate.test(element, leftData.get(leftData.size() - 1))) {
             return worker.episodeDo(this, leftData, element);
@@ -198,14 +214,14 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
     protected boolean workEpisode(SortedSeasonSetWorker<T> worker, final ArrayMovie<T> episode, T element) {
         T left = episode.get(0);
         if (predicate.test(element, left)) {
-            return worker.elementToSmallDo(this, episode, element);
+            return worker.elementToSmallDo(this, episode, 0, element);
         } else if (!predicate.test(left, element)) {
             return workElementEquals(worker, episode, 0, element, left);
         }
         int indexR = episode.size() - 1;
         T right = episode.get(indexR);
         if (predicate.test(right, element)) {
-            return worker.elementToBigDo(this, episode, element);
+            return worker.elementToBigDo(this, episode, indexR, element);
         } else if (!predicate.test(element, right)) {
             return workElementEquals(worker, episode, indexR, element, right);
         }
@@ -297,7 +313,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @return true if this collection changed as a result of the call
      */
     @Override
-    public boolean addAt(int index, T element) {
+    public final boolean addAt(int index, T element) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
@@ -319,7 +335,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @throws UnsupportedOperationException always
      */
     @Override
-    public boolean addFirstFree(T element) {
+    public final boolean addFirstFree(T element) {
         throw new UnsupportedOperationException("Not supported in " + getClass().getSimpleName() + ".");
     }
 

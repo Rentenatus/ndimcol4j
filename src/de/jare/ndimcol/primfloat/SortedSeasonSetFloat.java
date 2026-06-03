@@ -9,6 +9,7 @@
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primfloat;
 
+import de.jare.ndimcol.utils.SortedSeasonSetAddResult;
 import de.jare.ndimcol.ref.ArrayMovie;
 import java.util.Collection;
 import java.util.Comparator;
@@ -25,7 +26,6 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
 
     private final BiPredicateFloatFloat predicate;
     private final BiPredicateFloatFloat ambiguity;
-    private final SortedSeasonSetWorkerFloat workerAdd = new SortedSeasonSetWorkerAddFloat();
     private final SortedSeasonSetWorkerFloat workerRemove = new SortedSeasonSetWorkerRemoveFloat();
     private final SortedSeasonSetWorkerIndexOfFloat workerIndexOf = new SortedSeasonSetWorkerIndexOfFloat();
 
@@ -69,7 +69,7 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
     }
 
     @Override
-    public float set(int index, float element) {
+    public final float set(int index, float element) {
         throw new UnsupportedOperationException("This is a sorted set; direct setting is therefore not allowed.");
     }
 
@@ -82,11 +82,22 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public boolean add(float element) {
+    public final boolean add(float element) {
         if (isEmpty()) {
             return super.add(element);
         }
+
+        final SortedSeasonSetWorkerFloat workerAdd = new SortedSeasonSetWorkerAddFloat();
         return work(workerAdd, element);
+    }
+
+    public final SortedSeasonSetAddResult resAdd(float element) {
+        if (isEmpty()) {
+            return SortedSeasonSetAddResult.resultOfEmpty(super.add(element));
+        }
+        final SortedSeasonSetWorkerAddFloat workerAdd = new SortedSeasonSetWorkerAddFloat();
+        work(workerAdd, element);
+        return workerAdd.getResult();
     }
 
     /**
@@ -97,7 +108,7 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
-    protected boolean superAdd(float element) {
+    protected final boolean superAdd(float element) {
         return super.add(element);
     }
 
@@ -110,7 +121,7 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
-    protected boolean superAddAt(int index, float element) {
+    protected final boolean superAddAt(int index, float element) {
         return super.addAt(index, element);
     }
 
@@ -135,7 +146,7 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
 
         float right = rightData.get(rightData.size() - 1);
         if (predicate.test(right, element)) {
-            return worker.episodeToBigDo(this, element);
+            return worker.episodeRightToBigDo(this, element);
         }
         final float candidateR = rightData.get(0);
         if (predicate.test(candidateR, element)) {
@@ -147,7 +158,7 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
         final ArrayMovieFloat leftData = data.get(0);
         float left = leftData.get(0);
         if (predicate.test(element, left)) {
-            return worker.episodeToSmallDo(this, element);
+            return worker.episodeLeftToSmallDo(this, element);
         }
         if (predicate.test(element, leftData.get(leftData.size() - 1))) {
             return worker.episodeDo(this, leftData, element);
@@ -194,14 +205,14 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
     protected boolean workEpisode(SortedSeasonSetWorkerFloat worker, final ArrayMovieFloat episode, float element) {
         float left = episode.get(0);
         if (predicate.test(element, left)) {
-            return worker.elementToSmallDo(this, episode, element);
+            return worker.elementToSmallDo(this, episode, 0, element);
         } else if (!predicate.test(left, element)) {
             return workElementEquals(worker, episode, 0, element, left);
         }
         int indexR = episode.size() - 1;
         float right = episode.get(indexR);
         if (predicate.test(right, element)) {
-            return worker.elementToBigDo(this, episode, element);
+            return worker.elementToBigDo(this, episode, indexR, element);
         } else if (!predicate.test(element, right)) {
             return workElementEquals(worker, episode, indexR, element, right);
         }
@@ -297,7 +308,7 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public boolean addAt(int index, float element) {
+    public final boolean addAt(int index, float element) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
@@ -321,7 +332,7 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public boolean addFirstFree(float element) {
+    public final boolean addFirstFree(float element) {
         throw new UnsupportedOperationException("Not supported in " + getClass().getSimpleName() + ".");
     }
 

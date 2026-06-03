@@ -9,6 +9,7 @@
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primshort;
 
+import de.jare.ndimcol.utils.SortedSeasonSetAddResult;
 import de.jare.ndimcol.ref.ArrayMovie;
 import java.util.Collection;
 import java.util.Comparator;
@@ -25,7 +26,6 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
 
     private final BiPredicateShortShort predicate;
     private final BiPredicateShortShort ambiguity;
-    private final SortedSeasonSetWorkerShort workerAdd = new SortedSeasonSetWorkerAddShort();
     private final SortedSeasonSetWorkerShort workerRemove = new SortedSeasonSetWorkerRemoveShort();
     private final SortedSeasonSetWorkerIndexOfShort workerIndexOf = new SortedSeasonSetWorkerIndexOfShort();
 
@@ -69,7 +69,7 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
     }
 
     @Override
-    public short set(int index, short element) {
+    public final short set(int index, short element) {
         throw new UnsupportedOperationException("This is a sorted set; direct setting is therefore not allowed.");
     }
 
@@ -82,11 +82,22 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public boolean add(short element) {
+    public final boolean add(short element) {
         if (isEmpty()) {
             return super.add(element);
         }
+
+        final SortedSeasonSetWorkerShort workerAdd = new SortedSeasonSetWorkerAddShort();
         return work(workerAdd, element);
+    }
+
+    public final SortedSeasonSetAddResult resAdd(short element) {
+        if (isEmpty()) {
+            return SortedSeasonSetAddResult.resultOfEmpty(super.add(element));
+        }
+        final SortedSeasonSetWorkerAddShort workerAdd = new SortedSeasonSetWorkerAddShort();
+        work(workerAdd, element);
+        return workerAdd.getResult();
     }
 
     /**
@@ -97,7 +108,7 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
-    protected boolean superAdd(short element) {
+    protected final boolean superAdd(short element) {
         return super.add(element);
     }
 
@@ -110,7 +121,7 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
-    protected boolean superAddAt(int index, short element) {
+    protected final boolean superAddAt(int index, short element) {
         return super.addAt(index, element);
     }
 
@@ -135,7 +146,7 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
 
         short right = rightData.get(rightData.size() - 1);
         if (predicate.test(right, element)) {
-            return worker.episodeToBigDo(this, element);
+            return worker.episodeRightToBigDo(this, element);
         }
         final short candidateR = rightData.get(0);
         if (predicate.test(candidateR, element)) {
@@ -147,7 +158,7 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
         final ArrayMovieShort leftData = data.get(0);
         short left = leftData.get(0);
         if (predicate.test(element, left)) {
-            return worker.episodeToSmallDo(this, element);
+            return worker.episodeLeftToSmallDo(this, element);
         }
         if (predicate.test(element, leftData.get(leftData.size() - 1))) {
             return worker.episodeDo(this, leftData, element);
@@ -194,14 +205,14 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
     protected boolean workEpisode(SortedSeasonSetWorkerShort worker, final ArrayMovieShort episode, short element) {
         short left = episode.get(0);
         if (predicate.test(element, left)) {
-            return worker.elementToSmallDo(this, episode, element);
+            return worker.elementToSmallDo(this, episode, 0, element);
         } else if (!predicate.test(left, element)) {
             return workElementEquals(worker, episode, 0, element, left);
         }
         int indexR = episode.size() - 1;
         short right = episode.get(indexR);
         if (predicate.test(right, element)) {
-            return worker.elementToBigDo(this, episode, element);
+            return worker.elementToBigDo(this, episode, indexR, element);
         } else if (!predicate.test(element, right)) {
             return workElementEquals(worker, episode, indexR, element, right);
         }
@@ -297,7 +308,7 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public boolean addAt(int index, short element) {
+    public final boolean addAt(int index, short element) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
@@ -321,7 +332,7 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
-    public boolean addFirstFree(short element) {
+    public final boolean addFirstFree(short element) {
         throw new UnsupportedOperationException("Not supported in " + getClass().getSimpleName() + ".");
     }
 
