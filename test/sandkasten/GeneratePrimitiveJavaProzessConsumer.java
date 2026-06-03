@@ -60,6 +60,7 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("ArrayMovie<?>", "ArrayMovie" + append));
         replacement.add(List.of("ArrayMatrix<?>", "ArrayMatrix" + append));
         replacement.add(List.of("<T>", append));
+        replacement.add(List.of("<T, V>", append + "<V>"));
         replacement.add(List.of("extends Collection" + append, " "));
         //replacement.add(List.of("@Override", " "));
         replacement.add(List.of(" T ", " " + prim + " "));
@@ -110,8 +111,11 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("implements Set" + append, ""));
         replacement.add(List.of("public SortedSeasonSet(", "public SortedSeasonSet" + append + "("));
         replacement.add(List.of("SortedSeasonSet<>(", "SortedSeasonSet" + append + "("));
-        replacement.add(List.of("ArraySeason(de.jare.ndimcol.ref.ArrayTape<ArrayMovie", "ArraySeason"+append+"(de.jare.ndimcol.ref.ArrayTape<ArrayMovie"));
-       
+        replacement.add(List.of("ArraySeason(de.jare.ndimcol.ref.ArrayTape<ArrayMovie", "ArraySeason" + append + "(de.jare.ndimcol.ref.ArrayTape<ArrayMovie"));
+        replacement.add(List.of("private MovieMap(", "private MovieMap" + append + "("));
+        replacement.add(List.of("MovieEntry<>", "MovieEntry" + append));
+        replacement.add(List.of("MovieMap<>", "MovieMap" + append));
+
         skipNext = false;
         noprim = false;
         isInterface = false;
