@@ -68,4 +68,10 @@ public class SortedSeasonSetWorkerAdd<T> extends SortedSeasonSetWorker<T> {
         return result.changed;
     }
 
+    @Override
+    boolean elementEqualsDo(final SortedSeasonSet<T> caller, final ArrayMovie<T> episode, final int index, final T element) {
+        result.foundIndex = caller.getOffset(episode) + index;
+        return false;
+    }
+
 }

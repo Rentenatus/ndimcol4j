@@ -71,4 +71,10 @@ public class SortedSeasonSetWorkerAddFloat extends SortedSeasonSetWorkerFloat {
         return result.changed;
     }
 
+    @Override
+    boolean elementEqualsDo(final SortedSeasonSetFloat caller, final ArrayMovieFloat episode, final int index, final float element) {
+        result.foundIndex = caller.getOffset(episode) + index;
+        return false;
+    }
+
 }

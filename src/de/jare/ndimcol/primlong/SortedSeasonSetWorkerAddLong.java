@@ -71,4 +71,10 @@ public class SortedSeasonSetWorkerAddLong extends SortedSeasonSetWorkerLong {
         return result.changed;
     }
 
+    @Override
+    boolean elementEqualsDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final int index, final long element) {
+        result.foundIndex = caller.getOffset(episode) + index;
+        return false;
+    }
+
 }
