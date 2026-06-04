@@ -12,6 +12,8 @@ package de.jare.ndimcol.primlong;
 import de.jare.ndimcol.utils.SortedSeasonSetAddResult;
 import de.jare.ndimcol.ref.ArrayMovie;
 import de.jare.ndimcol.ref.ArraySeason;
+import de.jare.ndimcol.utils.BiPredicateAmbiguityIdentity;
+import de.jare.ndimcol.utils.BiPredicateHashGr;
 import java.util.Comparator;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer; // forAll Method

@@ -70,7 +70,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * the test for equality. In this case, A and B are stored, with the order being random.
      *
      * @param predicate a BiPredicate&lt;T, T&gt; to compare elements in their order
-     * @param ambiguity a BiPredicate&lt;T, T&gt; to compare elements in their equality
+     * @param ambiguity a BiPredicate&lt;T, T&gt; to compare elements in their equality or null
      */
     public SortedSeasonSet(final BiPredicate<T, T> predicate, final BiPredicate<T, T> ambiguity) {
         this.predicate = predicate;
@@ -386,7 +386,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
      * @return Returns the first object that occupies the space of the object being searched for (it does not have to
      * be, or null if the element is not found the same object).
      */
-    public T get(Object element) {
+    public T getOccupies(Object element) {
         //noprim.start  
         if (isEmpty() || element == null) {
             return null;

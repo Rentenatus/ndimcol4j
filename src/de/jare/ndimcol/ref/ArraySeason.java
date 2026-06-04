@@ -172,12 +172,21 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             }
             return true;
         }
-        if (index < 0 || index >= size) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         int accumulatedSize = 0;
         final int dataSize = data.size();
-        {
+        if (dataSize == 0) {
+            final ArrayMovie<T> first = buildInnerMovie(0);
+            data.add(first);
+            if (!first.add(element)) {
+                return false;
+            }
+            updateCounter++;
+            size++;
+            return true;
+        } else {
             final ArrayMovie<T> episode = data.get(0);
             int episodeSize = episode.size();
             if (index < episodeSize) {
@@ -212,6 +221,20 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             }
             accumulatedSize += episodeSize;
         }
+        if (index == size) {
+            // Add at the end - append to last episode
+            final ArrayMovie<T> last = data.get(dataSize - 1);
+            lastEpisode = null;
+            if (!last.add(element)) {
+                return false;
+            }
+            updateCounter++;
+            size++;
+            if (last.size() >= midEpisodeSize && last.pageSpaceLeft() <= 8) {
+                splitOrGlue();
+            }
+            return true;
+        }
         throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
 
 //        IteratorWalker<T> walker = getWalkerAtIndex(index);
@@ -232,7 +255,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      * @return true if this season changed as a result of the call
      */
     public boolean addAll(int index, Collection<? extends T> col) {
-        if (index < 0 || index >= size) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         IteratorWalker<T> walker = getWalkerAtIndex(index);
@@ -350,7 +373,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
      */
     @Override
     public T set(int index, T element) {
-        if (index < 0 || index >= size) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         IteratorWalker<T> walker = getWalkerAtIndex(index);
@@ -512,7 +535,7 @@ public class ArraySeason<T> implements ArrayMovie<T> {
             }
             return ret;
         }
-        if (index < 0 || index >= size) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         int accumulatedSize = 0;

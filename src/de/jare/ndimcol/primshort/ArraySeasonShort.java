@@ -187,12 +187,21 @@ public class ArraySeasonShort implements ArrayMovieShort {
             }
             return true;
         }
-        if (index < 0 || index >= size) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         int accumulatedSize = 0;
         final int dataSize = data.size();
-        {
+        if (dataSize == 0) {
+            final ArrayMovieShort first = buildInnerMovie(0);
+            data.add(first);
+            if (!first.add(element)) {
+                return false;
+            }
+            updateCounter++;
+            size++;
+            return true;
+        } else {
             final ArrayMovieShort episode = data.get(0);
             int episodeSize = episode.size();
             if (index < episodeSize) {
@@ -227,6 +236,20 @@ public class ArraySeasonShort implements ArrayMovieShort {
             }
             accumulatedSize += episodeSize;
         }
+        if (index == size) {
+            // Add at the end - append to last episode
+            final ArrayMovieShort last = data.get(dataSize - 1);
+            lastEpisode = null;
+            if (!last.add(element)) {
+                return false;
+            }
+            updateCounter++;
+            size++;
+            if (last.size() >= midEpisodeSize && last.pageSpaceLeft() <= 8) {
+                splitOrGlue();
+            }
+            return true;
+        }
         throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
 
 //        IteratorWalker<T> walker = getWalkerAtIndex(index);
@@ -249,7 +272,7 @@ public class ArraySeasonShort implements ArrayMovieShort {
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public boolean addAll(int index, Collection<? extends Short> col) {
-        if (index < 0 || index >= size) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         IteratorWalkerShort walker = getWalkerAtIndex(index);
@@ -377,7 +400,7 @@ public class ArraySeasonShort implements ArrayMovieShort {
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     @Override
     public short set(int index, short element) {
-        if (index < 0 || index >= size) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         IteratorWalkerShort walker = getWalkerAtIndex(index);
@@ -541,7 +564,7 @@ public class ArraySeasonShort implements ArrayMovieShort {
             }
             return ret;
         }
-        if (index < 0 || index >= size) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size + ".");
         }
         int accumulatedSize = 0;

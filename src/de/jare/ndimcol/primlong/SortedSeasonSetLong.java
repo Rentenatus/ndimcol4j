@@ -59,7 +59,7 @@ public class SortedSeasonSetLong extends ArraySeasonLong  {
      * the test for equality. In this case, A and B are stored, with the order being random.
      *
      * @param predicate a BiPredicate&lt;T, T&gt; to compare elements in their order
-     * @param ambiguity a BiPredicate&lt;T, T&gt; to compare elements in their equality
+     * @param ambiguity a BiPredicate&lt;T, T&gt; to compare elements in their equality or null
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
@@ -389,7 +389,7 @@ public class SortedSeasonSetLong extends ArraySeasonLong  {
      */
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
-    public long get(long element) {
+    public long getOccupies(long element) {
         boolean found = work(workerIndexOf, element);
         return found ? workerIndexOf.getFound() : null;
     }

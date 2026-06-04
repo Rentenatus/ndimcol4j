@@ -10,6 +10,8 @@ package de.jare.ndimcol.ref;
 import de.jare.ndimcol.utils.SortedSeasonSetAddResult;
 import de.jare.ndimcol.ref.ArrayMovie;
 import de.jare.ndimcol.ref.ArraySeason;
+import de.jare.ndimcol.utils.BiPredicateAmbiguityIdentity;
+import de.jare.ndimcol.utils.BiPredicateHashGr;
 import java.util.Comparator;
 import java.util.function.BiPredicate;
 //prim:import java.util.function.Consumer; // forAll Method
@@ -57,10 +59,25 @@ public class MovieMap<T, V> {
      *
      * @param predicate a BiPredicate&lt;T, T&gt; to compare elements. If A is not smaller than B and A is not greater
      * than B, then A is equal to B.
+     * @param ambiguity a BiPredicate&lt;T, T&gt; to compare elements in their equality or null
      */
-    public MovieMap(final BiPredicate<T, T> predicate) {
-        this.keys = new SortedSeasonSet<>(predicate);
+    public MovieMap(final BiPredicate<T, T> predicate, final BiPredicate<T, T> ambiguity) {
+        this.keys = new SortedSeasonSet<>(predicate, ambiguity);
         this.values = new ArraySeason<>();
+    }
+
+    /**
+     * Creates a new MovieMap.
+     */
+    public MovieMap() {
+        this(
+                // Hash ordering predicate: elements are sorted by their hash code;
+                // if two elements share the same hash code, the ambiguity predicate decides whether they are identical
+                new BiPredicateHashGr<>(),
+                // Ambiguity predicate: two objects are considered identical only if they are the same instance (o1 == o2)
+                new BiPredicateAmbiguityIdentity<>()
+        );
+
     }
 
 //noprim.end
