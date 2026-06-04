@@ -26,6 +26,7 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
 
     private final BiPredicateIntInt predicate;
     private final BiPredicateIntInt ambiguity;
+    private final SortedSeasonSetWorkerAddInt workerAdd = new SortedSeasonSetWorkerAddInt();
     private final SortedSeasonSetWorkerInt workerRemove = new SortedSeasonSetWorkerRemoveInt();
     private final SortedSeasonSetWorkerIndexOfInt workerIndexOf = new SortedSeasonSetWorkerIndexOfInt();
 
@@ -87,16 +88,14 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
             return super.add(element);
         }
 
-        final SortedSeasonSetWorkerInt workerAdd = new SortedSeasonSetWorkerAddInt();
-        return work(workerAdd, element);
+        return work(workerAdd.restart(), element);
     }
 
     public final SortedSeasonSetAddResult resAdd(int element) {
         if (isEmpty()) {
             return SortedSeasonSetAddResult.resultOfEmpty(super.add(element));
         }
-        final SortedSeasonSetWorkerAddInt workerAdd = new SortedSeasonSetWorkerAddInt();
-        work(workerAdd, element);
+        work(workerAdd.restart(), element);
         return workerAdd.getResult();
     }
 
@@ -371,8 +370,8 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
         if (isEmpty()) {
             return -1;
         }
-        boolean found = work(workerIndexOf, element);
-        return found ? workerIndexOf.getIndex() : -1;
+        boolean found = work(workerIndexOf.restart(), element);
+        return found ? workerIndexOf.getIndex(this) : -1;
     }
 
     /**
@@ -390,7 +389,7 @@ public class SortedSeasonSetInt extends ArraySeasonInt  {
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public int getOccupies(int element) {
-        boolean found = work(workerIndexOf, element);
+        boolean found = work(workerIndexOf.restart(), element);
         return found ? workerIndexOf.getFound() : null;
     }
 

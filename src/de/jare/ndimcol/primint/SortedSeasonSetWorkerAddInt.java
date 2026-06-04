@@ -20,7 +20,12 @@ import de.jare.ndimcol.ref.ArrayMovie;
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 public class SortedSeasonSetWorkerAddInt extends SortedSeasonSetWorkerInt {
 
-    private final SortedSeasonSetAddResult result = new SortedSeasonSetAddResult();
+    private SortedSeasonSetAddResult result = new SortedSeasonSetAddResult();
+
+    public SortedSeasonSetWorkerAddInt restart() {
+        result = new SortedSeasonSetAddResult();
+        return this;
+    }
 
     public SortedSeasonSetAddResult getResult() {
         return result;

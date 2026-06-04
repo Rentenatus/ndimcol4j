@@ -7,10 +7,13 @@
  */
 package de.jare.ndimcol;
 
+import de.jare.ndimcol.primint.MovieMapInt;
+import de.jare.ndimcol.ref.ArrayMovie;
 import de.jare.ndimcol.ref.IteratorWalker;
 import de.jare.ndimcol.ref.MovieMap;
 import de.jare.ndimcol.utils.BiPredicateAmbiguityIdentity;
 import de.jare.ndimcol.utils.BiPredicateHashGr;
+import java.util.Comparator;
 import java.util.function.BiPredicate;
 import static org.testng.Assert.*;
 import org.testng.annotations.AfterClass;
@@ -73,7 +76,8 @@ public class MovieMapNGTest {
          *
          * @param o1 the first input argument
          * @param o2 the second input argument
-         * @return {@code true} if the input arguments match the predicate, otherwise {@code false}
+         * @return {@code true} if the input arguments match the predicate, otherwise
+         *         {@code false}
          *
          */
         @Override
@@ -139,30 +143,30 @@ public class MovieMapNGTest {
         BiPredicatePlantGr plantGr = new BiPredicatePlantGr();
         BiPredicatePlantEv plantEv = new BiPredicatePlantEv();
         BiPredicatePlantNever plantNever = new BiPredicatePlantNever();
-        
+
         MovieMap<Plant, String> mapDef = new MovieMap<>(plantGr, null);
         MovieMap<Plant, String> mapEven = new MovieMap<>(plantGr, plantEv);
         MovieMap<Plant, String> mapAmbi = new MovieMap<>(plantGr, plantNever);
         final BiPredicateAmbiguityIdentity<Plant> ambiguity1 = new BiPredicateAmbiguityIdentity<>();
         final BiPredicateHashGr<Plant> predicate1 = new BiPredicateHashGr<>();
         MovieMap<Plant, String> mapHash = new MovieMap<>(predicate1, ambiguity1);
-        
+
         Plant[] plants = {
-            new Plant("Eiche"),
-            new Plant("Zeder"),
-            new Plant("Ahorn"),
-            new Plant("Eiche"),
-            new Plant("Birke"),
-            new Plant("Zeder")
+                new Plant("Eiche"),
+                new Plant("Zeder"),
+                new Plant("Ahorn"),
+                new Plant("Eiche"),
+                new Plant("Birke"),
+                new Plant("Zeder")
         };
-        
+
         String[] plantValues = {
-            "Quercus robur",
-            "Cedrus libani",
-            "Acer pseudoplatanus",
-            "Quercus robur",
-            "Betula pendula",
-            "Cedrus libani"
+                "Quercus robur",
+                "Cedrus libani",
+                "Acer pseudoplatanus",
+                "Quercus robur",
+                "Betula pendula",
+                "Cedrus libani"
         };
 
         System.out.println("<-- source array");
@@ -226,6 +230,132 @@ public class MovieMapNGTest {
         assertEquals(mapEven.size(), 5);
         assertEquals(mapAmbi.size(), 12);
         assertEquals(mapHash.size(), 5);
+    }
+
+    /**
+     * Debug-Helper: Gibt Episoden-Informationen per Reflection aus.
+     */
+    private void printEpisodesInfo(String mapName, Object keysSet) {
+        try {
+            System.err.println("=== DEBUG: " + mapName + " ===");
+
+            // Zugriff auf data-Feld per Reflection
+            java.lang.reflect.Field dataField = keysSet.getClass().getSuperclass().getDeclaredField("data");
+            dataField.setAccessible(true);
+            Object data = dataField.get(keysSet);
+
+            // data ist ArrayTape<ArrayMovie<T>>
+            System.err.println("Total size: " + keysSet.getClass().getMethod("size").invoke(keysSet));
+
+            // Zugriff auf size-Feld von ArrayTape
+            java.lang.reflect.Field tapeSizeField = data.getClass().getDeclaredField("size");
+            tapeSizeField.setAccessible(true);
+            int tapeSize = (Integer) tapeSizeField.get(data);
+            System.err.println("Number of episodes (tape size): " + tapeSize);
+
+            Object[] tapeData = ((ArrayMovie) data).toArray();
+
+            // tapeData ist ArrayMovie[] oder ArrayList
+            for (int epIdx = 0; epIdx < tapeData.length; epIdx++) {
+                Object episodeObj = tapeData[epIdx];
+                if (episodeObj != null) {
+                    Class<?> episodeClass = episodeObj.getClass();
+                    int epSize = (Integer) episodeClass.getMethod("size").invoke(episodeObj);
+                    Object first = epSize > 0 ? episodeClass.getMethod("get", int.class).invoke(episodeObj, 0)
+                            : "empty";
+                    Object last = epSize > 0 ? episodeClass.getMethod("get", int.class).invoke(episodeObj, epSize - 1)
+                            : "empty";
+                    System.err.println("Episode " + epIdx + ": size=" + epSize
+                            + ", first=" + first + ", last=" + last);
+                }
+            }
+
+        } catch (Exception e) {
+            System.err.println("DEBUG ERROR: " + e.getMessage());
+            e.printStackTrace(System.err);
+        }
+        System.err.println("======================");
+    }
+
+    @Test
+    public void testGetAtIndex() {
+        // Test MovieMap<Integer, Integer> mit getAt für i=0 bis 480
+        // Verwende gleiche Integer-Referenzen für Keys, um Referenz-Equality zu umgehen
+        final Comparator<Integer> naturalOrder = Comparator.naturalOrder();
+        MovieMap<Integer, Integer> mapObj = new MovieMap<>(naturalOrder, true);
+        for (int i = 0; i <= 480; i++) {
+            Integer key = Integer.valueOf(i);
+            mapObj.put(key, i);
+
+            // Debug-Prüfungen
+            Integer actualKey = mapObj.getKey(i);
+            Integer actualValue = mapObj.getValue(i);
+            Integer valueByKey = mapObj.getByKey(key);
+
+            if (!key.equals(actualKey)) {
+                printEpisodesInfo("MovieMap (getKey)", mapObj.getKeysMovie());
+                mapObj.put(99999, 99999);
+                printEpisodesInfo("MovieMap (getKey)", mapObj.getKeysMovie());
+            }
+            if (!Integer.valueOf(i).equals(actualValue)) {
+                printEpisodesInfo("MovieMap (getValue)", mapObj.getKeysMovie());
+                mapObj.put(99999, 99999);
+                printEpisodesInfo("MovieMap (getValue)", mapObj.getKeysMovie());
+            }
+            if (!Integer.valueOf(i).equals(valueByKey)) {
+                printEpisodesInfo("MovieMap (getByKey)", mapObj.getKeysMovie());
+                mapObj.put(99999, 99999);
+                printEpisodesInfo("MovieMap (getValue)", mapObj.getKeysMovie());
+            }
+
+            // Prüfe: Key an Position i muss i sein
+            assertEquals(mapObj.getKey(i), key, "Key mismatch at index " + i);
+            // Prüfe: Value an Position i muss i sein
+            assertEquals(mapObj.getValue(i), Integer.valueOf(i), "Value mismatch at index " + i);
+            // Prüfe: getByKey(i) muss i zurückgeben
+            assertEquals(mapObj.getByKey(key), Integer.valueOf(i), "getByKey mismatch for key " + i);
+        }
+
+        // Test MovieMapInt<Integer> mit getAt für i=0 bis 480
+        MovieMapInt<Integer> mapInt = new MovieMapInt<>();
+        for (int i = 0; i <= 480; i++) {
+            mapInt.put(i, i);
+
+            // Debug-Prüfungen
+            int actualKeyInt = mapInt.getKey(i);
+            Integer actualValueInt = mapInt.getValue(i);
+            Integer valueByKeyInt = mapInt.getByKey(i);
+
+            if (actualKeyInt != i) {
+                printEpisodesInfo("MovieMapInt (getKey)", getKeysField(mapInt));
+            }
+            if (!Integer.valueOf(i).equals(actualValueInt)) {
+                printEpisodesInfo("MovieMapInt (getValue)", getKeysField(mapInt));
+            }
+            if (!Integer.valueOf(i).equals(valueByKeyInt)) {
+                printEpisodesInfo("MovieMapInt (getByKey)", getKeysField(mapInt));
+            }
+
+            // Prüfe: Key an Position i muss i sein
+            assertEquals(mapInt.getKey(i), i, "MovieMapInt key mismatch at index " + i);
+            // Prüfe: Value an Position i muss i sein
+            assertEquals(mapInt.getValue(i), Integer.valueOf(i), "MovieMapInt value mismatch at index " + i);
+            // Prüfe: getByKey(i) muss i zurückgeben
+            assertEquals(mapInt.getByKey(i), Integer.valueOf(i), "MovieMapInt getByKey mismatch for key " + i);
+        }
+    }
+
+    /**
+     * Hilfsmethode: Holt das keys-Feld per Reflection.
+     */
+    private Object getKeysField(Object map) {
+        try {
+            java.lang.reflect.Field keysField = map.getClass().getDeclaredField("keys");
+            keysField.setAccessible(true);
+            return keysField.get(map);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

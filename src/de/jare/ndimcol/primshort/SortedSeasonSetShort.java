@@ -26,6 +26,7 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
 
     private final BiPredicateShortShort predicate;
     private final BiPredicateShortShort ambiguity;
+    private final SortedSeasonSetWorkerAddShort workerAdd = new SortedSeasonSetWorkerAddShort();
     private final SortedSeasonSetWorkerShort workerRemove = new SortedSeasonSetWorkerRemoveShort();
     private final SortedSeasonSetWorkerIndexOfShort workerIndexOf = new SortedSeasonSetWorkerIndexOfShort();
 
@@ -87,16 +88,14 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
             return super.add(element);
         }
 
-        final SortedSeasonSetWorkerShort workerAdd = new SortedSeasonSetWorkerAddShort();
-        return work(workerAdd, element);
+        return work(workerAdd.restart(), element);
     }
 
     public final SortedSeasonSetAddResult resAdd(short element) {
         if (isEmpty()) {
             return SortedSeasonSetAddResult.resultOfEmpty(super.add(element));
         }
-        final SortedSeasonSetWorkerAddShort workerAdd = new SortedSeasonSetWorkerAddShort();
-        work(workerAdd, element);
+        work(workerAdd.restart(), element);
         return workerAdd.getResult();
     }
 
@@ -371,8 +370,8 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
         if (isEmpty()) {
             return -1;
         }
-        boolean found = work(workerIndexOf, element);
-        return found ? workerIndexOf.getIndex() : -1;
+        boolean found = work(workerIndexOf.restart(), element);
+        return found ? workerIndexOf.getIndex(this) : -1;
     }
 
     /**
@@ -390,7 +389,7 @@ public class SortedSeasonSetShort extends ArraySeasonShort  {
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public short getOccupies(short element) {
-        boolean found = work(workerIndexOf, element);
+        boolean found = work(workerIndexOf.restart(), element);
         return found ? workerIndexOf.getFound() : null;
     }
 

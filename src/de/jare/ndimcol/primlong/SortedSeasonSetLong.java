@@ -26,6 +26,7 @@ public class SortedSeasonSetLong extends ArraySeasonLong  {
 
     private final BiPredicateLongLong predicate;
     private final BiPredicateLongLong ambiguity;
+    private final SortedSeasonSetWorkerAddLong workerAdd = new SortedSeasonSetWorkerAddLong();
     private final SortedSeasonSetWorkerLong workerRemove = new SortedSeasonSetWorkerRemoveLong();
     private final SortedSeasonSetWorkerIndexOfLong workerIndexOf = new SortedSeasonSetWorkerIndexOfLong();
 
@@ -87,16 +88,14 @@ public class SortedSeasonSetLong extends ArraySeasonLong  {
             return super.add(element);
         }
 
-        final SortedSeasonSetWorkerLong workerAdd = new SortedSeasonSetWorkerAddLong();
-        return work(workerAdd, element);
+        return work(workerAdd.restart(), element);
     }
 
     public final SortedSeasonSetAddResult resAdd(long element) {
         if (isEmpty()) {
             return SortedSeasonSetAddResult.resultOfEmpty(super.add(element));
         }
-        final SortedSeasonSetWorkerAddLong workerAdd = new SortedSeasonSetWorkerAddLong();
-        work(workerAdd, element);
+        work(workerAdd.restart(), element);
         return workerAdd.getResult();
     }
 
@@ -371,8 +370,8 @@ public class SortedSeasonSetLong extends ArraySeasonLong  {
         if (isEmpty()) {
             return -1;
         }
-        boolean found = work(workerIndexOf, element);
-        return found ? workerIndexOf.getIndex() : -1;
+        boolean found = work(workerIndexOf.restart(), element);
+        return found ? workerIndexOf.getIndex(this) : -1;
     }
 
     /**
@@ -390,7 +389,7 @@ public class SortedSeasonSetLong extends ArraySeasonLong  {
     // #### This code has been generated. Please do not make any changes here.
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
     public long getOccupies(long element) {
-        boolean found = work(workerIndexOf, element);
+        boolean found = work(workerIndexOf.restart(), element);
         return found ? workerIndexOf.getFound() : null;
     }
 

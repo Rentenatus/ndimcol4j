@@ -19,20 +19,30 @@ import de.jare.ndimcol.ref.ArrayMovie;
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 public class SortedSeasonSetWorkerIndexOfLong extends SortedSeasonSetWorkerLong {
 
-    int index = -1;
+    int episodenIndex = -1;
     ArrayMovieLong episode = null;
     long found;
 
+    public SortedSeasonSetWorkerIndexOfLong restart() {
+        episodenIndex = -1;
+        episode = null;
+        return this;
+    }
+
     @Override
     boolean elementEqualsDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final int index, final long candidate) {
-        this.index = index;
+        this.episodenIndex = index;
         this.episode = episode;
         this.found = candidate;
         return true;
     }
 
-    public int getIndex() {
-        return index;
+    public int getEpisodenIndex() {
+        return episodenIndex;
+    }
+
+    public int getIndex(final SortedSeasonSetLong caller) {
+        return caller.getOffset(episode) + episodenIndex;
     }
 
     public ArrayMovieLong getEpisode() {

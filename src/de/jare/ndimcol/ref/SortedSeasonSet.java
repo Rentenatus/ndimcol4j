@@ -23,6 +23,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
 
     private final BiPredicate<T, T> predicate;
     private final BiPredicate<T, T> ambiguity;
+    private final SortedSeasonSetWorkerAdd<T> workerAdd = new SortedSeasonSetWorkerAdd<>();
     private final SortedSeasonSetWorker<T> workerRemove = new SortedSeasonSetWorkerRemove<>();
     private final SortedSeasonSetWorkerIndexOf<T> workerIndexOf = new SortedSeasonSetWorkerIndexOf<>();
 
@@ -99,8 +100,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
             return super.add(element);
         }
 
-        final SortedSeasonSetWorker<T> workerAdd = new SortedSeasonSetWorkerAdd<>();
-        return work(workerAdd, element);
+        return work(workerAdd.restart(), element);
     }
 
     public final SortedSeasonSetAddResult resAdd(T element) {
@@ -112,8 +112,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
         if (isEmpty()) {
             return SortedSeasonSetAddResult.resultOfEmpty(super.add(element));
         }
-        final SortedSeasonSetWorkerAdd<T> workerAdd = new SortedSeasonSetWorkerAdd<>();
-        work(workerAdd, element);
+        work(workerAdd.restart(), element);
         return workerAdd.getResult();
     }
 
@@ -370,8 +369,8 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
         if (isEmpty()) {
             return -1;
         }
-        boolean found = work(workerIndexOf, (T) element);
-        return found ? workerIndexOf.getIndex() : -1;
+        boolean found = work(workerIndexOf.restart(), (T) element);
+        return found ? workerIndexOf.getIndex(this) : -1;
     }
 
     /**
@@ -392,7 +391,7 @@ public class SortedSeasonSet<T> extends ArraySeason<T> implements Set<T> {
             return null;
         }
         //noprim.ende  
-        boolean found = work(workerIndexOf, (T) element);
+        boolean found = work(workerIndexOf.restart(), (T) element);
         return found ? workerIndexOf.getFound() : null;
     }
 

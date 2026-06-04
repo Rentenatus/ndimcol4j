@@ -17,7 +17,12 @@ import de.jare.ndimcol.ref.ArrayMovie;
  */
 public class SortedSeasonSetWorkerAdd<T> extends SortedSeasonSetWorker<T> {
 
-    private final SortedSeasonSetAddResult result = new SortedSeasonSetAddResult();
+    private SortedSeasonSetAddResult result = new SortedSeasonSetAddResult();
+
+    public SortedSeasonSetWorkerAdd<T> restart() {
+        result = new SortedSeasonSetAddResult();
+        return this;
+    }
 
     public SortedSeasonSetAddResult getResult() {
         return result;
