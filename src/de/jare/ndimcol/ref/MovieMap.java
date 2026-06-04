@@ -128,6 +128,15 @@ public class MovieMap<T, V> {
     }
 
     /**
+     * Returns a structural walker over the keys.
+     *
+     * @return cloned keys
+     */
+    public IteratorWalker<T> getKeysWalker() {
+        return new IterSeasonWalkerImmutable<>(keys);
+    }
+
+    /**
      * Returns a structural clone of the values.
      *
      * @return cloned values

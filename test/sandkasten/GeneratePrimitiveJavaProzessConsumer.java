@@ -91,7 +91,9 @@ public class GeneratePrimitiveJavaProzessConsumer implements Consumer<String> {
         replacement.add(List.of("Screenplay3d", "Screenplay3d" + append));
         replacement.add(List.of("ArraySeason<>", "ArraySeason" + append));
         replacement.add(List.of("public IterSeasonWalker(", "public IterSeasonWalker" + append + "("));
+        replacement.add(List.of("public IterSeasonWalkerImmutable(", "public IterSeasonWalkerImmutable" + append + "("));
         replacement.add(List.of("IterSeasonWalker<>", "IterSeasonWalker" + append));
+        replacement.add(List.of("IterSeasonWalkerImmutable<>", "IterSeasonWalkerImmutable" + append));
         replacement.add(List.of("public IterCoverWalker(", "public IterCoverWalker" + append + "("));
         replacement.add(List.of("IterCoverWalker<>", "IterCoverWalker" + append));
         replacement.add(List.of("public IterTapeWalkerFreeze(", "public IterTapeWalkerFreeze" + append + "("));

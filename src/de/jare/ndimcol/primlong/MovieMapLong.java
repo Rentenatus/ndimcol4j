@@ -113,6 +113,17 @@ public class MovieMapLong<V> {
     }
 
     /**
+     * Returns a structural walker over the keys.
+     *
+     * @return cloned keys
+     */
+    // #### This code has been generated. Please do not make any changes here.
+    // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
+    public IteratorWalkerLong getKeysWalker() {
+        return new IterSeasonWalkerImmutableLong(keys);
+    }
+
+    /**
      * Returns a structural clone of the values.
      *
      * @return cloned values
