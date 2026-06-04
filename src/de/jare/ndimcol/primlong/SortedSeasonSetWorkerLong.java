@@ -23,11 +23,11 @@ public abstract class SortedSeasonSetWorkerLong {
         return caller.workEpisode(this, episode, element);
     }
 
-    boolean episodeToSmallDo(final SortedSeasonSetLong caller, final long element) {
+    boolean episodeLeftToSmallDo(final SortedSeasonSetLong caller, final long element) {
         return false;
     }
 
-    boolean episodeToBigDo(final SortedSeasonSetLong caller, final long element) {
+    boolean episodeRightToBigDo(final SortedSeasonSetLong caller, final long element) {
         return false;
     }
 
@@ -39,11 +39,11 @@ public abstract class SortedSeasonSetWorkerLong {
         return false;
     }
 
-    boolean elementToSmallDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final long element) {
+    boolean elementToSmallDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final int index, final long element) {
         return false;
     }
 
-    boolean elementToBigDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final long element) {
+    boolean elementToBigDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final int index, final long element) {
         return false;
     }
 

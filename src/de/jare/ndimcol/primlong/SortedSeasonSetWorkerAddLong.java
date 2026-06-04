@@ -9,6 +9,7 @@
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 package de.jare.ndimcol.primlong;
 
+import de.jare.ndimcol.utils.SortedSeasonSetAddResult;
 import de.jare.ndimcol.ref.ArrayMovie;
 
 /**
@@ -19,43 +20,66 @@ import de.jare.ndimcol.ref.ArrayMovie;
     // #### Modify package 'de.jare.ndimcol.ref' and use 'GeneratePrimitiveJavaFiles'
 public class SortedSeasonSetWorkerAddLong extends SortedSeasonSetWorkerLong {
 
-    @Override
-    boolean episodeToSmallDo(final SortedSeasonSetLong caller, final long element) {
-        return caller.superAddAt(0, element);
+    private SortedSeasonSetAddResult result = new SortedSeasonSetAddResult();
+
+    public SortedSeasonSetWorkerAddLong restart() {
+        result = new SortedSeasonSetAddResult();
+        return this;
+    }
+
+    public SortedSeasonSetAddResult getResult() {
+        return result;
     }
 
     @Override
-    boolean episodeToBigDo(final SortedSeasonSetLong caller, final long element) {
-        return caller.superAdd(element);
+    boolean episodeLeftToSmallDo(final SortedSeasonSetLong caller, final long element) {
+        result.foundIndex = 0;
+        return result.changed = caller.superAddAt(0, element);
     }
 
     @Override
-    boolean elementToSmallDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final long element) {
-        episode.addAt(0, element);
+    boolean episodeRightToBigDo(final SortedSeasonSetLong caller, final long element) {
+        result.foundIndex = caller.size();
+        return result.changed = caller.superAdd(element);
+    }
+
+    @Override
+    boolean elementToSmallDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final int index, final long element) {
+        result.foundIndex = caller.getOffset(episode);
+        result.changed = episode.addAt(0, element);
         caller.size++;
         if (episode.size() > caller.maxEpisodeSize) {
             caller.splitOrGlue();
         }
-        return true;
+        return result.changed;
     }
 
     @Override
-    boolean elementToBigDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final long element) {
-        episode.add(element);
+    boolean elementToBigDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final int index, final long element) {
+        result.foundIndex = caller.getOffset(episode) + episode.size();
+        result.changed = episode.add(element);
         caller.size++;
         if (episode.size() > caller.maxEpisodeSize) {
             caller.splitOrGlue();
         }
-        return true;
+        return result.changed;
     }
 
     @Override
     boolean elementPassedDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final int index, final long element) {
-        episode.addAt(index, element);
+        result.foundIndex = caller.getOffset(episode) + index;
+        result.changed = episode.addAt(index, element);
         caller.size++;
         if (episode.size() > caller.maxEpisodeSize) {
             caller.splitOrGlue();
         }
-        return true;
+        return result.changed;
     }
+
+    @Override
+    boolean elementEqualsDo(final SortedSeasonSetLong caller, final ArrayMovieLong episode, final int index, final long element) {
+        result.foundIndex = caller.getOffset(episode) + index;
+        return false;
+    }
+
 }

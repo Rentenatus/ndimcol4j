@@ -16,20 +16,30 @@ import de.jare.ndimcol.ref.ArrayMovie;
  */
 public class SortedSeasonSetWorkerIndexOf<T> extends SortedSeasonSetWorker<T> {
 
-    int index = -1;
+    int episodenIndex = -1;
     ArrayMovie<T> episode = null;
     T found;
 
+    public SortedSeasonSetWorkerIndexOf<T> restart() {
+        episodenIndex = -1;
+        episode = null;
+        return this;
+    }
+
     @Override
     boolean elementEqualsDo(final SortedSeasonSet<T> caller, final ArrayMovie<T> episode, final int index, final T candidate) {
-        this.index = index;
+        this.episodenIndex = index;
         this.episode = episode;
         this.found = candidate;
         return true;
     }
 
-    public int getIndex() {
-        return index;
+    public int getEpisodenIndex() {
+        return episodenIndex;
+    }
+
+    public int getIndex(final SortedSeasonSet<T> caller) {
+        return caller.getOffset(episode) + episodenIndex;
     }
 
     public ArrayMovie<T> getEpisode() {
