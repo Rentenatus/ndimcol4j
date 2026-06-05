@@ -88,15 +88,17 @@ public class SortedSeasonSetFloat extends ArraySeasonFloat  {
             return super.add(element);
         }
 
-        return work(workerAdd.restart(), element);
+        return work(workerAdd, element);
     }
 
     public final SortedSeasonSetAddResult resAdd(float element) {
         if (isEmpty()) {
             return SortedSeasonSetAddResult.resultOfEmpty(super.add(element));
         }
-        work(workerAdd.restart(), element);
-        return workerAdd.getResult();
+        work(workerAdd, element);
+        final SortedSeasonSetAddResult result = workerAdd.getResult();
+        workerAdd.restart();
+        return result;
     }
 
     /**
