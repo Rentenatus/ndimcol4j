@@ -11,7 +11,7 @@ import de.jare.ndimcol.RentenatusHashable;
 
 /**
  *
- * @author jRent
+ * @author Janusch Rentenatus
  */
 public class Seventh implements RentenatusHashable {
 
