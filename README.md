@@ -7,6 +7,12 @@ ArraySeason is the basis for SortedSeasonSet, which, despite binary search, can 
 
 ---
 
+
+## Support 🐾
+If you like my projects, consider [supporting my work](https://github.com/sponsors/Rentenatus) (and feeding Mistral 🐱)! 
+
+---
+
 **Coding lambda**
 
 Lambdas can now also be used for the primitive types; the LongPredicate, IntPredicate, and LongConsumer, IntConsumer from java.util.function 
